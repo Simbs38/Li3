@@ -90,6 +90,7 @@ int valida_vendas(char* produtos[], char* clientes[]) {
       if(verify) validos++;
    }
    fclose(fp);
+   return validos;
 }
 
 
