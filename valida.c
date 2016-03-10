@@ -2,18 +2,18 @@
 
 // Coloca o ficheiro dos produtos em memória. (terá de ser mudado para uma AVL por eficiencia)
    
-void converte_produtos(char *produtos[]) {
+void convert_products(char *produtos[]) {
    FILE *fp;
-   char *informacao;
+   char *information;
    char line[MAX_SIZE];
    int i = 0;
    
    fp = fopen("Produtos.txt","r");
    
    while(fgets(line,MAX_SIZE,fp)) {
-      informacao = strtok(line,"\n\r");
+      information = strtok(line,"\n\r");
       produtos[i] = malloc(6);
-      strcpy(produtos[i],informacao);
+      strcpy(produtos[i],information);
       i++;
    }
 
@@ -23,19 +23,19 @@ void converte_produtos(char *produtos[]) {
 
 // Coloca o ficheiro dos clientes em memória. (terá de ser mudado para uma AVL por eficiencia)
 
-void converte_clientes(char* clientes[]) {
+void convert_clients(char* clientes[]) {
    
    FILE *fp;
-   char *informacao;
+   char *information;
    char line[MAX_SIZE];
    int i = 0;
 
    fp = fopen("Clientes.txt","r");
 
    while(fgets(line,MAX_SIZE,fp)) {
-      informacao = strtok(line,"\n\r");
+      information = strtok(line,"\n\r");
       clientes[i] = malloc(6);
-      strcpy(clientes[i],informacao);
+      strcpy(clientes[i],information);
       i++;
    }
 
@@ -48,11 +48,9 @@ void converte_clientes(char* clientes[]) {
 int valida_vendas(char* produtos[], char* clientes[]) {
    
    char line[MAX_SIZE];
-   char* informacao;
-   int i;
+   char* information;
    
-   int verify;
-   int validos = 0;
+   int i, verify, validos = 0;
 
    char* product;
    double preco;
@@ -64,48 +62,48 @@ int valida_vendas(char* produtos[], char* clientes[]) {
    
    FILE *fp;
 
-
    fp = fopen("Vendas_1M.txt","r");
 
    while(fgets(line,MAX_SIZE,fp)) {
 
-   informacao = strtok(line,"\n\r");
-   
-      informacao = strtok(informacao," ");
-      for(i = 0; informacao != NULL; i++) {
+      information = strtok(line,"\n\r");
+      information = strtok(information," ");
+      
+      for(i = 0; information != NULL; i++) {
          switch(i) {
-            case 0: product = informacao;
-            case 1: preco = atof(informacao);
-            case 2: quantidade = atoi(informacao); 
-            case 3: tipo = informacao[0];
-            case 4: client = informacao;
-            case 5: mes = atoi(informacao);
-            case 6: filial = atoi(informacao);
+            case 0: product = information;
+            case 1: preco = atof(information);
+            case 2: quantidade = atoi(information); 
+            case 3: tipo = information[0];
+            case 4: client = information;
+            case 5: mes = atoi(information);
+            case 6: filial = atoi(information);
             default: break;
          }
-         informacao = strtok(NULL," ");
+         information = strtok(NULL," ");
       }
-      
-      verify = verifica(product,client,produtos,clientes);
+      verify = verify_existence(product,client,produtos,clientes);
       if(verify) validos++;
    }
    fclose(fp);
+
    return validos;
 }
 
 
-// Valida a existencia do cliente e produto numa venda.
+// Valida a existência do cliente e produto numa venda.
 
-int verifica(char* product, char* client, char* produtos[], char* clientes[]) {
+int verify_existence(char* product, char* client, char* produtos[], char* clientes[]) {
    
-   int i, cl = 0, cp = 0;
+   int i;
+   int cl = 0, cp = 0; // variaveis de controlo da existencia do cliente e do produto
    
    for(i = 0; i < 171009; i++) {
       if(i < 16384 && !cl) {
          if(strcmp(client,clientes[i]) == 0) cl = 1;
-      }
+      }  
       if(strcmp(product,produtos[i]) == 0) cp = 1;
       if(cl == 1 && cp == 1) break;
-   }
+   }  
    return cl && cp;
 }
