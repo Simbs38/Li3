@@ -1,20 +1,17 @@
 #include "main.h"
 
 int main() {
-
-
-   // arrays de strings onde serão guardados em memória os dados dos ficheiros txt
    
-   char* clientes[16385];
-   char* produtos[171009];
-   int validos;
+   char* clients[16385]; // array de strings para colocar os clientes.
+   char* products[171009]; // array de strings para colocar os produtos.
+   int validated;
 
-   converte_clientes(clientes);
-   converte_produtos(produtos);
+   convert_clients(clients);
+   convert_products(products);
 
-   validos = valida_vendas(produtos,clientes);
+   validated = valida_vendas(products,clients);
 
-   printf("acertos: %d\n",validos);
+   printf("Acertos: %d\n",validated);
 
    return 0;
 }

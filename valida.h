@@ -6,6 +6,7 @@
 
 #define MAX_SIZE 50
 
+<<<<<<< HEAD
 void converte_produtos(char *produtos[]);
 
 // Coloca o ficheiro dos clientes em memória. (terá de ser mudado para uma AVL por eficiencia)
@@ -17,3 +18,9 @@ int valida_vendas(char* produtos[], char* clientes[]);
 // Valida a existencia do cliente e produto numa venda.
 
 int verifica(char* product, char* client, char* produtos[], char* clientes[]);
+=======
+void convert_products(char *produtos[]);
+void convert_clients(char* clientes[]);
+int valida_vendas(char* produtos[], char* clientes[]);
+int verify_existence(char* product, char* client, char* produtos[], char* clientes[]);
+>>>>>>> origin
