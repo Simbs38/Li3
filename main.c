@@ -1,18 +1,20 @@
 #include "main.h"
 #include "valida.h"
+#include "avl.h"
 
 int main() {
    
-   char* clients[16385]; // array de strings para colocar os clientes.
-   char* products[171009]; // array de strings para colocar os produtos.
-   int validated;
+    struct node *clients = NULL;
+    struct node *products = NULL;
+    
+    int validated;
 
-   convert_clients(clients);
-   convert_products(products);
-
-   validated = valida_vendas(products,clients);
-
-   printf("Acertos: %d\n",validated);
-
+    clients = convert_clients(clients);
+    products = convert_products(products);
+    
+    validated = valida_vendas(products,clients);
+    
+    printf("Validos: %d\n",validated);
+    
    return 0;
 }

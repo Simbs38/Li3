@@ -1,51 +1,49 @@
 #include "valida.h"
+#include "avl.h"
 
 // Coloca o ficheiro dos produtos em memória. (terá de ser mudado para uma AVL por eficiencia)
    
-void convert_products(char *produtos[]) {
+struct node* convert_products(struct node *produtos) {
    FILE *fp;
    char *information;
    char line[MAX_SIZE];
-   int i = 0;
    
    fp = fopen("Produtos.txt","r");
    
    while(fgets(line,MAX_SIZE,fp)) {
       information = strtok(line,"\n\r");
-      produtos[i] = malloc(6);
-      strcpy(produtos[i],information);
-      i++;
+      produtos = insert(produtos,information);
    }
 
    fclose(fp);
+   
+   return produtos;
 }
 
 
 // Coloca o ficheiro dos clientes em memória. (terá de ser mudado para uma AVL por eficiencia)
 
-void convert_clients(char* clientes[]) {
+struct node* convert_clients(struct node *clientes) {
    
    FILE *fp;
    char *information;
    char line[MAX_SIZE];
-   int i = 0;
-
+   
    fp = fopen("Clientes.txt","r");
 
    while(fgets(line,MAX_SIZE,fp)) {
       information = strtok(line,"\n\r");
-      clientes[i] = malloc(6);
-      strcpy(clientes[i],information);
-      i++;
+      clientes = insert(clientes,information);
    }
 
    fclose(fp);
+   return clientes;
 }
 
 
 // Verifica as vendas, existência do cliente e do produto vendido.
 
-int valida_vendas(char* produtos[], char* clientes[]) {
+int valida_vendas(struct node *produtos, struct node *clientes) {
    
    char line[MAX_SIZE];
    char* information;
@@ -93,17 +91,10 @@ int valida_vendas(char* produtos[], char* clientes[]) {
 
 // Valida a existência do cliente e produto numa venda.
 
-int verify_existence(char* product, char* client, char* produtos[], char* clientes[]) {
+int verify_existence(char* product, char* client, struct node *produtos, struct node *clientes) {
    
-   int i;
-   int cl = 0, cp = 0; // variaveis de controlo da existencia do cliente e do produto
-   
-   for(i = 0; i < 171009; i++) {
-      if(i < 16384 && !cl) {
-         if(strcmp(client,clientes[i]) == 0) cl = 1;
-      }  
-      if(strcmp(product,produtos[i]) == 0) cp = 1;
-      if(cl == 1 && cp == 1) break;
-   }  
-   return cl && cp;
+   int look_client = lookUp(clientes,client);
+   int look_product = lookUp(produtos,product);
+
+   return (look_client && look_product);
 }
