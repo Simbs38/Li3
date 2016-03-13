@@ -1,6 +1,4 @@
 #include "avl.h"
-#include "valida.h"
-#include "main.h"
  
 int height(struct node *n) {
     if (n == NULL)

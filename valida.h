@@ -3,4 +3,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MAX_SIZE 50
+#define MAXBUFFERCLIENTES 32
+
+#define MAXBUFFERPRODUTOS 64
+
+#define MAXBUFFERVENDAS 128

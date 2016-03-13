@@ -1,16 +1,19 @@
 #include "valida.h"
 #include "avl.h"
+#include "main.h"
+
+
 
 // Coloca o ficheiro dos produtos em memória. (terá de ser mudado para uma AVL por eficiencia)
    
 struct node* convert_products(struct node *produtos) {
    FILE *fp;
    char *information;
-   char line[MAX_SIZE];
+   char line[MAXBUFFERPRODUTOS];
    
    fp = fopen("Produtos.txt","r");
    
-   while(fgets(line,MAX_SIZE,fp)) {
+   while(fgets(line,MAXBUFFERPRODUTOS,fp)) {
       information = strtok(line,"\n\r");
       produtos = insert(produtos,information);
    }
@@ -27,11 +30,11 @@ struct node* convert_clients(struct node *clientes) {
    
    FILE *fp;
    char *information;
-   char line[MAX_SIZE];
+   char line[MAXBUFFERCLIENTES];
    
    fp = fopen("Clientes.txt","r");
 
-   while(fgets(line,MAX_SIZE,fp)) {
+   while(fgets(line,MAXBUFFERCLIENTES,fp)) {
       information = strtok(line,"\n\r");
       clientes = insert(clientes,information);
    }
@@ -43,12 +46,12 @@ struct node* convert_clients(struct node *clientes) {
 
 // Verifica as vendas, existência do cliente e do produto vendido.
 
-int valida_vendas(struct node *produtos, struct node *clientes) {
+int valida_vendas(struct node *produtos, struct node *clientes,struct venda *vendas[1000000]) {
    
-   char line[MAX_SIZE];
+   char line[MAXBUFFERVENDAS];
    char* information;
    
-   int i, verify, validos = 0;
+   int i, verify, validos = 0, j = 0;
 
    char* product;
    double preco;
@@ -62,7 +65,7 @@ int valida_vendas(struct node *produtos, struct node *clientes) {
 
    fp = fopen("Vendas_1M.txt","r");
 
-   while(fgets(line,MAX_SIZE,fp)) {
+   while(fgets(line,MAXBUFFERVENDAS,fp)) {
 
       information = strtok(line,"\n\r");
       information = strtok(information," ");
@@ -80,8 +83,22 @@ int valida_vendas(struct node *produtos, struct node *clientes) {
          }
          information = strtok(NULL," ");
       }
+      
       verify = verify_existence(product,client,produtos,clientes);
-      if(verify) validos++;
+      if(verify) {
+         vendas[j] = malloc(sizeof(struct venda));
+         vendas[j]->prod = malloc(strlen(product));
+         strcpy(vendas[j]->prod,product);
+         vendas[j]->price = preco;
+         vendas[j]->quantity = quantidade;
+         vendas[j]->type = tipo;
+         vendas[j]->cli = malloc(strlen(client));
+         strcpy(vendas[j]->cli,client);
+         vendas[j]->month = mes;
+         vendas[j]->shop = filial;
+         validos++;
+         j++;
+      }
    }
    fclose(fp);
 
