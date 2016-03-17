@@ -42,20 +42,20 @@ struct node *leftRotate(struct node *x) {
     struct node *y = x->right;
     struct node *T2 = y->left;
  
-    // Perform rotation
+    /* Perform rotation */
     y->left = x;
     x->right = T2;
  
-    //  Update heights
+    /* Update heights */
     x->height = max(height(x->left), height(x->right))+1;
     y->height = max(height(y->left), height(y->right))+1;
  
-    // Return new root
+    /* Return new root */
     return y;
 }
 
 
-// Get Balance factor of node N
+/* Get Balance factor of node N */
 
 int getBalance(struct node *N) {
     if (N == NULL)
@@ -80,23 +80,23 @@ struct node* insert(struct node* node, char* info) {
     /* Varifica o balanceamento */
     int balance = getBalance(node);
  
-    // Caso esteja não balanceada, aplica o caso correspondente.
+    /* Caso esteja não balanceada, aplica o caso correspondente. */
  
-    // Left Left Case
+    /* Left Left Case */
     if (balance > 1 && strcmp(info,node->left->string) < 0)
         return rightRotate(node);
  
-    // Right Right Case
+    /* Right Right Case */
     if (balance < -1 && strcmp(info,node->right->string) > 0)
         return leftRotate(node);
  
-    // Left Right Case
+    /* Left Right Case */
     if (balance > 1 && strcmp(info,node->left->string) > 0)
     {
         node->left =  leftRotate(node->left);
         return rightRotate(node);
     }
-     // Right Left Case
+     /* Right Left Case */
     if (balance < -1 && strcmp(info, node->right->string) < 0)
     {
         node->right = rightRotate(node->right);

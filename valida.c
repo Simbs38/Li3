@@ -2,7 +2,7 @@
 #include "avl.h"
 #include "main.h"
 
-// Coloca o ficheiro dos produtos em memória. (terá de ser mudado para uma AVL por eficiencia)
+/*Coloca o ficheiro dos produtos em memória. (terá de ser mudado para uma AVL por eficiencia) */
    
 struct node* convert_products(struct node *produtos) {
    FILE *fp;
@@ -22,7 +22,7 @@ struct node* convert_products(struct node *produtos) {
 }
 
 
-// Coloca o ficheiro dos clientes em memória. (terá de ser mudado para uma AVL por eficiencia)
+/* Coloca o ficheiro dos clientes em memória. (terá de ser mudado para uma AVL por eficiencia) */
 
 struct node* convert_clients(struct node *clientes) {
    
@@ -43,7 +43,7 @@ struct node* convert_clients(struct node *clientes) {
 
 
 
-// Verifica as vendas, existência do cliente e do produto vendido.
+/* Verifica as vendas, existência do cliente e do produto vendido. */
 
 int valida_vendas(struct node *produtos, struct node *clientes,struct venda *vendas[1000000]) {
    
@@ -105,7 +105,7 @@ int valida_vendas(struct node *produtos, struct node *clientes,struct venda *ven
 }
 
 
-// Valida a existência do cliente e produto numa venda.
+/* Valida a existência do cliente e produto numa venda. */
 
 int verify_existence(char* product, char* client, struct node *produtos, struct node *clientes) {
    

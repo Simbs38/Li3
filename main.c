@@ -23,6 +23,5 @@ int main() {
     }
     */
     printf("Validos: %d\n",validated);
-    //printf("0 : %d\n", conta);
    return 0;
 }
