@@ -2,10 +2,6 @@
 #include "avl.h"
 #include "main.h"
 
-
-
-<<<<<<< HEAD
-=======
 // Coloca o ficheiro dos produtos em memória. (terá de ser mudado para uma AVL por eficiencia)
    
 struct node* convert_products(struct node *produtos) {
@@ -45,7 +41,7 @@ struct node* convert_clients(struct node *clientes) {
    return clientes;
 }
 
->>>>>>> origin
+
 
 // Verifica as vendas, existência do cliente e do produto vendido.
 

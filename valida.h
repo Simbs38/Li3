@@ -6,9 +6,6 @@
 
 #define MAXBUFFERCLIENTES 32
 
-
-=======
 #define MAXBUFFERPRODUTOS 64
 
 #define MAXBUFFERVENDAS 128
->>>>>>> zesilva63
