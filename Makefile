@@ -8,7 +8,7 @@ doc:$(OBJS)
 		doxygen
 
 clean:
-	rm -r ./li3
+	rm -r li3
 	
 
 pdf:
