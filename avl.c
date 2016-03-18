@@ -5,12 +5,16 @@
 
 #include "avl.h"
 
+/* Estrutura definida para um nodo de uma AVL */
+
 typedef struct nodeAVL {
     char* string;
     struct nodeAVL *left;
     struct nodeAVL *right;
     int height;
 }node;
+
+/* Função que devolve a altura de um dado nodo de uma AVL */
 
 static int height(AVL n) {
     if (n == NULL)
@@ -22,6 +26,7 @@ static int max(int a, int b) {
     return (a > b)? a : b;
 }
 
+/* Função responsavel pela criação de um novo nodo */
 
 static AVL newNode(char* info) {
     struct nodeAVL* node = (struct nodeAVL*) malloc(sizeof(struct nodeAVL));
@@ -38,10 +43,14 @@ static AVL rightRotate(AVL y) {
 
     AVL x = y->left;
     AVL T2 = x->right;
- 
+    
+    /* Rotações */
+
     x->right = y;
     y->left = T2;
- 
+    
+    /* Atualização dos pesos dos nodos */
+
     y->height = max(height(y->left), height(y->right))+1;
     x->height = max(height(x->left), height(x->right))+1;
  
@@ -54,17 +63,20 @@ static AVL leftRotate(AVL x) {
     AVL y = x->right;
     AVL T2 = y->left;
  
+    /* Rotações */
 
     y->left = x;
     x->right = T2;
  
+    /* Atualização dos pesos dos nodos */
+
     x->height = max(height(x->left), height(x->right))+1;
     y->height = max(height(y->left), height(y->right))+1;
  
     return y;
 }
 
-
+/* Retorna o balanceamento da arvore, estando a arvore balanceada para valores retornados entre -1 e 1 */
 
 static int getBalance(AVL N) {
     if (N == NULL)
@@ -72,6 +84,7 @@ static int getBalance(AVL N) {
     return height(N->left) - height(N->right);
 }
  
+/* Função com o objetivo de inserir uma nova informação na arvore */
 
 AVL insert(AVL node, char* info) {
 
@@ -112,6 +125,8 @@ AVL insert(AVL node, char* info) {
  
     return node;
 }
+
+/* Função que tem como funcionalidade a procura de um dado elemento na AVL */
 
 int lookUp(AVL node, char* value) {
     int r;

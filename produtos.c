@@ -8,7 +8,7 @@
 #define MAXBUFFERPRODUTOS 64
 
 
-/* Coloca o ficheiro dos produtos em memória */
+/* Coloca o ficheiro dos produtos em memória num array de AVL's */
 
 void convert_products(CATALOG produtos) {
    FILE *fp;

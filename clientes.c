@@ -7,7 +7,7 @@
 
 #define MAXBUFFERCLIENTES 32
 
-/* Coloca o ficheiro dos clientes em memória numa AVL */
+/* Coloca o ficheiro dos clientes em memória num array de AVL's */
 
 void convert_clients(CATALOG clientes) {
    
