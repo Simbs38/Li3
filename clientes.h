@@ -2,7 +2,7 @@
 #define _clientes_h_
 
 #include "avl.h"
-AVL convert_clients(AVL clientes);
+void convert_clients(CATALOG clientes);
 int verify_client(AVL clientes, char* client);
 
 #endif

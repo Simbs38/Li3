@@ -3,7 +3,9 @@
 
 typedef struct nodeAVL* AVL;
 
-/*typedef AVL[26] CATALOG; */
+typedef struct catalog {
+	AVL letras[26];
+} *CATALOG;
 
 static AVL rightRotate(AVL y);
 static AVL leftRotate(AVL x);

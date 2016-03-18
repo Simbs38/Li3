@@ -10,12 +10,12 @@
 
 /* Verifica as vendas, existência do cliente e do produto vendido. */
 
-int valida_vendas(AVL produtos, AVL clientes,struct venda *vendas[1000000]) {
+int valida_vendas(CATALOG produtos, CATALOG clientes, struct venda *vendas[1000000]) {
    
    char line[MAXBUFFERVENDAS];
    char* information;
    
-   int i, verify, validos = 0, j = 0, falhados = 0, total = 0;
+   int i, verify, validos = 0, j = 0, falhados = 0, total = 0, indCLi, indProd;
 
    char* product;
    double preco;
@@ -48,7 +48,11 @@ int valida_vendas(AVL produtos, AVL clientes,struct venda *vendas[1000000]) {
          information = strtok(NULL," ");
       }
       
-      verify = (verify_product(produtos,product) && verify_client(clientes,client));
+      indCLi = client[0] -65;
+      indProd = product[0] -65;
+      
+      verify = (verify_product(produtos->letras[indProd],product) && verify_client(clientes->letras[indCLi],client));
+      
       if(verify) {
          vendas[j] = malloc(sizeof(struct venda));
          vendas[j]->prod = malloc(strlen(product));
@@ -69,6 +73,7 @@ int valida_vendas(AVL produtos, AVL clientes,struct venda *vendas[1000000]) {
          falhados++;
       }
    }
+   
    fclose(fp);
 
    printf("Total de vendas analisadas: %d\n",total);

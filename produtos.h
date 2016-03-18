@@ -2,7 +2,7 @@
 #define _produtos_h_
 
 #include "avl.h"
-AVL convert_products(AVL produtos);
+void convert_products(CATALOG produtos);
 int verify_product(AVL produtos, char* product);
 
 #endif

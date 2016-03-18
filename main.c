@@ -13,24 +13,22 @@
 int main() {
     
     int i;
-    AVL clients = NULL;
-    AVL products = NULL;
-    /*CATALOG clients;
-    CATALOG products;
+    
+    CATALOG clients = (struct catalog*) malloc(sizeof(struct catalog));
+    CATALOG products = (struct catalog*) malloc(sizeof(struct catalog));
     
     for(i = 0; i < 26; i++) {
-        clients[i] = NULL;
-        products[i] = NULL;
+        clients->letras[i] = NULL;
+        products->letras[i] = NULL;
     }
-    */
+    
     struct venda *vendas[1000000];
 
     int validated, conta = 0;
 
-    clients = convert_clients(clients);
-    products = convert_products(products);
-   
+    convert_clients(clients);
+    convert_products(products);
     validated = valida_vendas(products,clients,vendas);
-
+    
    return 0;
 }

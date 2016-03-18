@@ -9,22 +9,22 @@
 
 /* Coloca o ficheiro dos clientes em memória numa AVL */
 
-AVL convert_clients(AVL clientes) {
+void convert_clients(CATALOG clientes) {
    
    FILE *fp;
    char *information;
    char line[MAXBUFFERCLIENTES];
-   
+   int indice;
+
    fp = fopen("./data/Clientes.txt","r");
 
    while(fgets(line,MAXBUFFERCLIENTES,fp)) {
       information = strtok(line,"\n\r");
-      printf("%c\n",information[0]);
-      clientes = insert(clientes,information);
+      indice = information[0] -65;
+      clientes->letras[indice] = insert(clientes->letras[indice],information);
    }
 
    fclose(fp);
-   return clientes;
 }
 
 
