@@ -9,6 +9,6 @@ typedef struct venda {
     char* cli;
     int month;
     int shop;
-}sales;
+}venda;
 
 #endif

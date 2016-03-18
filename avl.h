@@ -3,8 +3,8 @@
 
 typedef struct nodeAVL* AVL;
 
-/*typedef AVL[26] CATALOG;
-*/
+/*typedef AVL[26] CATALOG; */
+
 static AVL rightRotate(AVL y);
 static AVL leftRotate(AVL x);
 static int getBalance(AVL N);

@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "avl.h"
 #include "clientes.h"
 
 #define MAXBUFFERCLIENTES 32

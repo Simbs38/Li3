@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "main.h"
-#include "avl.h"
 #include "valida.h"
 
 #define MAXBUFFERVENDAS 128

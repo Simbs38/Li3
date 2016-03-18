@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "avl.h"
 #include "produtos.h"
 
 #define MAXBUFFERPRODUTOS 64
