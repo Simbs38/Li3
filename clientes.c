@@ -5,33 +5,33 @@
 
 #include "clientes.h"
 
-#define MAXBUFFERCLIENTES 32
+#define MAXBUFFERClientes 32
 
-/* Coloca o ficheiro dos clientes em memória num array de AVL's */
+/* Coloca o ficheiro dos costumers em memória num array de AVL's */
 
-void convert_clients(CATALOG clientes) {
+void convert_clients(CATALOG costumers) {
    
    FILE *fp;
    char *information;
-   char line[MAXBUFFERCLIENTES];
-   int indice, contador = 0;
+   char line[MAXBUFFERClientes];
+   int index, counter = 0;
 
-   fp = fopen("./data/Clientes.txt","r");
+   fp = fopen("./data/costumers.txt","r");
 
-   while(fgets(line,MAXBUFFERCLIENTES,fp)) {
+   while(fgets(line,MAXBUFFERClientes,fp)) {
       information = strtok(line,"\n\r");
-      indice = information[0] -65;
-      clientes->letras[indice] = insert(clientes->letras[indice],information);
-      contador++;
+      index = information[0] -65;
+      costumers->avl_list[index] = insert(costumers->avl_list[index],information);
+      counter++;
    }
-   printf("Numero de clientes Validados: %d\n",contador);
+   printf("Numero de clientes Validados: %d\n",counter);
    fclose(fp);
 }
 
 
-int verify_client(AVL clientes, char* client) {
+int verify_client(AVL costumers, char* costumer) {
    
-   int look_client = lookUp(clientes,client);
+   int look_costumer = lookUp(costumers,costumer);
 
-   return look_client;
+   return look_costumer;
 }

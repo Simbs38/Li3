@@ -19,19 +19,19 @@ int main() {
     CATALOG clients = init_catalog();
     CATALOG products = init_catalog();
 
-    struct venda *vendas[1000000];
+    struct sale *sales[1000000];
 
     for(i = 0; i < 26; i++) {
-        clients->letras[i] = NULL;
-        products->letras[i] = NULL;
+        clients->avl_list[i] = NULL;
+        products->avl_list[i] = NULL;
     }
 
     convert_clients(clients);
     convert_products(products);
-    validated = valida_vendas(products,clients,vendas);
+    validated = validate_sales(products,clients,sales);
 
     for(i = 0; i<validated; i++) {
-        if(vendas[i]->price == 0) conta++;
+        if(sales[i]->price == 0) conta++;
     }
     printf("COMPRAS DE PRECO 0: %d\n", conta);
     

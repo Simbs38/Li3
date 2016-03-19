@@ -4,7 +4,7 @@
 typedef struct nodeAVL* AVL;
 
 typedef struct catalog {
-	AVL letras[26];
+	AVL avl_list[26];
 } *CATALOG;
 
 CATALOG init_catalog();

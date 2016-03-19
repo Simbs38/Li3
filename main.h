@@ -1,7 +1,7 @@
 #ifndef _main_h_
 #define _main_h_
 
-typedef struct venda {
+typedef struct sale{
     char* prod;
     double price;
     int quantity; 
@@ -9,6 +9,6 @@ typedef struct venda {
     char* cli;
     int month;
     int shop;
-}venda;
+}sale;
 
 #endif

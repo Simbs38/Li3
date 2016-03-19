@@ -5,32 +5,32 @@
 
 #include "produtos.h"
 
-#define MAXBUFFERPRODUTOS 64
+#define MAXBUFFERProducts  64
 
 
 /* Coloca o ficheiro dos produtos em memória num array de AVL's */
 
-void convert_products(CATALOG produtos) {
+void convert_products(CATALOG products) {
    FILE *fp;
    char *information;
-   char line[MAXBUFFERPRODUTOS];
-   int indice, contador = 0;
+   char line[MAXBUFFERProducts];
+   int index, counter = 0;
 
-   fp = fopen("./data/Produtos.txt","r");
+   fp = fopen("./data/products.txt","r");
    
-   while(fgets(line,MAXBUFFERPRODUTOS,fp)) {
+   while(fgets(line,MAXBUFFERProducts,fp)) {
       information = strtok(line,"\n\r");
-      indice = information[0] -65;
-      produtos->letras[indice] = insert(produtos->letras[indice],information);
-      contador++;
+      index = information[0] -65;
+      products->avl_list[index] = insert(products->avl_list[index],information);
+      counter++;
    }
-   printf("Numero de produtos validos: %d\n",contador);
+   printf("Numero de produtos validos: %d\n",counter);
    fclose(fp);
 }
 
-int verify_product(AVL produtos, char* product) {
+int verify_product(AVL products, char* product) {
    
-   int look_product = lookUp(produtos,product);
+   int look_product = lookUp(products,product);
 
    return look_product;
 }

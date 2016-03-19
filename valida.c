@@ -5,31 +5,31 @@
 
 #include "valida.h"
 
-#define MAXBUFFERVENDAS 128
+#define MAXBUFFERSALES 128
 
 
 /* Verifica as vendas, existência do cliente e do produto vendido. */
 
-int valida_vendas(CATALOG produtos, CATALOG clientes, struct venda *vendas[1000000]) {
+int validate_sales(CATALOG products, CATALOG costumers, struct sale *sales[1000000]) {
    
-   char line[MAXBUFFERVENDAS];
+   char line[MAXBUFFERSALES];
    char* information;
    
-   int i, verify, validos = 0, j = 0, falhados = 0, total = 0, indCLi, indProd;
+   int i, verify, sales_yes = 0, index = 0, sales_no = 0, total = 0, indCli, indProd;
 
    char* product;
-   double preco;
-   int quantidade; 
-   char tipo;
+   double price;
+   int ammount; 
+   char type;
    char* client;
-   int mes;
-   int filial;
+   int month;
+   int shop;
    
    FILE *fp;
 
    fp = fopen("./data/Vendas_1M.txt","r");
 
-   while(fgets(line,MAXBUFFERVENDAS,fp)) {
+   while(fgets(line,MAXBUFFERSALES,fp)) {
 
       information = strtok(line,"\n\r");
       information = strtok(information," ");
@@ -37,12 +37,12 @@ int valida_vendas(CATALOG produtos, CATALOG clientes, struct venda *vendas[10000
       for(i = 0; information != NULL; i++) {
          switch(i) {
             case 0: product = information;
-            case 1: preco = atof(information);
-            case 2: quantidade = atoi(information); 
-            case 3: tipo = information[0];
+            case 1: price = atof(information);
+            case 2: ammount = atoi(information); 
+            case 3: type = information[0];
             case 4: client = information;
-            case 5: mes = atoi(information);
-            case 6: filial = atoi(information);
+            case 5: month = atoi(information);
+            case 6: shop = atoi(information);
             default: break;
          }
          information = strtok(NULL," ");
@@ -50,45 +50,45 @@ int valida_vendas(CATALOG produtos, CATALOG clientes, struct venda *vendas[10000
 
       /* Definição do indice a ocupar no array de AVL */
       
-      indCLi = client[0] -65;
+      indCli = client[0] -65;
       indProd = product[0] -65;
       
       /* Verifica a existencia do produto e do cliente de uma dada venda */
 
-      verify = (verify_product(produtos->letras[indProd],product) && verify_client(clientes->letras[indCLi],client));
+      verify = (verify_product(products->avl_list[indProd],product) && verify_client(costumers->avl_list[indCli],client));
       
-      /* Caso verifique adiciona á estrutura das vendas a venda validada nessa mesma iteração */
+      /* Caso verifique adiciona á estrutura das vendas a venda validada nessa monthma iteração */
 
       if(verify) {
-         vendas[j] = insert_sale(vendas[j],product,preco,quantidade,tipo,client,mes,filial);
-         validos++;
+         sales[index] = insert_sale(sales[index],product,price,ammount,type,client,month,shop);
+         sales_yes++;
          total++;
-         j++;
+         index++;
       } else {
          total++;
-         falhados++;
+         sales_no++;
       }
    }
    
    fclose(fp);
 
    printf("Total de vendas analisadas: %d\n",total);
-   printf("Total de vendas validas: %d\n",validos);
-   printf("Total de vendas falhadas: %d\n",falhados);
+   printf("Total de vendas validas: %d\n",sales_yes);
+   printf("Total de vendas faleshadas: %d\n",sales_no);
    
-   return validos;
+   return sales_yes;
 }
 
-struct venda* insert_sale(struct venda *vendas, char* product, double preco, int quantidade, char tipo, char* client, int mes , int filial) {
-   vendas = malloc(sizeof(struct venda));
-   vendas->prod = malloc(strlen(product));
-   strcpy(vendas->prod,product);
-   vendas->price = preco;
-   vendas->quantity = quantidade;
-   vendas->type = tipo;
-   vendas->cli = malloc(strlen(client));
-   strcpy(vendas->cli,client);
-   vendas->month = mes;
-   vendas->shop = filial;
-   return vendas;
+struct sale* insert_sale(struct sale *sales, char* product, double price, int ammount, char type, char* client, int month , int shop) {
+   sales = malloc(sizeof(struct sale));
+   sales->prod = malloc(strlen(product));
+   strcpy(sales->prod,product);
+   sales->price = price;
+   sales->quantity = ammount;
+   sales->type = type;
+   sales->cli = malloc(strlen(client));
+   strcpy(sales->cli,client);
+   sales->month = month;
+   sales->shop = shop;
+   return sales;
 }

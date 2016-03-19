@@ -17,13 +17,13 @@ typedef struct nodeAVL {
 
 CATALOG init_catalog(){
 
-    CATALOG catalogo = (struct catalog*) malloc(sizeof(struct catalog));
+    CATALOG catalog = (struct catalog*) malloc(sizeof(struct catalog));
     int i;
     for(i = 0; i < 26; i++) {
-        catalogo->letras[i] = NULL;
+        catalog->avl_list[i] = NULL;
     }
     
-    return catalogo;
+    return catalog;
 }
 
 
