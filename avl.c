@@ -14,6 +14,19 @@ typedef struct nodeAVL {
     int height;
 }node;
 
+
+CATALOG init_catalog(){
+
+    CATALOG catalogo = (struct catalog*) malloc(sizeof(struct catalog));
+    int i;
+    for(i = 0; i < 26; i++) {
+        catalogo->letras[i] = NULL;
+    }
+    
+    return catalogo;
+}
+
+
 /* Função que devolve a altura de um dado nodo de uma AVL */
 
 static int height(AVL n) {

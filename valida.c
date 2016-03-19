@@ -47,19 +47,24 @@ int valida_vendas(CATALOG produtos, CATALOG clientes, struct venda *vendas[10000
          }
          information = strtok(NULL," ");
       }
+
+      /* Definição do indice a ocupar no array de AVL */
       
       indCLi = client[0] -65;
       indProd = product[0] -65;
       
+      /* Verifica a existencia do produto e do cliente de uma dada venda */
+
       verify = (verify_product(produtos->letras[indProd],product) && verify_client(clientes->letras[indCLi],client));
       
+      /* Caso verifique adiciona á estrutura das vendas a venda validada nessa mesma iteração */
+
       if(verify) {
-         insert_sale(vendas[j],product,preco,quantidade,tipo,client,mes,filial);
+         vendas[j] = insert_sale(vendas[j],product,preco,quantidade,tipo,client,mes,filial);
          validos++;
          total++;
          j++;
-      }
-      else {
+      } else {
          total++;
          falhados++;
       }
@@ -74,7 +79,7 @@ int valida_vendas(CATALOG produtos, CATALOG clientes, struct venda *vendas[10000
    return validos;
 }
 
-void insert_sale(struct venda *vendas, char* product, double preco, int quantidade, char tipo, char* client, int mes , int filial) {
+struct venda* insert_sale(struct venda *vendas, char* product, double preco, int quantidade, char tipo, char* client, int mes , int filial) {
    vendas = malloc(sizeof(struct venda));
    vendas->prod = malloc(strlen(product));
    strcpy(vendas->prod,product);
@@ -85,4 +90,5 @@ void insert_sale(struct venda *vendas, char* product, double preco, int quantida
    strcpy(vendas->cli,client);
    vendas->month = mes;
    vendas->shop = filial;
+   return vendas;
 }

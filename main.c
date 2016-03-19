@@ -9,26 +9,35 @@
 #include "clientes.h"
 #include "produtos.h"
 
-
 int main() {
+    clock_t begin, end;
+    double time_spent;
+
+    begin = clock();
+    int i, validated, conta = 0;
     
-    int i;
-    
-    CATALOG clients = (struct catalog*) malloc(sizeof(struct catalog));
-    CATALOG products = (struct catalog*) malloc(sizeof(struct catalog));
-    
+    CATALOG clients = init_catalog();
+    CATALOG products = init_catalog();
+
+    struct venda *vendas[1000000];
+
     for(i = 0; i < 26; i++) {
         clients->letras[i] = NULL;
         products->letras[i] = NULL;
     }
-    
-    struct venda *vendas[1000000];
-
-    int validated, conta = 0;
 
     convert_clients(clients);
     convert_products(products);
     validated = valida_vendas(products,clients,vendas);
+
+    for(i = 0; i<validated; i++) {
+        if(vendas[i]->price == 0) conta++;
+    }
+    printf("COMPRAS DE PRECO 0: %d\n", conta);
     
-   return 0;
+    end = clock();
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("TEMPO DECORRIDO: %lf miliseconds\n",time_spent);
+   
+    return 0;
 }

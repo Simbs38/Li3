@@ -14,7 +14,7 @@ void convert_clients(CATALOG clientes) {
    FILE *fp;
    char *information;
    char line[MAXBUFFERCLIENTES];
-   int indice;
+   int indice, contador = 0;
 
    fp = fopen("./data/Clientes.txt","r");
 
@@ -22,8 +22,9 @@ void convert_clients(CATALOG clientes) {
       information = strtok(line,"\n\r");
       indice = information[0] -65;
       clientes->letras[indice] = insert(clientes->letras[indice],information);
+      contador++;
    }
-
+   printf("Numero de clientes Validados: %d\n",contador);
    fclose(fp);
 }
 

@@ -14,7 +14,7 @@ void convert_products(CATALOG produtos) {
    FILE *fp;
    char *information;
    char line[MAXBUFFERPRODUTOS];
-   int indice;
+   int indice, contador = 0;
 
    fp = fopen("./data/Produtos.txt","r");
    
@@ -22,8 +22,9 @@ void convert_products(CATALOG produtos) {
       information = strtok(line,"\n\r");
       indice = information[0] -65;
       produtos->letras[indice] = insert(produtos->letras[indice],information);
+      contador++;
    }
-
+   printf("Numero de produtos validos: %d\n",contador);
    fclose(fp);
 }
 
