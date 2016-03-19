@@ -1,10 +1,7 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
 
-#define MAXBUFFERCLIENTES 32
+#ifndef _valida_h_
+#define _valida_h_
 
-#define MAXBUFFERPRODUTOS 64
+int valida_vendas(AVL produtos, AVL clientes,struct venda *vendas[1000000]);
 
-#define MAXBUFFERVENDAS 128
+#endif

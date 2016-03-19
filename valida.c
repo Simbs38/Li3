@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include "valida.h"
 #include "avl.h"
 #include "main.h"
@@ -46,11 +47,32 @@ struct node* convert_clients(struct node *clientes) {
 /* Verifica as vendas, existência do cliente e do produto vendido. */
 
 int valida_vendas(struct node *produtos, struct node *clientes,struct venda *vendas[1000000]) {
+=======
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+
+#include "main.h"
+#include "avl.h"
+#include "valida.h"
+
+#define MAXBUFFERVENDAS 128
+
+
+/* Verifica as vendas, existência do cliente e do produto vendido. */
+
+int valida_vendas(AVL produtos, AVL clientes,struct venda *vendas[1000000]) {
+>>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
    
    char line[MAXBUFFERVENDAS];
    char* information;
    
+<<<<<<< HEAD
    int i, verify, validos = 0, j = 0;
+=======
+   int i, verify, validos = 0, j = 0, falhados = 0, total = 0;
+>>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
 
    char* product;
    double preco;
@@ -62,7 +84,7 @@ int valida_vendas(struct node *produtos, struct node *clientes,struct venda *ven
    
    FILE *fp;
 
-   fp = fopen("Vendas_1M.txt","r");
+   fp = fopen("./data/Vendas_1M.txt","r");
 
    while(fgets(line,MAXBUFFERVENDAS,fp)) {
 
@@ -83,7 +105,11 @@ int valida_vendas(struct node *produtos, struct node *clientes,struct venda *ven
          information = strtok(NULL," ");
       }
       
+<<<<<<< HEAD
       verify = verify_existence(product,client,produtos,clientes);
+=======
+      verify = (verify_product(produtos,product) && verify_client(clientes,client));
+>>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
       if(verify) {
          vendas[j] = malloc(sizeof(struct venda));
          vendas[j]->prod = malloc(strlen(product));
@@ -97,10 +123,19 @@ int valida_vendas(struct node *produtos, struct node *clientes,struct venda *ven
          vendas[j]->shop = filial;
          validos++;
          j++;
+<<<<<<< HEAD
+=======
+         total++;
+      }
+      else {
+         total++;
+         falhados++;
+>>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
       }
    }
    fclose(fp);
 
+<<<<<<< HEAD
    return validos;
 }
 
@@ -113,4 +148,11 @@ int verify_existence(char* product, char* client, struct node *produtos, struct 
    int look_product = lookUp(produtos,product);
 
    return (look_client && look_product);
+=======
+   printf("Total de vendas analisadas: %d\n",total);
+   printf("Total de vendas validas: %d\n",validos);
+   printf("Total de vendas falhadas: %d\n",falhados);
+   
+   return validos;
+>>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
 }

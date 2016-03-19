@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+
 #include "main.h"
 #include "valida.h"
 #include "avl.h"
@@ -10,6 +15,7 @@ int main() {
     struct venda *vendas[1000000];
 
     int validated, i, conta = 0;
+
 
     clients = convert_clients(clients);
     products = convert_products(products);

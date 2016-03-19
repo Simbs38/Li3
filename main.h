@@ -1,16 +1,15 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
 
-#define MAX_SIZE 50
+#ifndef _main_h_
+#define _main_h_
 
-struct venda {
-   		char* prod;
-   		double price;
-   		int quantity; 
-   		char type;
-   		char* cli;
-   		int month;
-   		int shop;
-	};
+typedef struct venda {
+    char* prod;
+    double price;
+    int quantity; 
+    char type;
+    char* cli;
+    int month;
+    int shop;
+}sales;
+
+#endif
