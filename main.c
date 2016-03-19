@@ -15,7 +15,7 @@ int main() {
 
     begin = clock();
     int i, validated, conta = 0;
-    
+
     CATALOG clients = init_catalog();
     CATALOG products = init_catalog();
 

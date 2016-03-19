@@ -16,7 +16,7 @@ void convert_products(CATALOG products) {
    char line[MAXBUFFERProducts];
    int index, counter = 0;
 
-   fp = fopen("./data/products.txt","r");
+   fp = fopen("./data/Produtos.txt","r");
    
    while(fgets(line,MAXBUFFERProducts,fp)) {
       information = strtok(line,"\n\r");

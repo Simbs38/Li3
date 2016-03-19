@@ -74,7 +74,7 @@ int validate_sales(CATALOG products, CATALOG costumers, struct sale *sales[10000
 
    printf("Total de vendas analisadas: %d\n",total);
    printf("Total de vendas validas: %d\n",sales_yes);
-   printf("Total de vendas faleshadas: %d\n",sales_no);
+   printf("Total de vendas falhadas: %d\n",sales_no);
    
    return sales_yes;
 }
