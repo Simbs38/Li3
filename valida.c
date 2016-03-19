@@ -54,19 +54,10 @@ int valida_vendas(CATALOG produtos, CATALOG clientes, struct venda *vendas[10000
       verify = (verify_product(produtos->letras[indProd],product) && verify_client(clientes->letras[indCLi],client));
       
       if(verify) {
-         vendas[j] = malloc(sizeof(struct venda));
-         vendas[j]->prod = malloc(strlen(product));
-         strcpy(vendas[j]->prod,product);
-         vendas[j]->price = preco;
-         vendas[j]->quantity = quantidade;
-         vendas[j]->type = tipo;
-         vendas[j]->cli = malloc(strlen(client));
-         strcpy(vendas[j]->cli,client);
-         vendas[j]->month = mes;
-         vendas[j]->shop = filial;
+         insert_sale(vendas[j],product,preco,quantidade,tipo,client,mes,filial);
          validos++;
-         j++;
          total++;
+         j++;
       }
       else {
          total++;
@@ -81,4 +72,17 @@ int valida_vendas(CATALOG produtos, CATALOG clientes, struct venda *vendas[10000
    printf("Total de vendas falhadas: %d\n",falhados);
    
    return validos;
+}
+
+void insert_sale(struct venda *vendas, char* product, double preco, int quantidade, char tipo, char* client, int mes , int filial) {
+   vendas = malloc(sizeof(struct venda));
+   vendas->prod = malloc(strlen(product));
+   strcpy(vendas->prod,product);
+   vendas->price = preco;
+   vendas->quantity = quantidade;
+   vendas->type = tipo;
+   vendas->cli = malloc(strlen(client));
+   strcpy(vendas->cli,client);
+   vendas->month = mes;
+   vendas->shop = filial;
 }
