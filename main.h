@@ -1,4 +1,3 @@
-
 #ifndef _main_h_
 #define _main_h_
 
@@ -10,6 +9,6 @@ typedef struct venda {
     char* cli;
     int month;
     int shop;
-}sales;
+}venda;
 
 #endif

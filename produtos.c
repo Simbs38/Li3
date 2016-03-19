@@ -3,29 +3,29 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "avl.h"
 #include "produtos.h"
 
 #define MAXBUFFERPRODUTOS 64
 
 
-/* Coloca o ficheiro dos produtos em memória */
+/* Coloca o ficheiro dos produtos em memória num array de AVL's */
 
-AVL convert_products(AVL produtos) {
+void convert_products(CATALOG produtos) {
    FILE *fp;
    char *information;
    char line[MAXBUFFERPRODUTOS];
-   
+   int indice, contador = 0;
+
    fp = fopen("./data/Produtos.txt","r");
    
    while(fgets(line,MAXBUFFERPRODUTOS,fp)) {
       information = strtok(line,"\n\r");
-      produtos = insert(produtos,information);
+      indice = information[0] -65;
+      produtos->letras[indice] = insert(produtos->letras[indice],information);
+      contador++;
    }
-
+   printf("Numero de produtos validos: %d\n",contador);
    fclose(fp);
-   
-   return produtos;
 }
 
 int verify_product(AVL produtos, char* product) {

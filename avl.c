@@ -1,14 +1,11 @@
-<<<<<<< HEAD
-#include "avl.h"
- 
-int height(struct node *n) {
-=======
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
 
 #include "avl.h"
+
+/* Estrutura definida para um nodo de uma AVL */
 
 typedef struct nodeAVL {
     char* string;
@@ -17,29 +14,35 @@ typedef struct nodeAVL {
     int height;
 }node;
 
+
+CATALOG init_catalog(){
+
+    CATALOG catalogo = (struct catalog*) malloc(sizeof(struct catalog));
+    int i;
+    for(i = 0; i < 26; i++) {
+        catalogo->letras[i] = NULL;
+    }
+    
+    return catalogo;
+}
+
+
+/* Função que devolve a altura de um dado nodo de uma AVL */
+
 static int height(AVL n) {
->>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
     if (n == NULL)
         return 0;
     return n->height;
 }
  
-<<<<<<< HEAD
-int max(int a, int b) {
-=======
 static int max(int a, int b) {
->>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
     return (a > b)? a : b;
 }
 
+/* Função responsavel pela criação de um novo nodo */
 
-<<<<<<< HEAD
-struct node* newNode(char* info) {
-    struct node* node = (struct node*) malloc(sizeof(struct node));
-=======
 static AVL newNode(char* info) {
     struct nodeAVL* node = (struct nodeAVL*) malloc(sizeof(struct nodeAVL));
->>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
     node->string = malloc(32);
     strcpy(node->string,info);
     node->left   = NULL;
@@ -49,21 +52,18 @@ static AVL newNode(char* info) {
 }
 
 
-<<<<<<< HEAD
-struct node *rightRotate(struct node *y) {
-
-    struct node *x = y->left;
-    struct node *T2 = x->right;
-=======
 static AVL rightRotate(AVL y) {
 
     AVL x = y->left;
     AVL T2 = x->right;
->>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
- 
+    
+    /* Rotações */
+
     x->right = y;
     y->left = T2;
- 
+    
+    /* Atualização dos pesos dos nodos */
+
     y->height = max(height(y->left), height(y->right))+1;
     x->height = max(height(x->left), height(x->right))+1;
  
@@ -71,60 +71,36 @@ static AVL rightRotate(AVL y) {
 }
 
 
-<<<<<<< HEAD
-struct node *leftRotate(struct node *x) {
-
-    struct node *y = x->right;
-    struct node *T2 = y->left;
- 
-    /* Perform rotation */
-    y->left = x;
-    x->right = T2;
- 
-    /* Update heights */
-    x->height = max(height(x->left), height(x->right))+1;
-    y->height = max(height(y->left), height(y->right))+1;
- 
-    /* Return new root */
-=======
 static AVL leftRotate(AVL x) {
 
     AVL y = x->right;
     AVL T2 = y->left;
  
+    /* Rotações */
 
     y->left = x;
     x->right = T2;
  
+    /* Atualização dos pesos dos nodos */
+
     x->height = max(height(x->left), height(x->right))+1;
     y->height = max(height(y->left), height(y->right))+1;
  
->>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
     return y;
 }
 
-
-<<<<<<< HEAD
-/* Get Balance factor of node N */
-
-int getBalance(struct node *N) {
-=======
+/* Retorna o balanceamento da arvore, estando a arvore balanceada para valores retornados entre -1 e 1 */
 
 static int getBalance(AVL N) {
->>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
     if (N == NULL)
         return 0;
     return height(N->left) - height(N->right);
 }
  
+/* Função com o objetivo de inserir uma nova informação na arvore */
 
-<<<<<<< HEAD
-struct node* insert(struct node* node, char* info) {
-    /*  Inserção do nodo */
-=======
 AVL insert(AVL node, char* info) {
 
->>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
     if (node == NULL)
         return(newNode(info));
  
@@ -139,11 +115,6 @@ AVL insert(AVL node, char* info) {
     /* Varifica o balanceamento */
     int balance = getBalance(node);
  
-<<<<<<< HEAD
-    /* Caso esteja não balanceada, aplica o caso correspondente. */
- 
-=======
->>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
     /* Left Left Case */
     if (balance > 1 && strcmp(info,node->left->string) < 0)
         return rightRotate(node);
@@ -168,11 +139,9 @@ AVL insert(AVL node, char* info) {
     return node;
 }
 
-<<<<<<< HEAD
-int lookUp(struct node *node, char* value) {
-=======
+/* Função que tem como funcionalidade a procura de um dado elemento na AVL */
+
 int lookUp(AVL node, char* value) {
->>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
     int r;
     if(node == NULL) return 0;
     else {
@@ -184,11 +153,7 @@ int lookUp(AVL node, char* value) {
 }
 
 
-<<<<<<< HEAD
-void preOrder(struct node *root)
-=======
 void preOrder(AVL root)
->>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
 {
     if(root != NULL)
     {

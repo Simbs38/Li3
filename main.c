@@ -4,30 +4,40 @@
 #include <time.h>
 
 #include "main.h"
-#include "valida.h"
 #include "avl.h"
+#include "valida.h"
+#include "clientes.h"
+#include "produtos.h"
 
 int main() {
-   
-	
-    long clients;
-    long products;
+    clock_t begin, end;
+    double time_spent;
+
+    begin = clock();
+    int i, validated, conta = 0;
+    
+    CATALOG clients = init_catalog();
+    CATALOG products = init_catalog();
+
     struct venda *vendas[1000000];
 
-    int validated, i, conta = 0;
-
-
-    clients = convert_clients(clients);
-    products = convert_products(products);
-    
-    validated = valida_vendas(products,clients,vendas);
-    /*
-    for(i = 0; i < validated; i++) {
-    	if(strcmp(vendas[i]->cli,"Z5000") == 0) {
-    		conta+=vendas[i]->quantity;
-    	}
+    for(i = 0; i < 26; i++) {
+        clients->letras[i] = NULL;
+        products->letras[i] = NULL;
     }
-    */
-    printf("Validos: %d\n",validated);
-   return 0;
+
+    convert_clients(clients);
+    convert_products(products);
+    validated = valida_vendas(products,clients,vendas);
+
+    for(i = 0; i<validated; i++) {
+        if(vendas[i]->price == 0) conta++;
+    }
+    printf("COMPRAS DE PRECO 0: %d\n", conta);
+    
+    end = clock();
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("TEMPO DECORRIDO: %lf miliseconds\n",time_spent);
+   
+    return 0;
 }

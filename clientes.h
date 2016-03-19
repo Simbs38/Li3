@@ -1,7 +1,8 @@
 #ifndef _clientes_h_
 #define _clientes_h_
 
-AVL convert_clients(AVL clientes);
+#include "avl.h"
+void convert_clients(CATALOG clientes);
 int verify_client(AVL clientes, char* client);
 
 #endif

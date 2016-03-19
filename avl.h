@@ -1,11 +1,13 @@
-
 #ifndef _avl_h_
 #define _avl_h_
 
 typedef struct nodeAVL* AVL;
 
-/*typedef AVL[26] CATALOG;
-*/
+typedef struct catalog {
+	AVL letras[26];
+} *CATALOG;
+
+CATALOG init_catalog();
 static AVL rightRotate(AVL y);
 static AVL leftRotate(AVL x);
 static int getBalance(AVL N);

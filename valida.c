@@ -1,60 +1,8 @@
-<<<<<<< HEAD
-#include "valida.h"
-#include "avl.h"
-#include "main.h"
-
-/*Coloca o ficheiro dos produtos em memória. (terá de ser mudado para uma AVL por eficiencia) */
-   
-struct node* convert_products(struct node *produtos) {
-   FILE *fp;
-   char *information;
-   char line[MAXBUFFERPRODUTOS];
-   
-   fp = fopen("Produtos.txt","r");
-   
-   while(fgets(line,MAXBUFFERPRODUTOS,fp)) {
-      information = strtok(line,"\n\r");
-      produtos = insert(produtos,information);
-   }
-
-   fclose(fp);
-   
-   return produtos;
-}
-
-
-/* Coloca o ficheiro dos clientes em memória. (terá de ser mudado para uma AVL por eficiencia) */
-
-struct node* convert_clients(struct node *clientes) {
-   
-   FILE *fp;
-   char *information;
-   char line[MAXBUFFERCLIENTES];
-   
-   fp = fopen("Clientes.txt","r");
-
-   while(fgets(line,MAXBUFFERCLIENTES,fp)) {
-      information = strtok(line,"\n\r");
-      clientes = insert(clientes,information);
-   }
-
-   fclose(fp);
-   return clientes;
-}
-
-
-
-/* Verifica as vendas, existência do cliente e do produto vendido. */
-
-int valida_vendas(struct node *produtos, struct node *clientes,struct venda *vendas[1000000]) {
-=======
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
 
-#include "main.h"
-#include "avl.h"
 #include "valida.h"
 
 #define MAXBUFFERVENDAS 128
@@ -62,17 +10,12 @@ int valida_vendas(struct node *produtos, struct node *clientes,struct venda *ven
 
 /* Verifica as vendas, existência do cliente e do produto vendido. */
 
-int valida_vendas(AVL produtos, AVL clientes,struct venda *vendas[1000000]) {
->>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
+int valida_vendas(CATALOG produtos, CATALOG clientes, struct venda *vendas[1000000]) {
    
    char line[MAXBUFFERVENDAS];
    char* information;
    
-<<<<<<< HEAD
-   int i, verify, validos = 0, j = 0;
-=======
-   int i, verify, validos = 0, j = 0, falhados = 0, total = 0;
->>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
+   int i, verify, validos = 0, j = 0, falhados = 0, total = 0, indCLi, indProd;
 
    char* product;
    double preco;
@@ -104,55 +47,48 @@ int valida_vendas(AVL produtos, AVL clientes,struct venda *vendas[1000000]) {
          }
          information = strtok(NULL," ");
       }
+
+      /* Definição do indice a ocupar no array de AVL */
       
-<<<<<<< HEAD
-      verify = verify_existence(product,client,produtos,clientes);
-=======
-      verify = (verify_product(produtos,product) && verify_client(clientes,client));
->>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
+      indCLi = client[0] -65;
+      indProd = product[0] -65;
+      
+      /* Verifica a existencia do produto e do cliente de uma dada venda */
+
+      verify = (verify_product(produtos->letras[indProd],product) && verify_client(clientes->letras[indCLi],client));
+      
+      /* Caso verifique adiciona á estrutura das vendas a venda validada nessa mesma iteração */
+
       if(verify) {
-         vendas[j] = malloc(sizeof(struct venda));
-         vendas[j]->prod = malloc(strlen(product));
-         strcpy(vendas[j]->prod,product);
-         vendas[j]->price = preco;
-         vendas[j]->quantity = quantidade;
-         vendas[j]->type = tipo;
-         vendas[j]->cli = malloc(strlen(client));
-         strcpy(vendas[j]->cli,client);
-         vendas[j]->month = mes;
-         vendas[j]->shop = filial;
+         vendas[j] = insert_sale(vendas[j],product,preco,quantidade,tipo,client,mes,filial);
          validos++;
-         j++;
-<<<<<<< HEAD
-=======
          total++;
-      }
-      else {
+         j++;
+      } else {
          total++;
          falhados++;
->>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
       }
    }
+   
    fclose(fp);
 
-<<<<<<< HEAD
-   return validos;
-}
-
-
-/* Valida a existência do cliente e produto numa venda. */
-
-int verify_existence(char* product, char* client, struct node *produtos, struct node *clientes) {
-   
-   int look_client = lookUp(clientes,client);
-   int look_product = lookUp(produtos,product);
-
-   return (look_client && look_product);
-=======
    printf("Total de vendas analisadas: %d\n",total);
    printf("Total de vendas validas: %d\n",validos);
    printf("Total de vendas falhadas: %d\n",falhados);
    
    return validos;
->>>>>>> a566039f6dbd95990dc62c0cde784d75f2eb0412
+}
+
+struct venda* insert_sale(struct venda *vendas, char* product, double preco, int quantidade, char tipo, char* client, int mes , int filial) {
+   vendas = malloc(sizeof(struct venda));
+   vendas->prod = malloc(strlen(product));
+   strcpy(vendas->prod,product);
+   vendas->price = preco;
+   vendas->quantity = quantidade;
+   vendas->type = tipo;
+   vendas->cli = malloc(strlen(client));
+   strcpy(vendas->cli,client);
+   vendas->month = mes;
+   vendas->shop = filial;
+   return vendas;
 }
