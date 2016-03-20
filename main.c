@@ -10,21 +10,18 @@
 #include "produtos.h"
 
 int main() {
+    
     clock_t begin, end;
     double time_spent;
 
     begin = clock();
+   
     int i, validated, conta = 0;
     
     CATALOG clients = init_catalog();
     CATALOG products = init_catalog();
 
     struct sale *sales[1000000];
-
-    for(i = 0; i < 26; i++) {
-        clients->avl_list[i] = NULL;
-        products->avl_list[i] = NULL;
-    }
 
     convert_clients(clients);
     convert_products(products);
@@ -33,11 +30,12 @@ int main() {
     for(i = 0; i<validated; i++) {
         if(sales[i]->price == 0) conta++;
     }
+  
     printf("COMPRAS DE PRECO 0: %d\n", conta);
-    
+
     end = clock();
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("TEMPO DECORRIDO: %lf miliseconds\n",time_spent);
+    printf("TEMPO DECORRIDO: %lf seconds\n",time_spent);
    
     return 0;
 }

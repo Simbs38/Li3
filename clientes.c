@@ -16,7 +16,7 @@ void convert_clients(CATALOG costumers) {
    char line[MAXBUFFERClientes];
    int index, counter = 0;
 
-   fp = fopen("./data/costumers.txt","r");
+   fp = fopen("./data/Clientes.txt","r");
 
    while(fgets(line,MAXBUFFERClientes,fp)) {
       information = strtok(line,"\n\r");
