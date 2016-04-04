@@ -1,31 +1,19 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
-
 #include "avl.h"
 
 /* Estrutura definida para um nodo de uma AVL */
 
-typedef struct nodeAVL {
-    char* string;
+struct nodeAVL {
+    Valor string;
+    void *cont;
     struct nodeAVL *left;
     struct nodeAVL *right;
     int height;
-}node;
+};
 
 
-CATALOG init_catalog(){
-
-    CATALOG catalog = (struct catalog*) malloc(sizeof(struct catalog));
-    int i;
-    for(i = 0; i < 26; i++) {
-        catalog->avl_list[i] = NULL;
-    }
-    
-    return catalog;
+AVL initAVL() {
+    return NULL;
 }
-
 
 /* Função que devolve a altura de um dado nodo de uma AVL */
 
@@ -34,17 +22,22 @@ static int height(AVL n) {
         return 0;
     return n->height;
 }
- 
+
+
+/* Função que determina o maximo entre dois valores */
+
 static int max(int a, int b) {
     return (a > b)? a : b;
 }
 
+
 /* Função responsavel pela criação de um novo nodo */
 
-static AVL newNode(char* info) {
+static AVL newNode(Valor info, void *estrutura) {
     struct nodeAVL* node = (struct nodeAVL*) malloc(sizeof(struct nodeAVL));
     node->string = malloc(32);
     strcpy(node->string,info);
+    node->cont = estrutura;
     node->left   = NULL;
     node->right  = NULL;
     node->height = 1;  
@@ -71,6 +64,7 @@ static AVL rightRotate(AVL y) {
 }
 
 
+
 static AVL leftRotate(AVL x) {
 
     AVL y = x->right;
@@ -89,6 +83,7 @@ static AVL leftRotate(AVL x) {
     return y;
 }
 
+
 /* Retorna o balanceamento da arvore, estando a arvore balanceada para valores retornados entre -1 e 1 */
 
 static int getBalance(AVL N) {
@@ -99,15 +94,15 @@ static int getBalance(AVL N) {
  
 /* Função com o objetivo de inserir uma nova informação na arvore */
 
-AVL insert(AVL node, char* info) {
+AVL avl_insert(AVL node, Valor info, void *estrutura) {
 
     if (node == NULL)
-        return(newNode(info));
+        return(newNode(info,estrutura));
  
     if (strcmp(info,node->string) < 0)
-        node->left  = insert(node->left, info);
+        node->left  = avl_insert(node->left, info, estrutura);
     else
-        node->right = insert(node->right, info);
+        node->right = avl_insert(node->right, info, estrutura);
  
     /* Atualiza os pesos */
     node->height = max(height(node->left), height(node->right)) + 1;
@@ -141,14 +136,14 @@ AVL insert(AVL node, char* info) {
 
 /* Função que tem como funcionalidade a procura de um dado elemento na AVL */
 
-int lookUp(AVL node, char* value) {
+int avl_lookUp(AVL node, Valor value) {
     int r;
     if(node == NULL) return 0;
     else {
         r = strcmp(value,node->string);
         if(r == 0) return 1;
-        else if(r < 0) lookUp(node->left, value);
-        else lookUp(node->right,value);
+        else if(r < 0) avl_lookUp(node->left, value);
+        else avl_lookUp(node->right,value);
     }
 }
 

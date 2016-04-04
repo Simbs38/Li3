@@ -1,21 +1,17 @@
 #ifndef _avl_h_
 #define _avl_h_
 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+
+typedef char* Valor;
 typedef struct nodeAVL* AVL;
 
-typedef struct catalog {
-	AVL avl_list[26];
-} *CATALOG;
-
-CATALOG init_catalog();
-static AVL rightRotate(AVL y);
-static AVL leftRotate(AVL x);
-static int getBalance(AVL N);
-static AVL newNode(char* string);
-static int max(int a, int b);
-static int height(AVL n);
-AVL insert(AVL node, char* string);
-int lookUp(AVL node, char* value);
+AVL initAVL();
+AVL avl_insert(AVL node, Valor string, void *estrutura);
+int avl_lookUp(AVL node, Valor value);
 void preOrder(AVL root);
 
 #endif
