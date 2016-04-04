@@ -9,9 +9,11 @@
 #include "avl.h"
 #include "produtos.h"
 #include "clientes.h"
+#include "venda.h"
 
-#define MAXBUFFERPRODUTOS  64
 #define MAXBUFFERCLIENTES 32
+#define MAXBUFFERPRODUTOS 64
+#define MAXBUFFERVENDAS 128
 
 void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products);
 
