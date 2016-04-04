@@ -1,9 +1,9 @@
 #include "clientes.h"
 
-#define LETRAS 26
+#define NR_LETRAS 26
 
 struct catalogo_clientes {
-   AVL indice[LETRAS];
+   AVL indice[NR_LETRAS];
 };
 
 
@@ -14,7 +14,7 @@ Cat_Clientes init_cat_clientes(){
     Cat_Clientes catalog = malloc(sizeof(struct catalogo_clientes));
 
     int i;
-    for(i = 0; i < LETRAS; i++) {
+    for(i = 0; i < NR_LETRAS; i++) {
         catalog->indice[i] = initAVL();
     }
     

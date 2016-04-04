@@ -1,8 +1,9 @@
 #include "produtos.h"
 
+#define NR_LETRAS 26
 
 struct catalogo_produtos {
-   AVL indice[26];
+   AVL indice[NR_LETRAS];
 };
 
 
@@ -10,7 +11,7 @@ Cat_Produtos init_cat_produtos() {
 
     Cat_Produtos cat = (struct catalogo_produtos*) malloc(sizeof(struct catalogo_produtos));
     int i;
-    for(i = 0; i < 26; i++) {
+    for(i = 0; i < NR_LETRAS; i++) {
         cat->indice[i] = initAVL();
     }
     return cat;
