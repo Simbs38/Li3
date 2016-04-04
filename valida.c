@@ -1,21 +1,16 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
-
 #include "valida.h"
 
-#define MAXBUFFERSALES 128
+static struct sale* insert_sale(struct sale *sales, char* product, double price, int ammount, char type, char* client, int month , int shop);
 
 
 /* Verifica as vendas, existência do cliente e do produto vendido. */
 
-int validate_sales(CATALOG products, CATALOG costumers, struct sale *sales[1000000]) {
+int validate_sales(Cat_Produtos products, Cat_Clientes costumers, struct sale *sales[1000000]) {
    
-   char line[MAXBUFFERSALES];
+   char line[MAXBUFFERVENDAS];
    char* information;
    
-   int i, verify, sales_yes = 0, index = 0, sales_no = 0, total = 0, indCli, indProd;
+   int i, verify, sales_yes = 0, index = 0, sales_no = 0, total = 0;
 
    char* product;
    double price;
@@ -29,34 +24,27 @@ int validate_sales(CATALOG products, CATALOG costumers, struct sale *sales[10000
 
    fp = fopen("./data/Vendas_1M.txt","r");
 
-   while(fgets(line,MAXBUFFERSALES,fp)) {
+   while(fgets(line,MAXBUFFERVENDAS,fp)) {
 
       information = strtok(line,"\n\r");
       information = strtok(information," ");
-      
       for(i = 0; information != NULL; i++) {
          switch(i) {
-            case 0: product = information;
-            case 1: price = atof(information);
-            case 2: ammount = atoi(information); 
-            case 3: type = information[0];
-            case 4: client = information;
-            case 5: month = atoi(information);
-            case 6: shop = atoi(information);
+            case 0: product = information;break;
+            case 1: price = atof(information);break;
+            case 2: ammount = atoi(information);break; 
+            case 3: type = information[0];break;
+            case 4: client = information;break;
+            case 5: month = atoi(information);break;
+            case 6: shop = atoi(information);break;
             default: break;
          }
          information = strtok(NULL," ");
       }
-
-      /* Definição do indice a ocupar no array de AVL */
-      
-      indCli = client[0] -65;
-      indProd = product[0] -65;
       
       /* Verifica a existencia do produto e do cliente de uma dada venda */
-
-      verify = (verify_product(products->avl_list[indProd],product) && verify_client(costumers->avl_list[indCli],client));
       
+      verify = (verify_exist_product(products,product) && verify_exist_client(costumers,client));
       /* Caso verifique adiciona á estrutura das vendas a venda validada nessa monthma iteração */
 
       if(verify) {
@@ -71,15 +59,15 @@ int validate_sales(CATALOG products, CATALOG costumers, struct sale *sales[10000
    }
    
    fclose(fp);
-
+   
    printf("Total de vendas analisadas: %d\n",total);
    printf("Total de vendas validas: %d\n",sales_yes);
-   printf("Total de vendas faleshadas: %d\n",sales_no);
+   printf("Total de vendas falhadas: %d\n",sales_no);
    
    return sales_yes;
 }
 
-struct sale* insert_sale(struct sale *sales, char* product, double price, int ammount, char type, char* client, int month , int shop) {
+static struct sale* insert_sale(struct sale *sales, char* product, double price, int ammount, char type, char* client, int month , int shop) {
    sales = malloc(sizeof(struct sale));
    sales->prod = malloc(strlen(product));
    strcpy(sales->prod,product);

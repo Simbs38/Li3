@@ -1,5 +1,5 @@
 CFLAGS= -ansi -O2
-OBJS=$(wildcard *.c *.h)
+OBJS=$(wildcard *.h *.c)
 
 compile:$(OBJS)
 		$(CC) $(CFLAGS) -o gereVendas $(OBJS) 

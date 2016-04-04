@@ -8,34 +8,23 @@
 #include "valida.h"
 #include "clientes.h"
 #include "produtos.h"
+#include "leituras.h"
 
 int main() {
     
-    clock_t begin, end;
-    double time_spent;
-
-    begin = clock();
-   
-    int i, validated, conta = 0;
+    clock_t begin = clock();
     
-    CATALOG clients = init_catalog();
-    CATALOG products = init_catalog();
-
+    Cat_Clientes costumers = init_cat_clientes();
+    Cat_Produtos products = init_cat_produtos();
     struct sale *sales[1000000];
 
-    convert_clients(clients);
-    convert_products(products);
-    validated = validate_sales(products,clients,sales);
+    leitura_ficheiros(costumers,products);
 
-    for(i = 0; i<validated; i++) {
-        if(sales[i]->price == 0) conta++;
-    }
-  
-    printf("COMPRAS DE PRECO 0: %d\n", conta);
-
-    end = clock();
-    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    int validated = validate_sales(products,costumers,sales);
+    
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     printf("TEMPO DECORRIDO: %lf seconds\n",time_spent);
-   
+    
     return 0;
 }

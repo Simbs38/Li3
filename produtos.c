@@ -1,36 +1,36 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
-
 #include "produtos.h"
 
-#define MAXBUFFERProducts  64
+
+struct catalogo_produtos {
+   AVL indice[26];
+};
 
 
-/* Coloca o ficheiro dos produtos em memória num array de AVL's */
+Cat_Produtos init_cat_produtos() {
 
-void convert_products(CATALOG products) {
-   FILE *fp;
-   char *information;
-   char line[MAXBUFFERProducts];
-   int index, counter = 0;
-
-   fp = fopen("./data/Produtos.txt","r");
-   
-   while(fgets(line,MAXBUFFERProducts,fp)) {
-      information = strtok(line,"\n\r");
-      index = information[0] -65;
-      products->avl_list[index] = insert(products->avl_list[index],information);
-      counter++;
-   }
-   printf("Numero de produtos validos: %d\n",counter);
-   fclose(fp);
+    Cat_Produtos cat = (struct catalogo_produtos*) malloc(sizeof(struct catalogo_produtos));
+    int i;
+    for(i = 0; i < 26; i++) {
+        cat->indice[i] = initAVL();
+    }
+    return cat;
 }
 
-int verify_product(AVL products, char* product) {
-   
-   int look_product = lookUp(products,product);
 
-   return look_product;
+/* Função que verifica se um dado produto existe no catalogo de produtos */
+
+int verify_exist_product(Cat_Produtos products, Produto product) {
+   
+   int index = product[0] - 'A';
+   int existe = avl_lookUp(products->indice[index],product);
+
+   return existe;
+}
+
+
+Cat_Produtos insere_produto(Cat_Produtos products, Produto prod) {
+    int index = prod[0] - 'A';
+    products->indice[index] = avl_insert(products->indice[index], prod, NULL);
+
+    return products;
 }
