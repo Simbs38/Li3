@@ -1,29 +1,31 @@
 #include "venda.h"
 
 struct venda {
-    char* produto;
+    Produto produto;
     double preco;
     int quantidade; 
     char promocao;
-    char* cliente;
+    Cliente cliente;
     int mes;
     int filial;
 };
 
 Venda initVenda() {
-	return NULL;
+    struct venda* sale = (struct venda*) malloc(sizeof(struct venda));
+    sale->produto = criaProduto("NA");
+    sale->cliente = criaCliente("NA");
+    return sale;
+	
 }
 
 Venda record_sale(char* product, double price, int quantity, char promotion, char* client, int month, int shop) {
 
     struct venda* sale = (struct venda*) malloc(sizeof(struct venda));
-    sale->produto = malloc(32);
-    strcpy(sale->produto,product);
+    sale->produto = criaProduto(product);
     sale->preco = price;
     sale->quantidade = quantity;
     sale->promocao = promotion;
-    sale->cliente = malloc(32);
-    strcpy(sale->cliente,client);
+    sale->cliente = criaCliente(client);
     sale->mes = month;
     sale->filial = shop;
     
@@ -32,19 +34,19 @@ Venda record_sale(char* product, double price, int quantity, char promotion, cha
 
 void change_sale(Venda sale, char* product, double price, int quantity, char promotion, char* client, int month, int shop) {
     
-    strcpy(sale->produto,product);
+    alteraProduto(sale->produto,product);
     sale->preco = price;
     sale->quantidade = quantity;
     sale->promocao = promotion;
-    strcpy(sale->cliente,client);
+    alteraCliente(sale->cliente,client);
     sale->mes = month;
     sale->filial = shop;
 }
 
-char* getProduto (Venda sale) {
+Produto getProduto(Venda sale) {
     return sale->produto;
 }
 
-char* getCliente (Venda sale) {
+Cliente getCliente(Venda sale) {
     return sale->cliente;
 }

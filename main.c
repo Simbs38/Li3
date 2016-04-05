@@ -6,6 +6,7 @@
 #include "clientes.h"
 #include "produtos.h"
 #include "leituras.h"
+#include "catalogo.h"
 
 int main() {
     

@@ -2,69 +2,60 @@
 
 #define NR_LETRAS 26
 
-struct catalogo_produtos {
-   AVL indice[NR_LETRAS];
+
+struct produto {
+  char* prod;
 };
 
-struct prod {
-  AVL produto;
+struct catalogo_produtos{
+  Catalogo catalogo;
 };
-
 
 Cat_Produtos init_cat_produtos() {
-
-    Cat_Produtos cat = (struct catalogo_produtos*) malloc(sizeof(struct catalogo_produtos));
-    int i;
-    for(i = 0; i < NR_LETRAS; i++) {
-        cat->indice[i] = initAVL();
-    }
-    return cat;
+  Cat_Produtos catalog = malloc(sizeof(struct catalogo_produtos));
+  catalog->catalogo = init_Catalogo();
+  return catalog;
 }
 
+Produto criaProduto(char* info) {
+	struct produto* product = (struct produto*) malloc(sizeof(struct produto));
+	product->prod = malloc(MAXSIZEPRODUTOS);
+  strcpy(product->prod,info);
+	return product;
+}
+
+void alteraProduto(Produto product, char *info) {
+  strcpy(product->prod,info);
+}
 
 /* Função que verifica se um dado produto existe no catalogo de produtos */
 
 Boolean existe_Produto(Cat_Produtos products, Produto product) {
-   
-   int index = product[0] - 'A';
-   Boolean existe = avl_lookUp(products->indice[index],product);
-
-   return existe;
+  return existe_Catalogo(products->catalogo,getNomeProduto(product));
 }
 
 
-Cat_Produtos insere_produto(Cat_Produtos products, Produto prod) {
-    int index = prod[0] - 'A';
-    products->indice[index] = avl_insert(products->indice[index], prod, NULL);
-
-    return products;
+Cat_Produtos insere_produto(Cat_Produtos products, Produto product) {
+  products->catalogo = insere_Catalogo(products->catalogo,getNomeProduto(product));
+  return products;
 }
 
 
 int total_Produtos(Cat_Produtos products) {
-  int i, total = 0;
-  for(i = 0; i < NR_LETRAS; i++) {
-    total += avl_count(products->indice[i]);
-  }
-  return total;
+  return total_elems_Catalogo(products->catalogo);
 }
 
 
 int total_Produtos_letra(Cat_Produtos products, char letra) {
-  
-  int total = 0;
-  int index = letra - 'A';
-   
-  total += avl_count(products->indice[index]);
-
-  return total;
+  return total_elems_letra(products->catalogo,letra);
 }
 
 
-
 void remove_Catalogo_Produtos(Cat_Produtos products) {
-  int i;
-  for(i = 0; i < NR_LETRAS; i++) {
-    avl_free(products->indice[i]);
-  }
-} 
+  remove_Catalogo(products->catalogo);
+  free(products);
+}
+
+char* getNomeProduto(Produto product) {
+  return product->prod;
+}

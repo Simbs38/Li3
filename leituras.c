@@ -1,4 +1,6 @@
 #include "leituras.h"
+#include "clientes.h"
+#include "produtos.h"
 
 static void convert_file_clients(Cat_Clientes costumers, FILE *f_clients);
 static void convert_file_products(Cat_Produtos products, FILE *f_prods);
@@ -31,7 +33,8 @@ static void convert_file_clients(Cat_Clientes costumers, FILE *f_clients) {
 
    while(fgets(line,MAXBUFFERCLIENTES,f_clients)) {
       information = strtok(line,"\n\r");
-      costumers = insere_cliente(costumers, information);
+      Cliente client = criaCliente(information);   
+      costumers = insere_Cliente(costumers, client);
       counter++;
    }
    printf("Numero de clientes Validados: %d\n",counter);
@@ -50,7 +53,8 @@ static void convert_file_products(Cat_Produtos products, FILE *f_prods) {
    
    while(fgets(line,MAXBUFFERPRODUTOS,f_prods)) {
       information = strtok(line,"\n\r");
-      products = insere_produto(products, information);
+      Produto prod = criaProduto(information);
+      products = insere_produto(products, prod);
       counter++;
    }
    printf("Numero de produtos validos: %d\n",counter);
@@ -94,7 +98,7 @@ static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, FI
          information = strtok(NULL," ");
       }
 
-      venda = record_sale(product,price,ammount,type,client,month,shop);
+      change_sale(venda,product,price,ammount,type,client,month,shop);
          
       /* Verifica a existencia do produto e do cliente de uma dada venda */
       
