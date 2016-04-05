@@ -8,10 +8,6 @@
 
 #include "avl.h"
 
-#define MAXBUFFERCompra  64
-
-
-
 typedef char* Compra;
 
 typedef struct info *INFO_FILIAL;
