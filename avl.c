@@ -11,6 +11,14 @@ struct nodeAVL {
 };
 
 
+static int height(AVL n);
+static int max(int a, int b);
+static AVL newNode(Valor info, void *estrutura);
+static AVL rightRotate(AVL y);
+static AVL leftRotate(AVL x);
+static int getBalance(AVL N);
+
+
 AVL initAVL() {
     return NULL;
 }
@@ -136,24 +144,31 @@ AVL avl_insert(AVL node, Valor info, void *estrutura) {
 
 /* Função que tem como funcionalidade a procura de um dado elemento na AVL */
 
-int avl_lookUp(AVL node, Valor value) {
+Boolean avl_lookUp(AVL node, Valor value) {
     int r;
-    if(node == NULL) return 0;
+    if(node == NULL) return false;
     else {
         r = strcmp(value,node->string);
-        if(r == 0) return 1;
+        if(r == 0) return true;
         else if(r < 0) avl_lookUp(node->left, value);
         else avl_lookUp(node->right,value);
     }
 }
 
+int avl_count(AVL node) {
+    int total;  
+    
+    if (node == NULL) return(0);
 
-void preOrder(AVL root)
-{
-    if(root != NULL)
-    {
-        printf("%s\n", root->string);
-        preOrder(root->left);
-        preOrder(root->right);
+    total = 1 + avl_count(node->left) + avl_count(node->right);
+
+    return total;   
+}
+
+void avl_free(AVL node) {
+    if(node != NULL) {
+        avl_free(node->left);
+        avl_free(node->right);
+        free(node);
     }
 }

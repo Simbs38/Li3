@@ -1,10 +1,9 @@
 #include "leituras.h"
 
-
 static void convert_file_clients(Cat_Clientes costumers, FILE *f_clients);
 static void convert_file_products(Cat_Produtos products, FILE *f_prods);
 static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, FILE *fp);
-static int validate_sale(Cat_Produtos products, Cat_Clientes costumers, Venda venda);
+static Boolean validate_sale(Cat_Produtos products, Cat_Clientes costumers, Venda venda);
 
 void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products) {
 	
@@ -46,7 +45,7 @@ static void convert_file_products(Cat_Produtos products, FILE *f_prods) {
 
    char *information;
    char line[MAXBUFFERPRODUTOS];
-   int index, counter = 0;
+   int counter = 0;
 
    
    while(fgets(line,MAXBUFFERPRODUTOS,f_prods)) {
@@ -64,7 +63,8 @@ static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, FI
    char line[MAXBUFFERVENDAS];
    char* information;
    
-   int i, verify, sales_yes = 0, index = 0, sales_no = 0, total = 0;
+   int i, sales_yes = 0, sales_no = 0, total = 0;
+   Boolean verify;
 
    char* product;
    double price;
@@ -105,7 +105,6 @@ static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, FI
       if(verify) {
          sales_yes++;
          total++;
-         index++;
       } else {
          total++;
          sales_no++;
@@ -120,6 +119,6 @@ static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, FI
 
 }
 
-static int validate_sale(Cat_Produtos products, Cat_Clientes costumers, Venda venda) {
-   return (verify_exist_product(products,getProduto(venda)) && verify_exist_client(costumers,getCliente(venda)) );
+static Boolean validate_sale(Cat_Produtos products, Cat_Clientes costumers, Venda venda) {
+   return (existe_Produto(products,getProduto(venda)) && existe_Cliente(costumers,getCliente(venda)) );
 }

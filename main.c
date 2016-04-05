@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "avl.h"
 #include "clientes.h"
 #include "produtos.h"
 #include "leituras.h"

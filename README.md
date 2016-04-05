@@ -1,4 +1,4 @@
-#Li3
+#Li3 GereVendas - Gestão de um Supermercado
 Projeto de LI3- Universidade do Minho 2015/2016
 
 * Aluno 1:

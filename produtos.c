@@ -6,6 +6,10 @@ struct catalogo_produtos {
    AVL indice[NR_LETRAS];
 };
 
+struct prod {
+  AVL produto;
+};
+
 
 Cat_Produtos init_cat_produtos() {
 
@@ -20,10 +24,10 @@ Cat_Produtos init_cat_produtos() {
 
 /* Função que verifica se um dado produto existe no catalogo de produtos */
 
-int verify_exist_product(Cat_Produtos products, Produto product) {
+Boolean existe_Produto(Cat_Produtos products, Produto product) {
    
    int index = product[0] - 'A';
-   int existe = avl_lookUp(products->indice[index],product);
+   Boolean existe = avl_lookUp(products->indice[index],product);
 
    return existe;
 }
@@ -35,3 +39,32 @@ Cat_Produtos insere_produto(Cat_Produtos products, Produto prod) {
 
     return products;
 }
+
+
+int total_Produtos(Cat_Produtos products) {
+  int i, total = 0;
+  for(i = 0; i < NR_LETRAS; i++) {
+    total += avl_count(products->indice[i]);
+  }
+  return total;
+}
+
+
+int total_Produtos_letra(Cat_Produtos products, char letra) {
+  
+  int total = 0;
+  int index = letra - 'A';
+   
+  total += avl_count(products->indice[index]);
+
+  return total;
+}
+
+
+
+void remove_Catalogo_Produtos(Cat_Produtos products) {
+  int i;
+  for(i = 0; i < NR_LETRAS; i++) {
+    avl_free(products->indice[i]);
+  }
+} 
