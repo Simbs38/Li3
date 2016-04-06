@@ -1,42 +1,63 @@
 #include "clientes.h"
 
-#define LETRAS 26
+#define NR_LETRAS 26
 
-struct catalogo_clientes {
-   AVL indice[LETRAS];
+struct cliente {
+  char* name;
 };
 
+struct catalogo_clientes {
+  Catalogo catalogo;
+};
 
-/* Coloca o ficheiro dos costumers em memória num array de AVL's */
+Cat_Clientes init_cat_clientes() {
+  Cat_Clientes catalog = malloc(sizeof(struct catalogo_clientes));
+  catalog->catalogo = init_Catalogo();
+  return catalog;
+}
+
+Cliente criaCliente(char* info) {
+  struct cliente* client = (struct cliente*) malloc(sizeof(struct cliente));
+  client->name = malloc(MAXBUFFERCLIENTES);
+  strcpy(client->name,info);
+  return client;
+}
 
 
-Cat_Clientes init_cat_clientes(){
+void alteraCliente(Cliente client, char *info) {
+  strcpy(client->name,info);
+}
 
-    Cat_Clientes catalog = malloc(sizeof(struct catalogo_clientes));
 
-    int i;
-    for(i = 0; i < LETRAS; i++) {
-        catalog->indice[i] = initAVL();
-    }
-    
-    return catalog;
+/* Função que verifica se um dado cliente existe no catalogo de clientes */
+
+
+Boolean existe_Cliente(Cat_Clientes clients, Cliente client) {
+  return existe_Catalogo(clients->catalogo,getNomeCliente(client));
+}
+
+
+Cat_Clientes insere_Cliente(Cat_Clientes clients, Cliente client) {
+  clients->catalogo = insere_Catalogo(clients->catalogo,getNomeCliente(client));
+  return clients;
 
 }
 
 
-int verify_exist_client(Cat_Clientes costumers, Cliente costumer) {
-   
-   int index = costumer[0] - 65; 
-   int look_costumer = avl_lookUp(costumers->indice[index],costumer);
-  
-   return look_costumer;
+int total_Clientes(Cat_Clientes clients) {
+  return total_elems_Catalogo(clients->catalogo);
 }
 
 
-Cat_Clientes insere_cliente(Cat_Clientes costumers, Cliente client) {
-    
-    int index = client[0] - 65;
-    costumers->indice[index] = avl_insert(costumers->indice[index], client, NULL); 
+int total_Clientes_letra(Cat_Clientes clients, char letra) {
+  return total_elems_letra(clients->catalogo,letra);
+}
 
-    return costumers;
+
+void remove_Catalogo_Clientes(Cat_Clientes clients) {
+  remove_Catalogo(clients->catalogo);
+}
+
+char* getNomeCliente(Cliente client) {
+  return client->name;
 }

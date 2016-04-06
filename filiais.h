@@ -8,6 +8,7 @@
 
 #include "avl.h"
 
+
 typedef char* Compra;
 
 typedef struct info *INFO_FILIAL;

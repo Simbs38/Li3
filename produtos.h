@@ -4,22 +4,24 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <time.h>
 
 #include "avl.h"
+#include "catalogo.h"
 
-#define MAXBUFFERProducts  64
+#define MAXSIZEPRODUTOS 64
 
 
 typedef struct catalogo_produtos *Cat_Produtos;
-typedef char* Produto;
-typedef AVL Produtos;
+typedef struct produto *Produto;
 
-
+Produto criaProduto(char* info);
+void alteraProduto(Produto product, char *info);
 Cat_Produtos init_cat_produtos();
 Cat_Produtos insere_produto(Cat_Produtos products, Produto prod);
-int verify_exist_product(Cat_Produtos products, Produto product);
-void imprime(Cat_Produtos products, int index);
-
+Boolean existe_Produto(Cat_Produtos products, Produto product);
+int total_Produtos(Cat_Produtos products);
+void remove_Catalogo_Produtos(Cat_Produtos products);
+int total_Produtos_letra(Cat_Produtos products, char letra);
+char* getNomeProduto(Produto product);
 
 #endif

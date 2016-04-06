@@ -1,54 +1,42 @@
 #include "filiais.h"
 
 #define LETRAS 26
+#define MESES 12
+#define FILIAIS 3
 /* Tuplo com os dois tipos de informaçoes, organizadas por produtos e por clientes */
 
 struct info{
-    AVL clientes;
-    AVL produtos;
+    struct catalogo *clientes;
+    struct catalogo *produtos;
+};
+
+struct catalogo {
+   AVL indice[26];
 };
 
 
 /*Estrutura que começa por ordenar os clientes e cria para cada um uma lista de produtos */
 
-struct Clientes {
-   AVL indice[LETRAS];
-};
-
-struct ClientesNode {
-    long Total[3];
+struct ClientesNode{
+    long Total[FILIAIS];
     void *nome;
-    struct ClientesNode *left;
-    struct ClientesNode *right;
-    int height;
-    AVL Produto_Cliente[12];
+    AVL Produto_Cliente[MESES];
 };
 
 /*Lista de produtos */
 
-struct Produto_Cliente_Node {
+struct Produto_Cliente_Node{
     void *produto;
     struct info_final *info;
-    struct nodeAVL *left;
-    struct nodeAVL *right;
-    int height;
 };
-
 
 /*Estrutura que começa por ordenar os produtos e cria para cada um uma lista de clientes */
 
-struct Produtos {
-   AVL indice[LETRAS];
-};
-
-struct ProdutosNode {
+struct ProdutosNode{
     void *nome;
-    long totalC[3];
-    long totalU[3];
-    struct nodeAVL *left;
-    struct nodeAVL *right;
-    int height;
-    AVL Clientes_Produto[3];
+    long totalU[FILIAIS];
+    long totalC[FILIAIS];
+    AVL Clientes_Produto[FILIAIS];
 };
 
 /*Lista de clientes */
@@ -56,13 +44,9 @@ struct ProdutosNode {
 struct Clientes_Produto_Node {
     void *cliente;
     struct info_final *info;
-    struct nodeAVL *left;
-    struct nodeAVL *right;
-    int height;
 };
 
 /* informaçao comun as duas estruturas */
-
 
 struct info_final{
     long quantidade_p, quantidade_n;
@@ -73,9 +57,17 @@ struct info_final{
 
 INFO_FILIAL init_info_filial() {
 
+    int i;
     INFO_FILIAL inf = (struct info*) malloc(sizeof(struct info));
-    inf->clientes=0;
-    inf->produtos=0;
+    struct catalogo* catc=(struct catalogo*) malloc(sizeof(struct catalogo));
+    struct catalogo* catp=(struct catalogo*) malloc(sizeof(struct catalogo));
+    for(i=0;i!=LETRAS;i++){
+        catc->indice[i]=NULL;
+        catc->indice[i]=NULL;
+    }
+
+    inf->clientes=catc;
+    inf->produtos=catp;
 
     return inf;
 
@@ -184,77 +176,66 @@ int getFilial(Compra compra){
 }
 
 
+
+
+
+INFO_FILIAL *init_inf(){
+    int i;
+    INFO_FILIAL inf = (struct info*) malloc(sizeof(struct info));
+    struct catalogo* catc=(struct catalogo*) malloc(sizeof(struct catalogo));
+    struct catalogo* catp=(struct catalogo*) malloc(sizeof(struct catalogo));
+
+    inf->clientes=catc;
+    inf->produtos=catp;
+
+    for(i=0;i!=LETRAS;i++){
+        catc[i]=NULL;
+        catp[i]=NULL;
+    }
+
+    return inf;
+
+}
+
+
+
+
+AVL full_init(){
+
+    
+        /*struct info_final inf=init_info_final();
+        struct Clientes_Produto_Node cpn=init_InfCliInProd();
+        struct Produto_Cliente_Node  pcn=init_InfProdInCli();
+        struct  init_AVLCliInProd();
+        init_AVLProdInCli();
+        init_InfProd();
+        init_InfCLi();
+        init_inf();*/
+        init_AVLProd();
+        init_AVLCli();
+        init_catalogos();
+        struct INFO_FILIAL *a =init_inf();
+
+    return a;
+}
+
+
 INFO_FILIAL insere_compra(INFO_FILIAL inf, Compra compra) {
     char *new;
     int index;
     new=getCompraProd(compra);
     index = new[0]-'A';
-    /*inf->produtos->indice[index] = compra_prod_insert(inf->produtos->indice[index], compra, NULL); */
+    if(inf->produtos->indice[index]==NULL) inf->produtos->indice[index]=full_init();
+    inf->produtos->indice[index] = compra_prod_insert(inf->produtos->indice[index], compra); 
 
     new=getCliente(compra);
     index= new[0]-'A';
-    /*inf->clientes->indice[index] = compra_prod_insert(inf->clientes->indice[index], compra, NULL); */
+    if(inf->clientes->indice[index]==NULL) inf->clientes->indice[index]=full_init();
+    inf->clientes->indice[index] = compra_prod_insert(inf->clientes->indice[index], compra); 
 
     return inf;
 }
 
 
 
-/*
-
-Função responsavel pela criação de um novo nodo 
-
-static AVL newNode(Valor info, void *estrutura) {
-    struct nodeAVL* node = (struct nodeAVL*) malloc(sizeof(struct nodeAVL));
-    node->string = malloc(32);
-    strcpy(node->string,info);
-    node->cont = estrutura;
-    node->left   = NULL;
-    node->right  = NULL;
-    node->height = 1;  
-    return(node);
-}
-
-
-AVL avl_insert(AVL node, Valor info, void *estrutura) {
-
-    if (node == NULL)
-        return(newNode(info,estrutura));
- 
-    if (strcmp(info,node->string) < 0)
-        node->left  = avl_insert(node->left, info, estrutura);
-    else
-        node->right = avl_insert(node->right, info, estrutura);
- 
-    /* Atualiza os pesos 
-    node->height = max(height(node->left), height(node->right)) + 1;
- 
-    /* Varifica o balanceamento 
-    int balance = getBalance(node);
- 
-    /* Left Left Case 
-    if (balance > 1 && strcmp(info,node->left->string) < 0)
-        return rightRotate(node);
- 
-    /* Right Right Case 
-    if (balance < -1 && strcmp(info,node->right->string) > 0)
-        return leftRotate(node);
- 
-    /* Left Right Case 
-    if (balance > 1 && strcmp(info,node->left->string) > 0)
-    {
-        node->left =  leftRotate(node->left);
-        return rightRotate(node);
-    }
-     /* Right Left Case 
-    if (balance < -1 && strcmp(info, node->right->string) < 0)
-    {
-        node->right = rightRotate(node->right);
-        return leftRotate(node);
-    }
- 
-    return node;
-}
-
-*/
 

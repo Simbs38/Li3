@@ -1,4 +1,4 @@
-CFLAGS= -ansi -O2
+CFLAGS= -ansi -O2 
 OBJS=$(wildcard *.h *.c)
 
 compile:$(OBJS)

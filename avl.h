@@ -8,10 +8,15 @@
 
 typedef char* Valor;
 typedef struct nodeAVL* AVL;
+typedef int Boolean;
+
+#define true 1
+#define false 0
 
 AVL initAVL();
 AVL avl_insert(AVL node, Valor string, void *estrutura);
-int avl_lookUp(AVL node, Valor value);
-void preOrder(AVL root);
+Boolean avl_lookUp(AVL node, Valor value);
+int avl_count(AVL node);
+void avl_free(AVL node);
 
 #endif
