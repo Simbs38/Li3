@@ -59,15 +59,11 @@ INFO_FILIAL init_info_filial() {
 
     int i;
     INFO_FILIAL inf = (struct info*) malloc(sizeof(struct info));
-    struct catalogo* catc=(struct catalogo*) malloc(sizeof(struct catalogo));
-    struct catalogo* catp=(struct catalogo*) malloc(sizeof(struct catalogo));
-    for(i=0;i!=LETRAS;i++){
-        catc->indice[i]=NULL;
-        catc->indice[i]=NULL;
-    }
+    struct catalogo* produtos=init_Catalogo();
+    struct catalogo* clientes=init_Catalogo();
 
-    inf->clientes=catc;
-    inf->produtos=catp;
+    inf->clientes=clientes;
+    inf->produtos=produtos;
 
     return inf;
 
@@ -179,30 +175,15 @@ int getFilial(Compra compra){
 
 
 
-INFO_FILIAL *init_inf(){
-    int i;
-    INFO_FILIAL inf = (struct info*) malloc(sizeof(struct info));
-    struct catalogo* catc=(struct catalogo*) malloc(sizeof(struct catalogo));
-    struct catalogo* catp=(struct catalogo*) malloc(sizeof(struct catalogo));
-
-    inf->clientes=catc;
-    inf->produtos=catp;
-
-    for(i=0;i!=LETRAS;i++){
-        catc[i]=NULL;
-        catp[i]=NULL;
-    }
-
-    return inf;
-
-}
 
 
 
 
-AVL full_init(){
+INFO_FILIAL *full_init(){
 
-    
+        
+        struct INFO_FILIAL *a=init_info_filial();
+
         /*struct info_final inf=init_info_final();
         struct Clientes_Produto_Node cpn=init_InfCliInProd();
         struct Produto_Cliente_Node  pcn=init_InfProdInCli();
@@ -210,28 +191,36 @@ AVL full_init(){
         init_AVLProdInCli();
         init_InfProd();
         init_InfCLi();
-        init_inf();*/
+        init_inf();
         init_AVLProd();
         init_AVLCli();
         init_catalogos();
-        struct INFO_FILIAL *a =init_inf();
+        struct INFO_FILIAL *a =init_inf();*/
 
     return a;
 }
 
 
-INFO_FILIAL insere_compra(INFO_FILIAL inf, Compra compra) {
+INFO_FILIAL *insere_compra(INFO_FILIAL *inf, Compra compra) {
     char *new;
     int index;
     new=getCompraProd(compra);
     index = new[0]-'A';
-    if(inf->produtos->indice[index]==NULL) inf->produtos->indice[index]=full_init();
-    inf->produtos->indice[index] = compra_prod_insert(inf->produtos->indice[index], compra); 
+    if(inf==NULL) inf=full_init();
+    
+
+    /*FAZER UMA INSERE AQUI*/
+
+
 
     new=getCliente(compra);
     index= new[0]-'A';
-    if(inf->clientes->indice[index]==NULL) inf->clientes->indice[index]=full_init();
-    inf->clientes->indice[index] = compra_prod_insert(inf->clientes->indice[index], compra); 
+    if(inf==NULL) inf=full_init();
+     
+
+
+    /*FAZER UMA INSERE AQUI*/
+
 
     return inf;
 }

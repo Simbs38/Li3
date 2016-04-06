@@ -7,6 +7,7 @@
 #include <time.h>
 
 #include "avl.h"
+#include "catalogo.h"
 
 
 typedef char* Compra;

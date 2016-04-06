@@ -10,7 +10,7 @@ struct fatura_produto {
 
 struct faturacao {
 	AVL indice[26];
-}
+};
 
 
 Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
