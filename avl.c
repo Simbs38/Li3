@@ -17,6 +17,7 @@ static AVL newNode(Valor info, void *estrutura);
 static AVL rightRotate(AVL y);
 static AVL leftRotate(AVL x);
 static int getBalance(AVL N);
+static AVL atualiza_avl(AVL node, void* estrutura);
 
 
 AVL initAVL() {
@@ -102,16 +103,16 @@ static int getBalance(AVL N) {
  
 /* Função com o objetivo de inserir uma nova informação na arvore */
 
-AVL avl_insert(AVL node, Valor info, void *estrutura) {
+AVL avl_insert(AVL node, Valor info, Estrutura estrutura) {
 
     if (node == NULL)
         return(newNode(info,estrutura));
  
     if (strcmp(info,node->string) < 0)
         node->left  = avl_insert(node->left, info, estrutura);
-    else
+    else if(strcmp(info,node->string) > 0)
         node->right = avl_insert(node->right, info, estrutura);
- 
+    else node = atualiza_avl(node,estrutura);
     /* Atualiza os pesos */
     node->height = max(height(node->left), height(node->right)) + 1;
  
@@ -171,4 +172,30 @@ void avl_free(AVL node) {
         avl_free(node->right);
         free(node);
     }
+}
+
+
+AVL avl_clone(AVL node) {
+    
+    AVL nova = avl_insert(nova,node->string, NULL);
+    nova->left = avl_clone(node->left);
+    nova->right = avl_clone(node->right);
+
+    return nova;
+}
+
+void* avl_getEstrutura(AVL node, Valor value) {
+    int r;
+    if(node == NULL) return NULL;
+    else {
+        r = strcmp(value,node->string);
+        if(r == 0) return node->cont;
+        else if(r < 0) avl_getEstrutura(node->left, value);
+        else avl_getEstrutura(node->right,value);
+    }
+}
+
+static AVL atualiza_avl(AVL node, void* estrutura) {
+    node->cont = estrutura;
+    return node;
 }

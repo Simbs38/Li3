@@ -6,6 +6,7 @@ struct catalogo {
    AVL indice[NR_LETRAS];
 };
 
+
 Catalogo init_Catalogo() {
 
     Catalogo cat = (struct catalogo*) malloc(sizeof(struct catalogo));
@@ -16,6 +17,7 @@ Catalogo init_Catalogo() {
     return cat;
 }
 
+
 Boolean existe_Catalogo(Catalogo catalogo, char* key) {
    
    int index = key[0] - 'A';
@@ -24,12 +26,14 @@ Boolean existe_Catalogo(Catalogo catalogo, char* key) {
    return existe;
 }
 
-Catalogo insere_Catalogo(Catalogo catalogo, char* key) {
+
+Catalogo insere_Catalogo(Catalogo catalogo, char* key, void* estrutura) {
     int index = key[0] - 'A';
     catalogo->indice[index] = avl_insert(catalogo->indice[index], key, NULL);
 
     return catalogo;
 }
+
 
 int total_elems_Catalogo(Catalogo catalogo) {
   int i, total = 0;
@@ -56,4 +60,19 @@ void remove_Catalogo(Catalogo catalogo) {
   for(i = 0; i < NR_LETRAS; i++) {
     avl_free(catalogo->indice[i]);
   }
+}
+
+
+Catalogo clone_Catalogo(Catalogo catalogo) {
+  int i;
+  Catalogo novo = init_Catalogo();
+  for(i = 0; i < NR_LETRAS; i++) {
+    novo->indice[i] = avl_clone(catalogo->indice[i]);
+  }
+  return novo;
+}
+
+void* getEstrutura_Catalogo(Catalogo catalogo, char* key) {
+  int index = key[0] - 'A';
+  return avl_getEstrutura(catalogo->indice[index],key);
 }

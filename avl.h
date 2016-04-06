@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <time.h>
 
+typedef void* Estrutura;
 typedef char* Valor;
 typedef struct nodeAVL* AVL;
 typedef int Boolean;
@@ -14,9 +15,11 @@ typedef int Boolean;
 #define false 0
 
 AVL initAVL();
-AVL avl_insert(AVL node, Valor string, void *estrutura);
+AVL avl_insert(AVL node, Valor string, Estrutura estrutura);
 Boolean avl_lookUp(AVL node, Valor value);
 int avl_count(AVL node);
 void avl_free(AVL node);
+AVL avl_clone(AVL node);
+void* avl_getEstrutura(AVL node, Valor value);
 
 #endif

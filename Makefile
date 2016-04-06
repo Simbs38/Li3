@@ -4,6 +4,9 @@ OBJS=$(wildcard *.h *.c)
 compile:$(OBJS)
 		$(CC) $(CFLAGS) -o gereVendas $(OBJS) 
 
+run:
+	./gereVendas
+
 doc:$(OBJS)
 		doxygen
 

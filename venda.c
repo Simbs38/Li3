@@ -11,7 +11,7 @@ struct venda {
 };
 
 Venda initVenda() {
-    struct venda* sale = (struct venda*) malloc(sizeof(struct venda));
+    Venda sale = (struct venda*) malloc(sizeof(struct venda));
     sale->produto = criaProduto("NA");
     sale->cliente = criaCliente("NA");
     return sale;
@@ -20,7 +20,7 @@ Venda initVenda() {
 
 Venda record_sale(char* product, double price, int quantity, char promotion, char* client, int month, int shop) {
 
-    struct venda* sale = (struct venda*) malloc(sizeof(struct venda));
+    Venda sale = (struct venda*) malloc(sizeof(struct venda));
     sale->produto = criaProduto(product);
     sale->preco = price;
     sale->quantidade = quantity;

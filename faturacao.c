@@ -2,25 +2,26 @@
 
 
 struct fatura_produto {
-	int quantidades[12][12];
+	int quantidades[12][6];
 	double precos[12][6];
 	int total_vendas;
 };
 
 
 struct faturacao {
-	AVL indice[26];
+	Catalogo faturas;
+
 };
 
 
-Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
-	int index = getProduto(venda)[0] - 'A';
-	contas = avl_insere(contas->indice[index],getProduto(venda),cria_Fatura(venda));
-} 
+Faturacao init_Faturacao() {
+	Faturacao fat = (Faturacao) malloc(sizeof(struct faturacao));
+	fat->faturas = init_Catalogo();
+	return fat;
+}
 
-Fatura cria_Fatura (Venda venda) {
-	
-	struct fatura_produto* fatura = (struct fatura_produto*) malloc(sizeof(struct fatura_produto));
 
-	
+Faturacao cria_Dados_Faturacao(Faturacao fat, Cat_Produtos prods) {
+	fat->faturas = clone_Catalogo(get_Catalogo(prods));
+	return fat;
 }
