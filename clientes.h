@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <string.h> 
 #include <stdlib.h>
-#include <time.h>
 
 #include "avl.h"
 #include "catalogo.h"
@@ -22,6 +21,7 @@ Boolean existe_Cliente(Cat_Clientes clients, Cliente costumer);
 int total_Clientes(Cat_Clientes clients);
 void remove_Catalogo_Clientes(Cat_Clientes clients);
 int total_Clientes_letra(Cat_Clientes clients, char letra);
+Cat_Clientes clone_Catalogo_Clientes(Cat_Clientes clients);
 char* getNomeCliente(Cliente client);
 
 #endif

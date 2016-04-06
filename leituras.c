@@ -1,13 +1,11 @@
 #include "leituras.h"
-#include "clientes.h"
-#include "produtos.h"
 
 static void convert_file_clients(Cat_Clientes costumers, FILE *f_clients);
 static void convert_file_products(Cat_Produtos products, FILE *f_prods);
 static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, FILE *fp);
 static Boolean validate_sale(Cat_Produtos products, Cat_Clientes costumers, Venda venda);
 
-void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products) {
+void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products,Faturacao contas) {
 	
    FILE *f_clients;
    FILE *f_prods;

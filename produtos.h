@@ -22,6 +22,8 @@ Boolean existe_Produto(Cat_Produtos products, Produto product);
 int total_Produtos(Cat_Produtos products);
 void remove_Catalogo_Produtos(Cat_Produtos products);
 int total_Produtos_letra(Cat_Produtos products, char letra);
+Cat_Produtos clone_Catalogo_Produtos(Cat_Produtos products);
 char* getNomeProduto(Produto product);
+Catalogo get_Catalogo(Cat_Produtos products);
 
 #endif

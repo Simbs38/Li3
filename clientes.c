@@ -6,9 +6,11 @@ struct cliente {
   char* name;
 };
 
+
 struct catalogo_clientes {
   Catalogo catalogo;
 };
+
 
 Cat_Clientes init_cat_clientes() {
   Cat_Clientes catalog = malloc(sizeof(struct catalogo_clientes));
@@ -16,8 +18,9 @@ Cat_Clientes init_cat_clientes() {
   return catalog;
 }
 
+
 Cliente criaCliente(char* info) {
-  struct cliente* client = (struct cliente*) malloc(sizeof(struct cliente));
+  Cliente client = (struct cliente*) malloc(sizeof(struct cliente));
   client->name = malloc(MAXBUFFERCLIENTES);
   strcpy(client->name,info);
   return client;
@@ -37,7 +40,7 @@ Boolean existe_Cliente(Cat_Clientes clients, Cliente client) {
 
 
 Cat_Clientes insere_Cliente(Cat_Clientes clients, Cliente client) {
-  clients->catalogo = insere_Catalogo(clients->catalogo,getNomeCliente(client));
+  clients->catalogo = insere_Catalogo(clients->catalogo,getNomeCliente(client),NULL);
   return clients;
 }
 
@@ -56,6 +59,13 @@ void remove_Catalogo_Clientes(Cat_Clientes clients) {
   remove_Catalogo(clients->catalogo);
 }
 
+
 char* getNomeCliente(Cliente client) {
   return client->name;
+}
+
+Cat_Clientes clone_Catalogo_Clientes(Cat_Clientes clients) {
+  Cat_Clientes novo;
+  novo->catalogo = clone_Catalogo(clients->catalogo);
+  return novo;
 }

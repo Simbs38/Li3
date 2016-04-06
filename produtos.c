@@ -7,9 +7,11 @@ struct produto {
   char* prod;
 };
 
+
 struct catalogo_produtos{
   Catalogo catalogo;
 };
+
 
 Cat_Produtos init_cat_produtos() {
   Cat_Produtos catalog = malloc(sizeof(struct catalogo_produtos));
@@ -17,16 +19,22 @@ Cat_Produtos init_cat_produtos() {
   return catalog;
 }
 
+
 Produto criaProduto(char* info) {
-	struct produto* product = (struct produto*) malloc(sizeof(struct produto));
+	Produto product = (struct produto*) malloc(sizeof(struct produto));
 	product->prod = malloc(MAXSIZEPRODUTOS);
   strcpy(product->prod,info);
 	return product;
 }
 
+char* getNomeProduto(Produto product) {
+  return product->prod;
+}
+
 void alteraProduto(Produto product, char *info) {
   strcpy(product->prod,info);
 }
+
 
 /* Função que verifica se um dado produto existe no catalogo de produtos */
 
@@ -36,7 +44,7 @@ Boolean existe_Produto(Cat_Produtos products, Produto product) {
 
 
 Cat_Produtos insere_produto(Cat_Produtos products, Produto product) {
-  products->catalogo = insere_Catalogo(products->catalogo,getNomeProduto(product));
+  products->catalogo = insere_Catalogo(products->catalogo,getNomeProduto(product),NULL);
   return products;
 }
 
@@ -56,6 +64,12 @@ void remove_Catalogo_Produtos(Cat_Produtos products) {
   free(products);
 }
 
-char* getNomeProduto(Produto product) {
-  return product->prod;
+Cat_Produtos clone_Catalogo_Produtos(Cat_Produtos products) {
+  Cat_Produtos novo;
+  novo->catalogo = clone_Catalogo(products->catalogo);
+  return novo;
+}
+
+Catalogo get_Catalogo(Cat_Produtos products) {
+  return products->catalogo;
 }
