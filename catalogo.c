@@ -1,17 +1,20 @@
 #include "catalogo.h"
 
 #define NR_LETRAS 26
+#define MAXBUFFER 32
 
 struct catalogo {
-   AVL indice[NR_LETRAS];
+   AVL indice[MAXBUFFER];
+   int n;
 };
 
 
-Catalogo init_Catalogo() {
+Catalogo init_Catalogo(int n) {
 
     Catalogo cat = (struct catalogo*) malloc(sizeof(struct catalogo));
     int i;
-    for(i = 0; i < NR_LETRAS; i++) {
+    cat->n=n;
+    for(i = 0; i < n; i++) {
         cat->indice[i] = initAVL();
     }
     return cat;
@@ -65,7 +68,7 @@ void remove_Catalogo(Catalogo catalogo) {
 
 Catalogo clone_Catalogo(Catalogo catalogo) {
   int i;
-  Catalogo novo = init_Catalogo();
+  Catalogo novo = init_Catalogo(catalogo->n);
   for(i = 0; i < NR_LETRAS; i++) {
     novo->indice[i] = avl_clone(catalogo->indice[i]);
   }

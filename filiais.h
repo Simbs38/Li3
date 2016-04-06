@@ -8,6 +8,7 @@
 
 #include "avl.h"
 #include "catalogo.h"
+#include "compra.h"
 
 
 typedef char* Compra;
