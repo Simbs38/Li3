@@ -1,16 +1,17 @@
 #include "compra.h"
 
+#define MAXBUFFERCLIENTES 32
+
 
 char *getProd(Compra compra){
     int i;
 
-    char *stuff;
-    char new[6];
+    char *new;
 
     for(i=0;i!=6;i++)new[i]=compra[i];
 
-    strcpy(new,stuff);
-    return stuff;
+
+    return new;
 }
 
 

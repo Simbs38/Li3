@@ -53,10 +53,10 @@ struct info_final{
 
 
 
-INFO_FILIAL *init_info_filial() {
+struct info *init_info_filial() {
 
     int i;
-    INFO_FILIAL inf = (struct info*) malloc(sizeof(struct info));
+    struct info *inf = (struct info*) malloc(sizeof(struct info));
     struct catalogo* produtos=init_Catalogo(NR_LETRAS);
     struct catalogo* clientes=init_Catalogo(NR_LETRAS);
 
@@ -67,11 +67,11 @@ INFO_FILIAL *init_info_filial() {
 
 }
 
-struct ProdutosNode *init_infoprod(){
+struct ProdutosNode *init_infoprod(Compra compra){
 
     int i;
     struct ProdutosNode* node = (struct ProdutosNode*) malloc(sizeof(struct ProdutosNode));
-    node->nome=getProd();
+    node->nome=NULL;
     for(i=0;i!=FILIAIS;i++){
         node->totalU[i]=0;
         node->totalC[i]=0;
@@ -88,13 +88,13 @@ struct ProdutosNode *init_infoprod(){
 
 
 
-INFO_FILIAL *full_init(){
+struct info *full_init(){
 
         
-        struct INFO_FILIAL *a=init_info_filial();
+        struct info *a=init_info_filial();
         AVL prod= initAVL();
         AVL cli= initAVL();
-        /*init_infoprod*/
+        /*init_infoprod()*/
         AVL cliToProd=initAVL();
         /*init_infoCliInProd*/
         /*init_info_last*/
@@ -109,7 +109,7 @@ INFO_FILIAL *full_init(){
 }
 
 
-INFO_FILIAL *insere_compra(INFO_FILIAL *inf, Compra compra) {
+struct info *insere_compra(struct info *inf, Compra compra) {
     char *new;
     int index;
     new=getProd(compra);
