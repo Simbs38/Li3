@@ -18,6 +18,7 @@ int main() {
     Cat_Clientes costumers = init_cat_clientes();
     Cat_Produtos products = init_cat_produtos();
 	Faturacao contas = init_Faturacao();
+
     leitura_ficheiros(costumers,products,contas);
     
     clock_t end = clock();
