@@ -21,5 +21,6 @@ int avl_count(AVL node);
 void avl_free(AVL node);
 AVL avl_clone(AVL node);
 void* avl_getEstrutura(AVL node, Valor value);
+void preOrder(AVL root);
 
 #endif

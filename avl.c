@@ -177,11 +177,18 @@ void avl_free(AVL node) {
 
 AVL avl_clone(AVL node) {
     
-    AVL nova = avl_insert(nova,node->string, NULL);
-    nova->left = avl_clone(node->left);
-    nova->right = avl_clone(node->right);
+    AVL aux = malloc(sizeof(struct nodeAVL));
+        
+    if(node) {
+        aux->string = malloc(32);
+        strcpy(aux->string,node->string); 
+        aux->height = node->height;
+        aux->left = avl_clone(node->left);
+        aux->right = avl_clone(node->right);
+    }
+    else aux = NULL;
 
-    return nova;
+    return aux;
 }
 
 void* avl_getEstrutura(AVL node, Valor value) {
@@ -198,4 +205,12 @@ void* avl_getEstrutura(AVL node, Valor value) {
 static AVL atualiza_avl(AVL node, void* estrutura) {
     node->cont = estrutura;
     return node;
+}
+
+void preOrder(AVL root) {
+    if(root != NULL) {
+        printf("%s\n", root->string);
+        preOrder(root->left);
+        preOrder(root->right);
+    }
 }

@@ -29,7 +29,7 @@ Boolean existe_Catalogo(Catalogo catalogo, char* key) {
 
 Catalogo insere_Catalogo(Catalogo catalogo, char* key, void* estrutura) {
     int index = key[0] - 'A';
-    catalogo->indice[index] = avl_insert(catalogo->indice[index], key, NULL);
+    catalogo->indice[index] = avl_insert(catalogo->indice[index], key, estrutura);
 
     return catalogo;
 }
@@ -75,4 +75,11 @@ Catalogo clone_Catalogo(Catalogo catalogo) {
 void* getEstrutura_Catalogo(Catalogo catalogo, char* key) {
   int index = key[0] - 'A';
   return avl_getEstrutura(catalogo->indice[index],key);
+}
+
+void imprime_Catalogo(Catalogo catalogo) {
+  int i;
+  for(i = 0; i < 26; i++) {
+    preOrder(catalogo->indice[i]);
+  }
 }

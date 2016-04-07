@@ -16,5 +16,8 @@ typedef struct faturacao *Faturacao;
 
 Faturacao init_Faturacao();
 Faturacao cria_Dados_Faturacao(Faturacao fact, Cat_Produtos);
+Fatura_Produto init_Fatura_Produto();
+Faturacao adiciona_Fatura(Faturacao contas, Venda venda);
+void imprime_estrutura(Fatura_Produto fatura);
 
 #endif

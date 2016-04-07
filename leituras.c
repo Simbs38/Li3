@@ -2,10 +2,10 @@
 
 static void convert_file_clients(Cat_Clientes costumers, FILE *f_clients);
 static void convert_file_products(Cat_Produtos products, FILE *f_prods);
-static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, FILE *fp);
+static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, FILE *fp);
 static Boolean validate_sale(Cat_Produtos products, Cat_Clientes costumers, Venda venda);
 
-void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products,Faturacao contas) {
+void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao contas) {
 	
    FILE *f_clients;
    FILE *f_prods;
@@ -17,7 +17,8 @@ void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products,Faturacao c
 
    convert_file_clients(costumers,f_clients);
    convert_file_products(products,f_prods);
-   convert_file_sales(products,costumers,f_sales);
+   contas = cria_Dados_Faturacao(contas,products);
+   convert_file_sales(products,costumers,contas,f_sales);
 }
 
 
@@ -60,7 +61,7 @@ static void convert_file_products(Cat_Produtos products, FILE *f_prods) {
 }
 
 
-static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, FILE *f_sales) {
+static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas ,FILE *f_sales) {
    
    char line[MAXBUFFERVENDAS];
    char* information;
@@ -105,6 +106,7 @@ static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, FI
       /* Caso verifique adiciona á estrutura das vendas a venda validada nessa monthma iteração */
 
       if(verify) {
+         faturas = adiciona_Fatura(faturas,venda);
          sales_yes++;
          total++;
       } else {

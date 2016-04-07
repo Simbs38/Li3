@@ -43,10 +43,39 @@ void change_sale(Venda sale, char* product, double price, int quantity, char pro
     sale->filial = shop;
 }
 
+
 Produto getProduto(Venda sale) {
     return sale->produto;
 }
 
+
 Cliente getCliente(Venda sale) {
     return sale->cliente;
 }
+
+
+int getMes(Venda sale) {
+    return sale->mes;
+}
+
+
+int getFilial(Venda sale) {
+    return sale->filial;
+}
+
+
+int getQuantidade(Venda sale) {
+    return sale->quantidade;
+}
+
+
+char getPromocao(Venda sale) {
+    return sale->promocao;
+}
+
+
+double getPreco(Venda sale) {
+    return sale->preco;
+}
+
+
