@@ -1,10 +1,9 @@
 #include "catalogo.h"
 
 #define NR_LETRAS 26
-#define MAXBUFFER 32
 
 struct catalogo {
-   AVL indice[MAXBUFFER];
+   AVL indice[NR_LETRAS];
    int n;
 };
 
@@ -33,7 +32,6 @@ Boolean existe_Catalogo(Catalogo catalogo, char* key) {
 Catalogo insere_Catalogo(Catalogo catalogo, char* key, void* estrutura) {
     int index = key[0] - 'A';
     catalogo->indice[index] = avl_insert(catalogo->indice[index], key, NULL);
-
     return catalogo;
 }
 

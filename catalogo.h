@@ -5,7 +5,7 @@
 
 typedef struct catalogo *Catalogo;
 
-Catalogo init_Catalogo();
+Catalogo init_Catalogo(int n);
 Boolean existe_Catalogo(Catalogo catalogo, char* key);
 Catalogo insere_Catalogo(Catalogo catalogo, char* key, void* estrutura);
 int total_elems_Catalogo(Catalogo catalogo);

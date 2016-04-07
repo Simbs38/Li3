@@ -14,7 +14,7 @@ struct catalogo_clientes {
 
 Cat_Clientes init_cat_clientes() {
   Cat_Clientes catalog = malloc(sizeof(struct catalogo_clientes));
-  catalog->catalogo = init_Catalogo();
+  catalog->catalogo = init_Catalogo(NR_LETRAS);
   return catalog;
 }
 

@@ -1,5 +1,6 @@
 #include "faturacao.h"
 
+#define NR_LETRAS 26
 
 struct fatura_produto {
 	int quantidades[12][6];
@@ -16,7 +17,7 @@ struct faturacao {
 
 Faturacao init_Faturacao() {
 	Faturacao fat = (Faturacao) malloc(sizeof(struct faturacao));
-	fat->faturas = init_Catalogo();
+	fat->faturas = init_Catalogo(NR_LETRAS);
 	return fat;
 }
 

@@ -6,9 +6,10 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "venda.h"
 #include "avl.h"
 #include "catalogo.h"
-#include "compra.h"
+
 
 
 typedef char* Compra;

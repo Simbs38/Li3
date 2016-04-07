@@ -15,7 +15,7 @@ struct catalogo_produtos{
 
 Cat_Produtos init_cat_produtos() {
   Cat_Produtos catalog = malloc(sizeof(struct catalogo_produtos));
-  catalog->catalogo = init_Catalogo();
+  catalog->catalogo = init_Catalogo(NR_LETRAS);
   return catalog;
 }
 
