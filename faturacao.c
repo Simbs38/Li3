@@ -1,6 +1,6 @@
 #include "faturacao.h"
 
-
+#define NR_LETRAS 26
 #define NORMAL 0
 #define PROMOCAO 1
 

@@ -166,19 +166,19 @@ struct info *full_init(Venda  sale){
         ClientesDosProdutos->info=final;
 
         char indice;
-        indice='A'+MESES-1;
+        indice='A'+getMes(sale)-1;
         Informacao_Clientes_Inicial->Produto_Cliente=insere_Catalogo(Informacao_Clientes_Inicial->Produto_Cliente,&indice,AVL_ClientesDosProdutos);
         
-        indice='A'+FILIAIS-1;
+        indice='A'+getFilial(sale)-1;
         Informacao_Produtos_Inicial->Clientes_Produto=insere_Catalogo(Informacao_Produtos_Inicial->Clientes_Produto,&indice,AVL_ProdutosDosClientes);
 
         avl_insert(AVL_Produtos_Inicial,getNomeProduto(getProduto(sale)),Informacao_Produtos_Inicial);
         avl_insert(AVL_Clientes_Inicial,getNomeCliente(getCliente(sale)),Informacao_Clientes_Inicial);
 
 
-        indice='A'+NR_LETRAS-1; /*ISTO TA MAL*/
+        indice='A'+getNomeCliente(getCliente(sale))[0]; 
         Catalogo_Clientes=insere_Catalogo(Catalogo_Clientes,&indice,AVL_Clientes_Inicial);
-        indice='A'+NR_LETRAS-1; /*ISTO TA MAL*/
+        indice='A'+getNomeProduto(getProduto(sale))[0];
         Catalogo_Produtos=insere_Catalogo(Catalogo_Produtos,&indice,AVL_Produtos_Inicial);
 
 
