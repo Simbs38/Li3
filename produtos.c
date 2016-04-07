@@ -20,11 +20,10 @@ Cat_Produtos init_cat_produtos() {
 }
 
 
-Produto criaProduto(char* info) {
+Produto criaProduto() {
 	Produto product = (struct produto*) malloc(sizeof(struct produto));
 	product->prod = malloc(MAXSIZEPRODUTOS);
-  strcpy(product->prod,info);
-	return product;
+  return product;
 }
 
 char* getNomeProduto(Produto product) {

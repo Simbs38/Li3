@@ -13,6 +13,5 @@ int total_elems_letra(Catalogo catalogo, char letra);
 void remove_Catalogo(Catalogo catalogo);
 Catalogo clone_Catalogo(Catalogo catalogo);
 void* getEstrutura_Catalogo(Catalogo catalogo, char* key);
-void imprime_Catalogo(Catalogo catalogo);
 
 #endif
