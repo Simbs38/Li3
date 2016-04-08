@@ -75,14 +75,8 @@ Catalogo clone_Catalogo(Catalogo catalogo) {
   return novo;
 }
 
+
 void* getEstrutura_Catalogo(Catalogo catalogo, char* key) {
   int index = key[0] - 'A';
   return avl_getEstrutura(catalogo->indice[index],key);
-}
-
-void imprime_Catalogo(Catalogo catalogo) {
-  int i;
-  for(i = 0; i < 26; i++) {
-    preOrder(catalogo->indice[i]);
-  }
 }

@@ -22,5 +22,4 @@ int getQuantidade(Venda sale);
 char getPromocao(Venda sale);
 double getPreco(Venda sale);
 
-
 #endif

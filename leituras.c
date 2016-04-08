@@ -1,9 +1,14 @@
 #include "leituras.h"
 
+
+
 static void convert_file_clients(Cat_Clientes costumers, FILE *f_clients);
 static void convert_file_products(Cat_Produtos products, FILE *f_prods);
 static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, FILE *fp);
+
 static Boolean validate_sale(Cat_Produtos products, Cat_Clientes costumers, Venda venda);
+
+
 
 void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao contas) {
 	
@@ -16,9 +21,10 @@ void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao 
    f_sales = fopen("./data/Vendas_1M.txt","r");
 
    convert_file_clients(costumers,f_clients);
-   convert_file_products(products,f_prods);
+   convert_file_products(products,f_prods);   
    contas = cria_Dados_Faturacao(contas,products);
    convert_file_sales(products,costumers,contas,f_sales);
+   
 }
 
 
@@ -29,16 +35,18 @@ static void convert_file_clients(Cat_Clientes costumers, FILE *f_clients) {
    char *information;
    char line[MAXBUFFERCLIENTES];
    int counter = 0;
-
+   Cliente client = criaCliente();
+   
    while(fgets(line,MAXBUFFERCLIENTES,f_clients)) {
       information = strtok(line,"\n\r");
-      Cliente client = criaCliente(information);   
+      alteraCliente(client,information);   
       costumers = insere_Cliente(costumers, client);
       counter++;
    }
    printf("Numero de clientes Validados: %d\n",counter);
    fclose(f_clients);
 }
+
 
 
 /* Coloca o ficheiro dos produtos em memória num array de AVL's */
@@ -48,17 +56,18 @@ static void convert_file_products(Cat_Produtos products, FILE *f_prods) {
    char *information;
    char line[MAXBUFFERPRODUTOS];
    int counter = 0;
-
+   Produto prod = criaProduto();
    
    while(fgets(line,MAXBUFFERPRODUTOS,f_prods)) {
       information = strtok(line,"\n\r");
-      Produto prod = criaProduto(information);
+      alteraProduto(prod,information);
       products = insere_produto(products, prod);
       counter++;
    }
    printf("Numero de produtos validos: %d\n",counter);
    fclose(f_prods);
 }
+
 
 
 static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas ,FILE *f_sales) {
@@ -113,6 +122,7 @@ static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, Fa
          total++;
          sales_no++;
       }
+
    }
    
    fclose(f_sales);

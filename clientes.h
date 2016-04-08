@@ -13,15 +13,17 @@
 typedef struct catalogo_clientes *Cat_Clientes;
 typedef struct cliente *Cliente;
 
-Cliente criaCliente(char* info);
-void alteraCliente(Cliente client, char *info);
 Cat_Clientes init_cat_clientes();
 Cat_Clientes insere_Cliente(Cat_Clientes clients, Cliente client);
-Boolean existe_Cliente(Cat_Clientes clients, Cliente costumer);
-int total_Clientes(Cat_Clientes clients);
-void remove_Catalogo_Clientes(Cat_Clientes clients);
-int total_Clientes_letra(Cat_Clientes clients, char letra);
 Cat_Clientes clone_Catalogo_Clientes(Cat_Clientes clients);
+Boolean existe_Cliente(Cat_Clientes clients, Cliente costumer);
+void remove_Catalogo_Clientes(Cat_Clientes clients);
+int total_Clientes(Cat_Clientes clients);
+int total_Clientes_letra(Cat_Clientes clients, char letra);
+
+Cliente criaCliente();
+void alteraCliente(Cliente client, char *info);
 char* getNomeCliente(Cliente client);
+
 
 #endif

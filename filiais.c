@@ -13,24 +13,21 @@ struct info{
 
 /*Estrutura que começa por ordenar os clientes e cria para cada um uma lista de produtos */
 
-struct ClientesNode{
+struct clientesNode{
     long total[FILIAIS];
-    char *nome;
     struct catalogo *Produto_Cliente;
     /*catalogo tamanho MESES*/
 };
 
 /*Lista de produtos */
 
-struct Produto_Cliente_Node{
-    char *produto;
+struct produtos_Cliente_Node{
     struct info_final *info;
 };
 
 /*Estrutura que começa por ordenar os produtos e cria para cada um uma lista de clientes */
 
-struct ProdutosNode{
-    char *nome;
+struct produtosNode{
     long totalU[FILIAIS];
     long totalC[FILIAIS];
     struct catalogo* Clientes_Produto;
@@ -39,8 +36,7 @@ struct ProdutosNode{
 
 /*Lista de clientes */
 
-struct Clientes_Produto_Node {
-    char *cliente;
+struct clientes_Produto_Node {
     struct info_final *info;
 };
 
@@ -53,12 +49,12 @@ struct info_final{
 
 
 
-struct info *init_info_filial() {
+INFO_FILIAL init_info_filial() {
 
     int i;
-    struct info *inf = (struct info*) malloc(sizeof(struct info));
-    struct catalogo* produtos=init_Catalogo(NR_LETRAS);
-    struct catalogo* clientes=init_Catalogo(NR_LETRAS);
+    INFO_FILIAL inf = (INFO_FILIAL) malloc(sizeof(struct info));
+    Catalogo produtos=init_Catalogo(NR_LETRAS);
+    Catalogo clientes=init_Catalogo(NR_LETRAS);
 
     inf->clientes=clientes;
     inf->produtos=produtos;
@@ -67,33 +63,31 @@ struct info *init_info_filial() {
 
 }
 
-struct ProdutosNode *init_infoprod(){
+ProdutosNode init_infoprod(){
 
     int i;
-    struct ProdutosNode* node = (struct ProdutosNode*) malloc(sizeof(struct ProdutosNode));
-    node->nome=NULL;
+    ProdutosNode node = (ProdutosNode) malloc(sizeof(struct produtosNode));
     for(i=0;i!=FILIAIS;i++){
         node->totalU[i]=0;
         node->totalC[i]=0;
     }
 
-    struct catalogo* clientes=init_Catalogo(FILIAIS);    
+    Catalogo clientes=init_Catalogo(FILIAIS);    
     node->Clientes_Produto=clientes;
 
     return node;
 
 }
 
-struct ClientesNode *init_infocli(){
+ClientesNode init_infocli(){
 
     int i;
-    struct ClientesNode* node = (struct ClientesNode*) malloc(sizeof(struct ClientesNode));
-    node->nome=NULL;
+    ClientesNode node = (ClientesNode) malloc(sizeof(struct clientesNode));
     for(i=0;i!=FILIAIS;i++){
         node->total[i]=0;
     }
 
-    struct catalogo* produtos=init_Catalogo(MESES);    
+    Catalogo produtos=init_Catalogo(MESES);    
     node->Produto_Cliente=produtos;
 
     return node;
@@ -101,33 +95,30 @@ struct ClientesNode *init_infocli(){
 }
 
 
-struct Clientes_Produto_Node *init_infoCliInProd(){
-    struct Clientes_Produto_Node *clipro = (struct Clientes_Produto_Node*) malloc(sizeof(struct Clientes_Produto_Node));
-    clipro->cliente="NA";
-
-    clipro->info=NULL;
-
+Clientes_Produto_Node init_infoCliInProd(){
+    Clientes_Produto_Node clipro = (Clientes_Produto_Node) malloc(sizeof(struct clientes_Produto_Node));
     return clipro;
-
 }
 
-struct Produto_Cliente_Node *init_infoProdInCli(){
-    struct Produto_Cliente_Node *procli = (struct Produto_Cliente_Node*) malloc(sizeof(struct Produto_Cliente_Node));
-    procli->produto="NA";
-
-    procli->info=NULL;
-
+Produtos_Cliente_Node init_infoProdInCli(){
+    Produtos_Cliente_Node procli = (Produtos_Cliente_Node) malloc(sizeof(struct produtos_Cliente_Node));
     return procli;
-
 }
 
 
-struct info_final *init_infolast(){
-    struct info_final *final = (struct info_final *) malloc(sizeof(struct info_final));
-    final->quantidade_n=0;
-    final->quantidade_p=0;
-    final->preco_n=0;
-    final->preco_p=0;
+Info_Final init_infolast(Venda sale){
+    Info_Final final = (Info_Final) malloc(sizeof(struct info_final));
+    if(getPromocao(sale)=='N'){
+        final->quantidade_n=getQuantidade(sale);
+        final->quantidade_p=0;
+        final->preco_n=getPreco(sale)*getQuantidade(sale);
+        final->preco_p=0;}
+    else{
+        final->quantidade_n=0;
+        final->quantidade_p=getQuantidade(sale);
+        final->preco_n=0;
+        final->preco_p=getPreco(sale)*getQuantidade(sale);}
+
 
     return final;
 
@@ -138,79 +129,102 @@ struct info_final *init_infolast(){
 
 
 
-struct info *full_init(Venda  sale){
+INFO_FILIAL full_init(Venda  sale){
 
         
-        /**/struct info *Estrutura_Geral=init_info_filial();
+    INFO_FILIAL Estrutura_Geral=init_info_filial();
+    Catalogo Catalogo_Clientes =init_Catalogo(NR_LETRAS);
+    Catalogo Catalogo_Produtos =init_Catalogo(NR_LETRAS);
+    ProdutosNode Informacao_Produtos_Inicial=init_infoprod();
+    Produtos_Cliente_Node ProdutosDosClientes= init_infoProdInCli();
+    ClientesNode Informacao_Clientes_Inicial=init_infocli();       
+    Clientes_Produto_Node ClientesDosProdutos= init_infoCliInProd();
+    Info_Final final=init_infolast(sale);
 
-        /**/struct catalogo *Catalogo_Clientes =init_Catalogo(NR_LETRAS);
-        /**/struct catalogo *Catalogo_Produtos =init_Catalogo(NR_LETRAS);
+    ProdutosDosClientes->info=final;
+    ClientesDosProdutos->info=final;
 
-        /**/AVL AVL_Produtos_Inicial= initAVL();
-        /**/AVL AVL_Clientes_Inicial= initAVL();
-
-        /**/struct ProdutosNode *Informacao_Produtos_Inicial=init_infoprod();
-        
-        AVL AVL_ClientesDosProdutos=initAVL();
-        struct Produto_Cliente_Node *ProdutosDosClientes= init_infoProdInCli();
-
-        /**/struct ClientesNode *Informacao_Clientes_Inicial=init_infocli();
-        
-        AVL AVL_ProdutosDosClientes= initAVL();
-        /**/struct Clientes_Produto_Node *ClientesDosProdutos= init_infoCliInProd();
-        struct info_final *final=init_infolast();
-
-        
-
-        ProdutosDosClientes->info=final;
-        ClientesDosProdutos->info=final;
-
-        char indice;
-        indice='A'+getMes(sale)-1;
-        Informacao_Clientes_Inicial->Produto_Cliente=insere_Catalogo(Informacao_Clientes_Inicial->Produto_Cliente,&indice,AVL_ClientesDosProdutos);
-        
-        indice='A'+getFilial(sale)-1;
-        Informacao_Produtos_Inicial->Clientes_Produto=insere_Catalogo(Informacao_Produtos_Inicial->Clientes_Produto,&indice,AVL_ProdutosDosClientes);
-
-        avl_insert(AVL_Produtos_Inicial,getNomeProduto(getProduto(sale)),Informacao_Produtos_Inicial);
-        avl_insert(AVL_Clientes_Inicial,getNomeCliente(getCliente(sale)),Informacao_Clientes_Inicial);
+    char indice;
+    indice='A'+getNomeCliente(getCliente(sale))[0]; 
+    Catalogo_Clientes=insere_Catalogo(Catalogo_Clientes,getNomeCliente(getCliente(sale)),Informacao_Clientes_Inicial);
+    indice='A'+getNomeProduto(getProduto(sale))[0];
+    Catalogo_Produtos=insere_Catalogo(Catalogo_Produtos,getNomeProduto(getProduto(sale)),Informacao_Produtos_Inicial);
 
 
-        indice='A'+getNomeCliente(getCliente(sale))[0]; 
-        Catalogo_Clientes=insere_Catalogo(Catalogo_Clientes,&indice,AVL_Clientes_Inicial);
-        indice='A'+getNomeProduto(getProduto(sale))[0];
-        Catalogo_Produtos=insere_Catalogo(Catalogo_Produtos,&indice,AVL_Produtos_Inicial);
-
-
-        Estrutura_Geral->clientes=Catalogo_Clientes;
-        Estrutura_Geral->produtos=Catalogo_Produtos;
-
-
+    Estrutura_Geral->clientes=Catalogo_Clientes;
+    Estrutura_Geral->produtos=Catalogo_Produtos;
 
     return Estrutura_Geral;
 }
 
 
-struct info *insere_compra(struct info *inf,Venda sale) {
 
-    int index;
+Info_Final update_infolast(Venda sale){
+    Info_Final final = (Info_Final) malloc(sizeof(struct info_final));
+    if(getPromocao(sale)=='N'){
+                /*Preço Normal*/
+                final->quantidade_n+=getQuantidade(sale);
+                final->preco_n+=getPreco(sale);
+                }
+            else{
+                /*Promoção*/
+                final->quantidade_p+=getQuantidade(sale);
+                final->preco_p+=getPreco(sale);
+            }
+
+
+    return final;
+
+}
+
+
+
+
+
+
+
+INFO_FILIAL insere_compra(INFO_FILIAL inf,Venda sale) {
+
+    int index,i;
     index = getNomeProduto(getProduto(sale))[0]-'A';
-    if(inf==NULL) inf=full_init(sale);
+
+    if(avl_lookup(inf->produtos,getNomeProduto(getProduto(sale)))){
+        /*Produto existe*/
+        index=getNomeProduto(getProduto(sale))[0]-'A';
+        ProdutosNode node =avl_getEstrutura(inf->produtos->indice[index],getNomeProduto(getProduto(sale)));
+        node->totalU[getFILIAL(sale)]+=getQuantidade(sale);
+        if(avl_lookup(node->Clientes_Produto,getNomeCliente(getCliente(sale)))){
+            /*Cliente existe*/
+            Clientes_Produto_Node nodeAux=avl_getEstrutura(node->Clientes_Produto->indice[getNomeCliente(getCliente(sale))],getNomeCliente(getCliente(sale)));
+            nodeAux->info=update_infolast(sale);
+        }
+        else{
+            /*Cliente novo*/
+            node->totalC[getFILIAL(sale)]++;
+            Info_Final last =init_infolast(sale);
+            avl_insert(node->Clientes_Produto->indice[getFILIAL(sale)],getNomeCliente(getCliente(sale)),last);
+            }    
+        }
     
+    else{
+        /*Produto Novo*/
+        ProdutosNode node=init_infoprod();
+        inf->produtos->indice[getNomeProduto(getProduto(sale))[0]-'A']->string=getNomeProduto(getProduto(sale));
+        node->totalU[getFILIAL(sale)]+=getQuantidade(sale);
+        
 
-    /*FAZER UMA INSERE AQUI*/
-    /*inserir cenas em A+mes ou A+filial*/
+        node->totalC[getFILIAL(sale)]++;
+        Info_Final last =init_infolast(sale);
+        avl_insert(node->Clientes_Produto->indice[getNomeCliente(getCliente(sale))],getNomeCliente(getCliente(sale)),last);
 
 
+        Clientes_Produto_Node nodeAux=avl_getEstrutura(node->Clientes_Produto->indice[getNomeCliente(getCliente(sale))],getNomeCliente(getCliente(sale)));
+        nodeAux->info=update_infolast(sale);
+    }
+        
 
     index= getNomeCliente(getCliente(sale))[0]-'A';
-    if(inf==NULL) inf=full_init(sale);
-     
-
-
-    /*FAZER UMA INSERE AQUI*/
-
-
+    
     return inf;
 }
 

@@ -10,23 +10,71 @@ struct nodeAVL {
     int height;
 };
 
+struct avl {
+    NODO arvore;
+    int avl_tamanho; 
+};
 
-static int height(AVL n);
+
+static int height(NODO n);
 static int max(int a, int b);
-static AVL newNode(Valor info, void *estrutura);
-static AVL rightRotate(AVL y);
-static AVL leftRotate(AVL x);
-static int getBalance(AVL N);
-static AVL atualiza_avl(AVL node, void* estrutura);
+static NODO newNode(Valor info, void *estrutura);
+static NODO rightRotate(NODO y);
+static NODO leftRotate(NODO x);
+static int getBalance(NODO N);
+static NODO atualiza_avl(NODO node, void* estrutura);
+static NODO node_insert(NODO node, Valor string, Estrutura estrutura);
+static Boolean node_lookUp(NODO node, Valor value);
+static NODO tree_clone(NODO node);
+static void tree_free(NODO node);
+static Estrutura node_getEstrutura(NODO node, Valor value);
+
 
 
 AVL initAVL() {
-    return NULL;
+    AVL tree = malloc(sizeof(struct avl));
+    tree->arvore = NULL;
+    tree->avl_tamanho = 0;
+    return tree;
 }
+
+
+AVL avl_insert(AVL tree, Valor key, Estrutura estrutura) {
+    tree->arvore = node_insert(tree->arvore,key,estrutura);
+    tree->avl_tamanho ++;
+    return tree;
+}
+
+Boolean avl_lookUp(AVL tree, Valor value) {
+    return node_lookUp(tree->arvore,value);
+}
+
+
+int avl_count(AVL tree) {
+    return tree->avl_tamanho;
+}
+
+AVL avl_clone(AVL node) {
+    AVL tree = malloc(sizeof(struct avl));
+    tree->arvore = tree_clone(node->arvore);
+    tree->avl_tamanho = node->avl_tamanho;
+    return tree;  
+}
+
+Estrutura avl_getEstrutura(AVL node, Valor value) {
+    return node_getEstrutura(node->arvore,value);
+}
+
+void avl_free(AVL nodo) {
+    tree_free(nodo->arvore);
+    free(nodo);
+}
+
+
 
 /* Função que devolve a altura de um dado nodo de uma AVL */
 
-static int height(AVL n) {
+static int height(NODO n) {
     if (n == NULL)
         return 0;
     return n->height;
@@ -42,7 +90,7 @@ static int max(int a, int b) {
 
 /* Função responsavel pela criação de um novo nodo */
 
-static AVL newNode(Valor info, void *estrutura) {
+static NODO newNode(Valor info, void *estrutura) {
     struct nodeAVL* node = (struct nodeAVL*) malloc(sizeof(struct nodeAVL));
     node->string = malloc(32);
     strcpy(node->string,info);
@@ -54,10 +102,10 @@ static AVL newNode(Valor info, void *estrutura) {
 }
 
 
-static AVL rightRotate(AVL y) {
+static NODO rightRotate(NODO y) {
 
-    AVL x = y->left;
-    AVL T2 = x->right;
+    NODO x = y->left;
+    NODO T2 = x->right;
     
     /* Rotações */
 
@@ -74,10 +122,10 @@ static AVL rightRotate(AVL y) {
 
 
 
-static AVL leftRotate(AVL x) {
+static NODO leftRotate(NODO x) {
 
-    AVL y = x->right;
-    AVL T2 = y->left;
+    NODO y = x->right;
+    NODO T2 = y->left;
  
     /* Rotações */
 
@@ -95,7 +143,7 @@ static AVL leftRotate(AVL x) {
 
 /* Retorna o balanceamento da arvore, estando a arvore balanceada para valores retornados entre -1 e 1 */
 
-static int getBalance(AVL N) {
+static int getBalance(NODO N) {
     if (N == NULL)
         return 0;
     return height(N->left) - height(N->right);
@@ -103,15 +151,15 @@ static int getBalance(AVL N) {
  
 /* Função com o objetivo de inserir uma nova informação na arvore */
 
-AVL avl_insert(AVL node, Valor info, Estrutura estrutura) {
+static NODO node_insert(NODO node, Valor info, Estrutura estrutura) {
 
     if (node == NULL)
         return(newNode(info,estrutura));
  
     if (strcmp(info,node->string) < 0)
-        node->left  = avl_insert(node->left, info, estrutura);
+        node->left  = node_insert(node->left, info, estrutura);
     else if(strcmp(info,node->string) > 0)
-        node->right = avl_insert(node->right, info, estrutura);
+        node->right = node_insert(node->right, info, estrutura);
     else node = atualiza_avl(node,estrutura);
     /* Atualiza os pesos */
     node->height = max(height(node->left), height(node->right)) + 1;
@@ -145,72 +193,57 @@ AVL avl_insert(AVL node, Valor info, Estrutura estrutura) {
 
 /* Função que tem como funcionalidade a procura de um dado elemento na AVL */
 
-Boolean avl_lookUp(AVL node, Valor value) {
+static Boolean node_lookUp(NODO node, Valor value) {
     int r;
     if(node == NULL) return false;
     else {
         r = strcmp(value,node->string);
         if(r == 0) return true;
-        else if(r < 0) avl_lookUp(node->left, value);
-        else avl_lookUp(node->right,value);
-    }
-}
-
-int avl_count(AVL node) {
-    int total;  
-    
-    if (node == NULL) return(0);
-
-    total = 1 + avl_count(node->left) + avl_count(node->right);
-
-    return total;   
-}
-
-void avl_free(AVL node) {
-    if(node != NULL) {
-        avl_free(node->left);
-        avl_free(node->right);
-        free(node);
+        else if(r < 0) node_lookUp(node->left, value);
+        else node_lookUp(node->right,value);
     }
 }
 
 
-AVL avl_clone(AVL node) {
+static NODO tree_clone(NODO node) {
     
-    AVL aux = malloc(sizeof(struct nodeAVL));
+    NODO aux = malloc(sizeof(struct nodeAVL));
         
     if(node) {
         aux->string = malloc(32);
         strcpy(aux->string,node->string); 
         aux->height = node->height;
-        aux->left = avl_clone(node->left);
-        aux->right = avl_clone(node->right);
+        aux->cont = node->cont;
+        aux->left = tree_clone(node->left);
+        aux->right = tree_clone(node->right);
     }
     else aux = NULL;
 
     return aux;
 }
 
-void* avl_getEstrutura(AVL node, Valor value) {
+
+static NODO atualiza_avl(NODO node, Estrutura estrutura) {
+    node->cont = estrutura;
+    return node;
+}
+
+static Estrutura node_getEstrutura(NODO node, Valor value) {
     int r;
     if(node == NULL) return NULL;
     else {
         r = strcmp(value,node->string);
         if(r == 0) return node->cont;
-        else if(r < 0) avl_getEstrutura(node->left, value);
-        else avl_getEstrutura(node->right,value);
+        else if(r < 0) node_getEstrutura(node->left, value);
+        else node_getEstrutura(node->right,value);
     }
 }
 
-static AVL atualiza_avl(AVL node, void* estrutura) {
-    node->cont = estrutura;
-    return node;
-}
 
-void preOrder(AVL root) {
-    if(root != NULL) {
-        printf("%s\n", root->string);
-        preOrder(root->left);
-        preOrder(root->right);
+static void tree_free(NODO node) {
+    if(node != NULL) {
+        tree_free(node->left);
+        tree_free(node->right);
+        free(node);
     }
 }

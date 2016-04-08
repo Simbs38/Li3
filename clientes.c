@@ -19,10 +19,9 @@ Cat_Clientes init_cat_clientes() {
 }
 
 
-Cliente criaCliente(char* info) {
+Cliente criaCliente() {
   Cliente client = (struct cliente*) malloc(sizeof(struct cliente));
   client->name = malloc(MAXBUFFERCLIENTES);
-  strcpy(client->name,info);
   return client;
 }
 
