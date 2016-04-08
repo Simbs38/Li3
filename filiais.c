@@ -15,7 +15,7 @@ struct info{
 
 struct clientesNode{
     long total[FILIAIS];
-    Catalogo Produto_Cliente;
+    Catalogo Produtos_Cliente;
     /*catalogo tamanho MESES*/
 };
 
@@ -88,7 +88,7 @@ ClientesNode init_infocli(){
     }
 
     Catalogo produtos=init_Catalogo(MESES);    
-    node->Produto_Cliente=produtos;
+    node->Produtos_Cliente=produtos;
 
     return node;
 
@@ -178,13 +178,7 @@ Info_Final update_infolast(Venda sale){
 }
 
 
-
-
-
-
-
-INFO_FILIAL insere_compra(INFO_FILIAL inf,Venda sale) {
-
+INFO_FILIAL insere_produto_estrutura(INFO_FILIAL inf, Venda sale){
     int index,i;
     index = getNomeProduto(getProduto(sale))[0]-'A';
 
@@ -221,9 +215,59 @@ INFO_FILIAL insere_compra(INFO_FILIAL inf,Venda sale) {
         Clientes_Produto_Node nodeAux=avl_getEstrutura(node->Clientes_Produto->indice[getNomeCliente(getCliente(sale))],getNomeCliente(getCliente(sale)));
         nodeAux->info=update_infolast(sale);
     }
+
+    return inf;
+}
+
+INFO_FILIAL insere_cliente_estrutura(INFO_FILIAL inf, Venda sale){
+    int index,i;
+    index = getNomeCliente(getCliente(sale))[0]-'A';
+
+    if(avl_lookup(inf->produtos,getNomeCliente(getCliente(sale)))){
+        /*Cliente existe*/
+        index=getNomeCliente(getCliente(sale))[0]-'A';
+        ClientesNode node =avl_getEstrutura(inf->produtos->indice[index],getNomeCliente(getCliente(sale)));
+        node->total[getFILIAL(sale)]+=getQuantidade(sale)*getPreco(sale);
+        if(avl_lookup(node->Produtos_Cliente,getNomeProduto(getProduto(sale)))){
+            /*Produto existe*/
+            Produtos_Cliente_Node nodeAux=avl_getEstrutura(node->Produtos_Cliente->indice[getNomeProduto(getProduto(sale))],getNomeProduto(getProduto(sale)));
+            nodeAux->info=update_infolast(sale);
+        }
+        else{
+            /*Produto novo*/
+            node->total[getFILIAL(sale)]+=getQuantidade(sale)*getPreco(sale);
+            Info_Final last =init_infolast(sale);
+            avl_insert(node->Produtos_Cliente->indice[getFILIAL(sale)],getNomeCliente(getCliente(sale)),last);
+            }    
+        }
+    
+    else{
+        /*Cliente Novo*/
+        ClientesNode node=init_infocli();
+        inf->clientes->indice[getNomeCliente(getCliente(sale))[0]-'A']->string=getNomeCliente(getCliente(sale));
+        node->total[getFILIAL(sale)]+=getQuantidade(sale)*getPreco(sale);
         
 
-    index= getNomeCliente(getCliente(sale))[0]-'A';
+        Info_Final last =init_infolast(sale);
+        avl_insert(node->Produtos_Cliente->indice[getNomeCliente(getCliente(sale))],getNomeCliente(getCliente(sale)),last);
+
+
+        Produtos_Cliente_Node nodeAux=avl_getEstrutura(node->Produtos_Cliente->indice[getNomeCliente(getCliente(sale))],getNomeCliente(getCliente(sale)));
+    }
+
+    return inf;
+}
+
+
+
+
+
+
+INFO_FILIAL insere_compra(INFO_FILIAL inf,Venda sale) {
+
+    int index,i;
+    inf=insere_produto_estrutura(inf,sale);
+    inf=insere_cliente_estrutura(inf,sale);
     
     return inf;
 }
