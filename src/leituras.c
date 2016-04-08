@@ -1,4 +1,4 @@
-#include "leituras.h"
+#include "./headers/leituras.h"
 
 
 
@@ -22,8 +22,8 @@ void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao 
 
    convert_file_clients(costumers,f_clients);
    convert_file_products(products,f_prods);   
-   contas = cria_Dados_Faturacao(contas,products);
-   convert_file_sales(products,costumers,contas,f_sales);
+   /*contas = cria_Dados_Faturacao(contas,products);
+   */convert_file_sales(products,costumers,contas,f_sales);
    
 }
 

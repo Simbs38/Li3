@@ -1,4 +1,4 @@
-#include "catalogo.h"
+#include "./headers/catalogo.h"
 
 #define NR_LETRAS 26
 

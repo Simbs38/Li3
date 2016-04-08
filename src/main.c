@@ -3,12 +3,10 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "clientes.h"
-#include "produtos.h"
-#include "leituras.h"
-#include "catalogo.h"
-#include "faturacao.h"
-#include "avl.h"
+#include "./headers/clientes.h"
+#include "./headers/produtos.h"
+#include "./headers/leituras.h"
+#include "./headers/faturacao.h"
 
 int main() {
 

@@ -1,4 +1,4 @@
-#include "avl.h"
+#include "./headers/avl.h"
 
 /* Estrutura definida para um nodo de uma AVL */
 
