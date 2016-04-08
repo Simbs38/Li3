@@ -6,9 +6,10 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "catalogo.h"
 #include "venda.h"
 #include "avl.h"
-#include "catalogo.h"
+
 
 
 

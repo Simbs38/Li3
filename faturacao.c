@@ -23,7 +23,7 @@ Faturacao init_Faturacao() {
 	int i;
 	Faturacao fat = (Faturacao) malloc(sizeof(struct faturacao));
 	for(i = 0; i < NR_MESES; i++) {
-		fat->meses[i] = init_Catalogo();
+		fat->meses[i] = init_Catalogo(NR_LETRAS);
 	}
 	return fat;
 }

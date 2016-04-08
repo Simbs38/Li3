@@ -6,8 +6,8 @@
 /* Tuplo com os dois tipos de informaçoes, organizadas por produtos e por clientes */
 
 struct info{
-    struct catalogo *clientes;
-    struct catalogo *produtos;
+    Catalogo clientes;
+    Catalogo produtos;
 };
 
 
@@ -15,14 +15,14 @@ struct info{
 
 struct clientesNode{
     long total[FILIAIS];
-    struct catalogo *Produto_Cliente;
+    Catalogo Produto_Cliente;
     /*catalogo tamanho MESES*/
 };
 
 /*Lista de produtos */
 
 struct produtos_Cliente_Node{
-    struct info_final *info;
+    Info_Final info;
 };
 
 /*Estrutura que começa por ordenar os produtos e cria para cada um uma lista de clientes */
@@ -30,14 +30,14 @@ struct produtos_Cliente_Node{
 struct produtosNode{
     long totalU[FILIAIS];
     long totalC[FILIAIS];
-    struct catalogo* Clientes_Produto;
+    Catalogo Clientes_Produto;
     /*catalogo tamanho FILIAIS*/
 };
 
 /*Lista de clientes */
 
 struct clientes_Produto_Node {
-    struct info_final *info;
+    Info_Final info;
 };
 
 /* informaçao comun as duas estruturas */
