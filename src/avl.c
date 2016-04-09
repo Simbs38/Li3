@@ -1,6 +1,8 @@
 #include "./headers/avl.h"
 
-/* Estrutura definida para um nodo de uma AVL */
+/*******
+Estruturas
+*******/
 
 struct nodeAVL {
     Valor string;
@@ -15,6 +17,15 @@ struct avl {
     int avl_tamanho; 
 };
 
+struct lista {
+    char** array;
+    int pos;
+    int capacidade;
+};
+
+/************
+FUNCOES OCULTAS AO UTILIZADOR
+************/
 
 static int height(NODO n);
 static int max(int a, int b);
@@ -29,6 +40,14 @@ static NODO tree_clone(NODO node);
 static void tree_free(NODO node);
 static Estrutura node_getEstrutura(NODO node, Valor value);
 
+
+static Lista converte_aux(Lista list, NODO tree);
+static Lista lista_insert(Lista conjunto ,char* valor);
+
+
+/******
+FUNCOES DE AVL'S
+*******/
 
 
 AVL initAVL() {
@@ -70,6 +89,9 @@ void avl_free(AVL nodo) {
     free(nodo);
 }
 
+/***********
+FUNCOES QUE TRABALHAM COM UM "NODO"
+***********/
 
 
 /* Função que devolve a altura de um dado nodo de uma AVL */
@@ -245,5 +267,100 @@ static void tree_free(NODO node) {
         tree_free(node->left);
         tree_free(node->right);
         free(node);
+    }
+}
+
+
+
+/************
+FUNCOES RELATIVAS AOS ARRAYS DINAMICOS
+********/
+
+Lista init_Lista(int size) {
+    Lista conjunto = (Lista) malloc(sizeof(struct lista));
+    conjunto->array = (char**) malloc(size *sizeof(char*));
+    conjunto->pos = 0;
+    conjunto->capacidade = size;
+    return conjunto;
+}
+
+static Lista lista_insert(Lista conjunto ,char* valor) {
+    
+    int posicao = conjunto->pos;
+    
+    if(conjunto->pos == (conjunto->capacidade - 1)) {
+        conjunto->capacidade *= 2;
+        conjunto->array = realloc(conjunto->array,conjunto->capacidade *sizeof(char *));
+    }
+
+
+    conjunto->array[posicao] = malloc(10);
+    strncpy(conjunto->array[posicao],valor,strlen(valor));
+    conjunto->pos++;
+
+    return conjunto;
+}
+
+Lista lista_converte(Lista list, AVL tree) {
+    list = converte_aux(list,tree->arvore);
+    return list;
+}
+
+static Lista converte_aux(Lista list, NODO tree) {
+    if(tree != NULL) {
+        list = converte_aux(list,tree->left);
+        list = lista_insert(list,tree->string);
+        list = converte_aux(list,tree->right);   
+    }
+    return list;
+}
+
+void apresenta_Lista(Lista list) {
+    int i;
+    int input;
+    int estado = 1;
+    int nr_de_elementos = list->pos;
+
+    if(nr_de_elementos == 0) estado = 0;
+    
+    int elementos_pagina = 20;
+    
+    
+    int last_pagina = nr_de_elementos % elementos_pagina;
+    
+    int total_paginas = (last_pagina == 0) ? (nr_de_elementos / elementos_pagina) : ((nr_de_elementos / elementos_pagina) + 1); 
+
+    int nr_pagina = 1;
+
+    while(estado) {
+
+        printf("\e[1;1H\e[2J");
+        printf("Número total de elementos: %d\n",nr_de_elementos);
+        printf(" --- Página número |%d| de |%d| ---\n", nr_pagina,total_paginas);
+        
+
+        for(i = (nr_pagina-1) * elementos_pagina; i < (nr_pagina * elementos_pagina) && i < nr_de_elementos; i++) {
+            printf("\t%d\t%s\n",i+1,list->array[i]);
+        }
+
+        putchar('\n');
+        printf(" 1 - [<<]  2 - [<]  3 - [>]  4 - [>>]   0 - Sair\n");
+        putchar('\n');
+        printf("Opcao numero > ");
+        input = scanf("%d",&estado);
+
+        switch(estado) {
+            case 0: break;
+            case 1: nr_pagina = 1;
+
+            case 2: if(nr_pagina > 1) nr_pagina --;
+                   break;
+            case 3: if(nr_pagina < total_paginas) nr_pagina++;
+                   break;
+            case 4: nr_pagina = total_paginas;
+            default:printf("Opção não valida\n"); 
+                    break;
+        }
+
     }
 }

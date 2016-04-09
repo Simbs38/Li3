@@ -8,13 +8,13 @@
 struct fatura_produto {
 	int total_vendas;
 	double total_faturacao;
-	int quantidades[2][3];
-	double precos[2][3];
+	int quantidades[12][3][2]; /* quantidades[meses][filiais][normal/promocao] */
+	double precos[12][3][2];
 };
 
 
 struct faturacao {
-	Catalogo meses[12];
+	Catalogo meses;
 };
 
 
@@ -22,31 +22,28 @@ struct faturacao {
 Faturacao init_Faturacao() {
 	int i;
 	Faturacao fat = (Faturacao) malloc(sizeof(struct faturacao));
-	for(i = 0; i < NR_MESES; i++) {
-		fat->meses[i] = init_Catalogo(NR_LETRAS);
-	}
+	fat->meses = init_Catalogo(NR_MESES);
 	return fat;
 }
 
 
 Faturacao cria_Dados_Faturacao(Faturacao fat, Cat_Produtos prods) {
-	int i;
-	for (i = 0; i < NR_MESES; i++) {
-		fat->meses[i] = clone_Catalogo(get_Catalogo(prods));
-	}
+		fat->meses = clone_Catalogo(get_Catalogo(prods));
 	return fat;
 }
 
 
 Fatura_Produto init_Fatura_Produto() {
-	int i, j;
+	int i, j, k;
 	Fatura_Produto fatura = (Fatura_Produto) malloc(sizeof(struct fatura_produto));
 	fatura->total_vendas = 0;
 	fatura->total_faturacao = 0;
-	for(i = 0; i < 2; i++) {
-		for(j = 0; j < 3; j++) {
-			fatura->quantidades[i][j] = 0;
-			fatura->precos[i][j] = 0;
+	for(i = 0; i < 12; i++) {
+		for(j = 0; i < 3; i++) {
+			for(k = 0; j < 2; j++) {
+				fatura->quantidades[i][j][k] = 0;
+				fatura->precos[i][j][k] = 0;
+			}
 		}
 	}
 	return fatura;
@@ -65,17 +62,17 @@ Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 	double price = getPreco(venda);
 	double custo = quantidades * price;
 	
-	Fatura_Produto estrutura = getEstrutura_Catalogo(contas->meses[mes],prod);
+	Fatura_Produto estrutura = getEstrutura_Catalogo(contas->meses,prod);
 	
 	if(estrutura == NULL) {
 		estrutura = init_Fatura_Produto();
-	}
-
+	}	
+	
 	estrutura->total_vendas += quantidades;
 	estrutura->total_faturacao += custo;
-	estrutura->quantidades[promo][filial] += quantidades;
-	estrutura->precos[promo][filial] += custo;
-	contas->meses[mes] = insere_Catalogo(contas->meses[mes],prod,estrutura);
+	estrutura->quantidades[mes][filial][promo] += quantidades;
+	estrutura->precos[mes][filial][promo] += custo;
+	contas->meses = insere_Catalogo(contas->meses,prod,estrutura);	
 	
 	return contas;
 }

@@ -21,7 +21,7 @@ Cat_Produtos init_cat_produtos() {
 
 
 Produto criaProduto() {
-	Produto product = (struct produto*) malloc(sizeof(struct produto));
+	Produto product = (Produto) malloc(sizeof(struct produto));
 	product->prod = malloc(MAXSIZEPRODUTOS);
 
   return product;
@@ -32,19 +32,19 @@ char* getNomeProduto(Produto product) {
 }
 
 void alteraProduto(Produto product, char *info) {
-  strcpy(product->prod,info);
+  strncpy(product->prod, info, MAXSIZEPRODUTOS);
 }
 
 
 /* Função que verifica se um dado produto existe no catalogo de produtos */
 
 Boolean existe_Produto(Cat_Produtos products, Produto product) {
-  return existe_Catalogo(products->catalogo,getNomeProduto(product));
+  return existe_Catalogo(products->catalogo,product->prod);
 }
 
 
 Cat_Produtos insere_produto(Cat_Produtos products, Produto product) {
-  products->catalogo = insere_Catalogo(products->catalogo,getNomeProduto(product),NULL);
+  products->catalogo = insere_Catalogo(products->catalogo,product->prod,NULL);
   return products;
 }
 
@@ -72,4 +72,9 @@ Cat_Produtos clone_Catalogo_Produtos(Cat_Produtos products) {
 
 Catalogo get_Catalogo(Cat_Produtos products) {
   return products->catalogo;
+}
+
+Lista converte_Produtos(Lista list, Cat_Produtos products, char letra) {
+  list = lista_catalogo(list,products->catalogo,letra);
+  return list;
 }

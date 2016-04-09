@@ -10,7 +10,7 @@ struct catalogo {
 
 Catalogo init_Catalogo(int n) {
 
-    Catalogo cat = (struct catalogo*) malloc(sizeof(struct catalogo));
+    Catalogo cat = (Catalogo) malloc(sizeof(struct catalogo));
     int i;
     cat->n=n;
     for(i = 0; i < n; i++) {
@@ -33,7 +33,6 @@ Catalogo insere_Catalogo(Catalogo catalogo, char* key, void* estrutura) {
     int index = key[0] - 'A';
 
     catalogo->indice[index] = avl_insert(catalogo->indice[index], key, estrutura);
-
     return catalogo;
 }
 
@@ -79,4 +78,11 @@ Catalogo clone_Catalogo(Catalogo catalogo) {
 void* getEstrutura_Catalogo(Catalogo catalogo, char* key) {
   int index = key[0] - 'A';
   return avl_getEstrutura(catalogo->indice[index],key);
+}
+
+
+Lista lista_catalogo(Lista list,Catalogo catalogo, char letra) {
+  int index = letra - 'A';
+  list = lista_converte(list,catalogo->indice[index]);
+  return list;
 }
