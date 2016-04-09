@@ -315,7 +315,50 @@ static Lista converte_aux(Lista list, NODO tree) {
     return list;
 }
 
-void imprime(Lista list) {
+void apresenta_Lista(Lista list) {
     int i;
-    for(i = 0; list->array[i]; i++) printf("%s\n",list->array[i]);
+    int estado = 1;
+    int nr_de_elementos = list->pos + 1;
+
+    if(nr_de_elementos == 0) estado = 0;
+    
+    int elementos_pagina = 20;
+    
+    
+    int last_pagina = nr_de_elementos % elementos_pagina;
+    
+    int total_paginas = (last_pagina == 0) ? (nr_de_elementos / elementos_pagina) : ((nr_de_elementos / elementos_pagina) + 1); 
+
+    int nr_pagina = 1;
+
+    while(estado) {
+        
+        printf(" --- Página número |%d| de |%d| ---\n", nr_pagina,total_paginas);
+        
+
+        for(i = (nr_pagina-1) * elementos_pagina; i < (nr_pagina * elementos_pagina) && i < nr_de_elementos-1; i++) {
+            printf("\t%d\t%s\n",i+1,list->array[i]);
+        }
+
+        putchar('\n');
+        printf(" 1 - [<<]  2 - [<]  3 - [>]  4 - [>>]   0 - Sair\n");
+        putchar('\n');
+        printf("Opcao numero > ");
+        scanf("%d",&estado);
+        printf("ESTADO: %d\n",estado);
+        
+        switch(estado) {
+            case 0: break;
+            case 1: nr_pagina = 1;
+
+            case 2: if(nr_pagina > 1) nr_pagina --;
+                   break;
+            case 3: if(nr_pagina < total_paginas) nr_pagina++;
+                   break;
+            case 4: nr_pagina = total_paginas;
+            default:printf("Opção não valida\n"); 
+                    break;
+        }
+
+    }
 }

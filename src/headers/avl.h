@@ -39,5 +39,7 @@ ARRAY
 
 Lista init_Lista(int capacidade);
 Lista lista_converte(Lista list, AVL tree);
+void apresenta_Lista(Lista list);
+
 
 #endif
