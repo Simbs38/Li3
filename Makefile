@@ -1,14 +1,15 @@
+OBJS=$(wildcard src/*.c)
+
 CFLAGS= -ansi -O2 
-OBJS=$(wildcard *.h *.c)
 
 compile:$(OBJS)
 		$(CC) $(CFLAGS) -o gereVendas $(OBJS) 
 
-run:
+gereVendas:
 	./gereVendas
 
 doc:$(OBJS)
-		doxygen
+		doxygen doxygen.conf
 
 clean:
 	rm gereVendas

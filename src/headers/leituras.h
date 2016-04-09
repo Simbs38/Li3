@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "avl.h"
 #include "produtos.h"
 #include "clientes.h"
 #include "venda.h"

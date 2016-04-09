@@ -5,7 +5,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "avl.h"
 #include "catalogo.h"
 
 #define MAXSIZEPRODUTOS 64
