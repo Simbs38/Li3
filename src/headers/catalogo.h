@@ -14,4 +14,7 @@ void remove_Catalogo(Catalogo catalogo);
 Catalogo clone_Catalogo(Catalogo catalogo);
 void* getEstrutura_Catalogo(Catalogo catalogo, char* key);
 
+Lista lista_catalogo(Lista list,Catalogo catalogo, char letra);
+
+
 #endif

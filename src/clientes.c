@@ -27,19 +27,19 @@ Cliente criaCliente() {
 
 
 void alteraCliente(Cliente client, char *info) {
-  strcpy(client->name,info);
+    strncpy(client->name, info, MAXBUFFERCLIENTES);
 }
 
 
 /* Função que verifica se um dado cliente existe no catalogo de clientes */
 
 Boolean existe_Cliente(Cat_Clientes clients, Cliente client) {
-  return existe_Catalogo(clients->catalogo,getNomeCliente(client));
+  return existe_Catalogo(clients->catalogo,client->name);
 }
 
 
 Cat_Clientes insere_Cliente(Cat_Clientes clients, Cliente client) {
-  clients->catalogo = insere_Catalogo(clients->catalogo,getNomeCliente(client),NULL);
+  clients->catalogo = insere_Catalogo(clients->catalogo,client->name,NULL);
   return clients;
 }
 

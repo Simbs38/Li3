@@ -1,6 +1,8 @@
 #include "./headers/avl.h"
 
-/* Estrutura definida para um nodo de uma AVL */
+/*******
+Estruturas
+*******/
 
 struct nodeAVL {
     Valor string;
@@ -15,6 +17,15 @@ struct avl {
     int avl_tamanho; 
 };
 
+struct lista {
+    char** array;
+    int pos;
+    int capacidade;
+};
+
+/************
+FUNCOES OCULTAS AO UTILIZADOR
+************/
 
 static int height(NODO n);
 static int max(int a, int b);
@@ -29,6 +40,14 @@ static NODO tree_clone(NODO node);
 static void tree_free(NODO node);
 static Estrutura node_getEstrutura(NODO node, Valor value);
 
+
+static Lista converte_aux(Lista list, NODO tree);
+static Lista lista_insert(Lista conjunto ,char* valor);
+
+
+/******
+FUNCOES DE AVL'S
+*******/
 
 
 AVL initAVL() {
@@ -70,6 +89,9 @@ void avl_free(AVL nodo) {
     free(nodo);
 }
 
+/***********
+FUNCOES QUE TRABALHAM COM UM "NODO"
+***********/
 
 
 /* Função que devolve a altura de um dado nodo de uma AVL */
@@ -246,4 +268,54 @@ static void tree_free(NODO node) {
         tree_free(node->right);
         free(node);
     }
+}
+
+
+
+/************
+FUNCOES RELATIVAS AOS ARRAYS DINAMICOS
+********/
+
+Lista init_Lista(int size) {
+    Lista conjunto = (Lista) malloc(sizeof(struct lista));
+    conjunto->array = (char**) malloc(size *sizeof(char*));
+    conjunto->pos = 0;
+    conjunto->capacidade = size;
+    return conjunto;
+}
+
+static Lista lista_insert(Lista conjunto ,char* valor) {
+    
+    int posicao = conjunto->pos;
+    
+    if(conjunto->pos == (conjunto->capacidade - 1)) {
+        conjunto->capacidade *= 2;
+        conjunto->array = realloc(conjunto->array,conjunto->capacidade *sizeof(char *));
+    }
+
+
+    conjunto->array[posicao] = malloc(10);
+    strncpy(conjunto->array[posicao],valor,strlen(valor));
+    conjunto->pos++;
+
+    return conjunto;
+}
+
+Lista lista_converte(Lista list, AVL tree) {
+    list = converte_aux(list,tree->arvore);
+    return list;
+}
+
+static Lista converte_aux(Lista list, NODO tree) {
+    if(tree != NULL) {
+        list = converte_aux(list,tree->left);
+        list = lista_insert(list,tree->string);
+        list = converte_aux(list,tree->right);   
+    }
+    return list;
+}
+
+void imprime(Lista list) {
+    int i;
+    for(i = 0; list->array[i]; i++) printf("%s\n",list->array[i]);
 }

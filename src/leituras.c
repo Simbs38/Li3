@@ -2,8 +2,8 @@
 
 
 
-static void convert_file_clients(Cat_Clientes costumers, FILE *f_clients);
-static void convert_file_products(Cat_Produtos products, FILE *f_prods);
+static Cat_Clientes convert_file_clients(Cat_Clientes costumers, FILE *f_clients);
+static Cat_Produtos convert_file_products(Cat_Produtos products, FILE *f_prods);
 static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, FILE *fp);
 
 static Boolean validate_sale(Cat_Produtos products, Cat_Clientes costumers, Venda venda);
@@ -20,17 +20,17 @@ void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao 
    f_prods = fopen("./data/Produtos.txt","r");
    f_sales = fopen("./data/Vendas_1M.txt","r");
 
-   convert_file_clients(costumers,f_clients);
-   convert_file_products(products,f_prods);   
-   /*contas = cria_Dados_Faturacao(contas,products);
-   */convert_file_sales(products,costumers,contas,f_sales);
+   costumers = convert_file_clients(costumers,f_clients);
+   products = convert_file_products(products,f_prods);   
+   contas = cria_Dados_Faturacao(contas,products);
+   convert_file_sales(products,costumers,contas,f_sales);
    
 }
 
 
 /* Coloca o ficheiro dos clientes em memória num array de AVL's */
 
-static void convert_file_clients(Cat_Clientes costumers, FILE *f_clients) {
+static Cat_Clientes convert_file_clients(Cat_Clientes costumers, FILE *f_clients) {
    
    char *information;
    char line[MAXBUFFERCLIENTES];
@@ -45,13 +45,14 @@ static void convert_file_clients(Cat_Clientes costumers, FILE *f_clients) {
    }
    printf("Numero de clientes Validados: %d\n",counter);
    fclose(f_clients);
+   return costumers;
 }
 
 
 
 /* Coloca o ficheiro dos produtos em memória num array de AVL's */
 
-static void convert_file_products(Cat_Produtos products, FILE *f_prods) {
+static Cat_Produtos convert_file_products(Cat_Produtos products, FILE *f_prods) {
 
    char *information;
    char line[MAXBUFFERPRODUTOS];
@@ -66,6 +67,7 @@ static void convert_file_products(Cat_Produtos products, FILE *f_prods) {
    }
    printf("Numero de produtos validos: %d\n",counter);
    fclose(f_prods);
+   return products;
 }
 
 

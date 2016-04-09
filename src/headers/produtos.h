@@ -26,4 +26,7 @@ Produto criaProduto();
 void alteraProduto(Produto product, char *info);
 char* getNomeProduto(Produto product);
 
+Lista converte_Produtos(Lista list, Cat_Produtos products, char letra);
+
+
 #endif
