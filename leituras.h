@@ -12,6 +12,7 @@
 #include "venda.h"
 #include "catalogo.h"
 #include "faturacao.h"
+#include "filiais.h"
 
 #define MAXBUFFERCLIENTES 32
 #define MAXBUFFERPRODUTOS 64

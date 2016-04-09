@@ -182,37 +182,38 @@ INFO_FILIAL insere_produto_estrutura(INFO_FILIAL inf, Venda sale){
     int index,i;
     index = getNomeProduto(getProduto(sale))[0]-'A';
 
-    if(avl_lookup(inf->produtos,getNomeProduto(getProduto(sale)))){
+    if(existe_Catalogo(inf->produtos,getNomeProduto(getProduto(sale)))){
         /*Produto existe*/
         index=getNomeProduto(getProduto(sale))[0]-'A';
-        ProdutosNode node =avl_getEstrutura(inf->produtos->indice[index],getNomeProduto(getProduto(sale)));
-        node->totalU[getFILIAL(sale)]+=getQuantidade(sale);
-        if(avl_lookup(node->Clientes_Produto,getNomeCliente(getCliente(sale)))){
+        ProdutosNode node =getEstrutura_Catalogo(inf->produtos,getNomeProduto(getProduto(sale)));
+        node->totalU[getFilial(sale)]+=getQuantidade(sale);
+        if(existe_Catalogo(node->Clientes_Produto,getNomeCliente(getCliente(sale)))){
             /*Cliente existe*/
-            Clientes_Produto_Node nodeAux=avl_getEstrutura(node->Clientes_Produto->indice[getNomeCliente(getCliente(sale))],getNomeCliente(getCliente(sale)));
+            Clientes_Produto_Node nodeAux=getEstrutura_Catalogo(node->Clientes_Produto,getNomeCliente(getCliente(sale)));
             nodeAux->info=update_infolast(sale);
         }
         else{
             /*Cliente novo*/
-            node->totalC[getFILIAL(sale)]++;
+            node->totalC[getFilial(sale)]++;
             Info_Final last =init_infolast(sale);
-            avl_insert(node->Clientes_Produto->indice[getFILIAL(sale)],getNomeCliente(getCliente(sale)),last);
+            avl_insert(getEstrutura_Catalogo(node->Clientes_Produto,getNomeCliente(getCliente(sale))),getNomeCliente(getCliente(sale)),last);
             }    
         }
     
     else{
         /*Produto Novo*/
         ProdutosNode node=init_infoprod();
-        inf->produtos->indice[getNomeProduto(getProduto(sale))[0]-'A']->string=getNomeProduto(getProduto(sale));
-        node->totalU[getFILIAL(sale)]+=getQuantidade(sale);
+        node=getEstrutura_Catalogo(inf->produtos,getNomeProduto(getProduto(sale)));
+        node->totalU[getFilial(sale)]+=getQuantidade(sale);
+        insere_Catalogo(inf->produtos,getNomeProduto(getProduto(sale)),node);
         
 
-        node->totalC[getFILIAL(sale)]++;
+        node->totalC[getFilial(sale)]++;
         Info_Final last =init_infolast(sale);
-        avl_insert(node->Clientes_Produto->indice[getNomeCliente(getCliente(sale))],getNomeCliente(getCliente(sale)),last);
+        insere_Catalogo(node->Clientes_Produto,getNomeCliente(getCliente(sale)),last);
 
 
-        Clientes_Produto_Node nodeAux=avl_getEstrutura(node->Clientes_Produto->indice[getNomeCliente(getCliente(sale))],getNomeCliente(getCliente(sale)));
+        Clientes_Produto_Node nodeAux=getEstrutura_Catalogo(node->Clientes_Produto,getNomeCliente(getCliente(sale)));
         nodeAux->info=update_infolast(sale);
     }
 
@@ -223,36 +224,36 @@ INFO_FILIAL insere_cliente_estrutura(INFO_FILIAL inf, Venda sale){
     int index,i;
     index = getNomeCliente(getCliente(sale))[0]-'A';
 
-    if(avl_lookup(inf->produtos,getNomeCliente(getCliente(sale)))){
+    if(existe_Catalogo(inf->produtos,getNomeCliente(getCliente(sale)))){
         /*Cliente existe*/
         index=getNomeCliente(getCliente(sale))[0]-'A';
-        ClientesNode node =avl_getEstrutura(inf->produtos->indice[index],getNomeCliente(getCliente(sale)));
-        node->total[getFILIAL(sale)]+=getQuantidade(sale)*getPreco(sale);
-        if(avl_lookup(node->Produtos_Cliente,getNomeProduto(getProduto(sale)))){
+        ClientesNode node =getEstrutura_Catalogo(inf->produtos,getNomeCliente(getCliente(sale)));
+        node->total[getFilial(sale)]+=getQuantidade(sale)*getPreco(sale);
+        if(existe_Catalogo(node->Produtos_Cliente,getNomeProduto(getProduto(sale)))){
             /*Produto existe*/
-            Produtos_Cliente_Node nodeAux=avl_getEstrutura(node->Produtos_Cliente->indice[getNomeProduto(getProduto(sale))],getNomeProduto(getProduto(sale)));
+            Produtos_Cliente_Node nodeAux=getEstrutura_Catalogo(node->Produtos_Cliente,getNomeProduto(getProduto(sale)));
             nodeAux->info=update_infolast(sale);
         }
         else{
             /*Produto novo*/
-            node->total[getFILIAL(sale)]+=getQuantidade(sale)*getPreco(sale);
+            node->total[getFilial(sale)]+=getQuantidade(sale)*getPreco(sale);
             Info_Final last =init_infolast(sale);
-            avl_insert(node->Produtos_Cliente->indice[getFILIAL(sale)],getNomeCliente(getCliente(sale)),last);
+            insere_Catalogo(node->Produtos_Cliente,getNomeCliente(getCliente(sale)),last);
             }    
         }
     
     else{
         /*Cliente Novo*/
         ClientesNode node=init_infocli();
-        inf->clientes->indice[getNomeCliente(getCliente(sale))[0]-'A']->string=getNomeCliente(getCliente(sale));
-        node->total[getFILIAL(sale)]+=getQuantidade(sale)*getPreco(sale);
+        node=getEstrutura_Catalogo(inf->clientes,getNomeCliente(getCliente(sale)));
+        node->total[getFilial(sale)]+=getQuantidade(sale)*getPreco(sale);
         
 
         Info_Final last =init_infolast(sale);
-        avl_insert(node->Produtos_Cliente->indice[getNomeCliente(getCliente(sale))],getNomeCliente(getCliente(sale)),last);
+        insere_Catalogo(node->Produtos_Cliente,getNomeCliente(getCliente(sale)),last);
 
 
-        Produtos_Cliente_Node nodeAux=avl_getEstrutura(node->Produtos_Cliente->indice[getNomeCliente(getCliente(sale))],getNomeCliente(getCliente(sale)));
+        Produtos_Cliente_Node nodeAux=getEstrutura_Catalogo(node->Produtos_Cliente,getNomeCliente(getCliente(sale)));
     }
 
     return inf;

@@ -116,6 +116,11 @@ static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, Fa
 
       if(verify) {
          faturas = adiciona_Fatura(faturas,venda);
+         
+            INFO_FILIAL info=full_init(venda);
+         /*
+            info=insere_cliente_estrutura(info,venda); 
+         */
          sales_yes++;
          total++;
       } else {
