@@ -5,13 +5,13 @@ static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, c
 static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char* file_name);
 static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, FILE *fp,char* file_name);
 
-static Boolean validate_sale(Cat_Produtos products, Cat_Clientes costumers, Venda venda);
-
-
 
 void leitura_ficheiros(int argc, char** argv, Cat_Clientes costumers, Cat_Produtos products, Faturacao contas) {
 
-	time_t begin = clock();
+   time_t begin, end;
+   double time_spent;
+
+   begin = clock();
 
    FILE *f_clients;
    FILE *f_prods;
@@ -57,8 +57,9 @@ void leitura_ficheiros(int argc, char** argv, Cat_Clientes costumers, Cat_Produt
    contas = cria_Dados_Faturacao(contas,products);
    converte_vendas(products,costumers,contas,f_sales,f_vname);
    
-   time_t end = clock();
-   double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+   end = clock();
+   time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+   
    printf("Tempo total de leitura: %lf segundos\n",time_spent);
    putchar('\n');
 }
@@ -71,12 +72,13 @@ static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, c
    time_t begin, end;
    double time_spent;
 
+   begin = clock();
+
    char *information;
    char line[MAXBUFFERCLIENTES];
    
    int clientes_validos = 0, total = 0;
 
-   begin = clock();
 
    Cliente client = criaCliente();
    
@@ -96,7 +98,7 @@ static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, c
    }
 
    end = clock();
-   time_spent = (double) (end - begin) / CLOCKS_PER_SEC;
+   time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     
    printf("Nome do Ficheiro: %s\n",file_name);
    printf("Numero de linhas lidas: %d\n",total);
@@ -119,11 +121,12 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
    time_t begin, end;
    double time_spent;
 
+   begin = clock();
+
    char *information;
    char line[MAXBUFFERPRODUTOS];
    int produtos_validos = 0, total = 0;
 
-   begin = clock();
 
    Produto prod = criaProduto();
    
@@ -143,8 +146,8 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
 
 
    end = clock();
-   time_spent = (double) (end - begin) / CLOCKS_PER_SEC;
-    
+   time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+
    printf("Nome do Ficheiro: %s\n",file_name);
    printf("Numero de linhas lidas: %d\n",total);
    printf("Numero de linhas validas: %d\n",produtos_validos);
@@ -163,6 +166,7 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
    time_t begin, end;
    double time_spent;
 
+   begin = clock();
 
    char line[MAXBUFFERVENDAS];
    char* information;
@@ -178,7 +182,6 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
    int month;
    int shop;
 
-   begin = clock();
    
    Venda venda = initVenda();
 
@@ -219,7 +222,7 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
    }
 
    end = clock();
-   time_spent = (double) (end - begin) / CLOCKS_PER_SEC;
+   time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
    
    printf("Nome do Ficheiro: %s\n",file_name);
    printf("Numero de linhas lidas: %d\n",total);
@@ -231,6 +234,3 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
    fclose(f_sales);   
 }
 
-static Boolean validate_sale(Cat_Produtos products, Cat_Clientes costumers, Venda venda) {
-   return (existe_Produto(products,getProduto(venda)) && existe_Cliente(costumers,getCliente(venda)) );
-}

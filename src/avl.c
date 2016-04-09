@@ -317,8 +317,9 @@ static Lista converte_aux(Lista list, NODO tree) {
 
 void apresenta_Lista(Lista list) {
     int i;
+    int input;
     int estado = 1;
-    int nr_de_elementos = list->pos + 1;
+    int nr_de_elementos = list->pos;
 
     if(nr_de_elementos == 0) estado = 0;
     
@@ -332,11 +333,13 @@ void apresenta_Lista(Lista list) {
     int nr_pagina = 1;
 
     while(estado) {
-        
+
+        printf("\e[1;1H\e[2J");
+        printf("Número total de elementos: %d\n",nr_de_elementos);
         printf(" --- Página número |%d| de |%d| ---\n", nr_pagina,total_paginas);
         
 
-        for(i = (nr_pagina-1) * elementos_pagina; i < (nr_pagina * elementos_pagina) && i < nr_de_elementos-1; i++) {
+        for(i = (nr_pagina-1) * elementos_pagina; i < (nr_pagina * elementos_pagina) && i < nr_de_elementos; i++) {
             printf("\t%d\t%s\n",i+1,list->array[i]);
         }
 
@@ -344,9 +347,8 @@ void apresenta_Lista(Lista list) {
         printf(" 1 - [<<]  2 - [<]  3 - [>]  4 - [>>]   0 - Sair\n");
         putchar('\n');
         printf("Opcao numero > ");
-        scanf("%d",&estado);
-        printf("ESTADO: %d\n",estado);
-        
+        input = scanf("%d",&estado);
+
         switch(estado) {
             case 0: break;
             case 1: nr_pagina = 1;
