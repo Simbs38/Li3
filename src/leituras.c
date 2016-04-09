@@ -1,50 +1,112 @@
 #include "./headers/leituras.h"
 
 
-
-static Cat_Clientes convert_file_clients(Cat_Clientes costumers, FILE *f_clients);
-static Cat_Produtos convert_file_products(Cat_Produtos products, FILE *f_prods);
-static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, FILE *fp);
+static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, char* file_name);
+static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char* file_name);
+static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, FILE *fp,char* file_name);
 
 static Boolean validate_sale(Cat_Produtos products, Cat_Clientes costumers, Venda venda);
 
 
 
-void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao contas) {
-	
+void leitura_ficheiros(int argc, char** argv, Cat_Clientes costumers, Cat_Produtos products, Faturacao contas) {
+
+	time_t begin = clock();
+
    FILE *f_clients;
    FILE *f_prods;
    FILE *f_sales;
+   char* f_cname;
+   char* f_pname;
+   char* f_vname;
 
-   f_clients = fopen("./data/Clientes.txt","r");
-   f_prods = fopen("./data/Produtos.txt","r");
-   f_sales = fopen("./data/Vendas_1M.txt","r");
+   switch(argc) {
+      case 1: f_cname = "./data/Clientes.txt";
+              f_pname = "./data/Produtos.txt";
+              f_vname = "./data/Vendas_1M.txt";
+              f_clients = fopen(f_cname,"r");
+              f_prods = fopen(f_pname,"r");
+              f_sales = fopen(f_vname,"r");
+              break;
+      case 4: f_cname = argv[1];
+              f_pname = argv[2];
+              f_vname = argv[3];
+              f_clients = fopen(f_cname,"r");
+              f_prods = fopen(f_pname,"r");
+              f_sales = fopen(f_vname,"r");
+              break;
+      default: printf("Os ficheiros não foram especificados corretamente.\n");
+               break;
+   }
 
-   costumers = convert_file_clients(costumers,f_clients);
-   products = convert_file_products(products,f_prods);   
-   contas = cria_Dados_Faturacao(contas,products);
-   convert_file_sales(products,costumers,contas,f_sales);
+   if(f_clients == NULL) {
+      printf("Erro ao abrir o ficheiro indicado!\n");
+      f_clients = fopen("./data/Clientes.txt","r");  
+   }
+   if(f_prods == NULL) {
+      printf("Erro ao abrir o ficheiro indicado!\n");
+      f_prods = fopen("./data/Produtos.txt","r");
+   }
+   if(f_sales == NULL) {
+      printf("Erro ao abrir o ficheiro indicado!\n");
+      f_sales = fopen("./data/Vendas_1M.txt","r");
+   }
    
+   costumers = converte_clientes(costumers,f_clients,f_cname);
+   products = converte_produtos(products,f_prods,f_pname);   
+   contas = cria_Dados_Faturacao(contas,products);
+   converte_vendas(products,costumers,contas,f_sales,f_vname);
+   
+   time_t end = clock();
+   double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+   printf("Tempo total de leitura: %lf segundos\n",time_spent);
+   putchar('\n');
 }
 
 
 /* Coloca o ficheiro dos clientes em memória num array de AVL's */
 
-static Cat_Clientes convert_file_clients(Cat_Clientes costumers, FILE *f_clients) {
+static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, char* file_name) {
    
+   time_t begin, end;
+   double time_spent;
+
    char *information;
    char line[MAXBUFFERCLIENTES];
-   int counter = 0;
+   
+   int clientes_validos = 0, total = 0;
+
+   begin = clock();
+
    Cliente client = criaCliente();
    
    while(fgets(line,MAXBUFFERCLIENTES,f_clients)) {
+      
       information = strtok(line,"\n\r");
-      alteraCliente(client,information);   
-      costumers = insere_Cliente(costumers, client);
-      counter++;
+      
+      if(information != NULL) {
+         
+         alteraCliente(client,information);   
+         costumers = insere_Cliente(costumers, client);   
+      
+         clientes_validos++;
+      }
+
+      total++;
    }
-   printf("Numero de clientes Validados: %d\n",counter);
+
+   end = clock();
+   time_spent = (double) (end - begin) / CLOCKS_PER_SEC;
+    
+   printf("Nome do Ficheiro: %s\n",file_name);
+   printf("Numero de linhas lidas: %d\n",total);
+   printf("Numero de linhas validas: %d\n",clientes_validos);
+   printf("Tempo de Leitura: %lf segundos\n",time_spent);
+   putchar('\n');
+
+
    fclose(f_clients);
+   
    return costumers;
 }
 
@@ -52,32 +114,60 @@ static Cat_Clientes convert_file_clients(Cat_Clientes costumers, FILE *f_clients
 
 /* Coloca o ficheiro dos produtos em memória num array de AVL's */
 
-static Cat_Produtos convert_file_products(Cat_Produtos products, FILE *f_prods) {
+static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char* file_name) {
+
+   time_t begin, end;
+   double time_spent;
 
    char *information;
    char line[MAXBUFFERPRODUTOS];
-   int counter = 0;
+   int produtos_validos = 0, total = 0;
+
+   begin = clock();
+
    Produto prod = criaProduto();
    
    while(fgets(line,MAXBUFFERPRODUTOS,f_prods)) {
+      
       information = strtok(line,"\n\r");
-      alteraProduto(prod,information);
-      products = insere_produto(products, prod);
-      counter++;
+      
+      if(information != NULL) {
+         
+         alteraProduto(prod,information);
+         products = insere_produto(products, prod);
+         
+         produtos_validos++;
+      }
+      total++;
    }
-   printf("Numero de produtos validos: %d\n",counter);
+
+
+   end = clock();
+   time_spent = (double) (end - begin) / CLOCKS_PER_SEC;
+    
+   printf("Nome do Ficheiro: %s\n",file_name);
+   printf("Numero de linhas lidas: %d\n",total);
+   printf("Numero de linhas validas: %d\n",produtos_validos);
+   printf("Tempo de Leitura: %lf segundos\n",time_spent);
+   putchar('\n');
+
+
    fclose(f_prods);
    return products;
 }
 
 
 
-static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas ,FILE *f_sales) {
+static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas ,FILE *f_sales,char* file_name) {
    
+   time_t begin, end;
+   double time_spent;
+
+
    char line[MAXBUFFERVENDAS];
    char* information;
    
-   int i, sales_yes = 0, sales_no = 0, total = 0;
+   int i, vendas_validas = 0, total = 0;
    Boolean verify;
 
    char* product;
@@ -87,6 +177,8 @@ static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, Fa
    char* client;
    int month;
    int shop;
+
+   begin = clock();
    
    Venda venda = initVenda();
 
@@ -114,25 +206,29 @@ static void convert_file_sales(Cat_Produtos products, Cat_Clientes costumers, Fa
       
       verify = validate_sale(products,costumers,venda);
       
-      /* Caso verifique adiciona á estrutura das vendas a venda validada nessa monthma iteração */
+      /* Caso verifique adiciona á estrutura das vendas a venda validada nessa iteração */
 
       if(verify) {
          faturas = adiciona_Fatura(faturas,venda);
-         sales_yes++;
+         vendas_validas++;
          total++;
       } else {
          total++;
-         sales_no++;
       }
 
    }
-   
-   fclose(f_sales);
-   
-   printf("Total de vendas analisadas: %d\n",total);
-   printf("Total de vendas validas: %d\n",sales_yes);
-   printf("Total de vendas falhadas: %d\n",sales_no);
 
+   end = clock();
+   time_spent = (double) (end - begin) / CLOCKS_PER_SEC;
+   
+   printf("Nome do Ficheiro: %s\n",file_name);
+   printf("Numero de linhas lidas: %d\n",total);
+   printf("Numero de linhas válidas: %d\n",vendas_validas);
+   printf("Numero de vendas inválidas: %d\n",total-vendas_validas);
+   printf("Tempo de Leitura: %lf segundos\n",time_spent);
+   putchar('\n');   
+
+   fclose(f_sales);   
 }
 
 static Boolean validate_sale(Cat_Produtos products, Cat_Clientes costumers, Venda venda) {
