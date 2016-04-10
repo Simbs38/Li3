@@ -2,8 +2,14 @@
 
 #define NR_LETRAS 26
 
+
 struct catalogo {
    AVL indice[NR_LETRAS];
+};
+
+
+struct array_catalogo {
+  Lista list;
 };
 
 
@@ -78,8 +84,36 @@ void* getEstrutura_Catalogo(Catalogo catalogo, char* key) {
 }
 
 
-Lista lista_catalogo(Lista list,Catalogo catalogo, char letra) {
+
+Array init_Array(int capacidade) {
+    Array lista = (Array) malloc(sizeof(struct array_catalogo));
+    lista->list = init_Lista(capacidade);
+    return lista;
+}
+
+
+Array lista_catalogo(Array lista,Catalogo catalogo, char letra) {
   int index = letra - 'A';
-  list = lista_converte(list,catalogo->indice[index]);
-  return list;
+  lista->list = lista_converte(lista->list,catalogo->indice[index]);
+  return lista;
+}
+
+
+Array adiciona_array(Array lista,char* info) {
+  lista->list = lista_insert(lista->list,info);
+  return lista;
+}
+
+
+Array catalogo_produtos_nao_comprados_totais(Array lista, Catalogo catalogo) {
+  int i;
+  for(i = 0; i < NR_LETRAS; i++) {
+    lista->list = produtos_nao_comprados_totais(lista->list,catalogo->indice[i]);
+  }
+  return lista;
+}
+
+
+void apresenta_Array(Array lista) {
+  apresenta_Lista(lista->list);
 }

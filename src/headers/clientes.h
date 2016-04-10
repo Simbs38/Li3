@@ -5,8 +5,8 @@
 #include <string.h> 
 #include <stdlib.h>
 
-#include "avl.h"
 #include "catalogo.h"
+#include "global.h"
 
 #define MAXBUFFERCLIENTES 32
 

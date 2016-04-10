@@ -6,12 +6,14 @@
 #include <stdlib.h>
 
 #include "catalogo.h"
+#include "global.h"
 
 #define MAXSIZEPRODUTOS 64
 
 
 typedef struct catalogo_produtos *Cat_Produtos;
 typedef struct produto *Produto;
+typedef struct conjunto_produtos *Conj_Produtos;
 
 Cat_Produtos init_cat_produtos();
 Cat_Produtos insere_produto(Cat_Produtos products, Produto prod);
@@ -26,7 +28,8 @@ Produto criaProduto();
 void alteraProduto(Produto product, char *info);
 char* getNomeProduto(Produto product);
 
-Lista converte_Produtos(Lista list, Cat_Produtos products, char letra);
-
+Conj_Produtos converte_Produtos(Conj_Produtos lista, Cat_Produtos products, char letra);
+Conj_Produtos init_Conjunto(int capacidade);
+void apresenta_Produtos(Conj_Produtos conjunto);
 
 #endif
