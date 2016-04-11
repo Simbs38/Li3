@@ -40,7 +40,7 @@ Boolean existe_Cliente(Cat_Clientes clients, Cliente client) {
 
 
 Cat_Clientes insere_Cliente(Cat_Clientes clients, Cliente client) {
-  clients->catalogo = insere_Catalogo(clients->catalogo,client->name,NULL);
+  clients->catalogo = insere_Catalogo(clients->catalogo,client->name,NULL,client->name[0]-'A');
   return clients;
 
 }

@@ -62,7 +62,7 @@ Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 	double price = getPreco(venda);
 	double custo = quantidades * price;
 	
-	Fatura_Produto estrutura = getEstrutura_Catalogo(contas->meses,prod);
+	Fatura_Produto estrutura = getEstrutura_Catalogo(contas->meses,prod,prod[0]-'A');
 	
 	if(estrutura == NULL) {
 		estrutura = init_Fatura_Produto();
@@ -72,7 +72,7 @@ Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 	estrutura->total_faturacao += custo;
 	estrutura->quantidades[mes][filial][promo] += quantidades;
 	estrutura->precos[mes][filial][promo] += custo;
-	contas->meses = insere_Catalogo(contas->meses,prod,estrutura);	
+	contas->meses = insere_Catalogo(contas->meses,prod,estrutura,prod[0]-'A');	
 	
 	return contas;
 }

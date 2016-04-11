@@ -23,15 +23,12 @@ typedef struct produtos_Cliente_Node *Produtos_Cliente_Node;
 typedef struct info_final *Info_Final;
 
 
-INFO_FILIAL full_init(Venda  sale);
+INFO_FILIAL full_init();
 INFO_FILIAL init_info_filial();
 ProdutosNode init_infoprod();
 ClientesNode init_infocli();
-Clientes_Produto_Node init_infoCliInProd();
-Produtos_Cliente_Node init_infoProdInCli();
 Info_Final init_infolast(Venda sale);
-INFO_FILIAL full_init(Venda  sale);
-Info_Final update_infolast(Venda sale);
+Info_Final update_infolast(Venda sale, Info_Final final);
 INFO_FILIAL insere_produto_estrutura(INFO_FILIAL inf, Venda sale);
 INFO_FILIAL insere_cliente_estrutura(INFO_FILIAL inf, Venda sale);
 INFO_FILIAL insere_compra(INFO_FILIAL inf,Venda sale);

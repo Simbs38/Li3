@@ -194,7 +194,7 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
       for(i = 0; information != NULL; i++) {
          switch(i) {
             case 0: product = information;break;
-            case 1: price = atof(information);break;
+            case 1: price = atof(information); break;
             case 2: ammount = atoi(information);break; 
             case 3: type = information[0];break;
             case 4: client = information;break;
@@ -210,16 +210,14 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
       /* Verifica a existencia do produto e do cliente de uma dada venda */
       
       verify = validate_sale(products,costumers,venda);
-      
+      INFO_FILIAL info=full_init();
       /* Caso verifique adiciona á estrutura das vendas a venda validada nessa iteração */
 
       if(verify) {
          faturas = adiciona_Fatura(faturas,venda);
+
+         info=insere_compra(info,venda); 
          
-            INFO_FILIAL info=full_init(venda);
-         /*
-            info=insere_cliente_estrutura(info,venda); 
-         */
          vendas_validas++;
          total++;
       } else {

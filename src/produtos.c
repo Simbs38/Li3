@@ -44,7 +44,7 @@ Boolean existe_Produto(Cat_Produtos products, Produto product) {
 
 
 Cat_Produtos insere_produto(Cat_Produtos products, Produto product) {
-  products->catalogo = insere_Catalogo(products->catalogo,product->prod,NULL);
+  products->catalogo = insere_Catalogo(products->catalogo,product->prod,NULL,product->prod[0]-'A');
   return products;
 }
 
