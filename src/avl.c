@@ -349,7 +349,8 @@ void apresenta_Lista(Lista list) {
     while(estado) {
 
         printf("\e[1;1H\e[2J");
-        printf("Número total de elementos: %d\n",nr_de_elementos);
+        printf("\n");
+        printf("Número total de elementos: %d\n\n",nr_de_elementos);
         printf(" --- Página número |%d| de |%d| ---\n", nr_pagina,total_paginas);
         
 
@@ -358,7 +359,7 @@ void apresenta_Lista(Lista list) {
         }
 
         putchar('\n');
-        printf(" 1 - [<<]  2 - [<]  3 - [>]  4 - [>>]   0 - Sair\n");
+        printf(" 1 - [<<]  2 - [<]  3 - [>]  4 - [>>]   0 - Voltar\n");
         putchar('\n');
         printf("Opcao numero > ");
         input = scanf("%d",&estado);

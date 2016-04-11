@@ -28,6 +28,7 @@ int querie_2(Cat_Produtos produtos) {
 		if(isalpha(opcao[0])) {
 			char letra = toupper(opcao[0]);
 			lista_produtos = converte_Produtos(lista_produtos,produtos,letra);
+			
 			apresenta_Produtos(lista_produtos);
 		}
 	}
