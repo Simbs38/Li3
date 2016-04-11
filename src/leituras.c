@@ -218,7 +218,7 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
       if(verify) {
          faturas = adiciona_Fatura(faturas,venda);
 
-         info=insere_compra(info,venda); 
+       /*  info=insere_compra(info,venda); */
          
          vendas_validas++;
          total++;
