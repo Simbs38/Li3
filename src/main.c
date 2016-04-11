@@ -10,13 +10,11 @@
 #include "./headers/avl.h"
 #include "./headers/interpretador.h"
 
-int main(int argc, char**argv) {
+int main() {
    	
     Cat_Clientes costumers = init_cat_clientes();
     Cat_Produtos products = init_cat_produtos();
     Faturacao contas = init_Faturacao();
-
-    leitura_ficheiros(argc, argv,costumers,products,contas);
 
     menu_principal(products,costumers,contas);
 

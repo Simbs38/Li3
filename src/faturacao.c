@@ -66,7 +66,7 @@ Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 	double custo = quantidades * price;
 
 	
-	Fatura_Produto estrutura = getEstrutura_Catalogo(contas->faturas,prod);
+	Fatura_Produto estrutura = getEstrutura_Faturacao(contas,prod);
 	
 	if(estrutura == NULL) {
 		estrutura = init_Fatura_Produto();
@@ -78,6 +78,10 @@ Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 	contas->faturas = insere_Catalogo(contas->faturas,prod,estrutura);	
 	
 	return contas;
+}
+
+void* getEstrutura_Faturacao(Faturacao faturacao, char* produto) {
+	return getEstrutura_Catalogo(faturacao->faturas,produto);
 }
 
 
@@ -205,4 +209,42 @@ Conj_Faturas adiciona_Conjunto(Conj_Faturas conjunto, char* info) {
 
 void apresenta_faturas(Conj_Faturas conjunto) {
 	apresenta_Array(conjunto->lista);
+}
+
+
+Conj_Faturas cria_lista_total(Conj_Faturas conjunto, Faturacao faturacao) {
+	conjunto->lista = catalogo_lista_total(conjunto->lista,faturacao->faturas);
+	return conjunto;
+}
+
+
+Conj_Faturas faturas_nao_comprado_filial(Conj_Faturas conjunto, Conj_Faturas nao_comprados,  Faturacao faturas, int filial) {
+	int tamanho = faturacao_getPos(conjunto);
+	Fatura_Produto estrutura;
+	int i = 0;
+	int j, var = 0;
+	char* prod;
+	while(i < tamanho) {
+		prod = get_elemento_lista(conjunto,i);
+		estrutura = getEstrutura_Faturacao(faturas,prod);
+		if(estrutura) {
+			for(j = 0; j < 12 && !var; j++) {
+				if(estrutura->quantidades[j][filial-1][0] != 0) var++;
+				if(estrutura->quantidades[j][filial-1][1] != 0) var++;
+			}
+		}
+		if(var == 0) adiciona_Conjunto(nao_comprados,prod);
+		var = 0;
+		i++;
+	}
+	return nao_comprados;
+}
+
+
+char* get_elemento_lista(Conj_Faturas conjunto, int pos) {
+	return catalogo_getElemento(conjunto->lista,pos);
+}
+
+int faturacao_getPos(Conj_Faturas conjunto) {
+	return catalogo_getPos(conjunto->lista);
 }

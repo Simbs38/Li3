@@ -78,7 +78,7 @@ Catalogo get_Catalogo(Cat_Produtos products) {
 }
 
 Conj_Produtos converte_Produtos(Conj_Produtos conjunto, Cat_Produtos products, char letra) {
-  conjunto->lista = lista_catalogo(conjunto->lista,products->catalogo,letra);
+  conjunto->lista = lista_catalogo_letra(conjunto->lista,products->catalogo,letra);
   return conjunto;
 }
 

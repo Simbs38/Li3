@@ -36,8 +36,9 @@ ARRAY
 
 Lista init_Lista(int capacidade);
 Lista lista_converte(Lista list, AVL tree);
-void apresenta_Lista(Lista list);
 Lista lista_insert(Lista conjunto ,char* valor);
 Lista produtos_nao_comprados_totais(Lista list,AVL tree);
+int lista_getPos(Lista list);
+char* lista_getNome(Lista list, int pos);
 
 #endif

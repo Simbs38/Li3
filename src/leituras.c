@@ -6,51 +6,12 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
 static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, FILE *fp,char* file_name);
 
 
-void leitura_ficheiros(int argc, char** argv, Cat_Clientes costumers, Cat_Produtos products, Faturacao contas) {
-
+void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao contas, FILE *f_clients, FILE *f_prods, FILE* f_sales, char* f_cname, char* f_pname, char* f_vname) {
+   char continua[10];
    time_t begin, end;
    double time_spent;
 
    begin = clock();
-
-   FILE *f_clients;
-   FILE *f_prods;
-   FILE *f_sales;
-   char* f_cname;
-   char* f_pname;
-   char* f_vname;
-
-   switch(argc) {
-      case 1: f_cname = "./data/Clientes.txt";
-              f_pname = "./data/Produtos.txt";
-              f_vname = "./data/Vendas_1M.txt";
-              f_clients = fopen(f_cname,"r");
-              f_prods = fopen(f_pname,"r");
-              f_sales = fopen(f_vname,"r");
-              break;
-      case 4: f_cname = argv[1];
-              f_pname = argv[2];
-              f_vname = argv[3];
-              f_clients = fopen(f_cname,"r");
-              f_prods = fopen(f_pname,"r");
-              f_sales = fopen(f_vname,"r");
-              break;
-      default: printf("Os ficheiros não foram especificados corretamente.\n");
-               break;
-   }
-
-   if(f_clients == NULL) {
-      printf("Erro ao abrir o ficheiro indicado!\n");
-      f_clients = fopen("./data/Clientes.txt","r");  
-   }
-   if(f_prods == NULL) {
-      printf("Erro ao abrir o ficheiro indicado!\n");
-      f_prods = fopen("./data/Produtos.txt","r");
-   }
-   if(f_sales == NULL) {
-      printf("Erro ao abrir o ficheiro indicado!\n");
-      f_sales = fopen("./data/Vendas_1M.txt","r");
-   }
 
    printf("\e[1;1H\e[2J");
    printf("\tLeitura dos ficheiros\n");
@@ -64,6 +25,8 @@ void leitura_ficheiros(int argc, char** argv, Cat_Clientes costumers, Cat_Produt
    
    printf("Tempo total de leitura: %lf segundos\n",time_spent);
    putchar('\n');
+   printf("Prima uma tecla para continuar >> ");
+   int input = scanf("%s",continua);
 }
 
 

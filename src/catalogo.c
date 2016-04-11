@@ -92,7 +92,7 @@ Array init_Array(int capacidade) {
 }
 
 
-Array lista_catalogo(Array lista,Catalogo catalogo, char letra) {
+Array lista_catalogo_letra(Array lista,Catalogo catalogo, char letra) {
   int index = letra - 'A';
   lista->list = lista_converte(lista->list,catalogo->indice[index]);
   return lista;
@@ -116,4 +116,21 @@ Array catalogo_produtos_nao_comprados_totais(Array lista, Catalogo catalogo) {
 
 void apresenta_Array(Array lista) {
   apresenta_Lista(lista->list);
+}
+
+
+Array catalogo_lista_total(Array lista,Catalogo catalogo) {
+  int i;
+  for(i = 0; i < 26; i++) {
+    lista->list = lista_converte(lista->list,catalogo->indice[i]);
+  }
+  return lista;
+}
+
+char* catalogo_getElemento(Array lista, int pos) {
+  return lista_getNome(lista->list,pos);
+}
+
+int catalogo_getPos(Array lista) {
+  return lista_getPos(lista->list);
 }

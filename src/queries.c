@@ -1,21 +1,69 @@
 #include "./headers/queries.h"
 
-int querie_2(Cat_Produtos produtos) {
 
-	Conj_Produtos lista_produtos = init_Conjunto(1000);
+int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, int modo) {
+
+	int input;
+	char* f_clientes;
+	char* f_produtos;
+	char* f_vendas;
+	FILE *file_clientes = NULL;
+	FILE *file_produtos = NULL;
+	FILE *file_vendas = NULL;
+
+		if(modo == 1) {
+
+			f_clientes = "./data/Clientes.txt";
+            f_produtos = "./data/Produtos.txt";
+            f_vendas = "./data/Vendas_1M.txt";
+            
+            file_clientes = fopen(f_clientes,"r");
+            file_produtos = fopen(f_produtos,"r");
+            file_vendas = fopen(f_vendas,"r");
+			
+			leitura_ficheiros(clientes,produtos,faturas,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
+			
+		}
+		else {
+			while(file_clientes == NULL) {
+				printf("\nIndique o nome do ficheiro de clientes >> ");
+				input = scanf("%s",f_clientes);
+				file_clientes = fopen(f_clientes,"r");
+				if(file_clientes == NULL) printf("Ficheiro de Clientes Inválido\n");
+			}
+			while(file_produtos == NULL) {
+				printf("\nIndique o nome do ficheiro de produtos >> ");
+				input = scanf("%s",f_produtos);
+				file_produtos = fopen(f_produtos,"r");
+				if(file_produtos == NULL) printf("Ficheiro de Produtos Inválido\n");
+			}
+			while(file_vendas == NULL) {
+				printf("\nIndique o nome do ficheiro de vendas >> ");
+				input = scanf("%s",f_vendas);
+				file_vendas = fopen(f_vendas,"r");
+				if(file_vendas == NULL) printf("Ficheiro de Vendas Inválido\n");
+			}
+			leitura_ficheiros(clientes,produtos,faturas,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
+		}
+	return 1;
+}
+
+
+int querie_2(Cat_Produtos produtos) {
 	
 	int estado = 1, input;
 	char opcao[20];
 	char letra;
 
 	while(estado) {
+	Conj_Produtos lista_produtos = init_Conjunto(1000);
 		printf("\e[1;1H\e[2J");
 		printf( "_____________________________________________\n" );
 		printf( "\tListagem de Produtos - QUERIE 2\n\n" );
 		printf( "  1 - Voltar\t\t0 - Sair:\n" );
 		printf( "_____________________________________________\n" );
 	
-		printf("Diga a letra a procurar >> ");
+		printf("\nDiga a letra a procurar >> ");
 	
 		input = scanf("%s",opcao);
 	
@@ -28,13 +76,13 @@ int querie_2(Cat_Produtos produtos) {
 		if(isalpha(opcao[0])) {
 			char letra = toupper(opcao[0]);
 			lista_produtos = converte_Produtos(lista_produtos,produtos,letra);
-			
 			apresenta_Produtos(lista_produtos);
 		}
 	}
 	
 	return 1;
 }
+
 
 int querie_3(Faturacao faturas) {
 	
@@ -138,16 +186,16 @@ int querie_3(Faturacao faturas) {
 
 int querie_4(Faturacao faturas) {
 
-	int estado = 1, input;
+	int estado = 1, input, filial;
 	char opcao[10];
 	char letra;
-	Conj_Faturas nao_comprados; 
 	
 	while(estado) {
-		
+	Conj_Faturas nao_comprados = init_Lista_Faturacao(1000); 
 		printf("\e[1;1H\e[2J");
 		printf( "_____________________________________________\n" );
 		printf( "   Produtos não comprados - QUERIE 4\n\n" );
+		printf( "_____________________________________________\n" );
 		printf(" Escolha uma das seguintes opções:\n\n");
 		printf("  1. Valores Totais\n");
 		printf("  2. Valores por filiais\n");
@@ -165,19 +213,21 @@ int querie_4(Faturacao faturas) {
 			default: break;
 		}
 		if(opcao[0] == '1') { 
-			nao_comprados = init_Lista_Faturacao(1000);
-	        nao_comprados = faturas_produtos_nao_comprados_totais(nao_comprados,faturas);
+			nao_comprados = faturas_produtos_nao_comprados_totais(nao_comprados,faturas);
 			apresenta_faturas(nao_comprados);
 		}		
 		else if(opcao[0] == '2') { 
-			nao_comprados = init_Lista_Faturacao(1000);
+			Conj_Faturas totais = init_Lista_Faturacao(1000);
+			totais = cria_lista_total(totais,faturas);
 			printf("\nInsira a filial que pretende >> ");
-			input = scanf("%s",opcao);
-			
+			input = scanf("%d",&filial);
+		    nao_comprados = faturas_nao_comprado_filial(totais,nao_comprados,faturas,filial);
+			apresenta_faturas(nao_comprados);
 		}
 	}
 	return estado;
 }
+
 
 int querie_6(Faturacao faturas) {
 
@@ -244,9 +294,60 @@ int querie_6(Faturacao faturas) {
 				case '1': voltar = 0; break;
 				case '0': return 0; break;
 				default: break;
-				}	
+			}	
 		}
-
 	}
 	return estado;
+}
+
+
+void apresenta_Lista(Lista list) {
+    int i;
+    int input;
+    int estado = 1;
+    int nr_de_elementos = lista_getPos(list);
+
+    if(nr_de_elementos == 0) estado = 0;
+    
+    int elementos_pagina = 20;
+    
+    
+    int last_pagina = nr_de_elementos % elementos_pagina;
+    
+    int total_paginas = (last_pagina == 0) ? (nr_de_elementos / elementos_pagina) : ((nr_de_elementos / elementos_pagina) + 1); 
+
+    int nr_pagina = 1;
+
+    while(estado) {
+
+        printf("\e[1;1H\e[2J");
+        printf("\n");
+        printf("Número total de elementos: %d\n\n",nr_de_elementos);
+        printf(" --- Página número |%d| de |%d| ---\n", nr_pagina,total_paginas);
+        
+
+        for(i = (nr_pagina-1) * elementos_pagina; i < (nr_pagina * elementos_pagina) && i < nr_de_elementos; i++) {
+            printf("\t%d\t%s\n",i+1,lista_getNome(list,i));
+        }
+
+        putchar('\n');
+        printf(" 1 - [<<]  2 - [<]  3 - [>]  4 - [>>]   0 - Voltar\n");
+        putchar('\n');
+        printf("Opcao numero > ");
+        input = scanf("%d",&estado);
+
+        switch(estado) {
+            case 0: break;
+            case 1: nr_pagina = 1;
+
+            case 2: if(nr_pagina > 1) nr_pagina --;
+                   break;
+            case 3: if(nr_pagina < total_paginas) nr_pagina++;
+                   break;
+            case 4: nr_pagina = total_paginas;
+            default:printf("Opção não valida\n"); 
+                    break;
+        }
+
+    }
 }
