@@ -5,7 +5,7 @@ CFLAGS= -ansi -O2
 compile:$(OBJS)
 		$(CC) $(CFLAGS) -o gereVendas $(OBJS) 
 
-gereVendas:
+run:
 	./gereVendas
 
 doc:$(OBJS)

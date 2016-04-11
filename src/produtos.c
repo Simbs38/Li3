@@ -12,6 +12,10 @@ struct catalogo_produtos{
   Catalogo catalogo;
 };
 
+struct conjunto_produtos {
+  Array lista;
+};
+
 
 Cat_Produtos init_cat_produtos() {
   Cat_Produtos catalog = malloc(sizeof(struct catalogo_produtos));
@@ -21,7 +25,7 @@ Cat_Produtos init_cat_produtos() {
 
 
 Produto criaProduto() {
-	Produto product = (struct produto*) malloc(sizeof(struct produto));
+	Produto product = (Produto) malloc(sizeof(struct produto));
 	product->prod = malloc(MAXSIZEPRODUTOS);
 
   return product;
@@ -32,19 +36,19 @@ char* getNomeProduto(Produto product) {
 }
 
 void alteraProduto(Produto product, char *info) {
-  strcpy(product->prod,info);
+  strncpy(product->prod, info, MAXSIZEPRODUTOS);
 }
 
 
 /* Função que verifica se um dado produto existe no catalogo de produtos */
 
 Boolean existe_Produto(Cat_Produtos products, Produto product) {
-  return existe_Catalogo(products->catalogo,getNomeProduto(product));
+  return existe_Catalogo(products->catalogo,product->prod);
 }
 
 
 Cat_Produtos insere_produto(Cat_Produtos products, Produto product) {
-  products->catalogo = insere_Catalogo(products->catalogo,getNomeProduto(product),NULL);
+  products->catalogo = insere_Catalogo(products->catalogo,product->prod,NULL,product->prod[0]-'A');
   return products;
 }
 
@@ -72,4 +76,19 @@ Cat_Produtos clone_Catalogo_Produtos(Cat_Produtos products) {
 
 Catalogo get_Catalogo(Cat_Produtos products) {
   return products->catalogo;
+}
+
+Conj_Produtos converte_Produtos(Conj_Produtos conjunto, Cat_Produtos products, char letra) {
+  conjunto->lista = lista_catalogo(conjunto->lista,products->catalogo,letra);
+  return conjunto;
+}
+
+Conj_Produtos init_Conjunto(int capacidade) {
+  Conj_Produtos conjunto = (Conj_Produtos) malloc(sizeof(struct conjunto_produtos));
+  conjunto->lista = init_Array(capacidade);
+  return conjunto;
+}
+
+void apresenta_Produtos(Conj_Produtos conjunto) {
+  apresenta_Array(conjunto->lista);
 }

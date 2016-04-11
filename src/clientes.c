@@ -27,7 +27,7 @@ Cliente criaCliente() {
 
 
 void alteraCliente(Cliente client, char *info) {
-  strcpy(client->name,info);
+    strncpy(client->name, info, MAXBUFFERCLIENTES);
 }
 
 
@@ -35,12 +35,12 @@ void alteraCliente(Cliente client, char *info) {
 
 
 Boolean existe_Cliente(Cat_Clientes clients, Cliente client) {
-  return existe_Catalogo(clients->catalogo,getNomeCliente(client));
+  return existe_Catalogo(clients->catalogo,client->name);
 }
 
 
 Cat_Clientes insere_Cliente(Cat_Clientes clients, Cliente client) {
-  clients->catalogo = insere_Catalogo(clients->catalogo,getNomeCliente(client),NULL);
+  clients->catalogo = insere_Catalogo(clients->catalogo,client->name,NULL,client->name[0]-'A');
   return clients;
 
 }

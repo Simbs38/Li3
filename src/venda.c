@@ -79,3 +79,9 @@ double getPreco(Venda sale) {
 }
 
 
+
+Boolean validate_sale(Cat_Produtos products, Cat_Clientes costumers, Venda venda) {
+   return existe_Produto(products,getProduto(venda)) && existe_Cliente(costumers,getCliente(venda)) && 
+            venda->mes >= 1 && venda->mes <= 12 && venda->quantidade > 0 && venda->quantidade <= 200 && venda->preco >= 0 && 
+            venda->preco <= 999.99 && venda->filial > 0 && venda->filial < 4;
+}
