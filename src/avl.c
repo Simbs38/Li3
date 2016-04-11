@@ -42,8 +42,7 @@ static Estrutura node_getEstrutura(NODO node, Valor value);
 
 
 static Lista converte_aux(Lista list, NODO tree);
-static Lista lista_insert(Lista conjunto ,char* valor);
-
+static Lista produtos_nao_comprados_totais_aux(Lista list, NODO tree);
 
 /******
 FUNCOES DE AVL'S
@@ -283,7 +282,7 @@ Lista init_Lista(int size) {
     return conjunto;
 }
 
-static Lista lista_insert(Lista conjunto ,char* valor) {
+Lista lista_insert(Lista conjunto ,char* valor) {
     
     int posicao = conjunto->pos;
     
@@ -314,6 +313,21 @@ static Lista converte_aux(Lista list, NODO tree) {
     return list;
 }
 
+Lista produtos_nao_comprados_totais(Lista list,AVL tree) {
+    list = produtos_nao_comprados_totais_aux(list,tree->arvore);
+    return list;
+}
+
+static Lista produtos_nao_comprados_totais_aux(Lista list, NODO tree) {
+    if(tree!=NULL) {
+        list = produtos_nao_comprados_totais_aux(list,tree->left);
+        if(tree->cont == NULL) list = lista_insert(list,tree->string);
+        list = produtos_nao_comprados_totais_aux(list,tree->right);  
+    }
+    return list;
+}
+
+
 void apresenta_Lista(Lista list) {
     int i;
     int input;
@@ -334,7 +348,8 @@ void apresenta_Lista(Lista list) {
     while(estado) {
 
         printf("\e[1;1H\e[2J");
-        printf("Número total de elementos: %d\n",nr_de_elementos);
+        printf("\n");
+        printf("Número total de elementos: %d\n\n",nr_de_elementos);
         printf(" --- Página número |%d| de |%d| ---\n", nr_pagina,total_paginas);
         
 
@@ -343,7 +358,7 @@ void apresenta_Lista(Lista list) {
         }
 
         putchar('\n');
-        printf(" 1 - [<<]  2 - [<]  3 - [>]  4 - [>>]   0 - Sair\n");
+        printf(" 1 - [<<]  2 - [<]  3 - [>]  4 - [>>]   0 - Voltar\n");
         putchar('\n');
         printf("Opcao numero > ");
         input = scanf("%d",&estado);

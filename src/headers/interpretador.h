@@ -8,6 +8,7 @@
 #include "produtos.h"
 #include "clientes.h"
 #include "faturacao.h"
+#include "global.h"
 
 void menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas);
 int menu_catalogo(Cat_Produtos produtos);

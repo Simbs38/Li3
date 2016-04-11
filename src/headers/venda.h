@@ -6,6 +6,7 @@
 
 #include "clientes.h"
 #include "produtos.h"
+#include "global.h"
 
 typedef struct venda *Venda;
 

@@ -52,7 +52,9 @@ void leitura_ficheiros(int argc, char** argv, Cat_Clientes costumers, Cat_Produt
       printf("Erro ao abrir o ficheiro indicado!\n");
       f_sales = fopen("./data/Vendas_1M.txt","r");
    }
-   
+
+   printf("\e[1;1H\e[2J");
+   printf("\tLeitura dos ficheiros\n");
    costumers = converte_clientes(costumers,f_clients,f_cname);
    products = converte_produtos(products,f_prods,f_pname);   
    contas = cria_Dados_Faturacao(contas,products);
@@ -101,7 +103,7 @@ static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, c
 
    end = clock();
    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    
+   
    printf("Nome do Ficheiro: %s\n",file_name);
    printf("Numero de linhas lidas: %d\n",total);
    printf("Numero de linhas validas: %d\n",clientes_validos);
