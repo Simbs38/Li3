@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "produtos.h"
+#include "clientes.h"
 #include "avl.h"
 #include "catalogo.h"
 #include "venda.h"
@@ -32,6 +34,6 @@ Info_Final update_infolast(Venda sale, Info_Final final);
 INFO_FILIAL insere_produto_estrutura(INFO_FILIAL inf, Venda sale);
 INFO_FILIAL insere_cliente_estrutura(INFO_FILIAL inf, Venda sale);
 INFO_FILIAL insere_compra(INFO_FILIAL inf,Venda sale);
-
+INFO_FILIAL init_filiais();
 
 #endif

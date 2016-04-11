@@ -64,6 +64,7 @@ AVL avl_insert(AVL tree, Valor key, Estrutura estrutura) {
 }
 
 Boolean avl_lookUp(AVL tree, Valor value) {
+    if(tree==NULL) return false;
     return node_lookUp(tree->arvore,value);
 }
 

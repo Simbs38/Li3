@@ -65,6 +65,11 @@ char* getNomeCliente(Cliente client) {
   return client->name;
 }
 
+
+Catalogo get_CatalogoCli(Cat_Clientes clientes) {
+  return clientes->catalogo;
+}
+
 Cat_Clientes clone_Catalogo_Clientes(Cat_Clientes clients) {
   Cat_Clientes novo;
   novo->catalogo = clone_Catalogo(clients->catalogo);

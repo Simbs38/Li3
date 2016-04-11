@@ -20,6 +20,9 @@ Boolean existe_Cliente(Cat_Clientes clients, Cliente costumer);
 void remove_Catalogo_Clientes(Cat_Clientes clients);
 int total_Clientes(Cat_Clientes clients);
 int total_Clientes_letra(Cat_Clientes clients, char letra);
+Catalogo get_CatalogoCli(Cat_Clientes clientes);
+Cat_Clientes clone_Catalogo_Clientes(Cat_Clientes clients);
+
 
 Cliente criaCliente();
 void alteraCliente(Cliente client, char *info);

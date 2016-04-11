@@ -3,10 +3,10 @@
 
 static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, char* file_name);
 static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char* file_name);
-static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, FILE *fp,char* file_name);
+static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, INFO_FILIAL info, FILE *fp,char* file_name);
 
 
-void leitura_ficheiros(int argc, char** argv, Cat_Clientes costumers, Cat_Produtos products, Faturacao contas) {
+void leitura_ficheiros(int argc, char** argv, Cat_Clientes costumers, Cat_Produtos products, Faturacao contas, INFO_FILIAL info) {
 
    time_t begin, end;
    double time_spent;
@@ -58,7 +58,8 @@ void leitura_ficheiros(int argc, char** argv, Cat_Clientes costumers, Cat_Produt
    costumers = converte_clientes(costumers,f_clients,f_cname);
    products = converte_produtos(products,f_prods,f_pname);   
    contas = cria_Dados_Faturacao(contas,products);
-   converte_vendas(products,costumers,contas,f_sales,f_vname);
+   info = full_init(info,products,costumers);
+   converte_vendas(products,costumers,contas,info,f_sales,f_vname);
 
    
    end = clock();
@@ -165,7 +166,7 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
 
 
 
-static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas ,FILE *f_sales,char* file_name) {
+static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, INFO_FILIAL info ,FILE *f_sales,char* file_name) {
    
    time_t begin, end;
    double time_spent;
@@ -212,13 +213,12 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
       /* Verifica a existencia do produto e do cliente de uma dada venda */
       
       verify = validate_sale(products,costumers,venda);
-      INFO_FILIAL info=full_init();
       /* Caso verifique adiciona á estrutura das vendas a venda validada nessa iteração */
 
       if(verify) {
          faturas = adiciona_Fatura(faturas,venda);
 
-       /*  info=insere_compra(info,venda); */
+        info=insere_compra(info,venda);
          
          vendas_validas++;
          total++;
@@ -230,6 +230,7 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
 
    end = clock();
    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+
    
    printf("Nome do Ficheiro: %s\n",file_name);
    printf("Numero de linhas lidas: %d\n",total);
