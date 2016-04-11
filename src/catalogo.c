@@ -15,7 +15,7 @@ struct array_catalogo {
 };
 
 
-Catalogo init_Catalogo() {
+Catalogo init_Catalogo(int n) {
 
 
     Catalogo cat = (Catalogo) malloc(sizeof(struct catalogo));
