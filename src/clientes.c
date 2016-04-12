@@ -1,6 +1,7 @@
 #include "./headers/clientes.h"
 
 #define NR_LETRAS 26
+#define MAXBUFFERCLIENTES 32
 
 struct cliente {
   char* name;
@@ -43,6 +44,11 @@ Cat_Clientes insere_Cliente(Cat_Clientes clients, Cliente client) {
   return clients;
 }
 
+Cat_Clientes clone_Catalogo_Clientes(Cat_Clientes clients) {
+  Cat_Clientes novo;
+  novo->catalogo = clone_Catalogo(clients->catalogo);
+  return novo;
+}
 
 int total_Clientes(Cat_Clientes clients) {
   return total_elems_Catalogo(clients->catalogo);
@@ -61,10 +67,4 @@ void remove_Catalogo_Clientes(Cat_Clientes clients) {
 
 char* getNomeCliente(Cliente client) {
   return client->name;
-}
-
-Cat_Clientes clone_Catalogo_Clientes(Cat_Clientes clients) {
-  Cat_Clientes novo;
-  novo->catalogo = clone_Catalogo(clients->catalogo);
-  return novo;
 }

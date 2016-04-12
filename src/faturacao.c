@@ -1,8 +1,5 @@
 #include "./headers/faturacao.h"
 
-#define NORMAL 0
-#define PROMOCAO 1
-
 struct fatura_produto {
 	int quantidades[12][3][2]; /* quantidades[meses][filiais][normal/promocao] */
 	double precos[12][3][2];
@@ -34,6 +31,11 @@ Faturacao init_Faturacao() {
 Faturacao cria_Dados_Faturacao(Faturacao fat, Cat_Produtos prods) {
 		fat->faturas = clone_Catalogo(get_Catalogo(prods));
 	return fat;
+}
+
+void free_Faturacao(Faturacao faturacao) {
+	remove_Catalogo(faturacao->faturas);
+	free(faturacao);
 }
 
 
@@ -80,6 +82,7 @@ Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 	return contas;
 }
 
+
 void* getEstrutura_Faturacao(Faturacao faturacao, char* produto) {
 	return getEstrutura_Catalogo(faturacao->faturas,produto);
 }
@@ -103,6 +106,7 @@ int get_total_quantidades_mes_produto(Faturacao fatura, char* produto, int mes, 
 	
 	} else return 0;
 }
+
 
 double get_total_precos_mes_produto(Faturacao fatura, char* produto, int mes, char modo) {
 	double total = 0;
@@ -157,18 +161,14 @@ double get_total_precos_mes_produto_filial(Faturacao fatura, char* produto, int 
 	} else return 0;
 }
 
+
 int get_total_quantidades_intervalo(Faturacao fatura, int mes1, int mes2) {
 	int i, total = 0;
-	if(mes1 <= mes2) {
-		for(i = mes1-1; i <= mes2-1; i++){
-			total += fatura->total_vendas[i];
-		}
+
+	for(i = mes1-1; i <= mes2-1; i++){
+		total += fatura->total_vendas[i];
 	}
-	else {
-		for(i = mes2-1; i <= mes1-1; i++){
-			total += fatura->total_vendas[i];
-		}
-	}
+
 	return total;
 }
 
@@ -176,18 +176,14 @@ int get_total_quantidades_intervalo(Faturacao fatura, int mes1, int mes2) {
 double get_total_faturado_intervalo(Faturacao fatura, int mes1, int mes2) {
 	int i; 
 	double total = 0;
-	if(mes1 <= mes2) {
-		for(i = mes1-1; i <= mes2-1; i++){
-			total += fatura->total_faturado[i];
-		}
+
+	for(i = mes1-1; i <= mes2-1; i++){
+		total += fatura->total_faturado[i];
 	}
-	else {
-		for(i = mes2-1; i <= mes1-1; i++){
-			total += fatura->total_faturado[i];
-		}
-	}
+
 	return total;
 }
+
 
 Conj_Faturas init_Lista_Faturacao(int capacidade) {
   Conj_Faturas conjunto = (Conj_Faturas) malloc(sizeof(struct conjunto_faturas));
@@ -205,10 +201,6 @@ Conj_Faturas faturas_produtos_nao_comprados_totais(Conj_Faturas conjunto, Fatura
 Conj_Faturas adiciona_Conjunto(Conj_Faturas conjunto, char* info) {
 	conjunto->lista = adiciona_array(conjunto->lista,info);
 	return conjunto;
-}
-
-void apresenta_faturas(Conj_Faturas conjunto) {
-	apresenta_Array(conjunto->lista);
 }
 
 
@@ -245,6 +237,12 @@ char* get_elemento_lista(Conj_Faturas conjunto, int pos) {
 	return catalogo_getElemento(conjunto->lista,pos);
 }
 
+
 int faturacao_getPos(Conj_Faturas conjunto) {
 	return catalogo_getPos(conjunto->lista);
+}
+
+
+void apresenta_faturas(Conj_Faturas conjunto) {
+	apresenta_Array(conjunto->lista);
 }

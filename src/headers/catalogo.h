@@ -8,12 +8,12 @@ typedef struct catalogo *Catalogo;
 typedef struct array_catalogo *Array;
 
 Catalogo init_Catalogo();
-Boolean existe_Catalogo(Catalogo catalogo, char* key);
 Catalogo insere_Catalogo(Catalogo catalogo, char* key, void* estrutura);
+Catalogo clone_Catalogo(Catalogo catalogo);
+void remove_Catalogo(Catalogo catalogo);
+Boolean existe_Catalogo(Catalogo catalogo, char* key);
 int total_elems_Catalogo(Catalogo catalogo);
 int total_elems_letra(Catalogo catalogo, char letra);
-void remove_Catalogo(Catalogo catalogo);
-Catalogo clone_Catalogo(Catalogo catalogo);
 void* getEstrutura_Catalogo(Catalogo catalogo, char* key);
 
 Array init_Array(int capacidade);

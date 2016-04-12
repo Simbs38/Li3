@@ -23,7 +23,7 @@ void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao 
    end = clock();
    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
    
-   printf("Tempo total de leitura: %lf segundos\n",time_spent);
+   printf("Tempo total de leitura: %f segundos\n",time_spent);
    putchar('\n');
    printf("Prima uma tecla para continuar >> ");
    int input = scanf("%s",continua);
@@ -68,7 +68,7 @@ static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, c
    printf("Nome do Ficheiro: %s\n",file_name);
    printf("Numero de linhas lidas: %d\n",total);
    printf("Numero de linhas validas: %d\n",clientes_validos);
-   printf("Tempo de Leitura: %lf segundos\n",time_spent);
+   printf("Tempo de Leitura: %f segundos\n",time_spent);
    putchar('\n');
 
 
@@ -116,7 +116,7 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
    printf("Nome do Ficheiro: %s\n",file_name);
    printf("Numero de linhas lidas: %d\n",total);
    printf("Numero de linhas validas: %d\n",produtos_validos);
-   printf("Tempo de Leitura: %lf segundos\n",time_spent);
+   printf("Tempo de Leitura: %f segundos\n",time_spent);
    putchar('\n');
 
 

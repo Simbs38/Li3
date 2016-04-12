@@ -1,19 +1,20 @@
 #ifndef _avl_h_
 #define _avl_h_
 
-#include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "global.h"
+
 
 typedef struct nodeAVL* NODO;
 typedef struct avl* AVL;
 
+typedef struct lista *Lista;
+
 typedef void* Estrutura;
 typedef char* Valor;
 
-typedef struct lista *Lista;
 
 /*******
 AVL

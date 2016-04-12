@@ -173,7 +173,7 @@ static int getBalance(NODO N) {
 /* Função com o objetivo de inserir uma nova informação na arvore */
 
 static NODO node_insert(NODO node, Valor info, Estrutura estrutura) {
-
+    int balance;
     if (node == NULL)
         return(newNode(info,estrutura));
  
@@ -186,7 +186,7 @@ static NODO node_insert(NODO node, Valor info, Estrutura estrutura) {
     node->height = max(height(node->left), height(node->right)) + 1;
  
     /* Varifica o balanceamento */
-    int balance = getBalance(node);
+    balance = getBalance(node);
  
     /* Left Left Case */
     if (balance > 1 && strcmp(info,node->left->string) < 0)
@@ -208,7 +208,7 @@ static NODO node_insert(NODO node, Valor info, Estrutura estrutura) {
         node->right = rightRotate(node->right);
         return leftRotate(node);
     }
- 
+    
     return node;
 }
 

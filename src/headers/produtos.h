@@ -1,15 +1,11 @@
 #ifndef _produtos_h_
 #define _produtos_h_
 
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
 #include "catalogo.h"
 #include "global.h"
-
-#define MAXSIZEPRODUTOS 64
-
 
 typedef struct catalogo_produtos *Cat_Produtos;
 typedef struct produto *Produto;

@@ -1,8 +1,6 @@
 #ifndef _faturacao_h_
 #define _faturacao_h_
 
-#include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
 
 #include "produtos.h"
@@ -16,9 +14,12 @@ typedef struct conjunto_faturas *Conj_Faturas;
 
 Faturacao init_Faturacao();
 Faturacao cria_Dados_Faturacao(Faturacao fact, Cat_Produtos);
-Fatura_Produto init_Fatura_Produto();
 Faturacao adiciona_Fatura(Faturacao contas, Venda venda);
+void free_Faturacao(Faturacao faturacao);
+
+Fatura_Produto init_Fatura_Produto();
 void* getEstrutura_Faturacao(Faturacao faturacao, char* produto);
+
 
 double get_total_precos_mes_produto_filial(Faturacao fatura, char* produto, int mes, char modo, int filial);
 int get_total_quantidades_mes_produto_filial(Faturacao fatura, char* produto, int mes, char modo, int filial);
