@@ -6,14 +6,12 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
 static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, INFO_FILIAL info, FILE *fp,char* file_name);
 
 
-
 void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao contas,INFO_FILIAL info, FILE *f_clients, FILE *f_prods, FILE* f_sales, char* f_cname, char* f_pname, char* f_vname) {
    char continua[10];
    time_t begin, end;
    double time_spent;
 
    begin = clock();
- 
    printf("\e[1;1H\e[2J");
    printf("\tLeitura dos ficheiros\n");
    costumers = converte_clientes(costumers,f_clients,f_cname);

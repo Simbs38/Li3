@@ -5,7 +5,7 @@
 #include "./headers/filiais.h"
 
 
-int main(int argc, char**argv) {
+int main() {
    	
     Cat_Clientes clientes = init_cat_clientes();
     Cat_Produtos produtos = init_cat_produtos();

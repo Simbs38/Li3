@@ -174,9 +174,7 @@ static int getBalance(NODO N) {
 /* Função com o objetivo de inserir uma nova informação na arvore */
 
 static NODO node_insert(NODO node, Valor info, Estrutura estrutura) {
-
     int balance;
-
     if (node == NULL)
         return(newNode(info,estrutura));
  

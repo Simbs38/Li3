@@ -70,8 +70,3 @@ void remove_Catalogo_Clientes(Cat_Clientes clients) {
 char* getNomeCliente(Cliente client) {
   return client->name;
 }
-
-
-Catalogo get_CatalogoCli(Cat_Clientes clientes) {
-  return clientes->catalogo;
-}

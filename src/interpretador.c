@@ -3,7 +3,6 @@
 #define MENU_PRINCIPAL 1
 #define SAIR_PROGRAMA 0
 
-
 void menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas,INFO_FILIAL info) {
 
 	int estado = MENU_PRINCIPAL, input = 0;
