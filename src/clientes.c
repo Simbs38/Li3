@@ -36,7 +36,7 @@ void alteraCliente(Cliente client, char *info) {
 
 
 Boolean existe_Cliente(Cat_Clientes clients, Cliente client) {
-  return existe_Catalogo(clients->catalogo,client->name);
+  return existe_Catalogo(clients->catalogo,client->name,client->name[0]-'A');
 }
 
 
@@ -69,4 +69,9 @@ void remove_Catalogo_Clientes(Cat_Clientes clients) {
 
 char* getNomeCliente(Cliente client) {
   return client->name;
+}
+
+
+Catalogo get_CatalogoCli(Cat_Clientes clientes) {
+  return clientes->catalogo;
 }

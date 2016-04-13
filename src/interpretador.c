@@ -30,7 +30,7 @@ void menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatu
 			
 			case 'Q': estado = SAIR_PROGRAMA; break;
 			
-			case '1': estado = menu_leitura(produtos,clientes,faturas); break;
+			case '1': estado = menu_leitura(produtos,clientes,faturas,info); break;
 
 			case '2': if(total_Produtos(produtos)) estado = menu_catalogo(produtos);
 					  else  {
@@ -64,7 +64,7 @@ void menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatu
 }
 
 
-int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas) {
+int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas,INFO_FILIAL info) {
 
 	int estado = 1, input = 0;
 	char opcao[20];
@@ -90,7 +90,7 @@ int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas)
 			
 			case 'Q': return SAIR_PROGRAMA; break;
 			
-			case '1': estado = querie_1(produtos,clientes,faturas,1);
+			case '1': estado = querie_1(produtos,clientes,faturas,info,1);
 					  return estado;
 					  break;
 			case '2': estado = querie_1(produtos,clientes,faturas,2);

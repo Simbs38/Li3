@@ -44,7 +44,7 @@ void alteraProduto(Produto product, char *info) {
 /* Função que verifica se um dado produto existe no catalogo de produtos */
 
 Boolean existe_Produto(Cat_Produtos products, Produto product) {
-  return existe_Catalogo(products->catalogo,product->prod);
+  return existe_Catalogo(products->catalogo,product->prod,product->prod[0]-'A');
 }
 
 

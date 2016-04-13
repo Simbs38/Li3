@@ -11,6 +11,7 @@ void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao 
    time_t begin, end;
    double time_spent;
 
+
    begin = clock();
    printf("\e[1;1H\e[2J");
    printf("\tLeitura dos ficheiros\n");
@@ -47,7 +48,7 @@ static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, c
 
 
    Cliente client = criaCliente();
-   
+      printf("%s %s\n",f_clients,file_name );
    while(fgets(line,MAXBUFFERCLIENTES,f_clients)) {
       
       information = strtok(line,"\n\r");
@@ -95,7 +96,7 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
 
 
    Produto prod = criaProduto();
-   
+      printf("%s %s\n",f_prods,file_name );
    while(fgets(line,MAXBUFFERPRODUTOS,f_prods)) {
       
       information = strtok(line,"\n\r");
@@ -147,10 +148,8 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
    char* client;
    int month;
    int shop;
-   printf("zxc\n");
    
    Venda venda = initVenda();
-   printf("asdasda\n");
    while(fgets(line,MAXBUFFERVENDAS,f_sales)) {
 
       information = strtok(line,"\n\r");
@@ -168,17 +167,14 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
          }
          information = strtok(NULL," ");
       }
-      printf("got qwe\n");
       change_sale(venda,product,price,ammount,type,client,month,shop);
          
       /* Verifica a existencia do produto e do cliente de uma dada venda */
       
       verify = validate_sale(products,costumers,venda);
       /* Caso verifique adiciona á estrutura das vendas a venda validada nessa iteração */
-      printf("got qwer\n");
       if(verify) {
          faturas = adiciona_Fatura(faturas,venda);
-
         info=insere_compra(info,venda);
          vendas_validas++;
          total++;
@@ -187,7 +183,6 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
       }
 
    }
-   printf("got asd\n");
    end = clock();
    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 

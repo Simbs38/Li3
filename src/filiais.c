@@ -144,7 +144,7 @@ INFO_FILIAL insere_produto_estrutura(INFO_FILIAL inf, Venda sale){
     if(node==NULL) node=init_infoprod();
     node->totalU[getFilial(sale)]+=getQuantidade(sale);
     insere_Catalogo(inf->produtos,getNomeProduto(getProduto(sale)),node,indexp[0]-'A');
-    if(existe_Catalogo(node->Clientes_Produto,indexc)){
+    if(existe_Catalogo(node->Clientes_Produto,indexc,indexc[0]-'A')){
         /*Cliente existe*/
         Info_Final final=getEstrutura_Catalogo(node->Clientes_Produto,indexc,getFilial(sale)-1);
         final=update_infolast(sale,final);
@@ -174,7 +174,7 @@ INFO_FILIAL insere_cliente_estrutura(INFO_FILIAL inf, Venda sale){
     if(node==NULL) node=init_infocli();
     node->total[getFilial(sale)]+=getQuantidade(sale)*getPreco(sale);
     insere_Catalogo(inf->clientes,getNomeCliente(getCliente(sale)),node,indexc[0]-'A');
-    if(existe_Catalogo(node->Produtos_Cliente,getNomeProduto(getProduto(sale)))){
+    if(existe_Catalogo(node->Produtos_Cliente,indexp,indexp[0]-'A')){
         /*Produto existe*/
         Info_Final final=getEstrutura_Catalogo(node->Produtos_Cliente,getNomeProduto(getProduto(sale)),getMes(sale)-1);
         final=update_infolast(sale,final);

@@ -8,7 +8,7 @@ typedef struct catalogo *Catalogo;
 typedef struct array_catalogo *Array;
 
 Catalogo init_Catalogo(int n);
-Catalogo insere_Catalogo(Catalogo catalogo, char* key, void* estrutura);
+Catalogo insere_Catalogo(Catalogo catalogo, char* key, void* estrutura,int index);
 Catalogo clone_Catalogo(Catalogo catalogo);
 void remove_Catalogo(Catalogo catalogo);
 Boolean existe_Catalogo(Catalogo catalogo, char* key,int index);

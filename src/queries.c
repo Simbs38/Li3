@@ -1,6 +1,6 @@
 #include "./headers/queries.h"
 
-int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, int modo) {
+int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas,INFO_FILIAL info, int modo) {
 
 	int input;
 	char f_clientes[50];
@@ -20,7 +20,7 @@ int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, int 
             file_produtos = fopen(f_produtos,"r");
             file_vendas = fopen(f_vendas,"r");
 			
-			leitura_ficheiros(clientes,produtos,faturas,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
+			leitura_ficheiros(clientes,produtos,faturas,info,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
 			
 		}
 		else {

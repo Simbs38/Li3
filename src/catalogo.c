@@ -27,9 +27,7 @@ Catalogo init_Catalogo(int n) {
     return cat;
 }
 
-Boolean existe_Catalogo(Catalogo catalogo, char* key) {
-   
-   int index = key[0] - 'A';
+Boolean existe_Catalogo(Catalogo catalogo, char* key,int index) {
    Boolean existe = avl_lookUp(catalogo->indice[index],key);
 
    return existe;
