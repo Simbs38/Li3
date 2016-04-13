@@ -15,7 +15,7 @@ int main() {
     	Faturacao faturacao = init_Faturacao();
         INFO_FILIAL info= init_filiais();
 
-    	estado = menu_principal(produtos,clientes,faturacao, estado);
+    	estado = menu_principal(produtos,clientes,faturacao,info, estado);
 
 
     	remove_Catalogo_Clientes(clientes);

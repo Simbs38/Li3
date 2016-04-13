@@ -21,7 +21,6 @@ void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao 
    contas = cria_Dados_Faturacao(contas,products);
    info = full_init(info,products,costumers);
    converte_vendas(products,costumers,contas,info,f_sales,f_vname);
-   printf("got 6\n");
    
    end = clock();
    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
@@ -48,7 +47,6 @@ static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, c
    int clientes_validos = 0, total = 0;
 
    Cliente client = criaCliente();
-      printf("%s %s\n",f_clients,file_name );
    while(fgets(line,MAXBUFFERCLIENTES,f_clients)) {
       
       information = strtok(line,"\n\r");
@@ -96,7 +94,6 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
 
 
    Produto prod = criaProduto();
-      printf("%s %s\n",f_prods,file_name );
    while(fgets(line,MAXBUFFERPRODUTOS,f_prods)) {
       
       information = strtok(line,"\n\r");
@@ -186,7 +183,7 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
    end = clock();
    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
-   nuncaComprados(info);
+   /*nuncaComprados(info);*/
 
    
    printf(" Nome do Ficheiro: %s\n",file_name);

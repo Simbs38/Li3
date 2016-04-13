@@ -269,7 +269,7 @@ static void tree_free(NODO node) {
         free(node);
     }
 }
-
+/*
 int imprimenodo(NODO arvore, int n){
     if (arvore==NULL) return n;
     else{
@@ -286,7 +286,7 @@ int imprimeavl(AVL tree){
    return r;
 }
 
-
+*/
 
 /************
 FUNCOES RELATIVAS AOS ARRAYS DINAMICOS

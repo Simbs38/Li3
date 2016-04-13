@@ -204,7 +204,7 @@ INFO_FILIAL insere_compra(INFO_FILIAL inf,Venda sale) {
 }
 
 
-
+/*
 
 void nuncaComprados(INFO_FILIAL inf){
     imprimecat(inf->produtos);
@@ -214,4 +214,4 @@ Boolean notzero(ProdutosNode pro){
     if(pro==NULL)return false;
     if(pro->totalU[0]==0 && pro->totalU[1]==0 && pro->totalU[2]==0) return true;
     else return false;
-}
+}*/

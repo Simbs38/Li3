@@ -134,14 +134,14 @@ void apresenta_Array(Array lista) {
   apresenta_Lista(lista->list);
 }
 
-
+/*
 void imprimecat(Catalogo cat){
 
     int i,n=0;
     for(i=0;i!=26;i++)
       n+=imprimeavl(cat->indice[i]);
     printf("%d\n",n );
-  }
+  }*/
 
 Array catalogo_lista_total(Array lista,Catalogo catalogo) {
   int i;
