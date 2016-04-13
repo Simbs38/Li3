@@ -9,7 +9,6 @@ struct catalogo {
 };
 
 
-
 struct array_catalogo {
   Lista list;
 };
