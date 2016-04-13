@@ -1,6 +1,7 @@
 #include "./headers/produtos.h"
 
 #define NR_LETRAS 26
+#define MAXSIZEPRODUTOS 64
 
 
 struct produto {
@@ -68,26 +69,31 @@ void remove_Catalogo_Produtos(Cat_Produtos products) {
   free(products);
 }
 
+
 Cat_Produtos clone_Catalogo_Produtos(Cat_Produtos products) {
   Cat_Produtos novo;
   novo->catalogo = clone_Catalogo(products->catalogo);
   return novo;
 }
 
+
 Catalogo get_Catalogo(Cat_Produtos products) {
   return products->catalogo;
 }
 
+
 Conj_Produtos converte_Produtos(Conj_Produtos conjunto, Cat_Produtos products, char letra) {
-  conjunto->lista = lista_catalogo(conjunto->lista,products->catalogo,letra);
+  conjunto->lista = lista_catalogo_letra(conjunto->lista,products->catalogo,letra);
   return conjunto;
 }
+
 
 Conj_Produtos init_Conjunto(int capacidade) {
   Conj_Produtos conjunto = (Conj_Produtos) malloc(sizeof(struct conjunto_produtos));
   conjunto->lista = init_Array(capacidade);
   return conjunto;
 }
+
 
 void apresenta_Produtos(Conj_Produtos conjunto) {
   apresenta_Array(conjunto->lista);

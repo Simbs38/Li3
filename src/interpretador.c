@@ -3,76 +3,141 @@
 #define MENU_PRINCIPAL 1
 #define SAIR_PROGRAMA 0
 
-void menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas) {
 
-	int estado = 1, input = 0;
+void menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas,INFO_FILIAL info) {
+
+	int estado = MENU_PRINCIPAL, input = 0;
 	char opcao[20];
-	printf("Prima c para continuar para o menu principal >> ");
-	input = scanf("%s",opcao);
 		
 	while(estado) {
 		printf("\e[1;1H\e[2J");
 		printf( "_____________________________________________\n" );
-		printf( "\t\tMENU PRINCIPAL\n\n" );
+		printf( "\n\t\tMENU PRINCIPAL\n\n" );
 		printf( "---------------------------------------------\n" );
 		printf(" Escolha uma das seguintes opções:\n\n" );
-		printf("  1. Catalogo de Produtos\n");
-		printf("  2. Faturação\n");
-		printf("  3. Filiais\n");
+		printf("  1. Leitura de Ficheiros\n");
+		printf("  2. Catálogo de Produtos\n");
+		printf("  3. Faturação\n");
+		printf("  4. Filiais\n");
 		printf( "---------------------------------------------\n" );
-		printf( "\t\t\t\t0 - Sair:\n" );
+		printf( "\t\t\t\tQ - Sair\n" );
 		printf( "_____________________________________________\n" );
 		
-		printf("Escolha uma opção >> ");
+		printf("\nEscolha uma opção >> ");
 		
-		int input = scanf("%s",opcao);
+		input = scanf("%s",opcao);
 		
 		switch(opcao[0]) {
 			
-			case '0': estado = 0; break;
+			case 'Q': estado = SAIR_PROGRAMA; break;
 			
-			case '1': estado = menu_catalogo(produtos); break;
-			
-			case '2': estado = menu_faturacao(faturas); break;
-		/*	
-			case '3': estado = menu_filiais(); break; */
-			
+			case '1': estado = menu_leitura(produtos,clientes,faturas); break;
+
+			case '2': if(total_Produtos(produtos)) estado = menu_catalogo(produtos);
+					  else  {
+					  	printf("\e[1;1H\e[2J");
+					  	printf("\nAinda não foram lidos nenhuns dados!\n");
+					  	printf("\nPrima qualquer tecla para voltar ao menu >> ");
+						input = scanf("%s",opcao);			  	
+					  }
+					  break;
+			case '3': if(total_Produtos(produtos)) estado = menu_faturacao(faturas);
+					  else {
+					  	printf("\e[1;1H\e[2J");
+					  	printf("\nAinda não foram lidos nenhuns dados!\n");
+					  	printf("\nPrima qualquer tecla para voltar ao menu >> ");
+					  	input = scanf("%s",opcao);
+					  }
+					  break;
+					  
+			case '4': if(total_Produtos(produtos)) estado = menu_filiais();
+					  else {
+					  	printf("\e[1;1H\e[2J");
+					  	printf("\nAinda não foram lidos nenhuns dados!\n");
+					  	printf("\nPrima qualquer tecla para voltar ao menu >> ");
+					  	input = scanf("%s",opcao);
+					  }
+					  break;
+
 			default: break;
 		}
-
 	}
 }
 
 
-int menu_catalogo(Cat_Produtos produtos) {
+int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas) {
 
-	int estado = 1; 
-	int input = 0;
+	int estado = 1, input = 0;
 	char opcao[20];
 
 	while(estado) {
 	
 		printf("\e[1;1H\e[2J");
 		printf("_____________________________________________\n");
-		printf("\t\tMENU CATALOGOS\n");
+		printf("\n\t\tMENU LEITURA\n\n");
+		printf("---------------------------------------------\n");
+		printf(" Escolha uma das seguintes opções:\n\n");
+		printf("  1. Carregar ficheiros pré-definidos\n\n");
+		printf("  2. Introduzir ficheiros\n\n");
+		printf("---------------------------------------------\n");
+		printf("  V - Voltar\t\t\tQ - Sair\n" );
+		printf("_____________________________________________\n");
+		
+		printf("\nEscolha uma opção >> ");
+		
+		input = scanf("%s",opcao);
+		
+		switch(opcao[0]) {
+			
+			case 'Q': return SAIR_PROGRAMA; break;
+			
+			case '1': estado = querie_1(produtos,clientes,faturas,1);
+					  return estado;
+					  break;
+			case '2': estado = querie_1(produtos,clientes,faturas,2);
+					  return estado;
+					  break;
+
+			case 'V': return MENU_PRINCIPAL; break;
+
+			default: break;
+		}
+
+	}
+	return estado;
+}
+
+
+int menu_catalogo(Cat_Produtos produtos) {
+
+	int estado = 1, input = 0;
+	char opcao[20];
+
+	while(estado) {
+	
+		printf("\e[1;1H\e[2J");
+		printf("_____________________________________________\n");
+		printf("\n\t\tMENU CATALOGOS\n\n");
 		printf("---------------------------------------------\n");
 		printf(" Escolha uma das seguintes opções:\n\n");
 		printf("  1. Listagem de Produtos por letra\n\n");
 		printf("---------------------------------------------\n");
-		printf("  2 - Voltar\t\t0 - Sair:\n" );
+		printf("  V - Voltar\t\t\tQ - Sair\n" );
 		printf("_____________________________________________\n");
 		
-		printf("Escolha uma opção >> ");
+		printf("\nEscolha uma opção >> ");
 		
-		int input = scanf("%s",opcao);
+		input = scanf("%s",opcao);
 		
 		switch(opcao[0]) {
 			
-			case '0': return SAIR_PROGRAMA; break;
+			case 'Q': return SAIR_PROGRAMA; break;
 			
-			case '1': estado = querie_2(produtos); break;
+			case '1': estado = querie_2(produtos);
+					  return estado;
+					  break;
 			
-			case '2': return estado; break;
+			case 'V': return MENU_PRINCIPAL; break;
 
 			default: break;
 		}
@@ -85,43 +150,92 @@ int menu_catalogo(Cat_Produtos produtos) {
 
 int menu_faturacao(Faturacao faturas) {
 
-	int estado = MENU_PRINCIPAL;
-	int input = 0;
+	int estado = 1, input = 0;
 	char opcao[20];
 
 	while(estado) {
 	
 		printf("\e[1;1H\e[2J");
-		printf( "_____________________________________________\n");
-		printf( "\t\tMENU FATURACAO\n");
-		printf( "---------------------------------------------\n");
+		printf("_____________________________________________\n");
+		printf("\n\t\tMENU FATURACAO\n\n");
+		printf("---------------------------------------------\n");
 		printf(" Escolha uma das seguintes opções:\n\n");
 		printf("  1. Total de vendas/faturação dado um mês\n");
 		printf("  2. Produtos não comprados\n");
-		printf("  3. Vendas/faturação num intervalo de meses\n");
-		printf( "---------------------------------------------\n");
-		printf( "  4 - Voltar\t\t0 - Sair:\n");
-		printf( "_____________________________________________\n");
+		printf("  3. Vendas/faturação num intervalo de meses\n\n");
+		printf("---------------------------------------------\n");
+		printf("  V - Voltar\t\t\tQ - Sair\n");
+		printf("_____________________________________________\n");
 		
-		printf("Escolha uma opção >> ");
+		printf("\nEscolha uma opção >> ");
 		
-		int input = scanf("%s",opcao);
+		input = scanf("%s",opcao);
 		
 		switch(opcao[0]) {
 			
-			case '0': return SAIR_PROGRAMA; break;
+			case 'Q': return SAIR_PROGRAMA; break;
 			
+			case '1': estado = querie_3(faturas);
+					  return estado;
+			          break;
+			
+			case '2': estado = querie_4(faturas);
+					  return estado;
+			          break;
+			case '3': estado = querie_6(faturas);
+					  return estado;
+			          break;			
+			case 'V': return MENU_PRINCIPAL; break;
+
+			default: break;
+		}
+	}
+	return estado;
+}
+
+
+
+int menu_filiais() {
+
+	int estado = 1, input = 0;
+	char opcao[20];
+
+	while(estado) {
+	
+		printf("\e[1;1H\e[2J");
+		printf("_____________________________________________\n");
+		printf("\n\t\tMENU FILIAIS\n\n");
+		printf("---------------------------------------------\n");
+		printf(" Escolha uma das seguintes opções:\n\n");
+		printf("  1. Lista de produtos comprados mês a mês\n");
+		printf("  2. Lista de Clientes em todas as filiais\n");
+		printf("  3. Compradores de um produto por filial\n");
+		printf("  4. Produtos mais comprados por Cliente\n");
+		printf("  5. Lista dos N produtos mais vendidos\n");
+		printf("  6. 3 Produtos mais custosos de um cliente\n");
+		printf("  7. Clientes/Produtos sem registos de compra\n\n");
+		printf("---------------------------------------------\n");
+		printf("  V - Voltar\t\t\tQ - Sair\n");
+		printf("_____________________________________________\n");
+		
+		printf("\nEscolha uma opção >> ");
+		
+		input = scanf("%s",opcao);
+		
+		switch(opcao[0]) {
+			
+			case 'Q': return SAIR_PROGRAMA; break;
+		/*	
 			case '1': estado = querie_3(faturas); break;
 			
 			case '2': estado = querie_4(faturas); break;
 
 			case '3': estado = querie_6(faturas); break;
-			
-			case '4': return estado; break;
+		*/	
+			case 'V': return MENU_PRINCIPAL; break;
 
 			default: break;
 		}
-
 	}
 	return estado;
 }

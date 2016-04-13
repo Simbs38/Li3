@@ -19,6 +19,7 @@
 #define MAXBUFFERPRODUTOS 64
 #define MAXBUFFERVENDAS 128
 
-void leitura_ficheiros(int argc, char** argv, Cat_Clientes costumers, Cat_Produtos products, Faturacao contas, INFO_FILIAL info);
+
+void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao contas, INFO_FILIAL info, FILE *f_clients, FILE *f_prods, FILE* f_sales, char* f_cname, char* f_pname, char* f_vname);
 
 #endif

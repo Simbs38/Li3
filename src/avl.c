@@ -174,6 +174,9 @@ static int getBalance(NODO N) {
 /* Função com o objetivo de inserir uma nova informação na arvore */
 
 static NODO node_insert(NODO node, Valor info, Estrutura estrutura) {
+
+    int balance;
+
     if (node == NULL)
         return(newNode(info,estrutura));
  
@@ -186,7 +189,7 @@ static NODO node_insert(NODO node, Valor info, Estrutura estrutura) {
     node->height = max(height(node->left), height(node->right)) + 1;
  
     /* Varifica o balanceamento */
-    int balance = getBalance(node);
+    balance = getBalance(node);
  
     /* Left Left Case */
     if (balance > 1 && strcmp(info,node->left->string) < 0)
@@ -208,7 +211,7 @@ static NODO node_insert(NODO node, Valor info, Estrutura estrutura) {
         node->right = rightRotate(node->right);
         return leftRotate(node);
     }
- 
+    
     return node;
 }
 
@@ -267,6 +270,22 @@ static void tree_free(NODO node) {
         tree_free(node->right);
         free(node);
     }
+}
+
+int imprimenodo(NODO arvore, int n){
+    if (arvore==NULL) return n;
+    else{
+    n+=imprimenodo(arvore->left,n);
+    if(notzero(arvore->cont)){printf("%s\n",arvore->string ); n++;}
+    n+=imprimenodo(arvore->right, n);
+    return n;
+}
+}
+
+
+int imprimeavl(AVL tree){
+   int r=imprimenodo(tree->arvore,0);
+   return r;
 }
 
 
@@ -329,53 +348,10 @@ static Lista produtos_nao_comprados_totais_aux(Lista list, NODO tree) {
 }
 
 
-void apresenta_Lista(Lista list) {
-    int i;
-    int input;
-    int estado = 1;
-    int nr_de_elementos = list->pos;
+int lista_getPos(Lista list) {
+    return list->pos;
+}
 
-    if(nr_de_elementos == 0) estado = 0;
-    
-    int elementos_pagina = 20;
-    
-    
-    int last_pagina = nr_de_elementos % elementos_pagina;
-    
-    int total_paginas = (last_pagina == 0) ? (nr_de_elementos / elementos_pagina) : ((nr_de_elementos / elementos_pagina) + 1); 
-
-    int nr_pagina = 1;
-
-    while(estado) {
-
-        printf("\e[1;1H\e[2J");
-        printf("\n");
-        printf("Número total de elementos: %d\n\n",nr_de_elementos);
-        printf(" --- Página número |%d| de |%d| ---\n", nr_pagina,total_paginas);
-        
-
-        for(i = (nr_pagina-1) * elementos_pagina; i < (nr_pagina * elementos_pagina) && i < nr_de_elementos; i++) {
-            printf("\t%d\t%s\n",i+1,list->array[i]);
-        }
-
-        putchar('\n');
-        printf(" 1 - [<<]  2 - [<]  3 - [>]  4 - [>>]   0 - Voltar\n");
-        putchar('\n');
-        printf("Opcao numero > ");
-        input = scanf("%d",&estado);
-
-        switch(estado) {
-            case 0: break;
-            case 1: nr_pagina = 1;
-
-            case 2: if(nr_pagina > 1) nr_pagina --;
-                   break;
-            case 3: if(nr_pagina < total_paginas) nr_pagina++;
-                   break;
-            case 4: nr_pagina = total_paginas;
-            default:printf("Opção não valida\n"); 
-                    break;
-        }
-
-    }
+char* lista_getNome(Lista list, int pos) {
+    return list->array[pos];
 }

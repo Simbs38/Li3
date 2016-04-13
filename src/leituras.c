@@ -6,53 +6,14 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
 static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, INFO_FILIAL info, FILE *fp,char* file_name);
 
 
-void leitura_ficheiros(int argc, char** argv, Cat_Clientes costumers, Cat_Produtos products, Faturacao contas, INFO_FILIAL info) {
 
+void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao contas,INFO_FILIAL info, FILE *f_clients, FILE *f_prods, FILE* f_sales, char* f_cname, char* f_pname, char* f_vname) {
+   char continua[10];
    time_t begin, end;
    double time_spent;
 
    begin = clock();
-
-   FILE *f_clients;
-   FILE *f_prods;
-   FILE *f_sales;
-   char* f_cname;
-   char* f_pname;
-   char* f_vname;
-
-   switch(argc) {
-      case 1: f_cname = "./data/Clientes.txt";
-              f_pname = "./data/Produtos.txt";
-              f_vname = "./data/Vendas_1M.txt";
-              f_clients = fopen(f_cname,"r");
-              f_prods = fopen(f_pname,"r");
-              f_sales = fopen(f_vname,"r");
-              break;
-      case 4: f_cname = argv[1];
-              f_pname = argv[2];
-              f_vname = argv[3];
-              f_clients = fopen(f_cname,"r");
-              f_prods = fopen(f_pname,"r");
-              f_sales = fopen(f_vname,"r");
-              break;
-      default: printf("Os ficheiros não foram especificados corretamente.\n");
-               break;
-   }
-
-
-   if(f_clients == NULL) {
-      printf("Erro ao abrir o ficheiro indicado!\n");
-      f_clients = fopen("./data/Clientes.txt","r");  
-   }
-   if(f_prods == NULL) {
-      printf("Erro ao abrir o ficheiro indicado!\n");
-      f_prods = fopen("./data/Produtos.txt","r");
-   }
-   if(f_sales == NULL) {
-      printf("Erro ao abrir o ficheiro indicado!\n");
-      f_sales = fopen("./data/Vendas_1M.txt","r");
-   }
-
+ 
    printf("\e[1;1H\e[2J");
    printf("\tLeitura dos ficheiros\n");
    costumers = converte_clientes(costumers,f_clients,f_cname);
@@ -60,13 +21,15 @@ void leitura_ficheiros(int argc, char** argv, Cat_Clientes costumers, Cat_Produt
    contas = cria_Dados_Faturacao(contas,products);
    info = full_init(info,products,costumers);
    converte_vendas(products,costumers,contas,info,f_sales,f_vname);
-
+   printf("got 6\n");
    
    end = clock();
    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
    
-   printf("Tempo total de leitura: %lf segundos\n",time_spent);
+   printf("Tempo total de leitura: %f segundos\n",time_spent);
    putchar('\n');
+   printf("Prima uma tecla para continuar >> ");
+   int input = scanf("%s",continua);
 }
 
 
@@ -108,7 +71,7 @@ static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, c
    printf("Nome do Ficheiro: %s\n",file_name);
    printf("Numero de linhas lidas: %d\n",total);
    printf("Numero de linhas validas: %d\n",clientes_validos);
-   printf("Tempo de Leitura: %lf segundos\n",time_spent);
+   printf("Tempo de Leitura: %f segundos\n",time_spent);
    putchar('\n');
 
 
@@ -156,7 +119,7 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
    printf("Nome do Ficheiro: %s\n",file_name);
    printf("Numero de linhas lidas: %d\n",total);
    printf("Numero de linhas validas: %d\n",produtos_validos);
-   printf("Tempo de Leitura: %lf segundos\n",time_spent);
+   printf("Tempo de Leitura: %f segundos\n",time_spent);
    putchar('\n');
 
 
@@ -186,10 +149,10 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
    char* client;
    int month;
    int shop;
-
+   printf("zxc\n");
    
    Venda venda = initVenda();
-
+   printf("asdasda\n");
    while(fgets(line,MAXBUFFERVENDAS,f_sales)) {
 
       information = strtok(line,"\n\r");
@@ -207,19 +170,18 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
          }
          information = strtok(NULL," ");
       }
-
+      printf("got qwe\n");
       change_sale(venda,product,price,ammount,type,client,month,shop);
          
       /* Verifica a existencia do produto e do cliente de uma dada venda */
       
       verify = validate_sale(products,costumers,venda);
       /* Caso verifique adiciona á estrutura das vendas a venda validada nessa iteração */
-
+      printf("got qwer\n");
       if(verify) {
          faturas = adiciona_Fatura(faturas,venda);
 
         info=insere_compra(info,venda);
-         
          vendas_validas++;
          total++;
       } else {
@@ -227,9 +189,11 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
       }
 
    }
-
+   printf("got asd\n");
    end = clock();
    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+
+   nuncaComprados(info);
 
    
    printf("Nome do Ficheiro: %s\n",file_name);
