@@ -2,14 +2,19 @@
 
 #define MENU_PRINCIPAL 1
 #define SAIR_PROGRAMA 0
+#define REFAZER_DADOS 2
 
-void menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas,INFO_FILIAL info) {
+int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas,INFO_FILIAL info,int estado) {
 
-	int estado = MENU_PRINCIPAL, input = 0;
+	int input = 0;
 	char opcao[20];
-		
+	/*	
+	if(estado == REFAZER_DADOS) {
+		estado = menu_leitura(produtos,clientes,faturas);
+	}
+*/
 	while(estado) {
-		printf("\e[1;1H\e[2J");
+		system("clear");
 		printf( "_____________________________________________\n" );
 		printf( "\n\t\tMENU PRINCIPAL\n\n" );
 		printf( "---------------------------------------------\n" );
@@ -31,10 +36,21 @@ void menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatu
 			case 'Q': estado = SAIR_PROGRAMA; break;
 			
 			case '1': estado = menu_leitura(produtos,clientes,faturas,info); break;
-
+			/*if(!total_Produtos(produtos)) {
+					  	estado = menu_leitura(produtos,clientes,faturas); break;
+					  }
+					  else {
+					  	printf("Esta acção irá refazer os dados em memória, prima Q para cancelar >> ");
+					  	input = scanf("%s",opcao);
+					  	if(opcao[0] == 'Q') break;
+					  	else {
+					  		estado = REFAZER_DADOS;
+					  		return estado;
+					  	}
+					  }*/
 			case '2': if(total_Produtos(produtos)) estado = menu_catalogo(produtos);
 					  else  {
-					  	printf("\e[1;1H\e[2J");
+					  	system("clear");
 					  	printf("\nAinda não foram lidos nenhuns dados!\n");
 					  	printf("\nPrima qualquer tecla para voltar ao menu >> ");
 						input = scanf("%s",opcao);			  	
@@ -42,7 +58,7 @@ void menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatu
 					  break;
 			case '3': if(total_Produtos(produtos)) estado = menu_faturacao(faturas);
 					  else {
-					  	printf("\e[1;1H\e[2J");
+					  	system("clear");
 					  	printf("\nAinda não foram lidos nenhuns dados!\n");
 					  	printf("\nPrima qualquer tecla para voltar ao menu >> ");
 					  	input = scanf("%s",opcao);
@@ -51,7 +67,7 @@ void menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatu
 					  
 			case '4': if(total_Produtos(produtos)) estado = menu_filiais();
 					  else {
-					  	printf("\e[1;1H\e[2J");
+					  	system("clear");
 					  	printf("\nAinda não foram lidos nenhuns dados!\n");
 					  	printf("\nPrima qualquer tecla para voltar ao menu >> ");
 					  	input = scanf("%s",opcao);
@@ -61,6 +77,7 @@ void menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatu
 			default: break;
 		}
 	}
+	return estado;
 }
 
 
@@ -71,7 +88,7 @@ int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas,
 
 	while(estado) {
 	
-		printf("\e[1;1H\e[2J");
+		system("clear");
 		printf("_____________________________________________\n");
 		printf("\n\t\tMENU LEITURA\n\n");
 		printf("---------------------------------------------\n");
@@ -114,7 +131,7 @@ int menu_catalogo(Cat_Produtos produtos) {
 
 	while(estado) {
 	
-		printf("\e[1;1H\e[2J");
+		system("clear");
 		printf("_____________________________________________\n");
 		printf("\n\t\tMENU CATALOGOS\n\n");
 		printf("---------------------------------------------\n");
@@ -154,7 +171,7 @@ int menu_faturacao(Faturacao faturas) {
 
 	while(estado) {
 	
-		printf("\e[1;1H\e[2J");
+		system("clear");
 		printf("_____________________________________________\n");
 		printf("\n\t\tMENU FATURACAO\n\n");
 		printf("---------------------------------------------\n");
@@ -201,7 +218,7 @@ int menu_filiais() {
 
 	while(estado) {
 	
-		printf("\e[1;1H\e[2J");
+		system("clear");
 		printf("_____________________________________________\n");
 		printf("\n\t\tMENU FILIAIS\n\n");
 		printf("---------------------------------------------\n");

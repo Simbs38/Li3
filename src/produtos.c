@@ -5,7 +5,7 @@
 
 
 struct produto {
-  char* prod;
+  char prod[7];
 };
 
 
@@ -27,9 +27,8 @@ Cat_Produtos init_cat_produtos() {
 
 Produto criaProduto() {
 	Produto product = (Produto) malloc(sizeof(struct produto));
-	product->prod = malloc(MAXSIZEPRODUTOS);
 
-  return product;
+	return product;
 }
 
 char* getNomeProduto(Produto product) {
@@ -37,9 +36,12 @@ char* getNomeProduto(Produto product) {
 }
 
 void alteraProduto(Produto product, char *info) {
-  strncpy(product->prod, info, MAXSIZEPRODUTOS);
+  strncpy(product->prod, info, 7);
 }
 
+void free_produto(Produto product) {
+  free(product);
+}
 
 /* Função que verifica se um dado produto existe no catalogo de produtos */
 

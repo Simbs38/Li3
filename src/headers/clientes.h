@@ -23,6 +23,7 @@ Catalogo get_CatalogoCli(Cat_Clientes clientes);
 void remove_Catalogo_Clientes(Cat_Clientes clients);
 
 Cliente criaCliente();
+void free_cliente(Cliente client);
 void alteraCliente(Cliente client, char *info);
 char* getNomeCliente(Cliente client);
 

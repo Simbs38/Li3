@@ -13,8 +13,9 @@ void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao 
 
 
    begin = clock();
-   printf("\e[1;1H\e[2J");
-   printf("\tLeitura dos ficheiros\n");
+
+   system("clear");
+   printf("\tLeitura dos ficheiros\n\n");
    costumers = converte_clientes(costumers,f_clients,f_cname);
    products = converte_produtos(products,f_prods,f_pname);   
    contas = cria_Dados_Faturacao(contas,products);
@@ -25,7 +26,7 @@ void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao 
    end = clock();
    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
    
-   printf("Tempo total de leitura: %f segundos\n",time_spent);
+   printf(" Tempo total de leitura: %f segundos\n",time_spent);
    putchar('\n');
    printf("Prima uma tecla para continuar >> ");
    int input = scanf("%s",continua);
@@ -45,7 +46,6 @@ static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, c
    char line[MAXBUFFERCLIENTES];
    
    int clientes_validos = 0, total = 0;
-
 
    Cliente client = criaCliente();
       printf("%s %s\n",f_clients,file_name );
@@ -67,10 +67,10 @@ static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, c
    end = clock();
    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
    
-   printf("Nome do Ficheiro: %s\n",file_name);
-   printf("Numero de linhas lidas: %d\n",total);
-   printf("Numero de linhas validas: %d\n",clientes_validos);
-   printf("Tempo de Leitura: %f segundos\n",time_spent);
+   printf(" Nome do Ficheiro: %s\n",file_name);
+   printf(" Número de linhas lidas: %d\n",total);
+   printf(" Número de linhas válidas: %d\n",clientes_validos);
+   printf(" Tempo de Leitura: %f segundos\n",time_spent);
    putchar('\n');
 
 
@@ -115,10 +115,10 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
    end = clock();
    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
-   printf("Nome do Ficheiro: %s\n",file_name);
-   printf("Numero de linhas lidas: %d\n",total);
-   printf("Numero de linhas validas: %d\n",produtos_validos);
-   printf("Tempo de Leitura: %f segundos\n",time_spent);
+   printf(" Nome do Ficheiro: %s\n",file_name);
+   printf(" Número de linhas lidas: %d\n",total);
+   printf(" Número de linhas válidas: %d\n",produtos_validos);
+   printf(" Tempo de Leitura: %f segundos\n",time_spent);
    putchar('\n');
 
 
@@ -189,11 +189,11 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
    nuncaComprados(info);
 
    
-   printf("Nome do Ficheiro: %s\n",file_name);
-   printf("Numero de linhas lidas: %d\n",total);
-   printf("Numero de linhas válidas: %d\n",vendas_validas);
-   printf("Numero de vendas inválidas: %d\n",total-vendas_validas);
-   printf("Tempo de Leitura: %lf segundos\n",time_spent);
+   printf(" Nome do Ficheiro: %s\n",file_name);
+   printf(" Número de linhas lidas: %d\n",total);
+   printf(" Número de linhas válidas: %d\n",vendas_validas);
+   printf(" Número de vendas inválidas: %d\n",total-vendas_validas);
+   printf(" Tempo de Leitura: %lf segundos\n",time_spent);
    putchar('\n');   
 
    fclose(f_sales);   
