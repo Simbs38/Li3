@@ -65,7 +65,7 @@ int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatur
 					  }
 					  break;
 					  
-			case '4': if(total_Produtos(produtos)) estado = menu_filiais();
+			case '4': if(total_Produtos(produtos)) estado = menu_filiais(info);
 					  else {
 					  	system("clear");
 					  	printf("\nAinda não foram lidos nenhuns dados!\n");
@@ -211,7 +211,7 @@ int menu_faturacao(Faturacao faturas) {
 
 
 
-int menu_filiais() {
+int menu_filiais(INFO_FILIAL info) {
 
 	int estado = 1, input = 0;
 	char opcao[20];
@@ -241,6 +241,8 @@ int menu_filiais() {
 		switch(opcao[0]) {
 			
 			case 'Q': return SAIR_PROGRAMA; break;
+
+			case '1': estado =querie_5(info); break;
 		/*	
 			case '1': estado = querie_3(faturas); break;
 			

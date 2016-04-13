@@ -17,7 +17,7 @@
 
 
 typedef struct info *INFO_FILIAL;
-
+typedef struct conjunto_filiais *Conj_Filiais;
 typedef struct produtosNode *ProdutosNode;
 typedef struct clientesNode *ClientesNode;
 typedef struct clientes_Produto_Node *Clientes_Produto_Node;
@@ -30,9 +30,10 @@ INFO_FILIAL init_info_filial();
 ProdutosNode init_infoprod();
 ClientesNode init_infocli();
 Info_Final init_infolast(Venda sale);
+Info_Final insere_final_estrutura(INFO_FILIAL inf, Venda sale,ClientesNode nodecli,ProdutosNode nodepro);
 Info_Final update_infolast(Venda sale, Info_Final final);
-INFO_FILIAL insere_produto_estrutura(INFO_FILIAL inf, Venda sale);
-INFO_FILIAL insere_cliente_estrutura(INFO_FILIAL inf, Venda sale);
+INFO_FILIAL insere_produto_estrutura(INFO_FILIAL inf, Venda sale, Info_Final final,ProdutosNode node);
+INFO_FILIAL insere_cliente_estrutura(INFO_FILIAL inf, Venda sale, Info_Final final,ClientesNode node);
 INFO_FILIAL insere_compra(INFO_FILIAL inf,Venda sale);
 INFO_FILIAL init_filiais();
 

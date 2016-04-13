@@ -269,24 +269,24 @@ static void tree_free(NODO node) {
         free(node);
     }
 }
-/*
+
 int imprimenodo(NODO arvore, int n){
     if (arvore==NULL) return n;
     else{
-    n+=imprimenodo(arvore->left,n);
-    if(notzero(arvore->cont)){printf("%s\n",arvore->string ); n++;}
-    n+=imprimenodo(arvore->right, n);
+    n+=imprimenodo(arvore->left,0);
+    if(notzero(arvore->cont)) n++;
+    n+=imprimenodo(arvore->right, 0);
     return n;
 }
 }
 
 
-int imprimeavl(AVL tree){
-   int r=imprimenodo(tree->arvore,0);
-   return r;
+int imprimeavl(AVL tree, int n){
+   n+=imprimenodo(tree->arvore,0);
+   return n;
 }
 
-*/
+
 
 /************
 FUNCOES RELATIVAS AOS ARRAYS DINAMICOS

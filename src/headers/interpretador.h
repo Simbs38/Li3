@@ -15,6 +15,7 @@ int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatur
 int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas,INFO_FILIAL info);
 int menu_catalogo(Cat_Produtos produtos);
 int menu_faturacao(Faturacao faturas);
+int menu_filiais(INFO_FILIAL info);
 
 
 #endif

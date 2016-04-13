@@ -5,6 +5,12 @@
 #define FILIAIS 3
 /* Tuplo com os dois tipos de informaçoes, organizadas por produtos e por clientes */
 
+struct conjunto_filiais {
+  Array lista;
+};
+
+
+
 struct info{
     Catalogo clientes;
     Catalogo produtos;
@@ -14,8 +20,9 @@ struct info{
 /*Estrutura que começa por ordenar os clientes e cria para cada um uma lista de produtos */
 
 struct clientesNode{
-    float total[FILIAIS];
     Catalogo Produtos_Cliente;
+    int total[12][3];
+    /*array meses, filiais*/
     /*catalogo tamanho MESES*/
 };
 
@@ -24,7 +31,8 @@ struct clientesNode{
 
 struct produtosNode{
     long totalU[FILIAIS];
-    long totalC[FILIAIS];
+    long totalCN[FILIAIS];
+    long totalCP[FILIAIS];
     Catalogo Clientes_Produto;
     /*catalogo tamanho FILIAIS*/
 };
@@ -55,7 +63,8 @@ ProdutosNode init_infoprod(){
     ProdutosNode node = (ProdutosNode) malloc(sizeof(struct produtosNode));
     for(i=0;i!=FILIAIS;i++){
         node->totalU[i]=0;
-        node->totalC[i]=0;
+        node->totalCN[i]=0;
+        node->totalCP[i]=0;
     }
 
     node->Clientes_Produto=init_Catalogo(FILIAIS);    
@@ -66,10 +75,12 @@ ProdutosNode init_infoprod(){
 
 ClientesNode init_infocli(){
 
-    int i;
+    int i,j;
     ClientesNode node = (ClientesNode) malloc(sizeof(struct clientesNode));
-    for(i=0;i!=FILIAIS;i++){
-        node->total[i]=0;
+    for(j=0;j!=MESES;j++){
+        for(i=0;i!=FILIAIS;i++){
+            node->total[j][i]=0;
+        }
     }
 
     node->Produtos_Cliente=init_Catalogo(MESES);
@@ -132,86 +143,91 @@ Info_Final update_infolast(Venda sale, Info_Final final){
 
 
 
-INFO_FILIAL insere_produto_estrutura(INFO_FILIAL inf, Venda sale){ 
-    char * indexp;
-    char * indexc;
-    int i;
-    indexp = getNomeProduto(getProduto(sale));
-    indexc = getNomeCliente(getCliente(sale));
-
+INFO_FILIAL insere_produto_estrutura(INFO_FILIAL inf, Venda sale,Info_Final final,ProdutosNode node){ 
+    char *indexp = getNomeProduto(getProduto(sale));
+    char *indexc = getNomeCliente(getCliente(sale));
     
-    ProdutosNode node =getEstrutura_Catalogo(inf->produtos,indexp,indexp[0]-'A');
     if(node==NULL) node=init_infoprod();
-    node->totalU[getFilial(sale)]+=getQuantidade(sale);
-    insere_Catalogo(inf->produtos,getNomeProduto(getProduto(sale)),node,indexp[0]-'A');
-    if(existe_Catalogo(node->Clientes_Produto,indexc,indexc[0]-'A')){
-        /*Cliente existe*/
-        Info_Final final=getEstrutura_Catalogo(node->Clientes_Produto,indexc,getFilial(sale)-1);
-        final=update_infolast(sale,final);
-        insere_Catalogo(node->Clientes_Produto,getNomeProduto(getProduto(sale)),final,getFilial(sale)-1);
-    }
-    else{
-        /*Cliente novo*/
-        node->totalC[getFilial(sale)-1]++;
-        Info_Final last =init_infolast(sale);
-        insere_Catalogo(node->Clientes_Produto,getNomeProduto(getProduto(sale)),last,getFilial(sale)-1);
-        }    
-    
-    
+    node->totalU[getFilial(sale)-1]+=getQuantidade(sale);
+    if(getPromocao(sale)=='N') node->totalCN[getFilial(sale)-1]++;
+    else node->totalCP[getFilial(sale)-1]++;
+    insere_Catalogo(node->Clientes_Produto,indexc,final,getFilial(sale)-1);
+    insere_Catalogo(inf->produtos,indexp,node,indexp[0]-'A');
     
     return inf;
 }
 
-INFO_FILIAL insere_cliente_estrutura(INFO_FILIAL inf, Venda sale){
-    char * indexp;
-    char * indexc;
-    int i;
-    indexp = getNomeProduto(getProduto(sale));
-    indexc = getNomeCliente(getCliente(sale));
-
-   
-    ClientesNode node =getEstrutura_Catalogo(inf->produtos,getNomeCliente(getCliente(sale)),indexp[0]-'A');
+INFO_FILIAL insere_cliente_estrutura(INFO_FILIAL inf, Venda sale,Info_Final final,ClientesNode node){
+    char *indexp = getNomeProduto(getProduto(sale));
+    char *indexc = getNomeCliente(getCliente(sale));
+    
     if(node==NULL) node=init_infocli();
-    node->total[getFilial(sale)]+=getQuantidade(sale)*getPreco(sale);
-    insere_Catalogo(inf->clientes,getNomeCliente(getCliente(sale)),node,indexc[0]-'A');
-    if(existe_Catalogo(node->Produtos_Cliente,indexp,indexp[0]-'A')){
-        /*Produto existe*/
-        Info_Final final=getEstrutura_Catalogo(node->Produtos_Cliente,getNomeProduto(getProduto(sale)),getMes(sale)-1);
-        final=update_infolast(sale,final);
-        insere_Catalogo(node->Produtos_Cliente,getNomeCliente(getCliente(sale)),final,getMes(sale)-1);
-    }
-    else{
-        /*Produto novo*/
-        node->total[getFilial(sale)]+=getQuantidade(sale)*getPreco(sale);
-        Info_Final last =init_infolast(sale);
-        insere_Catalogo(node->Produtos_Cliente,getNomeCliente(getCliente(sale)),last,getMes(sale)-1);
-       
-        }    
+    node->total[getMes(sale)-1][getFilial(sale)-1]+=getQuantidade(sale);
+    insere_Catalogo(node->Produtos_Cliente,indexp,node,getMes(sale)-1);
+    insere_Catalogo(inf->clientes,indexc,node,indexc[0]-'A');
+     
     
     return inf;
 }
 
+
+Info_Final insere_final_estrutura(INFO_FILIAL inf, Venda sale,ClientesNode nodecli,ProdutosNode nodepro){
+    char *indexp = getNomeProduto(getProduto(sale));
+    Info_Final last =init_infolast(sale);
+        
+        if(nodepro!=NULL && nodecli!=NULL){
+        /*Produto existe*/
+        if(nodecli->Produtos_Cliente!=NULL){
+        last=getEstrutura_Catalogo(nodecli->Produtos_Cliente,indexp,getMes(sale)-1);
+        last=update_infolast(sale,last);
+        }
+    }
+    return last;
+}
 
 
 
 
 
 INFO_FILIAL insere_compra(INFO_FILIAL inf,Venda sale) {
-    int index,i;
-    inf=insere_produto_estrutura(inf,sale);
-    inf=insere_cliente_estrutura(inf,sale);
+    char *indexp = getNomeProduto(getProduto(sale));
+    char *indexc = getNomeCliente(getCliente(sale));
+    ProdutosNode nodepro = getEstrutura_Catalogo(inf->produtos,indexp,indexp[0]-'A');
+    ClientesNode nodecli = getEstrutura_Catalogo(inf->produtos,indexc,indexc[0]-'A');
+    Info_Final final =insere_final_estrutura(inf,sale,nodecli,nodepro);
+    inf=insere_produto_estrutura(inf,sale,final,nodepro);
+    inf=insere_cliente_estrutura(inf,sale,final,nodecli);
     return inf;
 }
 
 
-/*
-
 void nuncaComprados(INFO_FILIAL inf){
-    imprimecat(inf->produtos);
+    imprimecat(inf->clientes);
 }
 
 Boolean notzero(ProdutosNode pro){
-    if(pro==NULL)return false;
-    if(pro->totalU[0]==0 && pro->totalU[1]==0 && pro->totalU[2]==0) return true;
+    if(pro==NULL) return true;
     else return false;
+}
+/*
+Conj_Filiais init_ConjuntoF(int capacidade) {
+  Conj_Filiais conjunto = (Conj_Produtos) malloc(sizeof(struct conjunto_produtos));
+  conjunto->lista = init_Array(capacidade);
+  return conjunto;
+}
+
+Conj_Produtos converte_Produtos(Conj_Filiais conjunto, Cat_Produtos products, char letra) {
+  conjunto->lista = lista_catalogo_letra(conjunto->lista,products->catalogo,letra);
+  return conjunto;
+}
+
+
+ClientesNode getNodeCliente(INFO_FILIAL info,char *key,int index){
+    ClientesNode node=getEstrutura_Catalogo(info->clientes,cliente, cliente[0]-'A');
+    return node;
+}
+
+ProdutosNode getNodeCliente(INFO_FILIAL info,char *key,int index){
+    ProdutosNode node=getEstrutura_Catalogo(info->produtos,cliente, cliente[0]-'A');
+    return node;
 }*/

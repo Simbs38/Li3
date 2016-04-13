@@ -246,6 +246,47 @@ int querie_4(Faturacao faturas) {
 	}
 	return estado;
 }
+int querie_5(INFO_FILIAL info){
+
+
+	/*Conj_Filiais lista_filiais = init_ConjuntoF(1000); */
+	int estado = 1, input, filial = 0;
+	char *cliente;
+
+	while(estado) {
+	Conj_Faturas nao_comprados = init_Lista_Faturacao(1000); 
+		system("clear");
+		printf( "_____________________________________________\n" );
+		printf( "   Produtos comprados - QUERIE 5\n\n" );
+		printf( "_____________________________________________\n\n" );
+		printf("  Insira o codigo do seu cliente\n");
+		printf("_____________________________________________\n" );
+		printf( "  V - Voltar\t\tQ - Sair:\n" );
+		printf( "_____________________________________________\n" );
+
+		
+		printf("Escolha uma cliente >> ");
+
+		input = scanf("%s",&cliente);
+		
+		switch(cliente[0]) {
+			case 'Q': return 0; break;
+
+			case 'V': return estado; break;
+
+			default: break;
+		}/*
+		ClientesNode node =getEstrutura_Catalogo(info->clientes,cliente, cliente[0]-'A');
+			if(node!=NULL){
+			lista_produtos = converte_Produtos(lista_produtos,produtos,letra);
+			apresenta_Produtos(lista_produtos);
+			return estado;
+		*/}	
+	return estado;		
+			
+		}
+	
+
 
 
 int querie_6(Faturacao faturas) {
@@ -315,6 +356,40 @@ int querie_6(Faturacao faturas) {
 	}
 	return estado;
 }
+
+int querie_7(INFO_FILIAL info){
+	int estado=1;
+	return estado;
+}
+
+int querie_8(INFO_FILIAL info){
+	int estado=1;
+	return estado;
+}
+
+int querie_9(INFO_FILIAL info){
+	int estado=1;
+	return estado;
+}
+
+int querie_10(INFO_FILIAL info){
+	int estado=1;
+	return estado;
+
+}
+
+int querie_11(INFO_FILIAL info){
+	int estado=1;
+	return estado;
+}
+
+int querie_12(INFO_FILIAL info){
+	int estado=1;
+	return estado;
+}
+
+
+
 
 
 void apresenta_Lista(Lista list) {
