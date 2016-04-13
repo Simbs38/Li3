@@ -1,7 +1,16 @@
 #include "./headers/queries.h"
 
 int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, int modo) {
-
+	/*
+	if(total_Produtos(produtos) && total_Clientes(clientes)) {
+		remove_Catalogo_Produtos(produtos);
+		remove_Catalogo_Clientes(clientes);
+		free_Faturacao(faturas);
+		Cat_Clientes clientes = init_cat_clientes();
+    	Cat_Produtos produtos = init_cat_produtos();
+    	Faturacao faturacao = init_Faturacao();
+	}
+	*/
 	int input;
 	char f_clientes[50];
 	char f_produtos[50];

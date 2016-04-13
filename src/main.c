@@ -4,16 +4,21 @@
 #include "./headers/interpretador.h"
 
 int main() {
+   int estado = 1;
    	
-    Cat_Clientes clientes = init_cat_clientes();
-    Cat_Produtos produtos = init_cat_produtos();
-    Faturacao faturacao = init_Faturacao();
+   	while(estado) {	
+    	
+    	Cat_Clientes clientes = init_cat_clientes();
+    	Cat_Produtos produtos = init_cat_produtos();
+    	Faturacao faturacao = init_Faturacao();
 
-    menu_principal(produtos,clientes,faturacao);
+    	estado = menu_principal(produtos,clientes,faturacao, estado);
 
-    remove_Catalogo_Clientes(clientes);
-    remove_Catalogo_Produtos(produtos);
-    free_Faturacao(faturacao);
+    	remove_Catalogo_Clientes(clientes);
+    	remove_Catalogo_Produtos(produtos);
+    	free_Faturacao(faturacao);
     
+    }
+
     return 0;
 }

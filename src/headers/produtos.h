@@ -23,6 +23,7 @@ void remove_Catalogo_Produtos(Cat_Produtos products);
 Produto criaProduto();
 void alteraProduto(Produto product, char *info);
 char* getNomeProduto(Produto product);
+void free_produto(Produto product);
 
 Conj_Produtos converte_Produtos(Conj_Produtos lista, Cat_Produtos products, char letra);
 Conj_Produtos init_Conjunto(int capacidade);

@@ -10,7 +10,7 @@
 #include "faturacao.h"
 #include "global.h"
 
-void menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas);
+int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas, int estado);
 int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas);
 int menu_catalogo(Cat_Produtos produtos);
 int menu_faturacao(Faturacao faturas);

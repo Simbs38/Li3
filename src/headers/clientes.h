@@ -21,6 +21,7 @@ int total_Clientes_letra(Cat_Clientes clients, char letra);
 void remove_Catalogo_Clientes(Cat_Clientes clients);
 
 Cliente criaCliente();
+void free_cliente(Cliente client);
 void alteraCliente(Cliente client, char *info);
 char* getNomeCliente(Cliente client);
 

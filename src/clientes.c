@@ -4,7 +4,7 @@
 #define MAXBUFFERCLIENTES 32
 
 struct cliente {
-  char* name;
+  char name[6];
 };
 
 
@@ -22,15 +22,18 @@ Cat_Clientes init_cat_clientes() {
 
 Cliente criaCliente() {
   Cliente client = (struct cliente*) malloc(sizeof(struct cliente));
-  client->name = malloc(MAXBUFFERCLIENTES);
   return client;
 }
 
 
 void alteraCliente(Cliente client, char *info) {
-    strncpy(client->name, info, MAXBUFFERCLIENTES);
+    strncpy(client->name, info, 6);
 }
 
+
+void free_cliente(Cliente client) {
+  free(client);
+}
 
 /* Função que verifica se um dado cliente existe no catalogo de clientes */
 
@@ -63,7 +66,6 @@ int total_Clientes_letra(Cat_Clientes clients, char letra) {
 void remove_Catalogo_Clientes(Cat_Clientes clients) {
   remove_Catalogo(clients->catalogo);
 }
-
 
 char* getNomeCliente(Cliente client) {
   return client->name;
