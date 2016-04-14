@@ -89,6 +89,15 @@ void* getEstrutura_Catalogo(Catalogo catalogo, char* key, int index) {
   return avl_getEstrutura(catalogo->indice[index],key);
 }
 
+int percorrercat(Catalogo cat,int lim,int c_p){
+  int i,n=0;
+  for(i=0;i!=lim;i++)
+  n+=percorreravl(cat->indice[i],c_p);
+
+  return n;
+}
+
+
 
 
 Array init_Array(int capacidade) {
@@ -131,16 +140,6 @@ Array catalogo_produtos_nao_comprados_totais(Array lista, Catalogo catalogo) {
 void apresenta_Array(Array lista) {
   apresenta_Lista(lista->list);
 }
-
-
-void imprimecat(Catalogo cat){
-
-    int i,n=0;
-    for(i=0;i!=26;i++){
-      
-      n+=imprimeavl(cat->indice[i],0);}
-    
-  }
 
 Array catalogo_lista_total(Array lista,Catalogo catalogo) {
   int i;

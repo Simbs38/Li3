@@ -183,8 +183,6 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
    end = clock();
    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
-   nuncaComprados(info);
-
    
    printf(" Nome do Ficheiro: %s\n",file_name);
    printf(" Número de linhas lidas: %d\n",total);

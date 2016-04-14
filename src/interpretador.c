@@ -250,6 +250,7 @@ int menu_filiais(INFO_FILIAL info) {
 
 			case '3': estado = querie_6(faturas); break;
 		*/	
+			case '7': estado=querie_12(info); break;
 			case 'V': return MENU_PRINCIPAL; break;
 
 			default: break;

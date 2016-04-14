@@ -1,5 +1,7 @@
 #include "./headers/queries.h"
 
+
+
 int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas,INFO_FILIAL info, int modo) {
 	/*
 	if(total_Produtos(produtos) && total_Clientes(clientes)) {
@@ -250,41 +252,54 @@ int querie_5(INFO_FILIAL info){
 
 
 	/*Conj_Filiais lista_filiais = init_ConjuntoF(1000); */
-	int estado = 1, input, filial = 0;
-	char *cliente;
-
-	while(estado) {
-	Conj_Faturas nao_comprados = init_Lista_Faturacao(1000); 
-		system("clear");
+	int estado = 1, input, filial = 0,i,j;
+	char cliente[10];
+	int resultado[12][3];
+	system("clear");
 		printf( "_____________________________________________\n" );
 		printf( "   Produtos comprados - QUERIE 5\n\n" );
 		printf( "_____________________________________________\n\n" );
 		printf("  Insira o codigo do seu cliente\n");
 		printf("_____________________________________________\n" );
+		printf( "  Escreva o nome do cliente:\n" );
 		printf( "  V - Voltar\t\tQ - Sair:\n" );
 		printf( "_____________________________________________\n" );
 
-		
-		printf("Escolha uma cliente >> ");
+		while(estado){
+		printf("\nEscolha uma opção >> ");
 
-		input = scanf("%s",&cliente);
-		
-		switch(cliente[0]) {
-			case 'Q': return 0; break;
+		input = scanf("%s",cliente);
+		cliente[6]='\0';
+		/*if(info_lookUp(info,cliente,1)!=0){*/
+			if(cliente[1]!=' '){
+				switch(cliente[0]) {
+					case 'Q': return 0; break;
 
-			case 'V': return estado; break;
+					case 'V': return estado; break;
 
-			default: break;
-		}/*
-		ClientesNode node =getEstrutura_Catalogo(info->clientes,cliente, cliente[0]-'A');
-			if(node!=NULL){
-			lista_produtos = converte_Produtos(lista_produtos,produtos,letra);
-			apresenta_Produtos(lista_produtos);
-			return estado;
-		*/}	
-	return estado;		
+					default: break;
+				}
+			}
+			for(i=0;i!=12;i++)
+				for(j=0;j!=3;j++)
+					resultado[i][j]=getprodutosComprados(info,cliente,i,j);
+
+
+
+
+			system("clear");
+			printf( "\tCompras pelo cliente %s\n",cliente);
+			printf( "______________________________________________________\n" );
+			printf("\t  Filial 1   Filial 2   Filial 3\n");
+			for(i=0;i!=12;i++)
+			printf("Mes %2d\t %3d \t\t%3d \t\t%3d\n",i,resultado[i][0],resultado[i][1],resultado[i][2]);
 			
-		}
+			printf( "______________________________________________________\n" );
+			printf( "  V - Voltar\t\tQ - Sair:\n" );
+			}
+		/*}*/
+	return estado;	
+	}
 	
 
 
@@ -379,12 +394,33 @@ int querie_10(INFO_FILIAL info){
 }
 
 int querie_11(INFO_FILIAL info){
-	int estado=1;
+	int estado = 1, input;
+
 	return estado;
 }
 
 int querie_12(INFO_FILIAL info){
-	int estado=1;
+	int estado = 1, input;
+	char opcao[10];
+
+	system("clear");
+			printf( "_____________________________________________\n" );
+			printf( "\n  \n");
+			printf("Total de clientes sem compras: %d\n",getnotprodutos(info,26));
+			printf("Total de produtos não comprados: %d\n",getnotclientes(info,26));
+			printf( "_____________________________________________\n" );
+			printf( "  1 - Voltar\t\t0 - Sair:\n" );
+			printf( "_____________________________________________\n" );
+			
+			
+			printf("Escolha uma opção >> ");
+			input = scanf("%s",opcao);
+			
+			switch(opcao[0]) {
+				case '1': return estado; break;
+				case '0': return 0; break;
+				default: break;
+			}	
 	return estado;
 }
 

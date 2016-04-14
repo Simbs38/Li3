@@ -270,20 +270,18 @@ static void tree_free(NODO node) {
     }
 }
 
-int imprimenodo(NODO arvore, int n){
-    if (arvore==NULL) return n;
-    else{
-    n+=imprimenodo(arvore->left,0);
-    if(notzero(arvore->cont)) n++;
-    n+=imprimenodo(arvore->right, 0);
+int precorrernodo(NODO node,int n,int mode){
+    n+=precorrernodo(node->left,n,mode);
+    if(mode==0 && nexisteproduto(node->cont)) return (n++); 
+    else if(mode==1 && nexistecliente(node->cont)) return(n++);
+    n+=precorrernodo(node->right,n,mode);
+
     return n;
 }
-}
 
 
-int imprimeavl(AVL tree, int n){
-   n+=imprimenodo(tree->arvore,0);
-   return n;
+int percorreravl(AVL tree,int n){
+    return precorrernodo(tree->arvore,0,n);
 }
 
 

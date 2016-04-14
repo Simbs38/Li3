@@ -15,7 +15,7 @@
 
 
 
-
+typedef int *Array_int;
 typedef struct info *INFO_FILIAL;
 typedef struct conjunto_filiais *Conj_Filiais;
 typedef struct produtosNode *ProdutosNode;
@@ -36,5 +36,11 @@ INFO_FILIAL insere_produto_estrutura(INFO_FILIAL inf, Venda sale, Info_Final fin
 INFO_FILIAL insere_cliente_estrutura(INFO_FILIAL inf, Venda sale, Info_Final final,ClientesNode node);
 INFO_FILIAL insere_compra(INFO_FILIAL inf,Venda sale);
 INFO_FILIAL init_filiais();
+int getprodutosComprados(INFO_FILIAL info,char *cliente,int mes,int filiais);
+Boolean info_lookUp(INFO_FILIAL info,char *string,int n);
+int getnotprodutos(INFO_FILIAL info,int lim);
+int getnotclientes(INFO_FILIAL info,int lim);
+Boolean nexisteproduto(ProdutosNode pro); 
+Boolean nexistecliente(ClientesNode cli);
 
 #endif

@@ -15,6 +15,7 @@ Boolean existe_Catalogo(Catalogo catalogo, char* key,int index);
 int total_elems_Catalogo(Catalogo catalogo);
 int total_elems_letra(Catalogo catalogo, char letra);
 void* getEstrutura_Catalogo(Catalogo catalogo, char* key,int index);
+int percorrercat(Catalogo cat,int lim,int c_p);
 
 
 Array init_Array(int capacidade);

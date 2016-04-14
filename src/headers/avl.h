@@ -30,7 +30,6 @@ void avl_free(AVL node);
 
 Estrutura avl_getEstrutura(AVL node, Valor value);
 
-int imprimeavl(AVL tree,int n);
 
 /*********
 ARRAY
