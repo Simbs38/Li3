@@ -145,6 +145,7 @@ void apresenta_Array(Array lista) {
   apresenta_Lista(lista->list);
 }
 
+
 Array catalogo_lista_total(Array lista,Catalogo catalogo) {
   int i;
   for(i = 0; i < 26; i++) {

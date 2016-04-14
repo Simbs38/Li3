@@ -4,7 +4,7 @@
 #define SAIR_PROGRAMA 0
 #define REFAZER_DADOS 2
 
-int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas,INFO_FILIAL info,int estado) {
+int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas, Filiais filiais,int estado) {
 
 	int input = 0;
 	char opcao[20];
@@ -35,7 +35,7 @@ int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatur
 			
 			case 'Q': estado = SAIR_PROGRAMA; break;
 			
-			case '1': estado = menu_leitura(produtos,clientes,faturas,info); break;
+			case '1': estado = menu_leitura(produtos,clientes,faturas,filiais); break;
 			/*if(!total_Produtos(produtos)) {
 					  	estado = menu_leitura(produtos,clientes,faturas); break;
 					  }
@@ -65,7 +65,7 @@ int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatur
 					  }
 					  break;
 					  
-			case '4': if(total_Produtos(produtos)) estado = menu_filiais(info);
+			case '4': if(total_Produtos(produtos)) estado = menu_filiais(filiais);
 					  else {
 					  	system("clear");
 					  	printf("\nAinda não foram lidos nenhuns dados!\n");
@@ -81,7 +81,7 @@ int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatur
 }
 
 
-int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas,INFO_FILIAL info) {
+int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas,Filiais filiais) {
 
 	int estado = 1, input = 0;
 	char opcao[20];
@@ -107,10 +107,10 @@ int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas,
 			
 			case 'Q': return SAIR_PROGRAMA; break;
 			
-			case '1': estado = querie_1(produtos,clientes,faturas,info,1);
+			case '1': estado = querie_1(produtos,clientes,faturas,filiais,1);
 					  return estado;
 					  break;
-			case '2': estado = querie_1(produtos,clientes,faturas,2);
+			case '2': estado = querie_1(produtos,clientes,faturas,filiais,2);
 					  return estado;
 					  break;
 
@@ -208,7 +208,6 @@ int menu_faturacao(Faturacao faturas) {
 	}
 	return estado;
 }
-
 
 
 int menu_filiais(INFO_FILIAL info) {

@@ -3,10 +3,10 @@
 
 static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, char* file_name);
 static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char* file_name);
-static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, INFO_FILIAL info, FILE *fp,char* file_name);
+static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, Filiais filiais, FILE *fp,char* file_name);
 
 
-void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao contas,INFO_FILIAL info, FILE *f_clients, FILE *f_prods, FILE* f_sales, char* f_cname, char* f_pname, char* f_vname) {
+void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao contas, Filiais filiais, FILE *f_clients, FILE *f_prods, FILE* f_sales, char* f_cname, char* f_pname, char* f_vname) {
    char continua[10];
    time_t begin, end;
    double time_spent;
@@ -17,10 +17,11 @@ void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao 
    system("clear");
    printf("\tLeitura dos ficheiros\n\n");
    costumers = converte_clientes(costumers,f_clients,f_cname);
-   products = converte_produtos(products,f_prods,f_pname);   
+   products = converte_produtos(products,f_prods,f_pname);
    contas = cria_Dados_Faturacao(contas,products);
-   info = full_init(info,products,costumers);
-   converte_vendas(products,costumers,contas,info,f_sales,f_vname);
+   filiais = cria_Dados_Filiais(filiais,products,costumers);
+
+   converte_vendas(products,costumers,contas,filiais,f_sales,f_vname);
    
    end = clock();
    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
@@ -125,7 +126,7 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
 
 
 
-static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, INFO_FILIAL info ,FILE *f_sales,char* file_name) {
+static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, Filiais filiais ,FILE *f_sales,char* file_name) {
    
    time_t begin, end;
    double time_spent;
@@ -172,7 +173,7 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
       /* Caso verifique adiciona á estrutura das vendas a venda validada nessa iteração */
       if(verify) {
          faturas = adiciona_Fatura(faturas,venda);
-         info=insere_compra(info,venda);
+         filiais = adiciona_Filiais(filiais,venda);
          vendas_validas++;
          total++;
       } else {

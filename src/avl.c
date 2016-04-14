@@ -44,11 +44,11 @@ static Estrutura node_getEstrutura(NODO node, Valor value);
 static Lista converte_aux(Lista list, NODO tree);
 static Lista produtos_nao_comprados_totais_aux(Lista list, NODO tree);
 
-/******
-FUNCOES DE AVL'S
-*******/
 
-
+/**
+ * Inicia uma nova AVL.
+ * @return Nova AVL nula
+ */
 AVL initAVL() {
     AVL tree = malloc(sizeof(struct avl));
     tree->arvore = NULL;
@@ -57,22 +57,47 @@ AVL initAVL() {
 }
 
 
+/**
+ * Insere na arvore tree tendo como referência de posicionamento um char*.
+ * @param tree AVL onde insere.
+ * @param key char* a inserir.
+ * @param estrutura Conteúdo/Estrutura a inserir.
+ * @return AVL com o novo nodo adicionado.
+ */
 AVL avl_insert(AVL tree, Valor key, Estrutura estrutura) {
     tree->arvore = node_insert(tree->arvore,key,estrutura);
     tree->avl_tamanho ++;
     return tree;
 }
 
+
+/**
+ * Devolve um Boolean referente a ter encontrado ou não na AVL o Valor value.
+ * @param tree AVL onde é efectuada a procura.
+ * @param value valor a procurar na AVL.
+ * @return Boolean com o resultado.
+ */
 Boolean avl_lookUp(AVL tree, Valor value) {
     if(tree==NULL) return false;
     return node_lookUp(tree->arvore,value);
 }
 
 
+/**
+ * Devolve o tamanho (quantidade de nodos) de uma AVL passada como argumento.
+ * @param tree AVL da qual se pretende o tamanho.
+ * @return Int com tamanho da AVL.
+ */
 int avl_count(AVL tree) {
     return tree->avl_tamanho;
 }
 
+
+/**
+ * Executa um clone de uma dada AVL.
+ * @param node AVL a clonar.
+ * @return AVL nova, clonada da anterior.
+ */
 AVL avl_clone(AVL node) {
     AVL tree = malloc(sizeof(struct avl));
     tree->arvore = tree_clone(node->arvore);
@@ -80,38 +105,56 @@ AVL avl_clone(AVL node) {
     return tree;  
 }
 
+
+/**
+ * Devolve a estrutura associada a um nodo de uma AVL passada como argumento.
+ * @param node AVL de onde será devolvida a estrutura.
+ * @param value char* indicando o nodo a procurar onde estará a estrutura associada.
+ * @return void* com apontador para a estrutura ou NULL caso a mesma nao se encontre lá.
+ */
 Estrutura avl_getEstrutura(AVL node, Valor value) {
     return node_getEstrutura(node->arvore,value);
 }
 
+
+/**
+ * Função com o objetivo de limpar da memória uma dada AVL.
+ * @param nodo AVL a limpar da memória.
+ */
 void avl_free(AVL nodo) {
     tree_free(nodo->arvore);
     free(nodo);
 }
 
-/***********
-FUNCOES QUE TRABALHAM COM UM "NODO"
-***********/
 
-
-/* Função que devolve a altura de um dado nodo de uma AVL */
-
+/** 
+ * Função que devolve a altura de um dado nodo de uma AVL.
+ * @param n NODO de onde será devolvida a sua altura.
+ * @return int com a altura do nodo.
+*/
 static int height(NODO n) {
     if (n == NULL)
         return 0;
     return n->height;
 }
 
-
-/* Função que determina o maximo entre dois valores */
-
+/** 
+ *Função que determina o maximo entre dois valores.
+ * @param a int para comparação.
+ * @param b int para comparação. 
+ * @return int com o maior valor.
+*/
 static int max(int a, int b) {
     return (a > b)? a : b;
 }
 
 
-/* Função responsavel pela criação de um novo nodo */
-
+/** 
+ * Função responsável por alocar um novo nodo.
+ * @param info char* com o valor a inserir no nodo.
+ * @param estrutura void* apontador. 
+ * @return node novo NODO criado.
+*/
 static NODO newNode(Valor info, void *estrutura) {
     struct nodeAVL* node = (struct nodeAVL*) malloc(sizeof(struct nodeAVL));
     node->string = malloc(32);
@@ -141,7 +184,6 @@ static NODO rightRotate(NODO y) {
  
     return x;
 }
-
 
 
 static NODO leftRotate(NODO x) {
@@ -270,26 +312,14 @@ static void tree_free(NODO node) {
     }
 }
 
-int precorrernodo(NODO node,int n,int mode){
-    n+=precorrernodo(node->left,n,mode);
-    if(mode==0 && nexisteproduto(node->cont)) return (n++); 
-    else if(mode==1 && nexistecliente(node->cont)) return(n++);
-    n+=precorrernodo(node->right,n,mode);
-
-    return n;
-}
-
-
-int percorreravl(AVL tree,int n){
-    return precorrernodo(tree->arvore,0,n);
-}
 
 
 
-/************
-FUNCOES RELATIVAS AOS ARRAYS DINAMICOS
-********/
-
+/**
+ * Inicia um novo array dinâmico.
+ * @param size inteiro que determina a capacidade inicial do array dinâmico.
+ * @return conjunto array dinâmico
+ */
 Lista init_Lista(int size) {
     Lista conjunto = (Lista) malloc(sizeof(struct lista));
     conjunto->array = (char**) malloc(size *sizeof(char*));
@@ -298,6 +328,12 @@ Lista init_Lista(int size) {
     return conjunto;
 }
 
+/**
+ * Adiciona um char* passado como argumento no array dinâmico.
+ * @param conjunto Lista (array dinâmico) onde será inserido o valor pretendido.
+ * @param valor char* a colocar na Lista.
+ * @return conjunto array dinâmico após a inserção.
+ */
 Lista lista_insert(Lista conjunto ,char* valor) {
     
     int posicao = conjunto->pos;
@@ -309,12 +345,19 @@ Lista lista_insert(Lista conjunto ,char* valor) {
 
 
     conjunto->array[posicao] = malloc(10);
-    strncpy(conjunto->array[posicao],valor,strlen(valor));
+    strcpy(conjunto->array[posicao],valor);
+    
     conjunto->pos++;
 
     return conjunto;
 }
 
+/**
+ * Retorna uma lista resultante da conversão para lista de uma AVL dada.
+ * @param list Lista (array dinâmico) onde serão inseridos os valores.
+ * @param tree AVL de onde provêm os valores a colocar na Lista.
+ * @return list.
+ */
 Lista lista_converte(Lista list, AVL tree) {
     list = converte_aux(list,tree->arvore);
     return list;
@@ -329,6 +372,12 @@ static Lista converte_aux(Lista list, NODO tree) {
     return list;
 }
 
+/**
+ * Retorna uma Lista com os nomes dos produtos não comprados em nenhuma filial.
+ * @param conjunto Lista (array dinâmico) a inserir valores.
+ * @param tree AVL a procurar os valores.
+ * @return conjunto array dinâmico após a inserção.
+ */
 Lista produtos_nao_comprados_totais(Lista list,AVL tree) {
     list = produtos_nao_comprados_totais_aux(list,tree->arvore);
     return list;
@@ -343,11 +392,21 @@ static Lista produtos_nao_comprados_totais_aux(Lista list, NODO tree) {
     return list;
 }
 
-
+/**
+ * Retorna o campo Pos da estrutura Lista.
+ * @param list Lista (array dinâmico).
+ * @return int tamanho do array dinâmico.
+ */
 int lista_getPos(Lista list) {
     return list->pos;
 }
 
+/**
+ * Retorna o valor do array dinamico dada uma posição.
+ * @param list Lista (array dinâmico).
+ * @param pos posição de onde se pretende retirar o valor.
+ * @return char* com o valor.
+ */
 char* lista_getNome(Lista list, int pos) {
     return list->array[pos];
 }

@@ -13,15 +13,13 @@ int main() {
     	Cat_Clientes clientes = init_cat_clientes();
     	Cat_Produtos produtos = init_cat_produtos();
     	Faturacao faturacao = init_Faturacao();
-        INFO_FILIAL info= init_filiais();
+        Filiais filiais = init_Filiais();
 
-    	estado = menu_principal(produtos,clientes,faturacao,info, estado);
-
+    	estado = menu_principal(produtos,clientes,faturacao,filiais,estado);
 
     	remove_Catalogo_Clientes(clientes);
     	remove_Catalogo_Produtos(produtos);
     	free_Faturacao(faturacao);
-    
     }
 
     return 0;

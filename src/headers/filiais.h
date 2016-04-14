@@ -2,45 +2,32 @@
 #define _filiais_h_
 
 
-#include <stdlib.h>
-
-
+#include "catalogo.h"
 #include "produtos.h"
 #include "clientes.h"
-#include "avl.h"
-#include "catalogo.h"
 #include "venda.h"
+#include "global.h"
 
-
-
-
-typedef int *Array_int;
-typedef struct info *INFO_FILIAL;
+typedef struct filiais *Filiais;
 typedef struct conjunto_filiais *Conj_Filiais;
-typedef struct produtosNode *ProdutosNode;
-typedef struct clientesNode *ClientesNode;
-typedef struct clientes_Produto_Node *Clientes_Produto_Node;
-typedef struct produtos_Cliente_Node *Produtos_Cliente_Node;
-typedef struct info_final *Info_Final;
+typedef struct filial *Filial;
+typedef struct nodo_clientes *Nodo_Clientes;
+typedef struct nodo_produtos *Nodo_Produtos;
 
 
-INFO_FILIAL full_init();
-INFO_FILIAL init_info_filial();
-ProdutosNode init_infoprod();
-ClientesNode init_infocli();
-Info_Final init_infolast(Venda sale);
-Info_Final insere_final_estrutura(INFO_FILIAL inf, Venda sale,char *cliente,ProdutosNode nodepro);
-Info_Final update_infolast(Venda sale, Info_Final final);
-INFO_FILIAL insere_produto_estrutura(INFO_FILIAL inf, Venda sale, Info_Final final,ProdutosNode node);
-INFO_FILIAL insere_cliente_estrutura(INFO_FILIAL inf, Venda sale, Info_Final final,ClientesNode node);
-INFO_FILIAL insere_compra(INFO_FILIAL inf,Venda sale);
-INFO_FILIAL init_filiais();
-int getprodutosComprados(INFO_FILIAL info,char *cliente,int mes,int filiais);
-Boolean info_lookUp(INFO_FILIAL info,char *string,int n);
-int getnotprodutos(INFO_FILIAL info,int lim);
-int getnotclientes(INFO_FILIAL info,int lim);
-Boolean nexisteproduto(ProdutosNode pro); 
-Boolean nexistecliente(ClientesNode cli);
-float getnomemaiscaro(INFO_FILIAL info,char *cliente,char *produto,int n);
+Filiais init_Filiais();
+Filiais adiciona_Filiais(Filiais f, Venda v);
+Filiais cria_Dados_Filiais(Filiais f,Cat_Produtos produtos,Cat_Clientes clientes);
+
+
+Filial cria_Dados_Filial(Filial filial, Cat_Produtos produtos, Cat_Clientes clientes);
+Filial init_Filial();
+Filial adiciona_Venda_Filial(Filial f, Venda v);
+
+
+Nodo_Produtos init_Nodo_Produtos();
+
+Conj_Filiais init_Conj_Filiais(int n);
+Conj_Filiais adiciona_Nome(Conj_Filiais c, char* nome);
 
 #endif
