@@ -172,7 +172,7 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
       /* Caso verifique adiciona á estrutura das vendas a venda validada nessa iteração */
       if(verify) {
          faturas = adiciona_Fatura(faturas,venda);
-        info=insere_compra(info,venda);
+         info=insere_compra(info,venda);
          vendas_validas++;
          total++;
       } else {

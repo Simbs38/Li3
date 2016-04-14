@@ -170,17 +170,19 @@ INFO_FILIAL insere_cliente_estrutura(INFO_FILIAL inf, Venda sale,Info_Final fina
 }
 
 
-Info_Final insere_final_estrutura(INFO_FILIAL inf, Venda sale,ClientesNode nodecli,ProdutosNode nodepro){
+Info_Final insere_final_estrutura(INFO_FILIAL inf, Venda sale,char *cliente,ProdutosNode node){
     char *indexp = getNomeProduto(getProduto(sale));
     Info_Final last =init_infolast(sale);
         
-        if(nodepro!=NULL && nodecli!=NULL){
-        /*Produto existe*/
-        if(nodecli->Produtos_Cliente!=NULL){
-        last=getEstrutura_Catalogo(nodecli->Produtos_Cliente,indexp,getMes(sale)-1);
-        last=update_infolast(sale,last);
+        if(node!=NULL){
+            if(node->Clientes_Produto!=NULL){
+            if(existe_Catalogo(node->Clientes_Produto,cliente,0))last=getEstrutura_Catalogo(node->Clientes_Produto,cliente,0);
+            else if(existe_Catalogo(node->Clientes_Produto,cliente,1))last=getEstrutura_Catalogo(node->Clientes_Produto,cliente,1);
+            else if(existe_Catalogo(node->Clientes_Produto,cliente,2))last=getEstrutura_Catalogo(node->Clientes_Produto,cliente,2);
+            last=update_infolast(sale,last);
+            }
         }
-    }
+    
     return last;
 }
 
@@ -193,7 +195,7 @@ INFO_FILIAL insere_compra(INFO_FILIAL inf,Venda sale) {
     char *indexc = getNomeCliente(getCliente(sale));
     ProdutosNode nodepro = getEstrutura_Catalogo(inf->produtos,indexp,indexp[0]-'A');
     ClientesNode nodecli = getEstrutura_Catalogo(inf->produtos,indexc,indexc[0]-'A');
-    Info_Final final =insere_final_estrutura(inf,sale,nodecli,nodepro);
+    Info_Final final =insere_final_estrutura(inf,sale,indexc,nodepro);
     inf=insere_produto_estrutura(inf,sale,final,nodepro);
     inf=insere_cliente_estrutura(inf,sale,final,nodecli);
     return inf;
@@ -238,3 +240,9 @@ Boolean nexistecliente(ClientesNode cli){
             if(cli->total[j][i]!=0) return false;
     return true;
 }
+
+/*
+float getnomemaiscaro(INFO_FILIAL info,char *cliente,char *produto,int n){
+    ClientesNode nodo=getEstrutura_Catalogo(info->clientes,cliente,cliente[0]-'A');
+    return getcatmaiscaro(nodo->Produtos_Cliente,produto,n);
+}*/

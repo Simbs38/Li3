@@ -1,7 +1,5 @@
 #include "./headers/queries.h"
 
-
-
 int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas,INFO_FILIAL info, int modo) {
 	/*
 	if(total_Produtos(produtos) && total_Clientes(clientes)) {
@@ -250,8 +248,6 @@ int querie_4(Faturacao faturas) {
 }
 int querie_5(INFO_FILIAL info){
 
-
-	/*Conj_Filiais lista_filiais = init_ConjuntoF(1000); */
 	int estado = 1, input, filial = 0,i,j;
 	char cliente[10];
 	int resultado[12][3];
@@ -394,8 +390,47 @@ int querie_10(INFO_FILIAL info){
 }
 
 int querie_11(INFO_FILIAL info){
-	int estado = 1, input;
+	float custo;
+	int estado = 1, input, filial = 0,i,j;
+	char cliente[10],*produto;
+	
+	system("clear");
+		printf( "_____________________________________________\n" );
+		printf( "   Produtos mais comprados - QUERIE 5\n\n" );
+		printf( "_____________________________________________\n\n" );
+		printf("  Insira o codigo do seu cliente\n");
+		printf("_____________________________________________\n" );
+		printf( "  Escreva o nome do cliente:\n" );
+		printf( "  V - Voltar\t\tQ - Sair:\n" );
+		printf( "_____________________________________________\n" );
 
+		while(estado){
+		printf("\nEscolha uma opção >> ");
+
+		input = scanf("%s",cliente);
+		cliente[6]='\0';
+		/*if(info_lookUp(info,cliente,1)!=0){*/
+			if(cliente[1]!=' '){
+				switch(cliente[0]) {
+					case 'Q': return 0; break;
+
+					case 'V': return estado; break;
+
+					default: break;
+				}
+			}
+			
+			system("clear");
+			printf( "\tCompras pelo cliente %s\n",cliente);
+			printf( "______________________________________________________\n" );
+			for(i=0;i!=3;i++){
+			/*custo=getnomemaiscaro(info,cliente,produto,i);
+			printf("%dº mais caro: %s, Custo: %5d ",produto,custo);*/
+			}
+			printf( "______________________________________________________\n" );
+			printf( "  V - Voltar\t\tQ - Sair:\n" );
+			}
+		/*}*/
 	return estado;
 }
 

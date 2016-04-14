@@ -1,10 +1,9 @@
 #ifndef _filiais_h_
 #define _filiais_h_
 
-#include <stdio.h>
-#include <string.h>
+
 #include <stdlib.h>
-#include <time.h>
+
 
 #include "produtos.h"
 #include "clientes.h"
@@ -30,7 +29,7 @@ INFO_FILIAL init_info_filial();
 ProdutosNode init_infoprod();
 ClientesNode init_infocli();
 Info_Final init_infolast(Venda sale);
-Info_Final insere_final_estrutura(INFO_FILIAL inf, Venda sale,ClientesNode nodecli,ProdutosNode nodepro);
+Info_Final insere_final_estrutura(INFO_FILIAL inf, Venda sale,char *cliente,ProdutosNode nodepro);
 Info_Final update_infolast(Venda sale, Info_Final final);
 INFO_FILIAL insere_produto_estrutura(INFO_FILIAL inf, Venda sale, Info_Final final,ProdutosNode node);
 INFO_FILIAL insere_cliente_estrutura(INFO_FILIAL inf, Venda sale, Info_Final final,ClientesNode node);
@@ -42,5 +41,6 @@ int getnotprodutos(INFO_FILIAL info,int lim);
 int getnotclientes(INFO_FILIAL info,int lim);
 Boolean nexisteproduto(ProdutosNode pro); 
 Boolean nexistecliente(ClientesNode cli);
+float getnomemaiscaro(INFO_FILIAL info,char *cliente,char *produto,int n);
 
 #endif

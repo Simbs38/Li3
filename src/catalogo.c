@@ -97,7 +97,11 @@ int percorrercat(Catalogo cat,int lim,int c_p){
   return n;
 }
 
-
+/*
+float getcatmaiscaro(Catalogo cat,char *produto,int n){
+  return getavlmaiscaro(cat->indice[]);
+}
+*/
 
 
 Array init_Array(int capacidade) {
