@@ -30,6 +30,18 @@ struct conjunto_filiais {
   Array lista;
 };
 
+struct listaFilial{
+	ListaFi lista[12];
+};
+
+struct listafi {
+    char** array;
+    int pos;
+    int capacidade;
+    float *custo;
+
+};
+
 
 /*************************
 	FUNCOES DE FILIAIS
@@ -137,9 +149,3 @@ Conj_Filiais adiciona_Nome(Conj_Filiais c, char* nome) {
 /*********************
 	FUNCOES GENERICAS
 **********************/
-
-
-Boolean nexisteproduto(ProdutosNode pro){
-    return (pro->totalU[0]==0 && pro->totalU[1]==0 && pro->totalU[2]==0);
-}
-

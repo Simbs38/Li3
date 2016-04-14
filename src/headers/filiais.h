@@ -13,6 +13,9 @@ typedef struct conjunto_filiais *Conj_Filiais;
 typedef struct filial *Filial;
 typedef struct nodo_clientes *Nodo_Clientes;
 typedef struct nodo_produtos *Nodo_Produtos;
+typedef struct listafi *ListaFilial; 
+typedef struct listafi *ListaFi; 
+
 
 
 Filiais init_Filiais();

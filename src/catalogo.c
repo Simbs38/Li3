@@ -89,13 +89,6 @@ void* getEstrutura_Catalogo(Catalogo catalogo, char* key, int index) {
   return avl_getEstrutura(catalogo->indice[index],key);
 }
 
-int percorrercat(Catalogo cat,int lim,int c_p){
-  int i,n=0;
-  for(i=0;i!=lim;i++)
-  n+=percorreravl(cat->indice[i],c_p);
-
-  return n;
-}
 
 /*
 float getcatmaiscaro(Catalogo cat,char *produto,int n){

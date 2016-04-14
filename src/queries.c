@@ -246,12 +246,11 @@ int querie_4(Faturacao faturas) {
 	}
 	return estado;
 }
-int querie_5(INFO_FILIAL info){
+int querie_5(Filiais filial){
 
 
-	int estado = 1, input, filial = 0;
-
-	Conj_Filiais lista_filiais = init_ConjuntoF(1000); 
+	int estado = 1, input, filiais = 0,j,i;
+	int resultado[i][j];
 	char *cliente;
 
 	while(estado) {
@@ -281,10 +280,6 @@ int querie_5(INFO_FILIAL info){
 					default: break;
 				}
 			}
-			for(i=0;i!=12;i++)
-				for(j=0;j!=3;j++)
-					resultado[i][j]=getprodutosComprados(info,cliente,i,j);
-
 
 
 
@@ -298,15 +293,11 @@ int querie_5(INFO_FILIAL info){
 			printf( "  V - Voltar\t\tQ - Sair:\n" );
 			}
 		}
-		ClientesNode node =getEstrutura_Catalogo(info->clientes,cliente, cliente[0]-'A');
-			if(node!=NULL){
-			lista_produtos = converte_Produtos(lista_produtos,produtos,letra);
-			apresenta_Produtos(lista_produtos);
-			return estado;
-		}	
 	return estado;		
+
+		}	
 				
-}
+
 	
 
 
@@ -381,30 +372,30 @@ int querie_6(Faturacao faturas) {
 
 
 
-int querie_7(INFO_FILIAL info){
+int querie_7(Filiais filial){
 	int estado=1;
 	return estado;
 }
 
-int querie_8(INFO_FILIAL info){
+int querie_8(Filiais filial){
 	int estado=1;
 	return estado;
 }
 
-int querie_9(INFO_FILIAL info){
+int querie_9(Filiais filial){
 	int estado=1;
 	return estado;
 }
 
-int querie_10(INFO_FILIAL info){
+int querie_10(Filiais filial){
 	int estado=1;
 	return estado;
 
 }
 
-int querie_11(INFO_FILIAL info){
+int querie_11(Filiais filial){
 	float custo;
-	int estado = 1, input, filial = 0,i,j;
+	int estado = 1, input,i,j;
 	char cliente[10],*produto;
 	
 	system("clear");
@@ -447,15 +438,15 @@ int querie_11(INFO_FILIAL info){
 	return estado;
 }
 
-int querie_12(INFO_FILIAL info){
+int querie_12(Filiais filial){
 	int estado = 1, input;
 	char opcao[10];
 
 	system("clear");
 			printf( "_____________________________________________\n" );
 			printf( "\n  \n");
-			printf("Total de clientes sem compras: %d\n",getnotprodutos(info,26));
-			printf("Total de produtos não comprados: %d\n",getnotclientes(info,26));
+			printf("Total de clientes sem compras: %d\n",21);
+			printf("Total de produtos não comprados: %d\n",21);
 			printf( "_____________________________________________\n" );
 			printf( "  1 - Voltar\t\t0 - Sair:\n" );
 			printf( "_____________________________________________\n" );
