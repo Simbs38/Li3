@@ -9,4 +9,6 @@ typedef int Boolean;
 #define NORMAL 0
 #define PROMOCAO 1
 
+#define NR_LETRAS 26
+
 #endif

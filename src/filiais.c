@@ -6,57 +6,29 @@ struct filial{
     Catalogo produtos;
 };
 
-struct filiais {
-	Filial filiais[3];
-};
-
-
 /*Estrutura inserida em cada nodo referente a um cliente */
 
-struct nodo_clientes {
+typedef struct nodo_clientes {
     Catalogo Produtos_Cliente;
     int total[12];
-};
+} *Nodo_Clientes;
 
 /*Estrutura inserida em cada nodo referente a um produto */
 
-struct nodo_produtos{
+typedef struct nodo_produtos{
 	int quantidade;
 	Conj_Filiais clientes_N;
 	Conj_Filiais clientes_P;
-};
+} *Nodo_Produtos;
+
 
 struct conjunto_filiais {
-  Array lista;
+	Array lista;
 };
 
 
-/*************************
-	FUNCOES DE FILIAIS
-**************************/
+Nodo_Produtos init_Nodo_Produtos();
 
-Filiais init_Filiais() {
-	Filiais f = (Filiais) malloc(sizeof(struct filiais));
-	int i;
-	for(i = 0; i < 3; i++) {
-		f->filiais[i] = init_Filial();
-	}
-	return f;
-}
-
-Filiais adiciona_Filiais(Filiais f, Venda v) {
-	int filial = getFilial(v)-1;
-	f->filiais[filial] = adiciona_Venda_Filial(f->filiais[filial],v);
-	return f;
-}
-
-Filiais cria_Dados_Filiais(Filiais f,Cat_Produtos produtos,Cat_Clientes clientes) {
-	int i;
-	for(i = 0; i < 3; i++) {
-		f->filiais[i] = cria_Dados_Filial(f->filiais[i],produtos,clientes);
-	}
-	return f;
-}
 
 /*********************************
 	FUNCOES DA ESTRUTURA FILIAL

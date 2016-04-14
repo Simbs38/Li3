@@ -31,8 +31,8 @@ Faturacao init_Faturacao() {
 }
 
 
-Faturacao cria_Dados_Faturacao(Faturacao fat, Cat_Produtos prods) {
-		fat->faturas = clone_Catalogo(get_Catalogo(prods));
+Faturacao cria_Dados_Faturacao(Faturacao fat, Cat_Produtos produtos) {
+		fat->faturas = clone_Catalogo(get_Catalogo(produtos));
 	return fat;
 }
 

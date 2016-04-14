@@ -1,6 +1,11 @@
 #include "./headers/queries.h"
 
-int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Filiais filiais, int modo) {
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Filial filiais[3], int modo) {
 	/*
 	if(total_Produtos(produtos) && total_Clientes(clientes)) {
 		remove_Catalogo_Produtos(produtos);

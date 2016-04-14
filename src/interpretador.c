@@ -4,7 +4,17 @@
 #define SAIR_PROGRAMA 0
 #define REFAZER_DADOS 2
 
-int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas, Filiais filiais,int estado) {
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+static int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas,Filial filiais[]);
+static int menu_catalogo(Cat_Produtos produtos);
+static int menu_faturacao(Faturacao faturas);
+static int menu_filiais(Filial filiais[]);
+
+
+int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas, Filial filiais[3], int estado) {
 
 	int input = 0;
 	char opcao[20];
@@ -81,7 +91,7 @@ int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatur
 }
 
 
-int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas,Filiais filiais) {
+static int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas,Filial filiais[3]) {
 
 	int estado = 1, input = 0;
 	char opcao[20];
@@ -124,7 +134,7 @@ int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas,
 }
 
 
-int menu_catalogo(Cat_Produtos produtos) {
+static int menu_catalogo(Cat_Produtos produtos) {
 
 	int estado = 1, input = 0;
 	char opcao[20];
@@ -164,7 +174,7 @@ int menu_catalogo(Cat_Produtos produtos) {
 
 
 
-int menu_faturacao(Faturacao faturas) {
+static int menu_faturacao(Faturacao faturas) {
 
 	int estado = 1, input = 0;
 	char opcao[20];
@@ -211,7 +221,7 @@ int menu_faturacao(Faturacao faturas) {
 
 
 
-int menu_filiais(Filiais filiais) {
+static int menu_filiais(Filial filiais[3]) {
 	int estado = 1;
 	return estado;
 }
