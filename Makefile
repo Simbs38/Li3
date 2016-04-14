@@ -13,11 +13,12 @@ debug:$(OBJS)
 run:
 	./gereVendas
 
-doc:$(OBJS)
-		doxygen doxygen.conf
-
 clean:
 	rm gereVendas
 
 cleanAll: clean
 	-@rm -rf doc
+
+.PHONY: doc
+doc:
+	doxygen doxygen.conf

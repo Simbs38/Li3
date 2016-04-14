@@ -1,6 +1,6 @@
 #include "./headers/queries.h"
 
-int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas,INFO_FILIAL info, int modo) {
+int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Filiais filiais, int modo) {
 	/*
 	if(total_Produtos(produtos) && total_Clientes(clientes)) {
 		remove_Catalogo_Produtos(produtos);
@@ -29,7 +29,7 @@ int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas,INFO_
             file_produtos = fopen(f_produtos,"r");
             file_vendas = fopen(f_vendas,"r");
 			
-			leitura_ficheiros(clientes,produtos,faturas,info,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
+			leitura_ficheiros(clientes,produtos,faturas,filiais,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
 			
 		}
 		else {
@@ -55,7 +55,7 @@ int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas,INFO_
 				file_vendas = fopen(f_vendas,"r");
 				if(file_vendas == NULL) printf("Ficheiro de Vendas Inválido\n");
 			}
-			leitura_ficheiros(clientes,produtos,faturas,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
+			leitura_ficheiros(clientes,produtos,faturas,filiais,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
 		}
 	return 10;
 }
@@ -246,11 +246,12 @@ int querie_4(Faturacao faturas) {
 	}
 	return estado;
 }
+/*
 int querie_5(INFO_FILIAL info){
 
-
-	/*Conj_Filiais lista_filiais = init_ConjuntoF(1000); */
 	int estado = 1, input, filial = 0;
+
+	Conj_Filiais lista_filiais = init_ConjuntoF(1000); 
 	char *cliente;
 
 	while(estado) {
@@ -275,18 +276,18 @@ int querie_5(INFO_FILIAL info){
 			case 'V': return estado; break;
 
 			default: break;
-		}/*
+		}
 		ClientesNode node =getEstrutura_Catalogo(info->clientes,cliente, cliente[0]-'A');
 			if(node!=NULL){
 			lista_produtos = converte_Produtos(lista_produtos,produtos,letra);
 			apresenta_Produtos(lista_produtos);
 			return estado;
-		*/}	
+		}	
 	return estado;		
 			
 		}
 	
-
+*/
 
 
 int querie_6(Faturacao faturas) {
@@ -357,6 +358,8 @@ int querie_6(Faturacao faturas) {
 	return estado;
 }
 
+/*
+
 int querie_7(INFO_FILIAL info){
 	int estado=1;
 	return estado;
@@ -389,7 +392,7 @@ int querie_12(INFO_FILIAL info){
 }
 
 
-
+*/
 
 
 void apresenta_Lista(Lista list) {

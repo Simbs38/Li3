@@ -11,11 +11,11 @@
 #include "filiais.h"
 #include "global.h"
 
-int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas,INFO_FILIAL info,int estado);
-int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas,INFO_FILIAL info);
+int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas,Filiais filiais,int estado);
+int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas,Filiais filiais);
 int menu_catalogo(Cat_Produtos produtos);
 int menu_faturacao(Faturacao faturas);
-int menu_filiais(INFO_FILIAL info);
+int menu_filiais(Filiais filiais);
 
 
 #endif

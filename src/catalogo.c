@@ -133,14 +133,6 @@ void apresenta_Array(Array lista) {
 }
 
 
-void imprimecat(Catalogo cat){
-
-    int i,n=0;
-    for(i=0;i!=26;i++){
-      
-      n+=imprimeavl(cat->indice[i],0);}
-    
-  }
 
 Array catalogo_lista_total(Array lista,Catalogo catalogo) {
   int i;
