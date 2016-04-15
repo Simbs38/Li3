@@ -21,8 +21,6 @@ typedef void* Estrutura;
 typedef char* Valor;
 
 
-
-
 /**
  * Inicia uma nova AVL.
  * @return Nova AVL nula
