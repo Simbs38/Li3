@@ -4,7 +4,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-
+/**
+ * Ler os 3 ficheiros (Produtos, Clientes e Vendas), cujos nomes poderão ser introduzidos pelo utilizador ou, opcionalmente, assumidos por omissão  
+ * @param Cat_Produtos produtos.
+ * @param Cat_Clientes clientes.
+ * @param Faturacao faturas.
+ * @param Filiais filiais.
+ * @param int modo.
+*/
 int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Filial filiais[3], int modo) {
 	/*
 	if(total_Produtos(produtos) && total_Clientes(clientes)) {
@@ -65,6 +72,12 @@ int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Fili
 	return 10;
 }
 
+/**
+ * Determina a lista e o total de produtos cujo código se inicia por uma dada letra.
+ * @param Cat_Produtos produtos.
+ * @return int. 
+*/
+
 
 int querie_2(Cat_Produtos produtos) {
 	
@@ -92,6 +105,11 @@ int querie_2(Cat_Produtos produtos) {
 	return 1;
 }
 
+/**
+ * Dado um mês e um código de produto, apresentar o número total de vendas e o total facturado com esse produto em tal mês. 
+ * @param Faturacao faturas.
+ * @return int.
+ */
 
 int querie_3(Faturacao faturas) {
 	
@@ -197,7 +215,11 @@ int querie_3(Faturacao faturas) {
 	return estado;
 }
 
-
+/*
+ * Determina a lista ordenada dos códigos dos produtos que ninguém comprou. 
+ * @param Faturacao faturas.
+ * @return int.
+*/
 int querie_4(Faturacao faturas) {
 
 	int estado = 1, input, filial = 0;
@@ -251,12 +273,17 @@ int querie_4(Faturacao faturas) {
 	}
 	return estado;
 }
-/*
-int querie_5(INFO_FILIAL info){
 
-	int estado = 1, input, filial = 0;
+/**
+ * Dado um código de cliente, criar uma tabela com o numero total de produtos comprados mês a mês 
+ * @param Filiais filial
+ * @return int
+*/
+int querie_5(Filial filiais[]){
 
-	Conj_Filiais lista_filiais = init_ConjuntoF(1000); 
+
+	int estado = 1, input,j,i;
+	int resultado[i][j];
 	char *cliente;
 
 	while(estado) {
@@ -267,33 +294,47 @@ int querie_5(INFO_FILIAL info){
 		printf( "_____________________________________________\n\n" );
 		printf("  Insira o codigo do seu cliente\n");
 		printf("_____________________________________________\n" );
+		printf( "  Escreva o nome do cliente:\n" );
 		printf( "  V - Voltar\t\tQ - Sair:\n" );
 		printf( "_____________________________________________\n" );
 
-		
-		printf("Escolha uma cliente >> ");
+		while(estado){
+		printf("\nEscolha uma opção >> ");
 
-		input = scanf("%s",&cliente);
-		
-		switch(cliente[0]) {
-			case 'Q': return 0; break;
+		input = scanf("%s",cliente);
+		cliente[6]='\0';
+		/*if(info_lookUp(info,cliente,1)!=0){*/
+			if(cliente[1]!=' '){
+				switch(cliente[0]) {
+					case 'Q': return 0; break;
 
-			case 'V': return estado; break;
+					case 'V': return estado; break;
 
-			default: break;
+					default: break;
+				}
+			}
+
+
+
+			system("clear");
+			printf( "\tCompras pelo cliente %s\n",cliente);
+			printf( "______________________________________________________\n" );
+			printf("\t  Filial 1   Filial 2   Filial 3\n");
+			for(i=0;i!=12;i++)
+			printf("Mes %2d\t %3d \t\t%3d \t\t%3d\n",i,resultado[i][0],resultado[i][1],resultado[i][2]);
+			printf( "______________________________________________________\n" );
+			printf( "  V - Voltar\t\tQ - Sair:\n" );
+			}
 		}
-		ClientesNode node =getEstrutura_Catalogo(info->clientes,cliente, cliente[0]-'A');
-			if(node!=NULL){
-			lista_produtos = converte_Produtos(lista_produtos,produtos,letra);
-			apresenta_Produtos(lista_produtos);
-			return estado;
-		}	
 	return estado;		
-			
-		}
-	
-*/
 
+}	
+	
+/**
+ * Dado um intervalo fechado de meses, determinar o total de vendas registadas nesse intervalo e o total facturado.
+ * @param Faturacao faturas.
+ * @return int.
+*/
 
 int querie_6(Faturacao faturas) {
 
@@ -363,43 +404,142 @@ int querie_6(Faturacao faturas) {
 	return estado;
 }
 
-/*
-
-int querie_7(INFO_FILIAL info){
-	int estado=1;
-	return estado;
-}
-
-int querie_8(INFO_FILIAL info){
-	int estado=1;
-	return estado;
-}
-
-int querie_9(INFO_FILIAL info){
-	int estado=1;
-	return estado;
-}
-
-int querie_10(INFO_FILIAL info){
-	int estado=1;
-	return estado;
-
-}
-
-int querie_11(INFO_FILIAL info){
-	int estado=1;
-	return estado;
-}
-
-int querie_12(INFO_FILIAL info){
-	int estado=1;
-	return estado;
-}
-
-
+/**
+ * Determinar a lista ordenada de códigos de clientes que realizaram compras em todas as filiais.
+ * @param Filiais filial.
+ * @return int.
 */
 
+int querie_7(Filial filiais[]){
+	int estado=1;
+	return estado;
+}
 
+/**
+ * Dado um código de produto e uma filial, determinar os códigos, distinguindo entre compra N e compra P.
+ * @param Filiais filial.
+ * @return int.
+*/
+int querie_8(Filial filiais[]){
+	int estado=1;
+	return estado;
+}
+
+
+/**
+ * Dado  um  código  de  cliente  e  um  mês,  determinar  a  lista  de  códigos  de produtos que mais comprou.
+ * @param Filiais filial.
+ * @return int.
+*/
+int querie_9(Filial filiais[]){
+	int estado=1;
+	return estado;
+}
+
+
+/**
+ *Cria  uma  lista  dos  N produtos mais  vendidos  em  todo  o  ano.
+ * @param Filiais filial.
+ * @return int.
+*/
+int querie_10(Filial filiais[]){
+	int estado=1;
+	return estado;
+
+}
+
+
+/**
+ * Dado um código de cliente determinar quais os códigos dos 3 produtos em que tenho gasto mais.
+ * @param Filiais filial
+ * @return int
+*/
+int querie_11(Filial filiais[]){
+	float custo;
+	int estado = 1, input,i,j;
+	char cliente[10],*produto;
+	
+	system("clear");
+		printf( "_____________________________________________\n" );
+		printf( "   Produtos mais comprados - QUERIE 5\n\n" );
+		printf( "_____________________________________________\n\n" );
+		printf("  Insira o codigo do seu cliente\n");
+		printf("_____________________________________________\n" );
+		printf( "  Escreva o nome do cliente:\n" );
+		printf( "  V - Voltar\t\tQ - Sair:\n" );
+		printf( "_____________________________________________\n" );
+
+		while(estado){
+		printf("\nEscolha uma opção >> ");
+
+		input = scanf("%s",cliente);
+		cliente[6]='\0';
+		/*if(info_lookUp(info,cliente,1)!=0){*/
+			if(cliente[1]!=' '){
+				switch(cliente[0]) {
+					case 'Q': return 0; break;
+
+					case 'V': return estado; break;
+
+					default: break;
+				}
+			}
+			
+			system("clear");
+			printf( "\tCompras pelo cliente %s\n",cliente);
+			printf( "______________________________________________________\n" );
+			for(i=0;i!=3;i++){
+			/*custo=getnomemaiscaro(info,cliente,produto,i);
+			printf("%dº mais caro: %s, Custo: %5d ",produto,custo);*/
+			}
+			printf( "______________________________________________________\n" );
+			printf( "  V - Voltar\t\tQ - Sair:\n" );
+			}
+		/*}*/
+	return estado;
+}
+
+
+/**
+ * Determina o número de clientes registados que não realizaram compras bem como o número de produtos que ninguém comprou.
+ * @param Filiais filial
+ * @return int
+*/
+int querie_12(Filial filiais[]){
+	int estado = 1, input;
+	char opcao[10];
+
+	system("clear");
+			printf( "_____________________________________________\n" );
+			printf( "\n  \n");
+			printf("Total de clientes sem compras: %d\n",21);
+			printf("Total de produtos não comprados: %d\n",21);
+			printf( "_____________________________________________\n" );
+			printf( "  1 - Voltar\t\t0 - Sair:\n" );
+			printf( "_____________________________________________\n" );
+			
+			
+			printf("Escolha uma opção >> ");
+			input = scanf("%s",opcao);
+			
+			switch(opcao[0]) {
+				case '1': return estado; break;
+				case '0': return 0; break;
+				default: break;
+			}	
+	return estado;
+}
+
+
+
+
+
+
+/**
+ *Determinar a lista ordenada de códigos de clientes que realizaram compras em todas as filiais.
+ * @param Filiais filial
+ * @return int
+*/
 void apresenta_Lista(Lista list) {
     int i;
     int input;

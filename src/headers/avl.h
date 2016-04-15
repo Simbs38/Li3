@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "global.h"
 
 
@@ -36,14 +35,12 @@ AVL initAVL();
  */
 AVL avl_insert(AVL arvore, Valor key, Estrutura estrutura);
 
-
 /**
  * Executa um clone de uma dada AVL.
  * @param node AVL a clonar.
  * @return AVL nova, clonada da anterior.
  */
 AVL avl_clone(AVL node);
-
 
 /**
  * Devolve um Boolean referente a ter encontrado ou não na AVL o Valor value.
@@ -53,7 +50,6 @@ AVL avl_clone(AVL node);
  */
 Boolean avl_lookUp(AVL tree, Valor value);
 
-
 /**
  * Devolve o tamanho (quantidade de nodos) de uma AVL passada como argumento.
  * @param tree AVL da qual se pretende o tamanho.
@@ -61,13 +57,11 @@ Boolean avl_lookUp(AVL tree, Valor value);
  */
 int avl_count(AVL tree);
 
-
 /**
  * Função com o objetivo de limpar da memória uma dada AVL.
  * @param nodo AVL a limpar da memória.
  */
 void avl_free(AVL node);
-
 
 /**
  * Devolve a estrutura associada a um nodo de uma AVL passada como argumento.
@@ -76,15 +70,6 @@ void avl_free(AVL node);
  * @return void* com apontador para a estrutura ou NULL caso a mesma nao se encontre lá.
  */
 Estrutura avl_getEstrutura(AVL node, Valor value);
-
-
-
-
-
-
-
-
-
 
 /**
  * Inicia um novo array dinâmico.
@@ -102,7 +87,6 @@ Lista init_Lista(int capacidade);
  */
 Lista lista_converte(Lista list, AVL tree);
 
-
 /**
  * Adiciona um char* passado como argumento no array dinâmico.
  * @param conjunto Lista (array dinâmico) onde será inserido o valor pretendido.
@@ -118,8 +102,7 @@ Lista lista_insert(Lista conjunto ,char* valor);
  * @param tree AVL a procurar os valores.
  * @return conjunto array dinâmico após a inserção.
  */
-Lista produtos_nao_comprados_totais(Lista list, AVL tree);
-
+Lista produtos_nao_comprados_totais(Lista list,AVL tree);
 
 /**
  * Retorna o campo Pos da estrutura Lista.
@@ -127,7 +110,6 @@ Lista produtos_nao_comprados_totais(Lista list, AVL tree);
  * @return int tamanho do array dinâmico.
  */
 int lista_getPos(Lista list);
-
 
 /**
  * Retorna o valor do array dinamico dada uma posição.

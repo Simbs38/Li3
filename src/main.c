@@ -3,9 +3,13 @@
 #include "./headers/faturacao.h"
 #include "./headers/interpretador.h"
 #include "./headers/filiais.h"
-
+/**
+ * Funcão main do programa que chamando auxiliares inicializa as estruturas, corre o programa e liberta o espaço alocado.
+ * @return int.
+ */
 
 int main() {
+
     int estado = 1;
     int i;
 

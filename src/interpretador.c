@@ -1,9 +1,5 @@
 #include "./headers/interpretador.h"
 
-#define MENU_PRINCIPAL 1
-#define SAIR_PROGRAMA 0
-#define REFAZER_DADOS 2
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,6 +10,20 @@ static int menu_faturacao(Faturacao faturas);
 static int menu_filiais(Filial filiais[]);
 
 
+#define MENU_PRINCIPAL 1
+#define SAIR_PROGRAMA 0
+#define REFAZER_DADOS 2
+
+
+/**
+ * Função encarregue de imprimir o menu de interação principal com o utilizador e executar a sua primeira opção.
+ * @param Cat_Protudos produtos.
+ * @param Cat_Clientes clientes.
+ * @param Faturacao faturas.
+ * @param Filiais filiais.
+ * @param int estado.
+ * @return int.
+ */
 int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas, Filial filiais[3], int estado) {
 
 	int input = 0;
@@ -90,6 +100,14 @@ int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatur
 	return estado;
 }
 
+/**
+ * Função encarregue de imprimir o menu leitura de ficheiros.
+ * @param Cat_Protudos produtos.
+ * @param Cat_Clientes clientes.
+ * @param Faturacao faturas.
+ * @param Filiais filiais.
+ * @return int.
+ */
 
 static int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas,Filial filiais[3]) {
 
@@ -133,7 +151,11 @@ static int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao f
 	return estado;
 }
 
-
+/**
+ * Função encarregue de imprimir o menu do catalogo de produtos.
+ * @param Cat_Protudos produtos.
+ * @return int.
+ */
 static int menu_catalogo(Cat_Produtos produtos) {
 
 	int estado = 1, input = 0;
@@ -173,6 +195,11 @@ static int menu_catalogo(Cat_Produtos produtos) {
 }
 
 
+/**
+ * Função encarregue de imprimir o menu de faturação.
+ * @param Faturacao faturas.
+ * @return int.
+ */
 
 static int menu_faturacao(Faturacao faturas) {
 
@@ -219,9 +246,54 @@ static int menu_faturacao(Faturacao faturas) {
 	return estado;
 }
 
+/**
+ * Função encarregue de imprimir o menu das filiais.
+ * @param Filiais filiais.
+ * @return int.
+ */
+static int menu_filiais(Filial filiais[]) {
 
+	int estado = 1, input = 0;
+	char opcao[20];
 
-static int menu_filiais(Filial filiais[3]) {
-	int estado = 1;
-	return estado;
+	while(estado) {
+	
+		system("clear");
+		printf("_____________________________________________\n");
+		printf("\n\t\tMENU FILIAIS\n\n");
+		printf("---------------------------------------------\n");
+		printf(" Escolha uma das seguintes opções:\n\n");
+		printf("  1. Lista de produtos comprados mês a mês\n");
+		printf("  2. Lista de Clientes em todas as filiais\n");
+		printf("  3. Compradores de um produto por filial\n");
+		printf("  4. Produtos mais comprados por Cliente\n");
+		printf("  5. Lista dos N produtos mais vendidos\n");
+		printf("  6. 3 Produtos mais custosos de um cliente\n");
+		printf("  7. Clientes/Produtos sem registos de compra\n\n");
+		printf("---------------------------------------------\n");
+		printf("  V - Voltar\t\t\tQ - Sair\n");
+		printf("_____________________________________________\n");
+		
+		printf("\nEscolha uma opção >> ");
+		
+		input = scanf("%s",opcao);
+		
+		switch(opcao[0]) {
+			
+			case 'Q': return SAIR_PROGRAMA; break;
+
+			case '1': estado =querie_5(filiais); break;
+		/*	
+			case '1': estado = querie_3(faturas); break;
+			
+			case '2': estado = querie_4(faturas); break;
+
+			case '3': estado = querie_6(faturas); break;
+		*/	
+			case '7': estado=querie_12(filiais); break;
+			case 'V': return MENU_PRINCIPAL; break;
+
+			default: break;
+		}
+	}
 }

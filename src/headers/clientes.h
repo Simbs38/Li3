@@ -10,6 +10,7 @@ typedef struct catalogo_clientes *Cat_Clientes;
 typedef struct cliente *Cliente;
 
 
+
 /**
  * Inicia um novo catálogo de clientes.
  * @return Cat_Clientes Novo catálogo de clientes alocado.
@@ -73,7 +74,6 @@ Catalogo get_CatalogoCli(Cat_Clientes clientes);
  * @param clients Cat_Clientes a limpar da memória.
  */
 void remove_Catalogo_Clientes(Cat_Clientes clients);
-
 
 /**
  * Inicia um novo cliente.

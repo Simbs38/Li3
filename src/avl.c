@@ -290,9 +290,14 @@ static void tree_free(NODO node) {
 
 FUNCOES SOBRE O ARRAY DINAMICO
 
+
 *************************************/
 
-
+/**
+ * Inicia um novo array dinâmico.
+ * @param size inteiro que determina a capacidade inicial do array dinâmico.
+ * @return conjunto array dinâmico
+ */
 Lista init_Lista(int size) {
     Lista conjunto = (Lista) malloc(sizeof(struct lista));
     conjunto->array = (char**) malloc(size *sizeof(char*));
