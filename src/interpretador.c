@@ -4,6 +4,17 @@
 #define SAIR_PROGRAMA 0
 #define REFAZER_DADOS 2
 
+
+/**
+ * Função encarregue de imprimir o menu de interação principal com o utilizador e executar a sua primeira opção.
+ * @param Cat_Protudos produtos.
+ * @param Cat_Clientes clientes.
+ * @param Faturacao faturas.
+ * @param Filiais filiais.
+ * @param int estado.
+ * @return int.
+ */
+
 int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas, Filiais filiais,int estado) {
 
 	int input = 0;
@@ -80,6 +91,14 @@ int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatur
 	return estado;
 }
 
+/**
+ * Função encarregue de imprimir o menu leitura de ficheiros.
+ * @param Cat_Protudos produtos.
+ * @param Cat_Clientes clientes.
+ * @param Faturacao faturas.
+ * @param Filiais filiais.
+ * @return int.
+ */
 
 int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas,Filiais filiais) {
 
@@ -123,7 +142,11 @@ int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas,
 	return estado;
 }
 
-
+/**
+ * Função encarregue de imprimir o menu do catalogo de produtos.
+ * @param Cat_Protudos produtos.
+ * @return int.
+ */
 int menu_catalogo(Cat_Produtos produtos) {
 
 	int estado = 1, input = 0;
@@ -163,6 +186,11 @@ int menu_catalogo(Cat_Produtos produtos) {
 }
 
 
+/**
+ * Função encarregue de imprimir o menu de faturação.
+ * @param Faturacao faturas.
+ * @return int.
+ */
 
 int menu_faturacao(Faturacao faturas) {
 
@@ -209,7 +237,11 @@ int menu_faturacao(Faturacao faturas) {
 	return estado;
 }
 
-
+/**
+ * Função encarregue de imprimir o menu das filiais.
+ * @param Filiais filiais.
+ * @return int.
+ */
 int menu_filiais(Filiais filial) {
 
 	int estado = 1, input = 0;

@@ -47,6 +47,10 @@ struct listafi {
 	FUNCOES DE FILIAIS
 **************************/
 
+/**
+ * Inicializa a estrutura filial 3 vezes, (uma para cada filial).
+ * @return Filiais.
+ */
 Filiais init_Filiais() {
 	Filiais f = (Filiais) malloc(sizeof(struct filiais));
 	int i;
@@ -56,12 +60,25 @@ Filiais init_Filiais() {
 	return f;
 }
 
+/**
+ * Adiciona uma venda a estrutura.
+ * @param Filiais f
+ * @param Venda v
+ * @return Filiais.
+ */
 Filiais adiciona_Filiais(Filiais f, Venda v) {
 	int filial = getFilial(v)-1;
 	f->filiais[filial] = adiciona_Venda_Filial(f->filiais[filial],v);
 	return f;
 }
 
+/**
+ * Adiciona dados as 3 filiais.
+ * @param Filiais f.
+ * @param Cat_Produtos produtos.
+ * @param Cat_Clientes clientes.
+ * @return Filiais.
+ */
 Filiais cria_Dados_Filiais(Filiais f,Cat_Produtos produtos,Cat_Clientes clientes) {
 	int i;
 	for(i = 0; i < 3; i++) {
@@ -74,13 +91,23 @@ Filiais cria_Dados_Filiais(Filiais f,Cat_Produtos produtos,Cat_Clientes clientes
 	FUNCOES DA ESTRUTURA FILIAL
 **********************************/
 
+/**
+ * Adiciona dados a uma filial.
+ * @param Filial filial.
+ * @param Cat_Produtos produtos.
+ * @param Cat_Clientes clientes.
+ * @return Filial.
+ */
 Filial cria_Dados_Filial(Filial filial, Cat_Produtos produtos, Cat_Clientes clientes) {
     filial->produtos = clone_Catalogo(get_Catalogo(produtos));
     filial->clientes = clone_Catalogo(get_CatalogoCli(clientes));
     return filial;
 }
 
-
+/**
+ * Inicializa uma filial.
+ * @return Filial.
+ */
 Filial init_Filial() {
 	Filial f = (Filial) malloc(sizeof(struct filial));
 	f->clientes = init_Catalogo(26);
@@ -88,7 +115,12 @@ Filial init_Filial() {
 	return f;
 }
 
-
+/**
+ * Adiciona dados de uma venda a uma filial.
+ * @param Filial f.
+ * @param Venda v.
+ * @return Filial.
+ */
 Filial adiciona_Venda_Filial(Filial f, Venda v) {
 	Produto product = getProduto(v);
 	Cliente client = getCliente(v);
@@ -118,7 +150,10 @@ Filial adiciona_Venda_Filial(Filial f, Venda v) {
 ****************************************/
 
 
-
+/**
+ * Inicia um Nodo de produtos.
+ * @return Nodo_Produtos.
+ */
 Nodo_Produtos init_Nodo_Produtos() {
 	Nodo_Produtos produto = (Nodo_Produtos) malloc(sizeof(struct nodo_produtos));
 	produto->quantidade = 0;
@@ -133,13 +168,23 @@ Nodo_Produtos init_Nodo_Produtos() {
 	FUNCOES DE LISTAS
 ***********/
 
+/**
+ * Inicia um conjunto de filiais.
+ * @param int n.
+ * @return Conj_Filiais.
+ */
 Conj_Filiais init_Conj_Filiais(int n) {
 	Conj_Filiais c = (Conj_Filiais) malloc(sizeof(struct conjunto_filiais));
 	c->lista = init_Array(n);
 	return c;
 }
 
-
+/**
+ * Adiciona um nome ao array do conjuto de filiais.
+ * @param Conj_Filiais c.
+ * @param char *nome.
+ * @return Conj_Filiais.
+ */
 Conj_Filiais adiciona_Nome(Conj_Filiais c, char* nome) {
 	c->lista = adiciona_array(c->lista,nome);
 	return c;

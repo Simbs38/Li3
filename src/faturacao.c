@@ -19,6 +19,11 @@ struct conjunto_faturas {
 	Array lista;
 };
 
+/**
+ * Inicializa a estrutura Faturacao.
+ * @return Faturacao.
+ */
+
 Faturacao init_Faturacao() {
 	int i;
 	Faturacao fat = (Faturacao) malloc(sizeof(struct faturacao));
@@ -30,18 +35,29 @@ Faturacao init_Faturacao() {
 	return fat;
 }
 
-
+/**
+ * Insere os dados dos produtos na estrutura.
+ * @param Faturacao fat.
+ * @param Cat_Produtos prods.
+ * @return Faturacao.
+ */
 Faturacao cria_Dados_Faturacao(Faturacao fat, Cat_Produtos prods) {
 		fat->faturas = clone_Catalogo(get_Catalogo(prods));
 	return fat;
 }
-
+/**
+ * Liberta o espaço alocado em memoria para a estrutura.
+ * @param Faturacao fatutacao.
+ */
 void free_Faturacao(Faturacao faturacao) {
 	remove_Catalogo(faturacao->faturas);
 	free(faturacao);
 }
 
-
+/**
+ * Inicializa as faturações de um produto.
+ * @return Fatura_Produto.
+ */
 Fatura_Produto init_Fatura_Produto() {
 	int i, j, k;
 	Fatura_Produto fatura = (Fatura_Produto) malloc(sizeof(struct fatura_produto));
@@ -56,7 +72,12 @@ Fatura_Produto init_Fatura_Produto() {
 	return fatura;
 }
 
-	
+/**
+ * Adiciona uma venda a faturação total.
+ * @param Faturacao contas
+ * @param Venda venda
+ * @return Faturacao.
+ */	
 Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 	
 	Produto product = getProduto(venda);
@@ -87,12 +108,24 @@ Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 	return contas;
 }
 
-
+/**
+ * Devolve a estrutura alocada junto de um produto.
+ * @param Faturacao faturacao.
+ * @param char* produto.
+ * @return void *.
+ */
 void* getEstrutura_Faturacao(Faturacao faturacao, char* produto) {
 	return getEstrutura_Catalogo(faturacao->faturas,produto,produto[0]-'A');
 }
 
-
+/**
+ * Devolve a quantidade total de um produto num dado mês em promoção ou em preço normal.
+ * @param Faturacao fatura.
+ * @param char* produto.
+ * @param int mes.
+ * @param char modo.
+ * @return int.
+ */
 int get_total_quantidades_mes_produto(Faturacao fatura, char* produto, int mes, char modo) {
 	int i;
 	
@@ -112,7 +145,14 @@ int get_total_quantidades_mes_produto(Faturacao fatura, char* produto, int mes, 
 	} else return 0;
 }
 
-
+/**
+ * Devolve o custo total de um produto num dado mês em promoção ou em preço normal.
+ * @param Faturacao fatura.
+ * @param char* produto.
+ * @param int mes.
+ * @param char modo.
+ * @return int.
+ */
 double get_total_precos_mes_produto(Faturacao fatura, char* produto, int mes, char modo) {
 	double total = 0;
 	int i;
@@ -132,7 +172,15 @@ double get_total_precos_mes_produto(Faturacao fatura, char* produto, int mes, ch
 	else return 0;
 }
 
-
+/**
+ * Devolve a quantidade total de um produto num dado mês e numa dada filial em promoção ou em preço normal.
+ * @param Faturacao fatura.
+ * @param char* produto.
+ * @param int mes.
+ * @param char modo.
+ * @param int filial.
+ * @return int.
+ */
 int get_total_quantidades_mes_produto_filial(Faturacao fatura, char* produto, int mes, char modo, int filial) {
 	int i;
 	
@@ -150,6 +198,15 @@ int get_total_quantidades_mes_produto_filial(Faturacao fatura, char* produto, in
 	} else return 0;
 }
 
+/**
+ * Devolve o custo total de um produto num dado mês e numa dada filial em promoção ou em preço normal.
+ * @param Faturacao fatura.
+ * @param char* produto.
+ * @param int mes.
+ * @param char modo.
+ * @param int filial.
+ * @return int.
+ */
 double get_total_precos_mes_produto_filial(Faturacao fatura, char* produto, int mes, char modo, int filial) {
 	int i;
 	double total = 0;
@@ -166,7 +223,13 @@ double get_total_precos_mes_produto_filial(Faturacao fatura, char* produto, int 
 	} else return 0;
 }
 
-
+/**
+ * Devolve a quantidade total vendida num intervalo de meses.
+ * @param Faturacao fatura.
+ * @param int mes1.
+ * @param int mes2.
+ * @return int.
+ */
 int get_total_quantidades_intervalo(Faturacao fatura, int mes1, int mes2) {
 	int i, total = 0;
 
@@ -178,6 +241,13 @@ int get_total_quantidades_intervalo(Faturacao fatura, int mes1, int mes2) {
 }
 
 
+/**
+ * Devolve o total faturado num intervalo de meses.
+ * @param Faturacao fatura.
+ * @param int mes1.
+ * @param int mes2.
+ * @return double.
+ */
 double get_total_faturado_intervalo(Faturacao fatura, int mes1, int mes2) {
 	int i; 
 	double total = 0;
@@ -189,32 +259,58 @@ double get_total_faturado_intervalo(Faturacao fatura, int mes1, int mes2) {
 	return total;
 }
 
-
+/**
+ * Inicializa uma lista de faturação.
+ * @param int capacidade.
+ * @return Conj_Faturas.
+ */
 Conj_Faturas init_Lista_Faturacao(int capacidade) {
   Conj_Faturas conjunto = (Conj_Faturas) malloc(sizeof(struct conjunto_faturas));
   conjunto->lista = init_Array(capacidade);
   return conjunto;
 }
 
-
+/**
+ * Devolve o conjuto de produtos nunca comprados.
+ * @param Conj_Faturas conjuto.
+ * @param Faturacao faturacao.
+ * @return Conj_Faturas.
+ */
 Conj_Faturas faturas_produtos_nao_comprados_totais(Conj_Faturas conjunto, Faturacao faturacao) {
 	conjunto->lista = catalogo_produtos_nao_comprados_totais(conjunto->lista, faturacao->faturas);
 	return conjunto;
 }
 
-
+/**
+ * Adiciona ao conjuto de faturas um produto.
+ * @param Conj_Faturas conjuto.
+ * @param char *info.
+ * @return Conj_Faturas.
+ */
 Conj_Faturas adiciona_Conjunto(Conj_Faturas conjunto, char* info) {
 	conjunto->lista = adiciona_array(conjunto->lista,info);
 	return conjunto;
 }
 
-
+/**
+ * Cria uma lista com todos os produtos da estrutura.
+ * @param Conj_Faturas conjuto.
+ * @param Faturacao faturacao.
+ * @return Conj_Faturas.
+ */
 Conj_Faturas cria_lista_total(Conj_Faturas conjunto, Faturacao faturacao) {
 	conjunto->lista = catalogo_lista_total(conjunto->lista,faturacao->faturas);
 	return conjunto;
 }
 
-
+/**
+ * ??????????????????????????????????????????????????????????????.
+ * @param Conj_Faturas conjuto.
+ * @param Conj_Faturas nao_comprados.
+ * @param Faturacao faturas.
+ * @param int filial.
+ * @return Conj_Faturas.
+ */
 Conj_Faturas faturas_nao_comprado_filial(Conj_Faturas conjunto, Conj_Faturas nao_comprados,  Faturacao faturas, int filial) {
 	int tamanho = faturacao_getPos(conjunto);
 	Fatura_Produto estrutura;
@@ -238,16 +334,31 @@ Conj_Faturas faturas_nao_comprado_filial(Conj_Faturas conjunto, Conj_Faturas nao
 }
 
 
+/**
+ * Devolve um produto de uma lista.
+ * @param Conj_Faturas conjuto.
+ * @param int pos.
+ * @return char*.
+ */
 char* get_elemento_lista(Conj_Faturas conjunto, int pos) {
 	return catalogo_getElemento(conjunto->lista,pos);
 }
 
 
+/**
+ * Devolve a posiçao de um ????????????????????.
+ * @param Conj_Faturas conjuto.
+ * @return int.
+ */
 int faturacao_getPos(Conj_Faturas conjunto) {
 	return catalogo_getPos(conjunto->lista);
 }
 
 
+/**
+ * Prepara o conjuto de faturas para ser apresentado.
+ * @param Conj_Faturas conjuto.
+ */
 void apresenta_faturas(Conj_Faturas conjunto) {
 	apresenta_Array(conjunto->lista);
 }

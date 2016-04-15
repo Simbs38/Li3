@@ -20,5 +20,5 @@ cleanAll: clean
 	-@rm -rf doc
 
 .PHONY: doc
-doc:
-	doxygen doxygen.conf
+doc:$(OBJS)
+		doxygen

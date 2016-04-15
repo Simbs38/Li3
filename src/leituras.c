@@ -5,7 +5,20 @@ static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, c
 static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char* file_name);
 static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, Filiais filiais, FILE *fp,char* file_name);
 
-
+/**
+ * Recebe as estruturas inicializadas e os ficheiros ja abertos e copia a informação dos ficheiros para as estruturas.
+ * @param Cat_Clientes costumers.
+ * @param Cat_Produtos products.
+ * @param Faturacao contas.
+ * @param Filiais filiais.
+ * @param FILE *f_clients.
+ * @param FILE *f_prods.
+ * @param FILE* f_sales. 
+ * @param char* f_cname.
+ * @param char* f_pname.
+ * @param char* f_vname
+ * @param int estado.
+ */
 void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao contas, Filiais filiais, FILE *f_clients, FILE *f_prods, FILE* f_sales, char* f_cname, char* f_pname, char* f_vname) {
    char continua[10];
    time_t begin, end;
