@@ -279,55 +279,45 @@ int querie_4(Faturacao faturas) {
  * @param Filiais filial
  * @return int
 */
-int querie_5(Filial filiais[]){
-
+int querie_5(Filial filiais[3]) {
 
 	int estado = 1, input,j,i;
-	int resultado[i][j];
-	char *cliente;
-
+	int resultado[12][3];
+	char cliente[10];
+	
 	while(estado) {
-	Conj_Faturas nao_comprados = init_Lista_Faturacao(1000); 
 		system("clear");
 		printf( "_____________________________________________\n" );
-		printf( "   Produtos comprados - QUERIE 5\n\n" );
-		printf( "_____________________________________________\n\n" );
-		printf("  Insira o codigo do seu cliente\n");
-		printf("_____________________________________________\n" );
-		printf( "  Escreva o nome do cliente:\n" );
-		printf( "  V - Voltar\t\tQ - Sair:\n" );
-		printf( "_____________________________________________\n" );
-
-		while(estado){
-		printf("\nEscolha uma opção >> ");
-
+		printf( "  Números de unidades Compradas - QUERIE 5\n\n" );
+		printf(" Insira o codigo do cliente >> ");
+		
 		input = scanf("%s",cliente);
-		cliente[6]='\0';
-		/*if(info_lookUp(info,cliente,1)!=0){*/
-			if(cliente[1]!=' '){
-				switch(cliente[0]) {
-					case 'Q': return 0; break;
-
-					case 'V': return estado; break;
-
-					default: break;
-				}
-			}
-
-
-
-			system("clear");
-			printf( "\tCompras pelo cliente %s\n",cliente);
-			printf( "______________________________________________________\n" );
-			printf("\t  Filial 1   Filial 2   Filial 3\n");
-			for(i=0;i!=12;i++)
-			printf("Mes %2d\t %3d \t\t%3d \t\t%3d\n",i,resultado[i][0],resultado[i][1],resultado[i][2]);
-			printf( "______________________________________________________\n" );
-			printf( "  V - Voltar\t\tQ - Sair:\n" );
+		/*
+		for(i = 0; i < 3; i++) {
+			for(j = 0; j < 12; j++) {
+				resultado[i][j] = nr_total_unidades_compradas(filiais[i],cliente,j+1);
 			}
 		}
-	return estado;		
+		*/
+		int valor = nr_total_unidades_compradas(filiais[0],cliente,2);
 
+		system("clear");
+		printf(" teste: %d\n",valor);
+		/*
+		printf( "\tQuantidades do cliente |%s|\n",cliente);
+		printf( "______________________________________________________\n" );
+		printf("\t  Filial 1   Filial 2   Filial 3\n");
+		
+		for(i = 0; i != 12; i++) {
+			printf("Mês |%d| \t %5d \t %5d \t %5d \n", i+1, resultado[0][i],resultado[1][i],resultado[2][i]);
+		}
+		printf( "______________________________________________________\n" );
+		printf( "  V - Voltar\t\tQ - Sair:\n" );
+		*/
+		input = scanf("%s",cliente);
+
+	}
+	return estado;
 }	
 	
 /**

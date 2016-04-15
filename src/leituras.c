@@ -171,25 +171,27 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
    int shop;
    
    Venda venda = initVenda();
-   while(fgets(line,MAXBUFFERVENDAS,f_sales)) {
+   
+   while(fgets(line,MAXBUFFERVENDAS,f_sales) && total < 1) {
 
       information = strtok(line,"\n\r");
       information = strtok(information," ");
       for(i = 0; information != NULL; i++) {
          switch(i) {
-            case 0: product = information;break;
+            case 0: product = information; break;
             case 1: price = atof(information); break;
             case 2: ammount = atoi(information);break; 
             case 3: type = information[0];break;
             case 4: client = information;break;
             case 5: month = atoi(information);break;
-            case 6: shop = atoi(information);break;
+            case 6: shop = atoi(information); /*printf("shop: %d\n",shop);*/ break;
             default: break;
          }
          information = strtok(NULL," ");
       }
-      change_sale(venda,product,price,ammount,type,client,month,shop);
-         
+
+      venda = change_sale(venda,product,price,ammount,type,client,month,shop);
+      
       /* Verifica a existencia do produto e do cliente de uma dada venda */
       
       verify = validate_sale(products,costumers,venda);

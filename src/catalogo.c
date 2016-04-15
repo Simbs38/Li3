@@ -35,7 +35,8 @@ Catalogo init_Catalogo() {
  * @return Boolean com valor verdadeiro ou falso.
  */
 
-Boolean existe_Catalogo(Catalogo catalogo, char* key,int index) {
+Boolean existe_Catalogo(Catalogo catalogo, char* key) {
+   int index = key[0] - 'A';
    Boolean existe = avl_lookUp(catalogo->indice[index],key);
 
    return existe;
@@ -51,7 +52,8 @@ Boolean existe_Catalogo(Catalogo catalogo, char* key,int index) {
  * @return Boolean com valor verdadeiro ou falso.
  */
 
-Catalogo insere_Catalogo(Catalogo catalogo, char* key, void* estrutura, int index) {
+Catalogo insere_Catalogo(Catalogo catalogo, char* key, void* estrutura) {
+    int index = key[0] - 'A';
     catalogo->indice[index] = avl_insert(catalogo->indice[index], key, estrutura);
     
     return catalogo;
@@ -128,7 +130,8 @@ Catalogo clone_Catalogo(Catalogo catalogo) {
  * @param Catalogo catalogo.
  * @return int.
  */
-void* getEstrutura_Catalogo(Catalogo catalogo, char* key, int index) {
+void* getEstrutura_Catalogo(Catalogo catalogo, char* key) {
+  int index = key[0] - 'A';
   return avl_getEstrutura(catalogo->indice[index],key);
 }
 

@@ -17,15 +17,14 @@ struct venda {
  * @return Venda.
  */
 Venda initVenda() {
-    Venda sale = (struct venda*) malloc(sizeof(struct venda));
-    sale->produto = criaProduto("NA");
-    sale->cliente = criaCliente("NA");
+    Venda sale = (Venda) malloc(sizeof(struct venda));
+    sale->produto = criaProduto();
+    sale->cliente = criaCliente();
     return sale;
-	
 }
 
-void change_sale(Venda sale, char* product, double price, int quantity, char promotion, char* client, int month, int shop) {
-    
+
+Venda change_sale(Venda sale, char* product, double price, int quantity, char promotion, char* client, int month, int shop) {    
     alteraProduto(sale->produto,product);
     sale->preco = price;
     sale->quantidade = quantity;
@@ -33,6 +32,8 @@ void change_sale(Venda sale, char* product, double price, int quantity, char pro
     alteraCliente(sale->cliente,client);
     sale->mes = month;
     sale->filial = shop;
+
+    return sale;
 }
 
 /**

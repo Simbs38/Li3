@@ -289,8 +289,9 @@ static int menu_filiais(Filial filiais[]) {
 			case '2': estado = querie_4(faturas); break;
 
 			case '3': estado = querie_6(faturas); break;
-		*/	
+			
 			case '7': estado=querie_12(filiais); break;
+		*/
 			case 'V': return MENU_PRINCIPAL; break;
 
 			default: break;

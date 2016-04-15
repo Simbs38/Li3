@@ -27,7 +27,7 @@ struct conjunto_faturas {
 Faturacao init_Faturacao() {
 	int i;
 	Faturacao fat = (Faturacao) malloc(sizeof(struct faturacao));
-		fat->faturas = init_Catalogo(NR_LETRAS);
+		fat->faturas = init_Catalogo();
 		for(i = 0; i < 12; i++) {
 			fat->total_faturado[i] = 0;
 			fat->total_vendas[i] = 0;
@@ -94,17 +94,19 @@ Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 
 	
 
-	Fatura_Produto estrutura = getEstrutura_Catalogo(contas->faturas,prod,prod[0]-'A');
+	Fatura_Produto estrutura = getEstrutura_Catalogo(contas->faturas,prod);
 
 	
 	if(estrutura == NULL) {
 		estrutura = init_Fatura_Produto();
 	}
+	
 	contas->total_vendas[mes] += quantidades;
 	contas->total_faturado[mes] += custo;
 	estrutura->quantidades[mes][filial][promo] += quantidades;
 	estrutura->precos[mes][filial][promo] += custo;
-	contas->faturas = insere_Catalogo(contas->faturas,prod,estrutura,prod[0]-'A');	
+	
+	contas->faturas = insere_Catalogo(contas->faturas,prod,estrutura);	
 	
 	return contas;
 }
@@ -116,7 +118,7 @@ Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
  * @return void *.
  */
 void* getEstrutura_Faturacao(Faturacao faturacao, char* produto) {
-	return getEstrutura_Catalogo(faturacao->faturas,produto,produto[0]-'A');
+	return getEstrutura_Catalogo(faturacao->faturas,produto);
 }
 
 /**
@@ -132,7 +134,7 @@ int get_total_quantidades_mes_produto(Faturacao fatura, char* produto, int mes, 
 	
 	int total = 0;
 	
-	Fatura_Produto anexo = getEstrutura_Catalogo(fatura->faturas,produto,produto[0]-'A');
+	Fatura_Produto anexo = getEstrutura_Catalogo(fatura->faturas,produto);
 	
 	if(anexo != NULL) {
 	
@@ -158,7 +160,7 @@ double get_total_precos_mes_produto(Faturacao fatura, char* produto, int mes, ch
 	double total = 0;
 	int i;
 	
-	Fatura_Produto anexo = getEstrutura_Catalogo(fatura->faturas,produto,produto[0]-'A');
+	Fatura_Produto anexo = getEstrutura_Catalogo(fatura->faturas,produto);
 	
 	if(anexo != NULL) {
 
@@ -187,7 +189,7 @@ int get_total_quantidades_mes_produto_filial(Faturacao fatura, char* produto, in
 	
 	int total = 0;
 	
-	Fatura_Produto anexo = getEstrutura_Catalogo(fatura->faturas,produto,produto[0]-'A');
+	Fatura_Produto anexo = getEstrutura_Catalogo(fatura->faturas,produto);
 	
 	if(anexo != NULL) {
 	
@@ -212,7 +214,7 @@ double get_total_precos_mes_produto_filial(Faturacao fatura, char* produto, int 
 	int i;
 	double total = 0;
 	
-	Fatura_Produto anexo = getEstrutura_Catalogo(fatura->faturas,produto,produto[0]-'A');
+	Fatura_Produto anexo = getEstrutura_Catalogo(fatura->faturas,produto);
 	
 	if(anexo != NULL) {
 	

@@ -24,7 +24,7 @@ Venda initVenda();
  * @param int shop
  * @return Venda.
  */
-void change_sale(Venda sale, char* product, double price, int quantity, char promotion, char* client, int month, int shop);
+Venda change_sale(Venda sale, char* product, double price, int quantity, char promotion, char* client, int month, int shop);
 
 /**
  * Devolve o codigo do produto de uma venda.
