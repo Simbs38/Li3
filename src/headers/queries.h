@@ -44,7 +44,7 @@ int querie_4(Faturacao faturas);
  * @param Filiais filial
  * @return int
 */
-int querie_5(Filiais filial);
+int querie_5(Filial filiais[]);
 
 /**
  * Dado um intervalo fechado de meses, determinar o total de vendas registadas nesse intervalo e o total facturado.
@@ -52,57 +52,54 @@ int querie_5(Filiais filial);
  * @return int.
 */
 int querie_6(Faturacao faturas);
-<<<<<<< HEAD
 
 /**
  * Determinar a lista ordenada de códigos de clientes que realizaram compras em todas as filiais.
  * @param Filiais filial.
  * @return int.
 */
-int querie_7(Filiais filial);
+int querie_7(Filial filiais[]);
 
 /**
  * Dado um código de produto e uma filial, determinar os códigos, distinguindo entre compra N e compra P.
  * @param Filiais filial.
  * @return int.
 */
-int querie_8(Filiais filial);
+int querie_8(Filial filiais[]);
 
 /**
  * Dado  um  código  de  cliente  e  um  mês,  determinar  a  lista  de  códigos  de produtos que mais comprou.
  * @param Filiais filial.
  * @return int.
 */
-int querie_9(Filiais filial);
+int querie_9(Filial filiais[]);
 
 /**
  *Cria  uma  lista  dos  N produtos mais  vendidos  em  todo  o  ano.
  * @param Filiais filial.
  * @return int.
 */
-int querie_10(Filiais filial);
+int querie_10(Filial filiais[]);
 
 /**
  * Dado um código de cliente determinar quais os códigos dos 3 produtos em que tenho gasto mais.
  * @param Filiais filial
  * @return int
 */
-int querie_11(Filiais filial);
+int querie_11(Filial filiais[]);
 
 /**
  * Determina o número de clientes registados que não realizaram compras bem como o número de produtos que ninguém comprou.
  * @param Filiais filial
  * @return int
 */
-int querie_12(Filiais filial);
+int querie_12(Filial filiais[]);
 
 /**
  *Determinar a lista ordenada de códigos de clientes que realizaram compras em todas as filiais.
  * @param Filiais filial
  * @return int
 */
-=======
->>>>>>> aa73e52abc04985af149a972d516a2e754d6e4d2
 void apresenta_Lista(Lista list);
 
 #endif

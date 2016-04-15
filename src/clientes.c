@@ -40,10 +40,13 @@ void alteraCliente(Cliente client, char *info) {
     strncpy(client->name, info, 6);
 }
 
+/**
+ * Devolve o codigo de um cliente.
+ * @param Cat_Clientes clients.
+ * @return char *letra.
+ */
 char* getNomeCliente(Cliente client) {
-  char* novo = malloc(6);
-  strcpy(novo,client->name);
-  return novo;
+  return client->name;
 }
 
 /**
@@ -128,15 +131,6 @@ int total_Clientes_letra(Cat_Clientes clients, char letra) {
  */
 void remove_Catalogo_Clientes(Cat_Clientes clients) {
   remove_Catalogo(clients->catalogo);
-}
-
-/**
- * Devolve o codigo de um cliente.
- * @param Cat_Clientes clients.
- * @return char *letra.
- */
-char* getNomeCliente(Cliente client) {
-  return client->name;
 }
 
 /**

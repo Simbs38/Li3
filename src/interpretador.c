@@ -251,7 +251,7 @@ static int menu_faturacao(Faturacao faturas) {
  * @param Filiais filiais.
  * @return int.
  */
-static int menu_filiais(Filial filiais[3]) {
+static int menu_filiais(Filial filiais[]) {
 
 	int estado = 1, input = 0;
 	char opcao[20];
@@ -282,7 +282,7 @@ static int menu_filiais(Filial filiais[3]) {
 			
 			case 'Q': return SAIR_PROGRAMA; break;
 
-			case '1': estado =querie_5(filial); break;
+			case '1': estado =querie_5(filiais); break;
 		/*	
 			case '1': estado = querie_3(faturas); break;
 			
@@ -290,7 +290,7 @@ static int menu_filiais(Filial filiais[3]) {
 
 			case '3': estado = querie_6(faturas); break;
 		*/	
-			case '7': estado=querie_12(filial); break;
+			case '7': estado=querie_12(filiais); break;
 			case 'V': return MENU_PRINCIPAL; break;
 
 			default: break;

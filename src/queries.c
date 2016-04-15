@@ -279,10 +279,10 @@ int querie_4(Faturacao faturas) {
  * @param Filiais filial
  * @return int
 */
-int querie_5(Filiais filial){
+int querie_5(Filial filiais[]){
 
 
-	int estado = 1, input, filiais = 0,j,i;
+	int estado = 1, input,j,i;
 	int resultado[i][j];
 	char *cliente;
 
@@ -328,9 +328,7 @@ int querie_5(Filiais filial){
 		}
 	return estado;		
 
-		}	
-				
-X
+}	
 	
 /**
  * Dado um intervalo fechado de meses, determinar o total de vendas registadas nesse intervalo e o total facturado.
@@ -412,7 +410,7 @@ int querie_6(Faturacao faturas) {
  * @return int.
 */
 
-int querie_7(Filiais filial){
+int querie_7(Filial filiais[]){
 	int estado=1;
 	return estado;
 }
@@ -422,7 +420,7 @@ int querie_7(Filiais filial){
  * @param Filiais filial.
  * @return int.
 */
-int querie_8(Filiais filial){
+int querie_8(Filial filiais[]){
 	int estado=1;
 	return estado;
 }
@@ -433,7 +431,7 @@ int querie_8(Filiais filial){
  * @param Filiais filial.
  * @return int.
 */
-int querie_9(Filiais filial){
+int querie_9(Filial filiais[]){
 	int estado=1;
 	return estado;
 }
@@ -444,7 +442,7 @@ int querie_9(Filiais filial){
  * @param Filiais filial.
  * @return int.
 */
-int querie_10(Filiais filial){
+int querie_10(Filial filiais[]){
 	int estado=1;
 	return estado;
 
@@ -456,7 +454,7 @@ int querie_10(Filiais filial){
  * @param Filiais filial
  * @return int
 */
-int querie_11(Filiais filial){
+int querie_11(Filial filiais[]){
 	float custo;
 	int estado = 1, input,i,j;
 	char cliente[10],*produto;
@@ -507,7 +505,7 @@ int querie_11(Filiais filial){
  * @param Filiais filial
  * @return int
 */
-int querie_12(Filiais filial){
+int querie_12(Filial filiais[]){
 	int estado = 1, input;
 	char opcao[10];
 

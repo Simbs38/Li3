@@ -10,30 +10,8 @@
 
 typedef struct filial *Filial;
 typedef struct conjunto_filiais *Conj_Filiais;
+typedef struct nodo_produtos *Nodo_Produtos;
 
-
-/**
- * Inicializa a estrutura filial 3 vezes, (uma para cada filial).
- * @return Filiais.
- */
-Filiais init_Filiais();
-
-/**
- * Adiciona uma venda a estrutura.
- * @param Filiais f
- * @param Venda v
- * @return Filiais.
- */
-Filiais adiciona_Filiais(Filiais f, Venda v);
-
-/**
- * Adiciona dados as 3 filiais.
- * @param Filiais f.
- * @param Cat_Produtos produtos.
- * @param Cat_Clientes clientes.
- * @return Filiais.
- */
-Filiais cria_Dados_Filiais(Filiais f,Cat_Produtos produtos,Cat_Clientes clientes);
 
 /**
  * Adiciona dados a uma filial.
