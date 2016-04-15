@@ -1,5 +1,8 @@
 #include "./headers/venda.h"
 
+#include <string.h>
+#include <stdlib.h>
+
 struct venda {
     Produto produto;
     double preco;
@@ -20,41 +23,7 @@ Venda initVenda() {
     return sale;
 	
 }
-/**
- * Regista uma venda na estrutura.
- * @param char * product.
- * @param double price.
- * @param int quantity.
- * @param char promotion.
- * @param char *client.
- * @param int month.
- * @param int shop
- * @return Venda.
- */
-Venda record_sale(char* product, double price, int quantity, char promotion, char* client, int month, int shop) {
 
-    Venda sale = (struct venda*) malloc(sizeof(struct venda));
-    sale->produto = criaProduto(product);
-    sale->preco = price;
-    sale->quantidade = quantity;
-    sale->promocao = promotion;
-    sale->cliente = criaCliente(client);
-    sale->mes = month;
-    sale->filial = shop;
-    
-    return sale;
-}
-/**
- * Atualiza uma venda na estrutura.
- * @param char * product.
- * @param double price.
- * @param int quantity.
- * @param char promotion.
- * @param char *client.
- * @param int month.
- * @param int shop
- * @return Venda.
- */
 void change_sale(Venda sale, char* product, double price, int quantity, char promotion, char* client, int month, int shop) {
     
     alteraProduto(sale->produto,product);

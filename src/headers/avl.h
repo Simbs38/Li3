@@ -1,12 +1,17 @@
+/**
+ * @file avl.h
+ * @brief Ficheiro que contem a API relativa á implementação de AVL's.
+ */
+
 #ifndef _avl_h_
 #define _avl_h_
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "global.h"
 
 
-typedef struct nodeAVL* NODO;
 typedef struct avl* AVL;
 
 typedef struct lista *Lista;
@@ -15,9 +20,6 @@ typedef void* Estrutura;
 typedef char* Valor;
 
 
-/*******
-AVL
-*****/
 
 
 /**
@@ -71,11 +73,6 @@ void avl_free(AVL node);
  */
 Estrutura avl_getEstrutura(AVL node, Valor value);
 
-
-/*********
-ARRAY
-********/
-
 /**
  * Inicia um novo array dinâmico.
  * @param size inteiro que determina a capacidade inicial do array dinâmico.
@@ -109,7 +106,6 @@ Lista lista_insert(Lista conjunto ,char* valor);
  */
 Lista produtos_nao_comprados_totais(Lista list,AVL tree);
 
-
 /**
  * Retorna o campo Pos da estrutura Lista.
  * @param list Lista (array dinâmico).
@@ -125,4 +121,4 @@ int lista_getPos(Lista list);
  */
 char* lista_getNome(Lista list, int pos);
 
-#endif
+#endif /* _avl_h_ */

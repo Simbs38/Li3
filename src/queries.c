@@ -1,5 +1,9 @@
 #include "./headers/queries.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 /**
  * Ler os 3 ficheiros (Produtos, Clientes e Vendas), cujos nomes poderão ser introduzidos pelo utilizador ou, opcionalmente, assumidos por omissão  
  * @param Cat_Produtos produtos.
@@ -8,7 +12,7 @@
  * @param Filiais filiais.
  * @param int modo.
 */
-int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Filiais filiais, int modo) {
+int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Filial filiais[3], int modo) {
 	/*
 	if(total_Produtos(produtos) && total_Clientes(clientes)) {
 		remove_Catalogo_Produtos(produtos);

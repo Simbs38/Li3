@@ -6,28 +6,24 @@ struct filial{
     Catalogo produtos;
 };
 
-struct filiais {
-	Filial filiais[3];
-};
-
-
 /*Estrutura inserida em cada nodo referente a um cliente */
 
-struct nodo_clientes {
+typedef struct nodo_clientes {
     Catalogo Produtos_Cliente;
     int total[12];
-};
+} *Nodo_Clientes;
 
 /*Estrutura inserida em cada nodo referente a um produto */
 
-struct nodo_produtos{
+typedef struct nodo_produtos{
 	int quantidade;
 	Conj_Filiais clientes_N;
 	Conj_Filiais clientes_P;
-};
+} *Nodo_Produtos;
+
 
 struct conjunto_filiais {
-  Array lista;
+	Array lista;
 };
 
 struct listaFilial{
@@ -42,50 +38,6 @@ struct listafi {
 
 };
 
-
-/*************************
-	FUNCOES DE FILIAIS
-**************************/
-
-/**
- * Inicializa a estrutura filial 3 vezes, (uma para cada filial).
- * @return Filiais.
- */
-Filiais init_Filiais() {
-	Filiais f = (Filiais) malloc(sizeof(struct filiais));
-	int i;
-	for(i = 0; i < 3; i++) {
-		f->filiais[i] = init_Filial();
-	}
-	return f;
-}
-
-/**
- * Adiciona uma venda a estrutura.
- * @param Filiais f
- * @param Venda v
- * @return Filiais.
- */
-Filiais adiciona_Filiais(Filiais f, Venda v) {
-	int filial = getFilial(v)-1;
-	f->filiais[filial] = adiciona_Venda_Filial(f->filiais[filial],v);
-	return f;
-}
-
-/**
- * Adiciona dados as 3 filiais.
- * @param Filiais f.
- * @param Cat_Produtos produtos.
- * @param Cat_Clientes clientes.
- * @return Filiais.
- */
-Filiais cria_Dados_Filiais(Filiais f,Cat_Produtos produtos,Cat_Clientes clientes) {
-	int i;
-	for(i = 0; i < 3; i++) {
-		f->filiais[i] = cria_Dados_Filial(f->filiais[i],produtos,clientes);
-	}
-	return f;
-}
 
 /*********************************
 	FUNCOES DA ESTRUTURA FILIAL

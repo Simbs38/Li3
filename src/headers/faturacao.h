@@ -1,3 +1,9 @@
+/**
+ * @file faturacao.h
+ * @brief Ficheiro que contem a API relativa ao modulo da Faturação Total.
+ */
+
+
 #ifndef _faturacao_h_
 #define _faturacao_h_
 
@@ -14,30 +20,32 @@ typedef struct conjunto_faturas *Conj_Faturas;
 
 
 /**
- * Inicializa a estrutura Faturacao.
- * @return Faturacao.
+ * Inicia uma nova estrutura Faturação.
+ * @return Nova estrutura Faturação.
  */
 Faturacao init_Faturacao();
 
-/**
- * Insere os dados dos produtos na estrutura.
- * @param Faturacao fat.
- * @param Cat_Produtos prods.
- * @return Faturacao.
- */
-Faturacao cria_Dados_Faturacao(Faturacao fact, Cat_Produtos);
 
 /**
- * Adiciona uma venda a faturação total.
- * @param Faturacao contas
- * @param Venda venda
- * @return Faturacao.
+ * Função responsavél por clonar o catalogo de produtos por forma a termos a informação previamente ordenada dos mesmos na faturação.
+ * @param fact Faturação a inserir os dados.
+ * @param produtos Cat_Produtos do qual provêm os dados.
+ * @return Faturação com os dados já inseridos.
+ */
+Faturacao cria_Dados_Faturacao(Faturacao fat, Cat_Produtos produtos);
+
+
+/**
+ * Função adiciona_Fatura tem a responsabilidade da inserção dos dados provenientes de uma Venda na estrutura.
+ * @param contas Faturacao onde será inserida a informação relativa á Venda.
+ * @param venda Venda da qual provẽm os dados a inserir na Faturação.
+ * @return contas Faturação após a inserção dos dados.
  */
 Faturacao adiciona_Fatura(Faturacao contas, Venda venda);
 
 /**
- * Liberta o espaço alocado em memoria para a estrutura.
- * @param Faturacao fatutacao.
+ * Função com o objetivo de limpar da memória uma estrutura Faturação.
+ * @param faturacao Estrutura da Faturação a limpar da memória.
  */
 void free_Faturacao(Faturacao faturacao);
 
@@ -46,25 +54,6 @@ void free_Faturacao(Faturacao faturacao);
  * @return Fatura_Produto.
  */
 Fatura_Produto init_Fatura_Produto();
-
-/**
- * Devolve a estrutura alocada junto de um produto.
- * @param Faturacao faturacao.
- * @param char* produto.
- * @return void *.
- */
-void* getEstrutura_Faturacao(Faturacao faturacao, char* produto);
-
-/**
- * Devolve o custo total de um produto num dado mês e numa dada filial em promoção ou em preço normal.
- * @param Faturacao fatura.
- * @param char* produto.
- * @param int mes.
- * @param char modo.
- * @param int filial.
- * @return int.
- */
-double get_total_precos_mes_produto_filial(Faturacao fatura, char* produto, int mes, char modo, int filial);
 
 /**
  * Devolve a quantidade total de um produto num dado mês e numa dada filial em promoção ou em preço normal.
@@ -177,4 +166,4 @@ char* get_elemento_lista(Conj_Faturas conjunto, int pos);
  */
 int faturacao_getPos(Conj_Faturas conjunto);
 
-#endif
+#endif /* _faturacao_h_ */

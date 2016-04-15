@@ -1,7 +1,9 @@
 #include "./headers/clientes.h"
 
-#define NR_LETRAS 26
-#define MAXBUFFERCLIENTES 32
+
+#include <string.h> 
+#include <stdlib.h>
+
 
 struct cliente {
   char name[6];
@@ -12,15 +14,13 @@ struct catalogo_clientes {
   Catalogo catalogo;
 };
 
-/**
- * Inicializa um catalogo de clientes.
- * @return Cat_Clientes.
- */
-Cat_Clientes init_cat_clientes() {
-  Cat_Clientes catalog = malloc(sizeof(struct catalogo_clientes));
-  catalog->catalogo = init_Catalogo(NR_LETRAS);
-  return catalog;
-}
+
+
+
+
+/***********************
+FUNCOES SOBRE UM CLIENTE
+************************/
 
 /**
  * Aloca e retorna um cliente.
@@ -40,12 +40,32 @@ void alteraCliente(Cliente client, char *info) {
     strncpy(client->name, info, 6);
 }
 
+char* getNomeCliente(Cliente client) {
+  char* novo = malloc(6);
+  strcpy(novo,client->name);
+  return novo;
+}
+
 /**
  * Liberta o espaço alocado por um cliente.
  * @param Cliente client.
  */
 void free_cliente(Cliente client) {
   free(client);
+}
+
+
+/*************************************
+FUNCOES SOBRE UM CATALOGO DE CLIENTES
+*************************************/
+/**
+ * Inicializa um catalogo de clientes.
+ * @return Cat_Clientes.
+ */
+Cat_Clientes init_cat_clientes() {
+  Cat_Clientes catalog = malloc(sizeof(struct catalogo_clientes));
+  catalog->catalogo = init_Catalogo(NR_LETRAS);
+  return catalog;
 }
 
 /**
@@ -68,7 +88,6 @@ Boolean existe_Cliente(Cat_Clientes clients, Cliente client) {
 Cat_Clientes insere_Cliente(Cat_Clientes clients, Cliente client) {
   clients->catalogo = insere_Catalogo(clients->catalogo,client->name,NULL,client->name[0]-'A');
   return clients;
-
 }
 
 
@@ -83,13 +102,11 @@ Cat_Clientes clone_Catalogo_Clientes(Cat_Clientes clients) {
   return novo;
 }
 
-
 /**
  * Devolve o numero de clientes num catalogo.
  * @param Cat_Clientes clients.
  * @return int.
  */
-
 int total_Clientes(Cat_Clientes clients) {
   return total_elems_Catalogo(clients->catalogo);
 }

@@ -1,10 +1,6 @@
 #ifndef _queries_h_
 #define _queries_h_
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "avl.h"
 #include "produtos.h"
 #include "clientes.h"
@@ -20,7 +16,7 @@
  * @param Filiais filiais.
  * @param int modo.
 */
-int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas,Filiais filiais, int modo);
+int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas,Filial filiais[], int modo);
 
 /**
  * Determina a lista e o total de produtos cujo código se inicia por uma dada letra.
@@ -56,6 +52,7 @@ int querie_5(Filiais filial);
  * @return int.
 */
 int querie_6(Faturacao faturas);
+<<<<<<< HEAD
 
 /**
  * Determinar a lista ordenada de códigos de clientes que realizaram compras em todas as filiais.
@@ -104,6 +101,8 @@ int querie_12(Filiais filial);
  * @param Filiais filial
  * @return int
 */
+=======
+>>>>>>> aa73e52abc04985af149a972d516a2e754d6e4d2
 void apresenta_Lista(Lista list);
 
 #endif

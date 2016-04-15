@@ -1,9 +1,18 @@
 #include "./headers/leituras.h"
 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+
+
+#define MAXBUFFERCLIENTES 32
+#define MAXBUFFERPRODUTOS 64
+#define MAXBUFFERVENDAS 128
 
 static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, char* file_name);
 static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char* file_name);
-static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, Filiais filiais, FILE *fp,char* file_name);
+static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, Filial filiais[], FILE *fp,char* file_name);
 
 /**
  * Recebe as estruturas inicializadas e os ficheiros ja abertos e copia a informação dos ficheiros para as estruturas.
@@ -19,7 +28,8 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
  * @param char* f_vname
  * @param int estado.
  */
-void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao contas, Filiais filiais, FILE *f_clients, FILE *f_prods, FILE* f_sales, char* f_cname, char* f_pname, char* f_vname) {
+void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao contas, Filial filiais[3], FILE *f_clients, FILE *f_prods, FILE* f_sales, char* f_cname, char* f_pname, char* f_vname) {
+   int i;
    char continua[10];
    time_t begin, end;
    double time_spent;
@@ -32,7 +42,7 @@ void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao 
    costumers = converte_clientes(costumers,f_clients,f_cname);
    products = converte_produtos(products,f_prods,f_pname);
    contas = cria_Dados_Faturacao(contas,products);
-   filiais = cria_Dados_Filiais(filiais,products,costumers);
+   for(i = 0; i < 3; i++) filiais[i] = cria_Dados_Filial(filiais[i],products,costumers);
 
    converte_vendas(products,costumers,contas,filiais,f_sales,f_vname);
    
@@ -139,7 +149,7 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
 
 
 
-static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, Filiais filiais ,FILE *f_sales,char* file_name) {
+static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, Filial filiais[3], FILE *f_sales, char* file_name) {
    
    time_t begin, end;
    double time_spent;
@@ -186,7 +196,7 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
       /* Caso verifique adiciona á estrutura das vendas a venda validada nessa iteração */
       if(verify) {
          faturas = adiciona_Fatura(faturas,venda);
-         filiais = adiciona_Filiais(filiais,venda);
+         filiais[shop-1] = adiciona_Venda_Filial(filiais[shop-1],venda);
          vendas_validas++;
          total++;
       } else {

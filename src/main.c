@@ -9,14 +9,20 @@
  */
 
 int main() {
-   int estado = 1;
+
+    int estado = 1;
+    int i;
+
    	while(estado) {	
     	
     	Cat_Clientes clientes = init_cat_clientes();
     	Cat_Produtos produtos = init_cat_produtos();
     	Faturacao faturacao = init_Faturacao();
-        Filiais filiais = init_Filiais();
-
+        Filial filiais[3];
+        for(i = 0; i < 3; i++) {
+            filiais[i] = init_Filial();
+        }
+        
     	estado = menu_principal(produtos,clientes,faturacao,filiais,estado);
 
     	remove_Catalogo_Clientes(clientes);
