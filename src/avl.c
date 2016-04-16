@@ -93,6 +93,17 @@ Estrutura avl_getEstrutura(AVL node, Valor value) {
 }
 
 
+Estrutura avl_getFirst(AVL node){
+    return node->arvore->cont;
+}
+
+Estrutura node_esquerdo(NODO node){
+    return node->right;
+}
+
+Estrutura node_direito(NODO node){
+    return node->left->cont;
+}
 
 void avl_free(AVL nodo) {
     tree_free(nodo->arvore);
