@@ -1,6 +1,6 @@
 /**
- * @file avl.h
- * @brief Ficheiro que contem a API relativa á implementação de AVL's.
+ * @file heap.h
+ * @brief Ficheiro que contem a API relativa á implementação de Heap's.
  */
 
 #ifndef _avl_h_
@@ -26,32 +26,26 @@ typedef struct heapNode *HeapNode;
 Heap initHeap();
 
 /**
- * Insere na arvore tree tendo como referência de posicionamento um char*.
- * @param tree AVL onde insere.
- * @param key char* a inserir.
- * @param estrutura Conteúdo/Estrutura a inserir.
- * @return AVL com o novo nodo adicionado.
+ * Insere na Heap tendo como referência a quantidade de um produto.
+ * @param heap Heap onde insere.
+ * @param produto char *.
+ * @param quantidade int.
+ * @param custo float.
+ * @return Heap com o novo membro adicionado.
  */
 Heap heap_push(Heap heap,char *produto,int quantidade, float custo);
 
+
+/**
+ * Devolve o produto com maior quantidade.
+ * @param heap Heap com todos os produtos.
+ * @return char * com o nome do produto.
+ */
 char *heap_pop(Heap heap);
 
-Heap heap_join(Heap heap1,Heap heap2);
-
-/**
- * Executa um clone de uma dada AVL.
- * @param node AVL a clonar.
- * @return AVL nova, clonada da anterior.
- */
-Heap heap_clone(Heap heap);
-
-/**
- * Devolve um Boolean referente a ter encontrado ou não na AVL o Valor value.
- * @param tree AVL onde é efectuada a procura.
- * @param value valor a procurar na AVL.
- * @return Boolean com o resultado.
- */
-Boolean heap_look(Heap heap,char *produto);
+Heap bubbleUp(Heap heap,int i);
+Heap bubbleDown(Heap heap,int n);
+Heap swap(Heap heap,int n1,int n2);
 
 /**
  * Devolve o tamanho (quantidade de nodos) de uma AVL passada como argumento.
