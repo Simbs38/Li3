@@ -102,12 +102,12 @@ Filial adiciona_Venda_Filial(Filial f, Venda v) {
 	
 	if(!nodo_p) {
 		nodo_p = init_Nodo_Produtos();
-	}	
+	}
 	
 	nodo_p->quantidade += quant;
 	
 	if(promo == NORMAL) nodo_p->clientes_N = adiciona_Nome(nodo_p->clientes_N,cli);
-	else nodo_p->clientes_P = adiciona_Nome(nodo_p->clientes_P,prod);
+	else nodo_p->clientes_P = adiciona_Nome(nodo_p->clientes_P,cli);
 	
 	f->produtos = insere_Catalogo(f->produtos,prod,nodo_p);
 	
@@ -258,4 +258,14 @@ int nr_total_unidades_compradas(Filial f, char* cliente, int mes) {
 Conj_Filiais lista_clientes_compraram_filial(Conj_Filiais c, Filial f) {
 	c->lista = catalogo_clientes_compraram_filial(c->lista, f->clientes);
 	return c;
+}
+
+
+Conj_Filiais lista_clientes_de_produto(Filial f, char* produto, char promo) {
+	Nodo_Produtos nodo_p = getEstrutura_Catalogo(f->produtos,produto);
+	if(!nodo_p) return NULL;
+	else {
+		if(promo == 'N') return nodo_p->clientes_N;
+		else return nodo_p->clientes_P;
+	}
 }

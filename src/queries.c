@@ -321,7 +321,6 @@ int querie_5(Filial filiais[3]) {
  * @param Faturacao faturas.
  * @return int.
 */
-
 int querie_6(Faturacao faturas) {
 
 
@@ -422,8 +421,42 @@ int querie_7(Filial filiais[3]){
  * @param Filiais filial.
  * @return int.
 */
-int querie_8(Filial filiais[]){
-	int estado=1;
+int querie_8(Filial filiais[3]) {
+
+	int estado = 1, input, filial = 0;
+	char produto[10];
+	char fil[10];
+	char promo[10];
+
+	Conj_Filiais normal;
+	Conj_Filiais promocao;	
+
+	while(estado) {
+		system("clear");
+		printf( "_____________________________________________\n" );
+		printf( "   Clientes de um Produto - QUERIE 8\n\n" );
+
+		
+		printf("\nIndique o produto >> ");
+		input = scanf("%s",produto);
+		
+		printf("\nIndique a filial >> ");
+		input = scanf("%s",fil);
+		filial = atoi(fil);
+		
+		normal = lista_clientes_de_produto(filiais[filial-1],produto,'N');
+		promocao = lista_clientes_de_produto(filiais[filial-1],produto,'P');
+		
+		printf("Total em modo N: %d\n",filial_getPos(normal));
+		printf("Total em modo P: %d\n\n",filial_getPos(promocao));
+		printf("Indique se pretende ver a lista N ou P >> ");
+		input = scanf("%s",promo);
+
+		if(promo[0] == 'N' || promo[0] == 'n') apresenta_Dados_Filial(normal);
+		if(promo[0] == 'P' || promo[0] == 'p') apresenta_Dados_Filial(promocao);
+	}
+
+		
 	return estado;
 }
 

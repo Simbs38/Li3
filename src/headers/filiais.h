@@ -72,4 +72,6 @@ int filial_getPos(Conj_Filiais conjunto);
 
 char* filial_get_elemento_lista(Conj_Filiais conjunto, int pos);
 
+Conj_Filiais lista_clientes_de_produto(Filial f, char* produto, char promo);
+
 #endif
