@@ -22,17 +22,16 @@ Venda initVenda() {
     sale->cliente = criaCliente();
     return sale;
 }
-
+ 
 
 Venda change_sale(Venda sale, char* product, double price, int quantity, char promotion, char* client, int month, int shop) {    
-    alteraProduto(sale->produto,product);
+    sale->produto = alteraProduto(sale->produto,product);
     sale->preco = price;
     sale->quantidade = quantity;
     sale->promocao = promotion;
     alteraCliente(sale->cliente,client);
     sale->mes = month;
     sale->filial = shop;
-
     return sale;
 }
 

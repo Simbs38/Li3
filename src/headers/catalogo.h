@@ -129,4 +129,12 @@ char* catalogo_getElemento(Array lista, int pos);
  */
 int catalogo_getPos(Array lista);
 
+
+
+
+
+Array catalogo_clientes_compraram_filial(Array lista, Catalogo catalogo);
+
+
+
 #endif

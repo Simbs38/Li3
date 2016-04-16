@@ -51,9 +51,9 @@ char* getNomeProduto(Produto product) {
  * @param Produto product.
  * @param char *info.
  */
-void alteraProduto(Produto product, char* info) {
-  printf("produtos.c -> alteraProduto -> argumento com o char*produto : %s | tamanho: %d\n",info,strlen(info));
-  strcpy(product->prod,info);
+Produto alteraProduto(Produto product, char* info) {
+  strncpy(product->prod,info,7);
+  return product;
 }
 
 /**

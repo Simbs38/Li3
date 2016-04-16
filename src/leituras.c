@@ -76,7 +76,6 @@ static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, c
       information = strtok(line,"\n\r");
       
       if(information != NULL) {
-         
          alteraCliente(client,information);   
          costumers = insere_Cliente(costumers, client);   
       
@@ -85,7 +84,7 @@ static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, c
 
       total++;
    }
-
+   free_cliente(client);
    end = clock();
    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
    
@@ -118,13 +117,14 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
 
 
    Produto prod = criaProduto();
+   
    while(fgets(line,MAXBUFFERPRODUTOS,f_prods)) {
       
       information = strtok(line,"\n\r");
       
       if(information != NULL) {
          
-         alteraProduto(prod,information);
+         prod = alteraProduto(prod,information);
          products = insere_produto(products, prod);
          
          produtos_validos++;
@@ -132,7 +132,7 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
       total++;
    }
 
-
+   free_produto(prod);
    end = clock();
    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
@@ -149,7 +149,7 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
 
 
 
-static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, Filial filiais[3], FILE *f_sales, char* file_name) {
+static void converte_vendas(Cat_Produtos cat_produtos, Cat_Clientes cat_clientes, Faturacao faturas, Filial filiais[3], FILE *f_sales, char* file_name) {
    
    time_t begin, end;
    double time_spent;
@@ -172,7 +172,7 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
    
    Venda venda = initVenda();
    
-   while(fgets(line,MAXBUFFERVENDAS,f_sales) && total < 1) {
+   while(fgets(line,MAXBUFFERVENDAS,f_sales)) {
 
       information = strtok(line,"\n\r");
       information = strtok(information," ");
@@ -191,10 +191,9 @@ static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Fatur
       }
 
       venda = change_sale(venda,product,price,ammount,type,client,month,shop);
-      
       /* Verifica a existencia do produto e do cliente de uma dada venda */
       
-      verify = validate_sale(products,costumers,venda);
+      verify = validate_sale(cat_produtos,cat_clientes,venda);
       /* Caso verifique adiciona á estrutura das vendas a venda validada nessa iteração */
       if(verify) {
          faturas = adiciona_Fatura(faturas,venda);

@@ -78,8 +78,9 @@ Produto criaProduto();
  * Altera a informação de um produto.
  * @param Produto product.
  * @param char *info.
+ * @return Produto alterado.
  */
-void alteraProduto(Produto product, char *info);
+Produto alteraProduto(Produto product, char *info);
 
 /**
  * Devolve o codigo de um produto.

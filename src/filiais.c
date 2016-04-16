@@ -78,23 +78,22 @@ Filial init_Filial() {
  * @return Filial.
  */
 Filial adiciona_Venda_Filial(Filial f, Venda v) {
-	Produto product = getProduto(v);
-	Cliente client = getCliente(v);
-	char* cli = getNomeCliente(client);
-	/*printf("cliente: %s | %d\n",cli,strlen(cli));*/
-	char* prod = getNomeProduto(product);
-	/*printf("produto: %s | %d\n",prod),strlen(prod);*/
+	
+	char* prod = getNomeProduto(getProduto(v));
+	/*printf("produto: |%s|\n",prod);*/
+	char* cli = getNomeCliente(getCliente(v));
+/*	printf("cliente: |%s|\n",cli);*/
 	int quant = getQuantidade(v);
-	/*printf("quantidade: %d\n",quant);*/
+/*	printf("quantidade: %d\n",quant);*/
 	char promocao = getPromocao(v);
 	int promo = (promocao == 'N') ? NORMAL : PROMOCAO;
-	/*printf("promocao: %d\n",promo);*/
+/*	printf("promocao: %d\n",promo);*/
 	int mes = getMes(v) - 1;
-	/*printf("%d\n", mes);*/
+/*	printf("mes: %d\n", mes);*/
 	double price = getPreco(v);
-	/*printf("preco: %f\n",price);*/
+/*	printf("preco: %f\n",price);*/
 	double faturado = quant * price;
-	/*printf("faturado: %f\n\n",faturado);*/ 
+/*printf("faturado: %f\n\n",faturado);*/ 
 	
 	/* INFO DOS PRODUTOS */
 
@@ -116,14 +115,14 @@ Filial adiciona_Venda_Filial(Filial f, Venda v) {
 	/* INFO DOS CLIENTES */
 
 	
-	Nodo_Clientes nodo_c = getEstrutura_Catalogo(f->clientes,prod);
+	Nodo_Clientes nodo_c = getEstrutura_Catalogo(f->clientes,cli);
 
 	if(!nodo_c) {
 		nodo_c = init_Nodo_Clientes();
 	}
-	
-	nodo_c->total_quantidades[mes] += quant;
 
+	nodo_c->total_quantidades[mes] += quant;
+	
 	Lista_Produtos prod_c = avl_getEstrutura(nodo_c->meses_produtos[mes],prod);
 
 	if(!prod_c) {
@@ -141,6 +140,13 @@ Filial adiciona_Venda_Filial(Filial f, Venda v) {
 	return f;
 }
 
+
+
+Boolean verifica_cliente_comprado(Filial f, char* c) {
+	Nodo_Clientes n = getEstrutura_Catalogo(f->clientes,c);
+	if(n) return true;
+	else return false;
+}
 
 
 /****************************************
@@ -216,6 +222,20 @@ Conj_Filiais adiciona_Nome(Conj_Filiais c, char* nome) {
 }
 
 
+void apresenta_Dados_Filial(Conj_Filiais c) {
+	apresenta_Array(c->lista);
+}
+
+
+int filial_getPos(Conj_Filiais conjunto) {
+	return catalogo_getPos(conjunto->lista);
+}
+
+
+char* filial_get_elemento_lista(Conj_Filiais conjunto, int pos) {
+	return catalogo_getElemento(conjunto->lista,pos);
+}
+
 /*********************
 	FUNCOES GENERICAS
 **********************/
@@ -233,3 +253,9 @@ int nr_total_unidades_compradas(Filial f, char* cliente, int mes) {
 	}
 }
 
+
+
+Conj_Filiais lista_clientes_compraram_filial(Conj_Filiais c, Filial f) {
+	c->lista = catalogo_clientes_compraram_filial(c->lista, f->clientes);
+	return c;
+}

@@ -79,10 +79,17 @@ Fatura_Produto init_Fatura_Produto() {
  * @param Venda venda
  * @return Faturacao.
  */	
+int conta(char* s) {
+	int i;
+	for(i = 0; s[i] != '\0'; i++) printf(" %c | %d\n",s[i],i+1);
+	
+	return i;
+}
+
 Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 	
-	Produto product = getProduto(venda);
-	char* prod = getNomeProduto(product);
+	char* prod = getNomeProduto(getProduto(venda));
+	
 	int mes = getMes(venda) - 1;
 	int filial = getFilial(venda) - 1;
 

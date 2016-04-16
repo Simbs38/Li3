@@ -292,28 +292,24 @@ int querie_5(Filial filiais[3]) {
 		printf(" Insira o codigo do cliente >> ");
 		
 		input = scanf("%s",cliente);
-		/*
-		for(i = 0; i < 3; i++) {
-			for(j = 0; j < 12; j++) {
-				resultado[i][j] = nr_total_unidades_compradas(filiais[i],cliente,j+1);
+		
+		for(i = 0; i < 12; i++) {
+			for(j = 0; j < 3; j++) {
+				resultado[i][j] = nr_total_unidades_compradas(filiais[j],cliente,i+1);
 			}
 		}
-		*/
-		int valor = nr_total_unidades_compradas(filiais[0],cliente,2);
 
-		system("clear");
-		printf(" teste: %d\n",valor);
-		/*
+		system("clear");	
 		printf( "\tQuantidades do cliente |%s|\n",cliente);
 		printf( "______________________________________________________\n" );
 		printf("\t  Filial 1   Filial 2   Filial 3\n");
 		
 		for(i = 0; i != 12; i++) {
-			printf("Mês |%d| \t %5d \t %5d \t %5d \n", i+1, resultado[0][i],resultado[1][i],resultado[2][i]);
+			printf("Mês |%d| \t %5d \t %5d \t %5d \n", i+1, resultado[i][0],resultado[i][1],resultado[i][2]);
 		}
 		printf( "______________________________________________________\n" );
 		printf( "  V - Voltar\t\tQ - Sair:\n" );
-		*/
+		
 		input = scanf("%s",cliente);
 
 	}
@@ -399,9 +395,25 @@ int querie_6(Faturacao faturas) {
  * @param Filiais filial.
  * @return int.
 */
+int querie_7(Filial filiais[3]){
+	
+	int estado = 1, input;
+	int i;
+	char *elem;
+	char opcao[10];
+	Conj_Filiais comprados_1 = init_Conj_Filiais(3000);
+	Conj_Filiais comprados_total = init_Conj_Filiais(3000);
 
-int querie_7(Filial filiais[]){
-	int estado=1;
+	comprados_1 = lista_clientes_compraram_filial(comprados_1,filiais[0]);
+	int tamanho = filial_getPos(comprados_1);
+	
+	for(i = 0; i < tamanho; i++) {
+		elem = filial_get_elemento_lista(comprados_1,i);
+		if(verifica_cliente_comprado(filiais[1],elem) && verifica_cliente_comprado(filiais[2], elem)) adiciona_Nome(comprados_total,elem); 
+	}
+	
+	apresenta_Dados_Filial(comprados_total);
+	
 	return estado;
 }
 
@@ -568,6 +580,7 @@ void apresenta_Lista(Lista list) {
 
         switch(opcao[0]) {
             case 'V': estado = 0; break;
+
             case '1': nr_pagina = 1;
 
             case '2': if(nr_pagina > 1) nr_pagina --;

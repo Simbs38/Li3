@@ -119,4 +119,8 @@ int lista_getPos(Lista list);
  */
 char* lista_getNome(Lista list, int pos);
 
+
+
+Lista clientes_compraram_filial(Lista list,AVL tree);
+
 #endif /* _avl_h_ */

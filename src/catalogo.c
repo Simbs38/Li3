@@ -232,3 +232,15 @@ char* catalogo_getElemento(Array lista, int pos) {
 int catalogo_getPos(Array lista) {
   return lista_getPos(lista->list);
 }
+
+
+
+Array catalogo_clientes_compraram_filial(Array lista, Catalogo catalogo) {
+  int i;
+  
+  for(i = 0; i < NR_LETRAS; i++) {
+    lista->list = clientes_compraram_filial(lista->list,catalogo->indice[i]);
+  }
+  
+  return lista;
+}

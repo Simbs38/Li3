@@ -46,7 +46,7 @@ static Estrutura node_getEstrutura(NODO node, Valor value);
 
 static Lista converte_aux(Lista list, NODO tree);
 static Lista produtos_nao_comprados_totais_aux(Lista list, NODO tree);
-
+static Lista clientes_compraram_filial_aux(Lista list, NODO tree);
 
 
 AVL initAVL() {
@@ -365,4 +365,21 @@ char* lista_getNome(Lista list, int pos) {
     char* novo = malloc(strlen(list->array[pos])+1);
     strcpy(novo,list->array[pos]);
     return novo;
+}
+
+
+
+
+Lista clientes_compraram_filial(Lista list,AVL tree) {
+    list = clientes_compraram_filial_aux(list,tree->arvore);
+    return list;
+}
+
+static Lista clientes_compraram_filial_aux(Lista list, NODO tree) {
+    if(tree!=NULL) {
+        list = clientes_compraram_filial_aux(list,tree->left);
+        if(tree->cont != NULL) list = lista_insert(list,tree->string);
+        list = clientes_compraram_filial_aux(list,tree->right);  
+    }
+    return list;
 }

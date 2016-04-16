@@ -61,4 +61,15 @@ Conj_Filiais adiciona_Nome(Conj_Filiais c, char* nome);
  */
 int nr_total_unidades_compradas(Filial f, char* cliente, int mes);
 
+
+void apresenta_Dados_Filial(Conj_Filiais c);
+
+Conj_Filiais lista_clientes_compraram_filial(Conj_Filiais c, Filial f);
+
+Boolean verifica_cliente_comprado(Filial f, char* c);
+
+int filial_getPos(Conj_Filiais conjunto);
+
+char* filial_get_elemento_lista(Conj_Filiais conjunto, int pos);
+
 #endif
