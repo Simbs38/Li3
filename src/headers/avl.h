@@ -20,8 +20,6 @@ typedef void* Estrutura;
 typedef char* Valor;
 
 
-
-
 /**
  * Inicia uma nova AVL.
  * @return Nova AVL nula
@@ -120,5 +118,9 @@ int lista_getPos(Lista list);
  * @return char* com o valor.
  */
 char* lista_getNome(Lista list, int pos);
+
+
+
+Lista clientes_compraram_filial(Lista list,AVL tree);
 
 #endif /* _avl_h_ */

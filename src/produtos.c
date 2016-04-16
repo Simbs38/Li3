@@ -23,8 +23,8 @@ struct conjunto_produtos {
  * @return Cat_Produtos.
  */
 Cat_Produtos init_cat_produtos() {
-  Cat_Produtos catalog = malloc(sizeof(struct catalogo_produtos));
-  catalog->catalogo = init_Catalogo(NR_LETRAS);
+  Cat_Produtos catalog = (Cat_Produtos) malloc(sizeof(struct catalogo_produtos));
+  catalog->catalogo = init_Catalogo();
   return catalog;
 }
 
@@ -35,7 +35,6 @@ Cat_Produtos init_cat_produtos() {
  */
 Produto criaProduto() {
 	Produto product = (Produto) malloc(sizeof(struct produto));
-
 	return product;
 }
 
@@ -52,8 +51,9 @@ char* getNomeProduto(Produto product) {
  * @param Produto product.
  * @param char *info.
  */
-void alteraProduto(Produto product, char *info) {
-  strncpy(product->prod, info, 7);
+Produto alteraProduto(Produto product, char* info) {
+  strncpy(product->prod,info,7);
+  return product;
 }
 
 /**
@@ -71,7 +71,7 @@ void free_produto(Produto product) {
  * @return Boolean com valor de verdade.
  */
 Boolean existe_Produto(Cat_Produtos products, Produto product) {
-  return existe_Catalogo(products->catalogo,product->prod,product->prod[0]-'A');
+  return existe_Catalogo(products->catalogo,product->prod);
 }
 
 /**
@@ -82,7 +82,7 @@ Boolean existe_Produto(Cat_Produtos products, Produto product) {
  */
 
 Cat_Produtos insere_produto(Cat_Produtos products, Produto product) {
-  products->catalogo = insere_Catalogo(products->catalogo,product->prod,NULL,product->prod[0]-'A');
+  products->catalogo = insere_Catalogo(products->catalogo,product->prod,NULL);
   return products;
 }
 
@@ -121,7 +121,7 @@ void remove_Catalogo_Produtos(Cat_Produtos products) {
  * @return Cat_Produtos.
  */
 Cat_Produtos clone_Catalogo_Produtos(Cat_Produtos products) {
-  Cat_Produtos novo;
+  Cat_Produtos novo = init_cat_produtos();
   novo->catalogo = clone_Catalogo(products->catalogo);
   return novo;
 }

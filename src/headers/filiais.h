@@ -36,11 +36,6 @@ Filial init_Filial();
  */
 Filial adiciona_Venda_Filial(Filial f, Venda v);
 
-/**
- * Inicia um Nodo de produtos.
- * @return Nodo_Produtos.
- */
-Nodo_Produtos init_Nodo_Produtos();
 
 /**
  * Inicia um conjunto de filiais.
@@ -56,5 +51,27 @@ Conj_Filiais init_Conj_Filiais(int n);
  * @return Conj_Filiais.
  */
 Conj_Filiais adiciona_Nome(Conj_Filiais c, char* nome);
+
+/**
+ * Retorna o numero de unidades compradas dado um cliente e um mês.
+ * @param Filial f.
+ * @param char* cliente.
+ * @param int mes.
+ * @return int.
+ */
+int nr_total_unidades_compradas(Filial f, char* cliente, int mes);
+
+
+void apresenta_Dados_Filial(Conj_Filiais c);
+
+Conj_Filiais lista_clientes_compraram_filial(Conj_Filiais c, Filial f);
+
+Boolean verifica_cliente_comprado(Filial f, char* c);
+
+int filial_getPos(Conj_Filiais conjunto);
+
+char* filial_get_elemento_lista(Conj_Filiais conjunto, int pos);
+
+Conj_Filiais lista_clientes_de_produto(Filial f, char* produto, char promo);
 
 #endif

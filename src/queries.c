@@ -279,55 +279,41 @@ int querie_4(Faturacao faturas) {
  * @param Filiais filial
  * @return int
 */
-int querie_5(Filial filiais[]){
-
+int querie_5(Filial filiais[3]) {
 
 	int estado = 1, input,j,i;
-	int resultado[i][j];
-	char *cliente;
-
+	int resultado[12][3];
+	char cliente[10];
+	
 	while(estado) {
-	Conj_Faturas nao_comprados = init_Lista_Faturacao(1000); 
 		system("clear");
 		printf( "_____________________________________________\n" );
-		printf( "   Produtos comprados - QUERIE 5\n\n" );
-		printf( "_____________________________________________\n\n" );
-		printf("  Insira o codigo do seu cliente\n");
-		printf("_____________________________________________\n" );
-		printf( "  Escreva o nome do cliente:\n" );
-		printf( "  V - Voltar\t\tQ - Sair:\n" );
-		printf( "_____________________________________________\n" );
-
-		while(estado){
-		printf("\nEscolha uma opção >> ");
-
+		printf( "  Números de unidades Compradas - QUERIE 5\n\n" );
+		printf(" Insira o codigo do cliente >> ");
+		
 		input = scanf("%s",cliente);
-		cliente[6]='\0';
-		/*if(info_lookUp(info,cliente,1)!=0){*/
-			if(cliente[1]!=' '){
-				switch(cliente[0]) {
-					case 'Q': return 0; break;
-
-					case 'V': return estado; break;
-
-					default: break;
-				}
-			}
-
-
-
-			system("clear");
-			printf( "\tCompras pelo cliente %s\n",cliente);
-			printf( "______________________________________________________\n" );
-			printf("\t  Filial 1   Filial 2   Filial 3\n");
-			for(i=0;i!=12;i++)
-			printf("Mes %2d\t %3d \t\t%3d \t\t%3d\n",i,resultado[i][0],resultado[i][1],resultado[i][2]);
-			printf( "______________________________________________________\n" );
-			printf( "  V - Voltar\t\tQ - Sair:\n" );
+		
+		for(i = 0; i < 12; i++) {
+			for(j = 0; j < 3; j++) {
+				resultado[i][j] = nr_total_unidades_compradas(filiais[j],cliente,i+1);
 			}
 		}
-	return estado;		
 
+		system("clear");	
+		printf( "\tQuantidades do cliente |%s|\n",cliente);
+		printf( "______________________________________________________\n" );
+		printf("\t  Filial 1   Filial 2   Filial 3\n");
+		
+		for(i = 0; i != 12; i++) {
+			printf("Mês |%d| \t %5d \t %5d \t %5d \n", i+1, resultado[i][0],resultado[i][1],resultado[i][2]);
+		}
+		printf( "______________________________________________________\n" );
+		printf( "  V - Voltar\t\tQ - Sair:\n" );
+		
+		input = scanf("%s",cliente);
+
+	}
+	return estado;
 }	
 	
 /**
@@ -335,7 +321,6 @@ int querie_5(Filial filiais[]){
  * @param Faturacao faturas.
  * @return int.
 */
-
 int querie_6(Faturacao faturas) {
 
 
@@ -409,9 +394,25 @@ int querie_6(Faturacao faturas) {
  * @param Filiais filial.
  * @return int.
 */
+int querie_7(Filial filiais[3]){
+	
+	int estado = 1, input;
+	int i;
+	char *elem;
+	char opcao[10];
+	Conj_Filiais comprados_1 = init_Conj_Filiais(3000);
+	Conj_Filiais comprados_total = init_Conj_Filiais(3000);
 
-int querie_7(Filial filiais[]){
-	int estado=1;
+	comprados_1 = lista_clientes_compraram_filial(comprados_1,filiais[0]);
+	int tamanho = filial_getPos(comprados_1);
+	
+	for(i = 0; i < tamanho; i++) {
+		elem = filial_get_elemento_lista(comprados_1,i);
+		if(verifica_cliente_comprado(filiais[1],elem) && verifica_cliente_comprado(filiais[2], elem)) adiciona_Nome(comprados_total,elem); 
+	}
+	
+	apresenta_Dados_Filial(comprados_total);
+	
 	return estado;
 }
 
@@ -420,8 +421,42 @@ int querie_7(Filial filiais[]){
  * @param Filiais filial.
  * @return int.
 */
-int querie_8(Filial filiais[]){
-	int estado=1;
+int querie_8(Filial filiais[3]) {
+
+	int estado = 1, input, filial = 0;
+	char produto[10];
+	char fil[10];
+	char promo[10];
+
+	Conj_Filiais normal;
+	Conj_Filiais promocao;	
+
+	while(estado) {
+		system("clear");
+		printf( "_____________________________________________\n" );
+		printf( "   Clientes de um Produto - QUERIE 8\n\n" );
+
+		
+		printf("\nIndique o produto >> ");
+		input = scanf("%s",produto);
+		
+		printf("\nIndique a filial >> ");
+		input = scanf("%s",fil);
+		filial = atoi(fil);
+		
+		normal = lista_clientes_de_produto(filiais[filial-1],produto,'N');
+		promocao = lista_clientes_de_produto(filiais[filial-1],produto,'P');
+		
+		printf("Total em modo N: %d\n",filial_getPos(normal));
+		printf("Total em modo P: %d\n\n",filial_getPos(promocao));
+		printf("Indique se pretende ver a lista N ou P >> ");
+		input = scanf("%s",promo);
+
+		if(promo[0] == 'N' || promo[0] == 'n') apresenta_Dados_Filial(normal);
+		if(promo[0] == 'P' || promo[0] == 'p') apresenta_Dados_Filial(promocao);
+	}
+
+		
 	return estado;
 }
 
@@ -578,6 +613,7 @@ void apresenta_Lista(Lista list) {
 
         switch(opcao[0]) {
             case 'V': estado = 0; break;
+
             case '1': nr_pagina = 1;
 
             case '2': if(nr_pagina > 1) nr_pagina --;

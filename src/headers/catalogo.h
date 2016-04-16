@@ -22,7 +22,7 @@ Catalogo init_Catalogo();
  * @param ind index, indice onde procurar no catalogo.
  * @return Boolean com valor verdadeiro ou falso.
  */
-Catalogo insere_Catalogo(Catalogo catalogo, char* key, void* estrutura,int index);
+Catalogo insere_Catalogo(Catalogo catalogo, char* key, void* estrutura);
 
 /**
  * Cria um clone do catalogo dado, devolvendo uma copia deste.
@@ -44,7 +44,7 @@ void remove_Catalogo(Catalogo catalogo);
  * @param ind index, indice onde procurar no catalogo.
  * @return Boolean com valor verdadeiro ou falso.
  */
-Boolean existe_Catalogo(Catalogo catalogo, char* key,int index);
+Boolean existe_Catalogo(Catalogo catalogo, char* key);
 
 /**
  * Devolve o numero de nodos do catalogo.
@@ -66,7 +66,7 @@ int total_elems_letra(Catalogo catalogo, char letra);
  * @param Catalogo catalogo.
  * @return int.
  */
-void* getEstrutura_Catalogo(Catalogo catalogo, char* key,int index);
+void* getEstrutura_Catalogo(Catalogo catalogo, char* key);
 
 /**
  * Inicializa um array com a capacidade indicada.
@@ -128,5 +128,13 @@ char* catalogo_getElemento(Array lista, int pos);
  * @return int.
  */
 int catalogo_getPos(Array lista);
+
+
+
+
+
+Array catalogo_clientes_compraram_filial(Array lista, Catalogo catalogo);
+
+
 
 #endif

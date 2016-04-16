@@ -27,7 +27,7 @@ FUNCOES SOBRE UM CLIENTE
  * @return Cliente.
  */
 Cliente criaCliente() {
-  Cliente client = (struct cliente*) malloc(sizeof(struct cliente));
+  Cliente client = (Cliente) malloc(sizeof(struct cliente));
   return client;
 }
 
@@ -37,7 +37,7 @@ Cliente criaCliente() {
  * @param char *info.
  */
 void alteraCliente(Cliente client, char *info) {
-    strncpy(client->name, info, 6);
+    strcpy(client->name,info);
 }
 
 /**
@@ -67,7 +67,7 @@ FUNCOES SOBRE UM CATALOGO DE CLIENTES
  */
 Cat_Clientes init_cat_clientes() {
   Cat_Clientes catalog = malloc(sizeof(struct catalogo_clientes));
-  catalog->catalogo = init_Catalogo(NR_LETRAS);
+  catalog->catalogo = init_Catalogo();
   return catalog;
 }
 
@@ -78,7 +78,7 @@ Cat_Clientes init_cat_clientes() {
  * @return Boolean com valor de verdade.
  */
 Boolean existe_Cliente(Cat_Clientes clients, Cliente client) {
-  return existe_Catalogo(clients->catalogo,client->name,client->name[0]-'A');
+  return existe_Catalogo(clients->catalogo,client->name);
 }
 
 /**
@@ -89,7 +89,7 @@ Boolean existe_Cliente(Cat_Clientes clients, Cliente client) {
  */
 
 Cat_Clientes insere_Cliente(Cat_Clientes clients, Cliente client) {
-  clients->catalogo = insere_Catalogo(clients->catalogo,client->name,NULL,client->name[0]-'A');
+  clients->catalogo = insere_Catalogo(clients->catalogo,client->name,NULL);
   return clients;
 }
 
