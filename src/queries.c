@@ -536,28 +536,28 @@ int querie_10(Filial filiais[3]){
 	
 	Conj_Filiais valores_1 = init_Conj_Filiais(100);
 	HEAP heap_1 = init_HEAP();
+	heap_1 = heap_produtos_mais_vendidos(filiais[0],heap_1);
 	
 	Conj_Filiais valores_2 = init_Conj_Filiais(100);
 	HEAP heap_2 = init_HEAP();
+	heap_2 = heap_produtos_mais_vendidos(filiais[1],heap_2);
 	
 	Conj_Filiais valores_3 = init_Conj_Filiais(100);
 	HEAP heap_3 = init_HEAP();
-	
+	heap_3 = heap_produtos_mais_vendidos(filiais[2],heap_3);
+
 	system("clear");
 	printf( "_____________________________________________\n" );
 	printf( "   N Produtos mais comprados - QUERIE 10\n\n" );
 
+	while(nr < 1 || nr > 171008) {
 	printf("\nIndique o número de produtos mais vendidos que pretende ver >> ");
-	input = scanf("%s",n_produtos);
-	nr = atoi(n_produtos);
-	
-	heap_1 = heap_produtos_mais_vendidos(filiais[0],heap_1);
-	valores_1 = retira_N_Produtos(valores_1,heap_1,nr);
+		input = scanf("%s",n_produtos);
+		nr = atoi(n_produtos);
+	}
 				
-	heap_2 = heap_produtos_mais_vendidos(filiais[1],heap_2);
-	valores_2 = retira_N_Produtos(valores_2,heap_2,nr);
-		
-	heap_3 = heap_produtos_mais_vendidos(filiais[2],heap_3);
+	valores_1 = retira_N_Produtos(valores_1,heap_1,nr);
+	valores_2 = retira_N_Produtos(valores_2,heap_2,nr);	
 	valores_3 = retira_N_Produtos(valores_3,heap_3,nr);
 
 
@@ -621,15 +621,12 @@ int querie_10(Filial filiais[3]){
 int querie_11(Filial filiais[3]){
 	
 	int i;
-	int estado = 1, input, m = 0;
+	int estado = 1, input;
 	char cliente[10];
-	char mes[10];
-	char promo[10];
+	Boolean existe = false;
 
 	Conj_Filiais valores = init_Conj_Filiais(5);	
 	HEAP heap = init_HEAP();
-
-
 
 	while(estado) {
 		system("clear");
@@ -637,8 +634,12 @@ int querie_11(Filial filiais[3]){
 		printf( "   Top 3 de um Cliente - QUERIE 11\n\n" );
 
 		
-		printf("\nIndique o cliente >> ");
-		input = scanf("%s",cliente);
+		while (existe == false) {
+			printf(" Insira o codigo do cliente >> ");
+			input = scanf("%s",cliente);
+			existe = filial_existe_Cliente(filiais[0],cliente);
+			if(!existe) printf("O Cliente não é válido, insira de novo\n\n");
+		}
 		
 		for(i = 0; i < 3; i++) heap = top3_clientes(filiais[i],heap,cliente,'F');
 		valores = lista_top3(valores,heap,'F');
@@ -677,8 +678,6 @@ int querie_12(Filial filiais[3]){
 			}	
 	return estado;
 }
-
-
 
 
 
