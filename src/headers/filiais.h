@@ -64,6 +64,7 @@ Conj_Filiais adiciona_Nome(Conj_Filiais c, char* nome);
  */
 int nr_total_unidades_compradas(Filial f, char* cliente, int mes);
 
+Boolean filial_existe_Cliente(Filial f, char* cliente);
 
 Boolean verifica_cliente_comprado(Filial f, char* c);
 
@@ -77,14 +78,13 @@ Conj_Filiais lista_clientes_de_produto(Filial f, char* produto, char promo);
 
 HEAP init_HEAP();
 
-HEAP lista_codigos_de_clientes(Filial f, HEAP h, char* cliente, int mes);
+HEAP lista_codigos_de_clientes(Filial f, HEAP h, char* cliente, int mes, char ordenacao);
 
-Conj_Filiais convert_Heap_Lista(Conj_Filiais c, HEAP h);
+Conj_Filiais convert_Heap_Lista(Conj_Filiais c, HEAP h, char ordenacao);
 
 void apresenta_Dados_Filial(Conj_Filiais c);
 
 Conj_Filiais retira_N_Produtos(Conj_Filiais c, HEAP h, int n);
-
 
 HEAP heap_produtos_mais_vendidos(Filial f, HEAP h);
 
@@ -93,5 +93,9 @@ int getQuantidadeProduto(Filial f, char* produto);
 int filiais_nr_elementos_diferentes(Conj_Filiais a, Conj_Filiais b);
 
 int nr_clientes_de_um_produto(Filial f, char* produto);
+
+HEAP top3_clientes(Filial f, HEAP h, char* cliente, char ordenacao);
+
+Conj_Filiais lista_top3(Conj_Filiais c, HEAP h, char ordenacao);
 
 #endif

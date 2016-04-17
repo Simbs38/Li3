@@ -126,11 +126,9 @@ int querie_3(Faturacao faturas) {
 		printf( "_____________________________________________\n" );
 		printf( "   Vendas e Faturacao dado mês - QUERIE 3\n\n" );
 		
-		while(mes < 1 || mes > 12) {
 		printf("Diga o mês a procurar >> ");
 		input = scanf("%s",mese);
 		mes = atoi(mese);
-		}
 		
 		printf("\nDiga o produto a procurar >> ");
 		input = scanf("%s",produto);
@@ -145,6 +143,7 @@ int querie_3(Faturacao faturas) {
 				int total_quant_mes_promo = get_total_quantidades_mes_produto(faturas,produto,mes,'P');
 				double total_preco_mes_normal = get_total_precos_mes_produto(faturas,produto,mes,'N');
 				double total_preco_mes_promo = get_total_precos_mes_produto(faturas,produto,mes,'P');
+				
 				system("clear");
 				printf( "    Vendas no mês %d do produto %s\n",mes,produto);
 				printf( "_____________________________________________\n" );
@@ -191,9 +190,9 @@ int querie_3(Faturacao faturas) {
 				printf( "\t\tVendas\t\t   Faturação\n");
 				printf( "______________________________________________________\n" );
 				printf("\t  Normal  Promoção\tNormal    Promoção\n");
-				printf("Filial 1 %5d \t%5d \t\t%7.2f\t  %7.2f\n",total_quant_mes_normal_1,total_quant_mes_promo_1,total_preco_mes_normal_1,total_preco_mes_promo_1);
-				printf("Filial 2 %5d \t%5d \t\t%7.2f\t  %7.2f\n",total_quant_mes_normal_2,total_quant_mes_promo_2,total_preco_mes_normal_2,total_preco_mes_promo_2);
-				printf("Filial 3 %5d \t%5d \t\t%7.2f\t  %7.2f\n",total_quant_mes_normal_3,total_quant_mes_promo_3,total_preco_mes_normal_3,total_preco_mes_promo_3);
+				printf("Filial 1 %5d \t%5d \t\t%7.2f\t  %7.2f\n",total_quant_mes_normal_1, total_quant_mes_promo_1, total_preco_mes_normal_1, total_preco_mes_promo_1);
+				printf("Filial 2 %5d \t%5d \t\t%7.2f\t  %7.2f\n",total_quant_mes_normal_2, total_quant_mes_promo_2, total_preco_mes_normal_2, total_preco_mes_promo_2);
+				printf("Filial 3 %5d \t%5d \t\t%7.2f\t  %7.2f\n",total_quant_mes_normal_3, total_quant_mes_promo_3, total_preco_mes_normal_3, total_preco_mes_promo_3);
 				printf( "______________________________________________________\n" );
 				printf( "  V - Voltar\t\tQ - Sair:\n" );
 				
@@ -284,15 +283,21 @@ int querie_5(Filial filiais[3]) {
 	int estado = 1, input,j,i;
 	int resultado[12][3];
 	char cliente[10];
+	char opcao[10];
+	Boolean existe = false;
 	
 	while(estado) {
 		system("clear");
 		printf( "_____________________________________________\n" );
 		printf( "  Números de unidades Compradas - QUERIE 5\n\n" );
-		printf(" Insira o codigo do cliente >> ");
 		
-		input = scanf("%s",cliente);
-		
+		while (existe == false) {
+			printf(" Insira o codigo do cliente >> ");
+			input = scanf("%s",cliente);
+			existe = filial_existe_Cliente(filiais[0],cliente);
+			if(!existe) printf("O Cliente não é válido, insira de novo\n\n");
+		}
+
 		for(i = 0; i < 12; i++) {
 			for(j = 0; j < 3; j++) {
 				resultado[i][j] = nr_total_unidades_compradas(filiais[j],cliente,i+1);
@@ -300,18 +305,24 @@ int querie_5(Filial filiais[3]) {
 		}
 
 		system("clear");	
-		printf( "\tQuantidades do cliente |%s|\n",cliente);
+		printf( "\n\tQuantidades do cliente |%s| - Querie 5\n",cliente);
 		printf( "______________________________________________________\n" );
-		printf("\t  Filial 1   Filial 2   Filial 3\n");
+		printf("\t   Filial 1    Filial 2    Filial 3\n");
 		
 		for(i = 0; i != 12; i++) {
-			printf("Mês |%d| \t %5d \t %5d \t %5d \n", i+1, resultado[i][0],resultado[i][1],resultado[i][2]);
+			printf("Mês %d \t %5d \t    %5d \t %5d\n", i+1, resultado[i][0],resultado[i][1],resultado[i][2]);
 		}
 		printf( "______________________________________________________\n" );
 		printf( "  V - Voltar\t\tQ - Sair:\n" );
 		
-		input = scanf("%s",cliente);
+		input = scanf("%s",opcao);
+		switch(opcao[0]) {
+			case 'V': return estado; break;
 
+			case 'Q': return 0; break;
+					
+			default: break;
+		}
 	}
 	return estado;
 }	
@@ -491,12 +502,11 @@ int querie_9(Filial filiais[3]){
 		input = scanf("%s",mes);
 		m = atoi(mes);
 		
-		for(i = 0; i < 3; i++) heap = lista_codigos_de_clientes(filiais[i],heap,cliente,m);
-		valores = convert_Heap_Lista(valores,heap);
+		for(i = 0; i < 3; i++) heap = lista_codigos_de_clientes(filiais[i],heap,cliente,m,'Q');
+		valores = convert_Heap_Lista(valores,heap,'Q');
 		apresenta_Dados_Filial(valores);
 	}
 
-		
 	return estado;
 }
 
@@ -522,9 +532,9 @@ int querie_10(Filial filiais[3]){
 	
 	system("clear");
 	printf( "_____________________________________________\n" );
-	printf( "   Produtos de um cliente num mês - QUERIE 9\n\n" );
+	printf( "   N Produtos mais comprados - QUERIE 10\n\n" );
 
-	printf("\nIndique o número de produtos mais vendidos que pretende >> ");
+	printf("\nIndique o número de produtos mais vendidos que pretende ver >> ");
 	input = scanf("%s",n_produtos);
 	nr = atoi(n_produtos);
 	
@@ -596,11 +606,31 @@ int querie_10(Filial filiais[3]){
  * @return int
 */
 int querie_11(Filial filiais[3]){
-	float custo;
-	int estado = 1, input,i,j;
-	char cliente[10],*produto;
 	
+	int i;
+	int estado = 1, input, m = 0;
+	char cliente[10];
+	char mes[10];
+	char promo[10];
 
+	Conj_Filiais valores = init_Conj_Filiais(5);	
+	HEAP heap = init_HEAP();
+
+
+
+	while(estado) {
+		system("clear");
+		printf( "_____________________________________________\n" );
+		printf( "   Top 3 de um Cliente - QUERIE 11\n\n" );
+
+		
+		printf("\nIndique o cliente >> ");
+		input = scanf("%s",cliente);
+		
+		for(i = 0; i < 3; i++) heap = top3_clientes(filiais[i],heap,cliente,'F');
+		valores = lista_top3(valores,heap,'F');
+		apresenta_Dados_Filial(valores);
+	}	
 	return estado;
 }
 

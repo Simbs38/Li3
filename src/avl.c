@@ -246,7 +246,7 @@ static NODO tree_clone(NODO node) {
     NODO aux = malloc(sizeof(struct nodeAVL));
         
     if(node) {
-        aux->string = malloc(32);
+        aux->string = malloc(10);
         strcpy(aux->string,node->string); 
         aux->height = node->height;
         aux->cont = NULL;
@@ -263,6 +263,7 @@ static NODO atualiza_avl(NODO node, Estrutura estrutura) {
     node->cont = estrutura;
     return node;
 }
+
 
 static Estrutura node_getEstrutura(NODO node, Valor value) {
     int r;

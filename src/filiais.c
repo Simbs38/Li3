@@ -46,8 +46,8 @@ struct heap_filial {
 Nodo_Clientes init_Nodo_Clientes();
 Lista_Produtos init_Lista_Produtos();
 Nodo_Produtos init_Nodo_Produtos();
-HEAP converte_Heap_clientes(HEAP h, AVL a);
-HEAP converte_Heap_clientes_aux(HEAP h, NODO n);
+HEAP converte_Heap_clientes(HEAP h, AVL a, char ordenacao);
+HEAP converte_Heap_clientes_aux(HEAP h, NODO n, char ordenacao);
 Boolean existe_Conj_Filiais(Conj_Filiais c, char* valor);
 HEAP converte_Heap_produto(HEAP h, AVL a);
 HEAP converte_Heap_produtos_aux(HEAP h, NODO n);
@@ -160,6 +160,11 @@ Boolean verifica_cliente_comprado(Filial f, char* c) {
 	Nodo_Clientes n = getEstrutura_Catalogo(f->clientes,c);
 	if(n) return true;
 	else return false;
+}
+
+
+Boolean filial_existe_Cliente(Filial f, char* cliente) {
+	return existe_Catalogo(f->clientes,cliente);
 }
 
 
@@ -295,39 +300,63 @@ HEAP init_HEAP() {
 }
 
 
+HEAP lista_codigos_de_clientes(Filial f, HEAP h, char* cliente, int mes, char ordenacao) {
+	
+	Nodo_Clientes nodo_c = getEstrutura_Catalogo(f->clientes,cliente);
+	if(nodo_c) {
+		h = converte_Heap_clientes(h,nodo_c->meses_produtos[mes-1],ordenacao);
+	}
+	return h;
+}
+
+
+HEAP top3_clientes(Filial f, HEAP h, char* cliente, char ordenacao) {
+	int i;
+	Nodo_Clientes nodo_c = getEstrutura_Catalogo(f->clientes,cliente);
+	if(nodo_c) {
+		for(i = 0; i < NR_MESES; i++) {
+			h = converte_Heap_clientes(h,nodo_c->meses_produtos[i],ordenacao);
+		}
+	}
+	return h;
+}
+
+
 /**
  * Converte uma dada AVL em HEAP.
  * @param HEAP h onde serão colocados os valores.
  * @param AVL a ser convertida.
  * @return HEAP após a conversão.
  */
-HEAP converte_Heap_clientes(HEAP h, AVL a) {
-	h = converte_Heap_clientes_aux(h,getNodo(a));
+HEAP converte_Heap_clientes(HEAP h, AVL a, char ordenacao) {
+	h = converte_Heap_clientes_aux(h,getNodo(a),ordenacao);
 	return h;
 }
 
 
-HEAP converte_Heap_clientes_aux(HEAP h, NODO n) {
+
+HEAP converte_Heap_clientes_aux(HEAP h, NODO n, char ordenacao) {
 	if(n) {
-		h = converte_Heap_clientes_aux(h,getNodoEsq(n));
+		h = converte_Heap_clientes_aux(h,getNodoEsq(n),ordenacao);
 		char* p = getString(n);
 		Lista_Produtos prod_c = getCont(n);
 		if(!prod_c) {
-			h->heap = heap_push(h->heap,p,0,0,1,'Q');
+			h->heap = heap_push(h->heap,p,0,0,1,ordenacao);
 		} else {
-			h->heap = heap_push(h->heap,p,prod_c->quantidade,prod_c->faturacao,1,'Q');
+			h->heap = heap_push(h->heap,p,prod_c->quantidade,prod_c->faturacao,1,ordenacao);
 		}
-		h = converte_Heap_clientes_aux(h,getNodoDir(n));
+		h = converte_Heap_clientes_aux(h,getNodoDir(n),ordenacao);
 	}
 	return h;
 }
 
 
-Conj_Filiais convert_Heap_Lista(Conj_Filiais c, HEAP h) {
+
+Conj_Filiais convert_Heap_Lista(Conj_Filiais c, HEAP h, char ordenacao) {
 	int i = 0;
 	char* prod;
 	while(i < heap_count(h->heap)) {
-		prod = heap_pop(h->heap,'Q');
+		prod = heap_pop(h->heap,ordenacao);
 		c = adiciona_Nome(c,prod);
 		i++;
 	}
@@ -335,15 +364,23 @@ Conj_Filiais convert_Heap_Lista(Conj_Filiais c, HEAP h) {
 }
 
 
-HEAP lista_codigos_de_clientes(Filial f, HEAP h, char* cliente, int mes) {
-	
-	Nodo_Clientes nodo_c = getEstrutura_Catalogo(f->clientes,cliente);
-	if(nodo_c) {
-		h = converte_Heap_clientes(h,nodo_c->meses_produtos[mes-1]);
+Conj_Filiais lista_top3(Conj_Filiais c, HEAP h, char ordenacao) {
+	int i = 0;
+	char* prod;
+	while(i < 3) {
+		prod = heap_pop(h->heap,ordenacao);
+		c = adiciona_Nome(c,prod);
+		i++;
 	}
-	return h;
+	return c;
 }
 
+
+/******************************************************************************************
+
+	QUERIE 10
+
+******************************************************************************************/
 
 
 HEAP heap_produtos_mais_vendidos(Filial f, HEAP h) {
@@ -356,6 +393,7 @@ HEAP heap_produtos_mais_vendidos(Filial f, HEAP h) {
 	}
 	return h;
 }
+
 
 
 HEAP converte_Heap_produto(HEAP h, AVL a) {
@@ -423,4 +461,5 @@ Conj_Filiais lista_clientes_de_produto(Filial f, char* produto, char promo) {
 		else return nodo_p->clientes_P;
 	}
 }
+
 
