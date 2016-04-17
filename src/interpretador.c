@@ -182,7 +182,7 @@ static int menu_catalogo(Cat_Produtos produtos) {
 			case 'Q': return SAIR_PROGRAMA; break;
 			
 			case '1': estado = querie_2(produtos);
-					  return estado;
+					  return MENU_PRINCIPAL;
 					  break;
 			
 			case 'V': return MENU_PRINCIPAL; break;
@@ -282,16 +282,32 @@ static int menu_filiais(Filial filiais[3]) {
 			
 			case 'Q': return SAIR_PROGRAMA; break;
 
-			case '1': estado =querie_5(filiais); break;
+			case '1': estado =querie_5(filiais);
+			          return estado;
+			          break;
+			case '2': estado = querie_7(filiais);
+					  return estado;
+			          break;
+
+			case '3': estado = querie_8(filiais);
+		              return estado;
+			          break;
+			case '4': estado = querie_9(filiais);
+			          return estado;
+			          break;
+		
+			case '5': estado = querie_10(filiais); 
+			          return estado;
+			          break;
 			
-			case '2': estado = querie_7(filiais); break;
-			
-			case '3': estado = querie_8(filiais); break;
-		/*
-			case '3': estado = querie_6(faturas); break;
-			
-			case '7': estado=querie_12(filiais); break;
-		*/
+			case '6': estado = querie_11(filiais);
+			          return estado;
+			          break;
+		
+			case '7': estado = querie_12(filiais);
+			          return estado;
+			          break;
+		
 			case 'V': return MENU_PRINCIPAL; break;
 
 			default: break;

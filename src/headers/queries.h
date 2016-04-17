@@ -7,6 +7,7 @@
 #include "faturacao.h"
 #include "filiais.h"
 #include "global.h"
+#include "heap.h"
 
 /**
  * Ler os 3 ficheiros (Produtos, Clientes e Vendas), cujos nomes poderão ser introduzidos pelo utilizador ou, opcionalmente, assumidos por omissão  

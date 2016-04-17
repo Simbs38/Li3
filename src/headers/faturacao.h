@@ -3,7 +3,6 @@
  * @brief Ficheiro que contem a API relativa ao modulo da Faturação Total.
  */
 
-
 #ifndef _faturacao_h_
 #define _faturacao_h_
 
@@ -14,7 +13,6 @@
 #include "catalogo.h"
 #include "global.h"
 
-typedef struct fatura_produto *Fatura_Produto;
 typedef struct faturacao *Faturacao;
 typedef struct conjunto_faturas *Conj_Faturas;
 
@@ -49,11 +47,6 @@ Faturacao adiciona_Fatura(Faturacao contas, Venda venda);
  */
 void free_Faturacao(Faturacao faturacao);
 
-/**
- * Inicializa as faturações de um produto.
- * @return Fatura_Produto.
- */
-Fatura_Produto init_Fatura_Produto();
 
 /**
  * Devolve a quantidade total de um produto num dado mês e numa dada filial em promoção ou em preço normal.
@@ -96,7 +89,7 @@ int get_total_quantidades_mes_produto(Faturacao fatura, char* produto, int mes, 
 double get_total_faturado_intervalo(Faturacao fatura, int mes1, int mes2);
 
 /**
- * Devolve a quantidade total vendida num intervalo de meses.
+ * Devolve a quantidade total de produtos vendidos num intervalo de meses.
  * @param Faturacao fatura.
  * @param int mes1.
  * @param int mes2.

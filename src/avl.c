@@ -4,13 +4,13 @@
 Estruturas
 *******/
 
-typedef struct nodeAVL {
+struct nodeAVL {
     Valor string;
     void *cont;
     struct nodeAVL *left;
     struct nodeAVL *right;
     int height;
-} *NODO;
+};
 
 
 struct avl {
@@ -92,18 +92,6 @@ Estrutura avl_getEstrutura(AVL node, Valor value) {
     return node_getEstrutura(node->arvore,value);
 }
 
-
-Estrutura avl_getFirst(AVL node){
-    return node->arvore->cont;
-}
-
-Estrutura node_esquerdo(NODO node){
-    return node->right;
-}
-
-Estrutura node_direito(NODO node){
-    return node->left->cont;
-}
 
 void avl_free(AVL nodo) {
     tree_free(nodo->arvore);
@@ -258,7 +246,7 @@ static NODO tree_clone(NODO node) {
     NODO aux = malloc(sizeof(struct nodeAVL));
         
     if(node) {
-        aux->string = malloc(32);
+        aux->string = malloc(10);
         strcpy(aux->string,node->string); 
         aux->height = node->height;
         aux->cont = NULL;
@@ -275,6 +263,7 @@ static NODO atualiza_avl(NODO node, Estrutura estrutura) {
     node->cont = estrutura;
     return node;
 }
+
 
 static Estrutura node_getEstrutura(NODO node, Valor value) {
     int r;
@@ -296,6 +285,25 @@ static void tree_free(NODO node) {
     }
 }
 
+NODO getNodo(AVL a) {
+    return a->arvore;
+}
+
+NODO getNodoEsq(NODO n) {
+    return n->left;
+}
+
+NODO getNodoDir(NODO n) {
+    return n->right;
+}
+
+char* getString(NODO n) {
+    return n->string;
+}
+
+void* getCont(NODO n) {
+    return n->cont;
+}
 
 /************************************
 
@@ -379,6 +387,14 @@ char* lista_getNome(Lista list, int pos) {
 }
 
 
+Boolean existe_Lista(Lista list, char* valor) {
+    int i;
+    for(i = 0; i < list->pos; i++) {
+        if(strcmp(list->array[i],valor) == 0) return true;
+    }
+    return false;
+}
+
 
 
 Lista clientes_compraram_filial(Lista list,AVL tree) {
@@ -393,4 +409,15 @@ static Lista clientes_compraram_filial_aux(Lista list, NODO tree) {
         list = clientes_compraram_filial_aux(list,tree->right);  
     }
     return list;
+}
+
+int lista_nr_elementos_diferentes(Lista a, Lista b) {
+    int i, resultado = 0;
+    for(i = 0; i < a->pos; i++) {
+        if(existe_Lista(b,a->array[i]) == false) resultado++; 
+    }
+    for(i = 0; i < b->pos; i++) {
+        if(existe_Lista(a,b->array[i]) == false) resultado++; 
+    }
+    return resultado;
 }

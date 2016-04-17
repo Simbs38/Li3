@@ -1,12 +1,10 @@
 #include "./headers/faturacao.h"
 
 
-#define NR_LETRAS 26
-
-struct fatura_produto {
+typedef struct fatura_produto {
 	int quantidades[12][3][2]; /* quantidades[meses][filiais][normal/promocao] */
 	double precos[12][3][2];
-};
+}*Fatura_Produto;
 
 
 struct faturacao {
@@ -18,6 +16,10 @@ struct faturacao {
 struct conjunto_faturas {
 	Array lista;
 };
+
+
+static Fatura_Produto init_Fatura_Produto();
+
 
 /**
  * Inicializa a estrutura Faturacao.
@@ -59,7 +61,7 @@ void free_Faturacao(Faturacao faturacao) {
  * Inicializa as faturações de um produto.
  * @return Fatura_Produto.
  */
-Fatura_Produto init_Fatura_Produto() {
+static Fatura_Produto init_Fatura_Produto() {
 	int i, j, k;
 	Fatura_Produto fatura = (Fatura_Produto) malloc(sizeof(struct fatura_produto));
 	for(i = 0; i < 12; i++) {
@@ -79,32 +81,20 @@ Fatura_Produto init_Fatura_Produto() {
  * @param Venda venda
  * @return Faturacao.
  */	
-int conta(char* s) {
-	int i;
-	for(i = 0; s[i] != '\0'; i++) printf(" %c | %d\n",s[i],i+1);
-	
-	return i;
-}
-
 Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 	
 	char* prod = getNomeProduto(getProduto(venda));
-	
 	int mes = getMes(venda) - 1;
 	int filial = getFilial(venda) - 1;
-
 	char promocao = getPromocao(venda);
-	int promo = (promocao == 'N') ? NORMAL : PROMOCAO;  
+	int promo = (promocao == 'N') ? NORMAL : PROMOCAO;
 	int quantidades = getQuantidade(venda);
 	double price = getPreco(venda);
 	double custo = quantidades * price;
 
-	
-
 	Fatura_Produto estrutura = getEstrutura_Catalogo(contas->faturas,prod);
-
 	
-	if(estrutura == NULL) {
+	if(!estrutura) {
 		estrutura = init_Fatura_Produto();
 	}
 	
@@ -118,15 +108,6 @@ Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 	return contas;
 }
 
-/**
- * Devolve a estrutura alocada junto de um produto.
- * @param Faturacao faturacao.
- * @param char* produto.
- * @return void *.
- */
-void* getEstrutura_Faturacao(Faturacao faturacao, char* produto) {
-	return getEstrutura_Catalogo(faturacao->faturas,produto);
-}
 
 /**
  * Devolve a quantidade total de um produto num dado mês em promoção ou em preço normal.
@@ -192,8 +173,7 @@ double get_total_precos_mes_produto(Faturacao fatura, char* produto, int mes, ch
  * @return int.
  */
 int get_total_quantidades_mes_produto_filial(Faturacao fatura, char* produto, int mes, char modo, int filial) {
-	int i;
-	
+
 	int total = 0;
 	
 	Fatura_Produto anexo = getEstrutura_Catalogo(fatura->faturas,produto);
@@ -203,9 +183,8 @@ int get_total_quantidades_mes_produto_filial(Faturacao fatura, char* produto, in
 		if(modo == 'N') total += anexo->quantidades[mes-1][filial-1][NORMAL];
 		else if(modo == 'P') total += anexo->quantidades[mes-1][filial-1][PROMOCAO];
 	
+	} 
 	return total;
-	
-	} else return 0;
 }
 
 /**
@@ -224,13 +203,12 @@ double get_total_precos_mes_produto_filial(Faturacao fatura, char* produto, int 
 	Fatura_Produto anexo = getEstrutura_Catalogo(fatura->faturas,produto);
 	
 	if(anexo != NULL) {
-	
+
 		if(modo == 'N') total += anexo->precos[mes-1][filial-1][NORMAL];
 		else if(modo == 'P') total += anexo->precos[mes-1][filial-1][PROMOCAO];
-	
+	}
+
 	return total;
-	
-	} else return 0;
 }
 
 /**
@@ -314,7 +292,7 @@ Conj_Faturas cria_lista_total(Conj_Faturas conjunto, Faturacao faturacao) {
 }
 
 /**
- * ??????????????????????????????????????????????????????????????.
+ * Devolve um Conj_Faturas com os elementos não comprados numa dada filial.
  * @param Conj_Faturas conjuto.
  * @param Conj_Faturas nao_comprados.
  * @param Faturacao faturas.
@@ -329,7 +307,7 @@ Conj_Faturas faturas_nao_comprado_filial(Conj_Faturas conjunto, Conj_Faturas nao
 	char* prod;
 	while(i < tamanho) {
 		prod = get_elemento_lista(conjunto,i);
-		estrutura = getEstrutura_Faturacao(faturas,prod);
+		estrutura = getEstrutura_Catalogo(faturas->faturas,prod);
 		if(estrutura) {
 			for(j = 0; j < 12 && !var; j++) {
 				if(estrutura->quantidades[j][filial-1][0] != 0) var++;
@@ -356,7 +334,7 @@ char* get_elemento_lista(Conj_Faturas conjunto, int pos) {
 
 
 /**
- * Devolve a posiçao de um ????????????????????.
+ * Devolve o tamanho de um Conj_Faturas.
  * @param Conj_Faturas conjuto.
  * @return int.
  */

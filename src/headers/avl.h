@@ -13,6 +13,7 @@
 
 
 typedef struct avl* AVL;
+typedef struct nodeAVL *NODO;
 
 typedef struct lista *Lista;
 
@@ -71,6 +72,19 @@ void avl_free(AVL node);
  */
 Estrutura avl_getEstrutura(AVL node, Valor value);
 
+
+
+NODO getNodo(AVL a);
+
+NODO getNodoEsq(NODO n);
+
+NODO getNodoDir(NODO n);
+
+char* getString(NODO n);
+
+void* getCont(NODO n);
+
+
 /**
  * Inicia um novo array dinâmico.
  * @param size inteiro que determina a capacidade inicial do array dinâmico.
@@ -119,8 +133,17 @@ int lista_getPos(Lista list);
  */
 char* lista_getNome(Lista list, int pos);
 
+/**
+ * Retorna um Boolean referente a um elemento se encontrar na lista ou não.
+ * @param list Lista (array dinâmico).
+ * @param valor char* a verificar a existência.
+ * @return Boolean.
+ */
+Boolean existe_Lista(Lista list, char* valor);
 
 
 Lista clientes_compraram_filial(Lista list,AVL tree);
+
+int lista_nr_elementos_diferentes(Lista a, Lista b);
 
 #endif /* _avl_h_ */

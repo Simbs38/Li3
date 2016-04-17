@@ -3,10 +3,11 @@
 
 #include "avl.h"
 #include "global.h"
+#include "heap.h"
 
 typedef struct catalogo *Catalogo;
 typedef struct array_catalogo *Array;
-
+typedef struct heap_catalogo *HEAP_CAT;
 
 /**
  * Inicializa um Catalogo returnando o mesmo.
@@ -67,6 +68,15 @@ int total_elems_letra(Catalogo catalogo, char letra);
  * @return int.
  */
 void* getEstrutura_Catalogo(Catalogo catalogo, char* key);
+
+/**
+ * Devolve uma AVL do catalogo.
+ * @param Catalogo catalogo.
+ * @param int index da AVL.
+ * @return AVL pedida.
+ */
+AVL catalogo_getAVL(Catalogo catalogo, int index);
+
 
 /**
  * Inicializa um array com a capacidade indicada.
@@ -130,11 +140,12 @@ char* catalogo_getElemento(Array lista, int pos);
 int catalogo_getPos(Array lista);
 
 
-
+Boolean existe_Array(Array lista, char* valor);
 
 
 Array catalogo_clientes_compraram_filial(Array lista, Catalogo catalogo);
 
+int catalogo_nr_elementos_diferentes(Array a, Array b);
 
 
 #endif
