@@ -10,5 +10,7 @@ typedef int Boolean;
 #define PROMOCAO 1
 
 #define NR_LETRAS 26
+#define NR_MESES 12
+#define NR_FILIAIS 3
 
 #endif

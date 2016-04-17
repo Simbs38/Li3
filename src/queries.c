@@ -466,21 +466,127 @@ int querie_8(Filial filiais[3]) {
  * @param Filiais filial.
  * @return int.
 */
-int querie_9(Filial filiais[]){
-	int estado=1;
+int querie_9(Filial filiais[3]){
+	int i;
+	int estado = 1, input, m = 0;
+	char cliente[10];
+	char mes[10];
+	char promo[10];
+
+	Conj_Filiais valores = init_Conj_Filiais(100);	
+	HEAP heap = init_HEAP();
+
+
+
+	while(estado) {
+		system("clear");
+		printf( "_____________________________________________\n" );
+		printf( "   Produtos de um cliente num mês - QUERIE 9\n\n" );
+
+		
+		printf("\nIndique o cliente >> ");
+		input = scanf("%s",cliente);
+		
+		printf("\nIndique o mês >> ");
+		input = scanf("%s",mes);
+		m = atoi(mes);
+		
+		for(i = 0; i < 3; i++) heap = lista_codigos_de_clientes(filiais[i],heap,cliente,m);
+		valores = convert_Heap_Lista(valores,heap);
+		apresenta_Dados_Filial(valores);
+	}
+
+		
 	return estado;
 }
 
 
 /**
- *Cria  uma  lista  dos  N produtos mais  vendidos  em  todo  o  ano.
+ *Cria  uma  lista  dos  N produtos mais  vendidos  em  todo  o  ano filial a filial.
  * @param Filiais filial.
  * @return int.
 */
-int querie_10(Filial filiais[]){
-	int estado=1;
-	return estado;
+int querie_10(Filial filiais[3]){
+	int i;
+	int estado = 1, input, nr = 0;
+	char n_produtos[10];
+	
+	Conj_Filiais valores_1 = init_Conj_Filiais(100);
+	HEAP heap_1 = init_HEAP();
+	
+	Conj_Filiais valores_2 = init_Conj_Filiais(100);
+	HEAP heap_2 = init_HEAP();
+	
+	Conj_Filiais valores_3 = init_Conj_Filiais(100);
+	HEAP heap_3 = init_HEAP();
+	
+	system("clear");
+	printf( "_____________________________________________\n" );
+	printf( "   Produtos de um cliente num mês - QUERIE 9\n\n" );
 
+	printf("\nIndique o número de produtos mais vendidos que pretende >> ");
+	input = scanf("%s",n_produtos);
+	nr = atoi(n_produtos);
+	
+	heap_1 = heap_produtos_mais_vendidos(filiais[0],heap_1);
+	valores_1 = retira_N_Produtos(valores_1,heap_1,nr);
+				
+	heap_2 = heap_produtos_mais_vendidos(filiais[1],heap_2);
+	valores_2 = retira_N_Produtos(valores_2,heap_2,nr);
+		
+	heap_3 = heap_produtos_mais_vendidos(filiais[2],heap_3);
+	valores_3 = retira_N_Produtos(valores_3,heap_3,nr);
+
+
+    char opcao[10];
+    int nr_de_elementos = filial_getPos(valores_1);
+
+    if(nr_de_elementos == 0) estado = 0;
+    
+    int elementos_pagina = 20;
+    
+    
+    int last_pagina = nr_de_elementos % elementos_pagina;
+    
+    int total_paginas = (last_pagina == 0) ? (nr_de_elementos / elementos_pagina) : ((nr_de_elementos / elementos_pagina) + 1); 
+
+    int nr_pagina = 1;
+
+    while(estado) {
+
+        system("clear");
+        printf("\n");
+        printf(" Querie 10: %d produtos mais vendidos\n\n",nr_de_elementos);
+        printf(" --- Página número |%d| de |%d| ---\n", nr_pagina,total_paginas);
+        
+        printf("\n\tFilial 1\t\tFilial 2\t   Filial 3\n");
+        printf("   Produto   C    Q\tProduto   C    Q\tProduto   C    Q\n");
+
+        for(i = (nr_pagina-1) * elementos_pagina; i < (nr_pagina * elementos_pagina) && i < nr_de_elementos; i++) {
+            printf("%d  %s   %d    %d\t%s   %d    %d\t%s   %d    %d\n",i+1,filial_get_elemento_lista(valores_1,i),nr_clientes_de_um_produto(filiais[0],filial_get_elemento_lista(valores_1,i)),getQuantidadeProduto(filiais[0],filial_get_elemento_lista(valores_1,i)),filial_get_elemento_lista(valores_2,i),nr_clientes_de_um_produto(filiais[1],filial_get_elemento_lista(valores_2,i)),getQuantidadeProduto(filiais[1],filial_get_elemento_lista(valores_2,i)),filial_get_elemento_lista(valores_3,i),nr_clientes_de_um_produto(filiais[2],filial_get_elemento_lista(valores_3,i)),getQuantidadeProduto(filiais[2],filial_get_elemento_lista(valores_3,i)));
+        }
+
+        putchar('\n');
+        printf(" 1 - [<<]  2 - [<]  3 - [>]  4 - [>>]   V - Voltar\n");
+        putchar('\n');
+        printf("Opcao numero > ");
+        input = scanf("%s",opcao);
+
+        switch(opcao[0]) {
+            case 'V': return estado; break;
+
+            case '1': nr_pagina = 1;
+
+            case '2': if(nr_pagina > 1) nr_pagina --;
+                   break;
+            case '3': if(nr_pagina < total_paginas) nr_pagina++;
+                   break;
+            case '4': nr_pagina = total_paginas;
+
+            default: break;
+        }
+    }
+    return estado;
 }
 
 
@@ -489,48 +595,12 @@ int querie_10(Filial filiais[]){
  * @param Filiais filial
  * @return int
 */
-int querie_11(Filial filiais[]){
+int querie_11(Filial filiais[3]){
 	float custo;
 	int estado = 1, input,i,j;
 	char cliente[10],*produto;
 	
-	system("clear");
-		printf( "_____________________________________________\n" );
-		printf( "   Produtos mais comprados - QUERIE 5\n\n" );
-		printf( "_____________________________________________\n\n" );
-		printf("  Insira o codigo do seu cliente\n");
-		printf("_____________________________________________\n" );
-		printf( "  Escreva o nome do cliente:\n" );
-		printf( "  V - Voltar\t\tQ - Sair:\n" );
-		printf( "_____________________________________________\n" );
 
-		while(estado){
-		printf("\nEscolha uma opção >> ");
-
-		input = scanf("%s",cliente);
-		cliente[6]='\0';
-		/*if(info_lookUp(info,cliente,1)!=0){*/
-			if(cliente[1]!=' '){
-				switch(cliente[0]) {
-					case 'Q': return 0; break;
-
-					case 'V': return estado; break;
-
-					default: break;
-				}
-			}
-			
-			system("clear");
-			printf( "\tCompras pelo cliente %s\n",cliente);
-			printf( "______________________________________________________\n" );
-			for(i=0;i!=3;i++){
-			/*custo=getnomemaiscaro(info,cliente,produto,i);
-			printf("%dº mais caro: %s, Custo: %5d ",produto,custo);*/
-			}
-			printf( "______________________________________________________\n" );
-			printf( "  V - Voltar\t\tQ - Sair:\n" );
-			}
-		/*}*/
 	return estado;
 }
 
@@ -540,7 +610,7 @@ int querie_11(Filial filiais[]){
  * @param Filiais filial
  * @return int
 */
-int querie_12(Filial filiais[]){
+int querie_12(Filial filiais[3]){
 	int estado = 1, input;
 	char opcao[10];
 

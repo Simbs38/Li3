@@ -38,10 +38,19 @@ struct conjunto_filiais {
 };
 
 
+struct heap_filial {
+	Heap heap;
+};
+
+
 Nodo_Clientes init_Nodo_Clientes();
 Lista_Produtos init_Lista_Produtos();
 Nodo_Produtos init_Nodo_Produtos();
-
+HEAP converte_Heap_clientes(HEAP h, AVL a);
+HEAP converte_Heap_clientes_aux(HEAP h, NODO n);
+Boolean existe_Conj_Filiais(Conj_Filiais c, char* valor);
+HEAP converte_Heap_produto(HEAP h, AVL a);
+HEAP converte_Heap_produtos_aux(HEAP h, NODO n);
 
 /*********************************
 	FUNCOES DA ESTRUTURA FILIAL
@@ -106,8 +115,8 @@ Filial adiciona_Venda_Filial(Filial f, Venda v) {
 	
 	nodo_p->quantidade += quant;
 	
-	if(promo == NORMAL) nodo_p->clientes_N = adiciona_Nome(nodo_p->clientes_N,cli);
-	else nodo_p->clientes_P = adiciona_Nome(nodo_p->clientes_P,cli);
+	if(promo == NORMAL && (existe_Conj_Filiais(nodo_p->clientes_N,cli) == false)) nodo_p->clientes_N = adiciona_Nome(nodo_p->clientes_N,cli);
+	else if(existe_Conj_Filiais(nodo_p->clientes_P,cli) == false) nodo_p->clientes_P = adiciona_Nome(nodo_p->clientes_P,cli);
 	
 	f->produtos = insere_Catalogo(f->produtos,prod,nodo_p);
 	
@@ -141,7 +150,12 @@ Filial adiciona_Venda_Filial(Filial f, Venda v) {
 }
 
 
-
+/**
+ * Retorna um Boolean caso um dado cliente tenha comprado algum produto.
+ * @param f Filial a procurar.
+ * @param valor char* a verificar.
+ * @return Boolean.
+ */
 Boolean verifica_cliente_comprado(Filial f, char* c) {
 	Nodo_Clientes n = getEstrutura_Catalogo(f->clientes,c);
 	if(n) return true;
@@ -156,7 +170,7 @@ Boolean verifica_cliente_comprado(Filial f, char* c) {
 
 /**
  * Inicia um Nodo de produtos.
- * @return Nodo_Produtos.
+ * @return Nodo_Produtos criado.
  */
 Nodo_Produtos init_Nodo_Produtos() {
 	
@@ -170,11 +184,27 @@ Nodo_Produtos init_Nodo_Produtos() {
 }
 
 
+int getQuantidadeProduto(Filial f, char* produto) {
+	Nodo_Produtos nodo_p = getEstrutura_Catalogo(f->produtos,produto);
+	return nodo_p->quantidade;
+}
+
+int nr_clientes_de_um_produto(Filial f, char* produto) {
+	int nr_produtos;
+	Nodo_Produtos nodo_p = getEstrutura_Catalogo(f->produtos,produto);
+	nr_produtos = filiais_nr_elementos_diferentes(nodo_p->clientes_N,nodo_p->clientes_P);
+	return nr_produtos;
+}
+
+
 /****************************************
 	FUNCOES DA ESTRUTURA DE CADA CLIENTE
 ****************************************/
 
-
+/**
+ * Inicia um Nodo de clientes.
+ * @return Nodo_Clientes criado.
+ */
 Nodo_Clientes init_Nodo_Clientes() {
 	int i;
 	Nodo_Clientes cliente = (Nodo_Clientes) malloc(sizeof(struct nodo_clientes));
@@ -186,7 +216,10 @@ Nodo_Clientes init_Nodo_Clientes() {
 }
 
 
-
+/**
+ * Inicia uma nova Lista_Produtos.
+ * @return Lista_Produtos criada.
+ */
 Lista_Produtos init_Lista_Produtos() {
 	Lista_Produtos l = (Lista_Produtos) malloc(sizeof(struct lista_produtos));
 	l->quantidade = 0;
@@ -195,9 +228,9 @@ Lista_Produtos init_Lista_Produtos() {
 }
 
 
-/***********
-	FUNCOES DE LISTAS
-***********/
+/********************
+    FUNCOES DE LISTAS
+*********************/
 
 /**
  * Inicia um conjunto de filiais.
@@ -236,6 +269,127 @@ char* filial_get_elemento_lista(Conj_Filiais conjunto, int pos) {
 	return catalogo_getElemento(conjunto->lista,pos);
 }
 
+Boolean existe_Conj_Filiais(Conj_Filiais c, char* valor) {
+	return existe_Array(c->lista,valor);
+}
+
+
+int filiais_nr_elementos_diferentes(Conj_Filiais a, Conj_Filiais b) {
+	return catalogo_nr_elementos_diferentes(a->lista,b->lista);
+}
+
+
+/************************
+    FUNCOES SOBRE HEAPS
+************************/
+
+
+/**
+ * Inicia uma nova HEAP.
+ * @return HEAP criada.
+ */
+HEAP init_HEAP() {
+	HEAP h = (HEAP) malloc(sizeof(struct heap_filial));
+	h->heap = initHeap();
+	return h;
+}
+
+
+/**
+ * Converte uma dada AVL em HEAP.
+ * @param HEAP h onde serão colocados os valores.
+ * @param AVL a ser convertida.
+ * @return HEAP após a conversão.
+ */
+HEAP converte_Heap_clientes(HEAP h, AVL a) {
+	h = converte_Heap_clientes_aux(h,getNodo(a));
+	return h;
+}
+
+
+HEAP converte_Heap_clientes_aux(HEAP h, NODO n) {
+	if(n) {
+		h = converte_Heap_clientes_aux(h,getNodoEsq(n));
+		char* p = getString(n);
+		Lista_Produtos prod_c = getCont(n);
+		if(!prod_c) {
+			h->heap = heap_push(h->heap,p,0,0,1,'Q');
+		} else {
+			h->heap = heap_push(h->heap,p,prod_c->quantidade,prod_c->faturacao,1,'Q');
+		}
+		h = converte_Heap_clientes_aux(h,getNodoDir(n));
+	}
+	return h;
+}
+
+
+Conj_Filiais convert_Heap_Lista(Conj_Filiais c, HEAP h) {
+	int i = 0;
+	char* prod;
+	while(i < heap_count(h->heap)) {
+		prod = heap_pop(h->heap,'Q');
+		c = adiciona_Nome(c,prod);
+		i++;
+	}
+	return c;
+}
+
+
+HEAP lista_codigos_de_clientes(Filial f, HEAP h, char* cliente, int mes) {
+	
+	Nodo_Clientes nodo_c = getEstrutura_Catalogo(f->clientes,cliente);
+	if(nodo_c) {
+		h = converte_Heap_clientes(h,nodo_c->meses_produtos[mes-1]);
+	}
+	return h;
+}
+
+
+
+HEAP heap_produtos_mais_vendidos(Filial f, HEAP h) {
+	int i;
+	AVL aux;
+	
+	for(i = 0; i < NR_LETRAS; i++) {
+		aux = catalogo_getAVL(f->produtos,i);
+		h = converte_Heap_produto(h,aux);
+	}
+	return h;
+}
+
+
+HEAP converte_Heap_produto(HEAP h, AVL a) {
+	h = converte_Heap_produtos_aux(h,getNodo(a));
+	return h;
+}
+
+
+HEAP converte_Heap_produtos_aux(HEAP h, NODO n) {
+	if(n) {
+		h = converte_Heap_produtos_aux(h,getNodoEsq(n));
+		char* p = getString(n);
+		Nodo_Produtos prod_c = getCont(n);
+		if(prod_c) {
+			h->heap = heap_push(h->heap,p,prod_c->quantidade,0,0,'Q');
+		}
+		h = converte_Heap_produtos_aux(h,getNodoDir(n));
+	}
+	return h;
+}
+
+
+Conj_Filiais retira_N_Produtos(Conj_Filiais c, HEAP h, int n) {
+	int i = 0;
+	char* prod;
+	while(i < n) {
+		prod = heap_pop(h->heap,'Q');
+		c = adiciona_Nome(c,prod);
+		i++;
+	}
+	return c;
+}
+
+
 /*********************
 	FUNCOES GENERICAS
 **********************/
@@ -269,3 +423,4 @@ Conj_Filiais lista_clientes_de_produto(Filial f, char* produto, char promo) {
 		else return nodo_p->clientes_P;
 	}
 }
+

@@ -1,7 +1,5 @@
 #include "./headers/catalogo.h"
 
-#define NR_LETRAS 26
-
 
 struct catalogo {
    AVL indice[NR_LETRAS];
@@ -12,11 +10,11 @@ struct array_catalogo {
   Lista list;
 };
 
+
 /**
  * Inicializa um Catalogo returnando o mesmo.
  * @return Catalogo inicializado.
  */
-
 Catalogo init_Catalogo() {
 
     Catalogo cat = (Catalogo) malloc(sizeof(struct catalogo));
@@ -31,10 +29,8 @@ Catalogo init_Catalogo() {
  * Verifica um valor existe no Catalogo returnando verdadeiro se existir e false caso contrario.
  * @param Catalogo catalogo.
  * @param key char* a procurar.
- * @param ind index, indice onde procurar no catalogo.
  * @return Boolean com valor verdadeiro ou falso.
  */
-
 Boolean existe_Catalogo(Catalogo catalogo, char* key) {
    int index = key[0] - 'A';
    Boolean existe = avl_lookUp(catalogo->indice[index],key);
@@ -48,7 +44,6 @@ Boolean existe_Catalogo(Catalogo catalogo, char* key) {
  * @param Catalogo catalogo.
  * @param key char* a procurar.
  * @param  void* estrutura estrutura a inserir no nodo.
- * @param ind index, indice onde procurar no catalogo.
  * @return Boolean com valor verdadeiro ou falso.
  */
 
@@ -95,19 +90,6 @@ int total_elems_letra(Catalogo catalogo, char letra) {
 
 
 /**
- * Liberta o espaço alocado na memoria para o catalogo.
- * @param Catalogo catalogo.
- */
-void remove_Catalogo(Catalogo catalogo) {
-  int i;
-  
-  for(i = 0; i < NR_LETRAS; i++) {
-    avl_free(catalogo->indice[i]);
-  }
-}
-
-
-/**
  * Cria um clone do catalogo dado, devolvendo uma copia deste.
  * @param Catalogo catalogo.
  * @return Catalogo catalogo.
@@ -135,6 +117,35 @@ void* getEstrutura_Catalogo(Catalogo catalogo, char* key) {
   return avl_getEstrutura(catalogo->indice[index],key);
 }
 
+
+/**
+ * Devolve uma AVL do catalogo.
+ * @param Catalogo catalogo.
+ * @param int index da AVL.
+ * @return AVL pedida.
+ */
+AVL catalogo_getAVL(Catalogo catalogo, int index) {
+  return catalogo->indice[index];
+}
+
+
+/**
+ * Liberta o espaço alocado na memoria para o catalogo.
+ * @param Catalogo catalogo.
+ */
+void remove_Catalogo(Catalogo catalogo) {
+  int i;
+  
+  for(i = 0; i < NR_LETRAS; i++) {
+    avl_free(catalogo->indice[i]);
+  }
+}
+
+
+
+/********************
+FUNCOES SOBRE ARRAYS
+********************/
 
 
 /**
@@ -203,7 +214,7 @@ void apresenta_Array(Array lista) {
 }
 
 /**
- * Converte catalogo para lista??????????????????????????????????????????????????????????????????????????????????????????
+ * Converte catalogo para um Array dinamico.
  * @param Array lista.
  * @param Catalogo catalogo.
  * @return Array.
@@ -215,6 +226,7 @@ Array catalogo_lista_total(Array lista,Catalogo catalogo) {
   }
   return lista;
 }
+
 /**
  * Devolve um elemento de uma lista na posição indicada
  * @param Array lista.
@@ -224,6 +236,7 @@ Array catalogo_lista_total(Array lista,Catalogo catalogo) {
 char* catalogo_getElemento(Array lista, int pos) {
   return lista_getNome(lista->list,pos);
 }
+
 /**
  * Devolve o numero de posições atuais na alocadas na lista
  * @param Array lista.
@@ -231,6 +244,17 @@ char* catalogo_getElemento(Array lista, int pos) {
  */
 int catalogo_getPos(Array lista) {
   return lista_getPos(lista->list);
+}
+
+
+/**
+ * Verifica um valor existe no Array retornando verdadeiro se existir e false caso contrário.
+ * @param Array lista.
+ * @param valor char* a procurar.
+ * @return Boolean com valor verdadeiro ou falso.
+ */
+Boolean existe_Array(Array lista, char* valor) {
+  return existe_Lista(lista->list,valor);
 }
 
 
@@ -243,4 +267,8 @@ Array catalogo_clientes_compraram_filial(Array lista, Catalogo catalogo) {
   }
   
   return lista;
+}
+
+int catalogo_nr_elementos_diferentes(Array a, Array b) {
+  return lista_nr_elementos_diferentes(a->list,b->list);
 }

@@ -7,10 +7,13 @@
 #include "clientes.h"
 #include "venda.h"
 #include "global.h"
+#include "avl.h"
+#include "heap.h"
 
 typedef struct filial *Filial;
 typedef struct conjunto_filiais *Conj_Filiais;
 typedef struct nodo_produtos *Nodo_Produtos;
+typedef struct heap_filial *HEAP;
 
 
 /**
@@ -62,16 +65,33 @@ Conj_Filiais adiciona_Nome(Conj_Filiais c, char* nome);
 int nr_total_unidades_compradas(Filial f, char* cliente, int mes);
 
 
-void apresenta_Dados_Filial(Conj_Filiais c);
+Boolean verifica_cliente_comprado(Filial f, char* c);
 
 Conj_Filiais lista_clientes_compraram_filial(Conj_Filiais c, Filial f);
-
-Boolean verifica_cliente_comprado(Filial f, char* c);
 
 int filial_getPos(Conj_Filiais conjunto);
 
 char* filial_get_elemento_lista(Conj_Filiais conjunto, int pos);
 
 Conj_Filiais lista_clientes_de_produto(Filial f, char* produto, char promo);
+
+HEAP init_HEAP();
+
+HEAP lista_codigos_de_clientes(Filial f, HEAP h, char* cliente, int mes);
+
+Conj_Filiais convert_Heap_Lista(Conj_Filiais c, HEAP h);
+
+void apresenta_Dados_Filial(Conj_Filiais c);
+
+Conj_Filiais retira_N_Produtos(Conj_Filiais c, HEAP h, int n);
+
+
+HEAP heap_produtos_mais_vendidos(Filial f, HEAP h);
+
+int getQuantidadeProduto(Filial f, char* produto);
+
+int filiais_nr_elementos_diferentes(Conj_Filiais a, Conj_Filiais b);
+
+int nr_clientes_de_um_produto(Filial f, char* produto);
 
 #endif
