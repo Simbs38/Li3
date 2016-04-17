@@ -1,0 +1,18 @@
+//Ficheiro de Vendas: Vendas_1M.txt
+**Linhas de Vendas: 1000000
+**Total de Clientes Registados: 16384
+**Total de codigos de Produtos: 171008
+**Vendas validas: 891108
+**Total de compradores diferentes = 16384
+**Produtos comprados = 170080
+**Produtos nunca Comprados : 928
+**Clientes sem compras : 0
+**Vendas de Preco Zero = 13
+**FACTURADO TOTAL = 4.47655889105209E10
+**UNIDADES VENDIDAS = 89523041
+
+//VENDAS POR FILIAL
+
+**Filial 1 = 296.989
+**Filial 2 = 296.799
+**Filial 3 = 297.320 

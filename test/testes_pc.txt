@@ -1,0 +1,79 @@
+//Ficheiro de Vendas: Vendas_1M.txt
+//ALGUNS CÓDIGOS DE PRODUTOS NUNCA COMPRADOS (PARA TESTE)
+Produto = NR1033
+Produto = RC1152
+Produto = MZ1864
+Produto = KB1093
+Produto = HG1026
+
+//VALORES GLOBAIS POR CLIENTE
+
+Cliente: Z5000
+Total de Registos de Compras do Cliente: Z5000 = 60
+Quantidade Total de Produtos Comprados: Z5000 = 5765
+Total Pago pelo Cliente: Z5000 = 2752359.670000001
+
+Compras Mensais do Cliente: Z5000
+ Mes 01 : 7
+ Mes 02 : 6
+ Mes 03 : 2
+ Mes 04 : 3
+ Mes 05 : 5
+ Mes 06 : 1
+ Mes 07 : 9
+ Mes 08 : 5
+ Mes 09 : 3
+ Mes 10 : 5
+ Mes 11 : 8
+ Mes 12 : 6
+
+//------------------------------
+Cliente: F2916
+Total de Registos de Compras do Cliente: F2916 = 49
+Quantidade Total de Produtos Comprados: F2916 = 5256
+Total Pago pelo Cliente: F2916 = 2515023.02
+
+Compras Mensais do Cliente: F2916
+ Mes 01 : 7
+ Mes 02 : 4
+ Mes 03 : 2
+ Mes 04 : 4
+ Mes 05 : 6
+ Mes 06 : 2
+ Mes 07 : 4
+ Mes 08 : 3
+ Mes 09 : 1
+ Mes 10 : 8
+ Mes 11 : 1
+ Mes 12 : 7
+
+//-------------------------------
+//FACTURACAO MENSAL DE UM PRODUTO 
+
+## NR1091
+Numero de Clientes: 3
+ 
+ Mes = 6 Vendas P = 176 Facturacao P = 167330.24
+ Mes = 7 Vendas N = 58 Facturacao N = 29083.52
+ Mes = 11 Vendas N = 112 Facturacao N = 48621.44
+ 
+TOTAL DE VENDAS PRODUTO = 346
+FACTURACAO TOTAL DO PRODUTO = 245035.19999999998
+
+##AF1184
+Numero de Clientes: 9
+ 
+ Mes = 5 Vendas N = 162 Facturacao N = 139190.4
+ Mes = 5 Vendas P = 52 Facturacao P = 34801.0
+ Mes = 6 Vendas N = 124 Facturacao N = 791.12
+ Mes = 6 Vendas P = 67 Facturacao P = 60210.89
+ Mes = 7 Vendas N = 190 Facturacao N = 27534.8
+ Mes = 8 Vendas P = 136 Facturacao P = 54665.2
+ Mes = 9 Vendas P = 90 Facturacao P = 42906.6
+ Mes = 10 Vendas P = 46 Facturacao P = 2647.2999999999997
+ Mes = 12 Vendas P = 10 Facturacao P = 3603.5
+
+TOTAL DE VENDAS PRODUTO = 877
+FACTURACAO TOTAL DO PRODUTO = 366350.80999999994
+
+//-------------------------------
