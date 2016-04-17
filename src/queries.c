@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 /**
  * Ler os 3 ficheiros (Produtos, Clientes e Vendas), cujos nomes poderão ser introduzidos pelo utilizador ou, opcionalmente, assumidos por omissão  
  * @param Cat_Produtos produtos.
@@ -257,16 +258,33 @@ int querie_4(Faturacao faturas) {
 		else if(opcao[0] == '2') { 
 			
 			Conj_Faturas totais = init_Lista_Faturacao(1000);
+			Conj_Faturas nao_comprados_1 = init_Lista_Faturacao(1000); 
+			Conj_Faturas nao_comprados_2 = init_Lista_Faturacao(1000); 
+			Conj_Faturas nao_comprados_3 = init_Lista_Faturacao(1000); 
+			
 			totais = cria_lista_total(totais,faturas);
 			
+			nao_comprados_1 = faturas_nao_comprado_filial(totais,nao_comprados_1,faturas,1);
+			nao_comprados_2 = faturas_nao_comprado_filial(totais,nao_comprados_2,faturas,2);
+			nao_comprados_3 = faturas_nao_comprado_filial(totais,nao_comprados_3,faturas,3);
+			
+			system("clear");
+			printf("\n_____________________________________________\n" );
+			printf("   Produtos não comprados - QUERIE 4\n\n" );
+			printf("\n Produtos não comprados na Filial 1 -> %d\n",faturacao_getPos(nao_comprados_1));
+			printf("\n Produtos não comprados na Filial 2 -> %d\n",faturacao_getPos(nao_comprados_2));
+			printf("\n Produtos não comprados na Filial 3 -> %d\n",faturacao_getPos(nao_comprados_3));
+
 			while(filial < 1 || filial > 3) {
 				printf("\nInsira a filial que pretende >> ");
 				input = scanf("%s",fil);
 				filial = atoi(fil);
 			}
 
-			nao_comprados = faturas_nao_comprado_filial(totais,nao_comprados,faturas,filial);
-			apresenta_faturas(nao_comprados);
+			if(filial == 1) apresenta_faturas(nao_comprados_1);
+			if(filial == 2) apresenta_faturas(nao_comprados_2);
+			if(filial == 3) apresenta_faturas(nao_comprados_3);
+			
 			return estado;
 		}
 	}
