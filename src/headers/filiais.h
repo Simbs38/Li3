@@ -66,6 +66,8 @@ int nr_total_unidades_compradas(Filial f, char* cliente, int mes);
 
 Boolean filial_existe_Cliente(Filial f, char* cliente);
 
+Boolean filial_existe_Produto(Filial f,char* produto);
+
 Boolean verifica_cliente_comprado(Filial f, char* c);
 
 Conj_Filiais lista_clientes_compraram_filial(Conj_Filiais c, Filial f);

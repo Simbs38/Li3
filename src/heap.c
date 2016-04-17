@@ -100,7 +100,7 @@ int existe_heap(Heap heap, char* valor) {
 }
 
 
-char *heap_pop(Heap heap,char ordenacao) {
+char *heap_pop(Heap heap, char ordenacao) {
     if(heap->pos==0) return 0;
     char *string = NODO_P(0);
     heap->pos--;

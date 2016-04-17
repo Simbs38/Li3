@@ -167,6 +167,10 @@ Boolean filial_existe_Cliente(Filial f, char* cliente) {
 	return existe_Catalogo(f->clientes,cliente);
 }
 
+Boolean filial_existe_Produto(Filial f,char* produto) {
+	return existe_Catalogo(f->produtos,produto);
+}
+
 
 /****************************************
 	FUNCOES DA ESTRUTURA DE CADA PRODUTO
@@ -358,7 +362,6 @@ Conj_Filiais convert_Heap_Lista(Conj_Filiais c, HEAP h, char ordenacao) {
 	while(i < heap_count(h->heap)) {
 		prod = heap_pop(h->heap,ordenacao);
 		c = adiciona_Nome(c,prod);
-		i++;
 	}
 	return c;
 }

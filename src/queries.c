@@ -382,7 +382,7 @@ int querie_6(Faturacao faturas) {
 			printf( "\tVendas\t\tFaturação\n");
 			printf("\t%7d\t%7.2f\n",total_vendas_intervalo,total_faturado_intervalo);
 			printf( "_____________________________________________\n" );
-			printf( "  1 - Voltar\t\t0 - Sair:\n" );
+			printf( "  V - Voltar\t\tQ - Sair:\n" );
 			printf( "_____________________________________________\n" );
 			
 			
@@ -391,8 +391,10 @@ int querie_6(Faturacao faturas) {
 			input = scanf("%s",opcao);
 			
 			switch(opcao[0]) {
-				case '1': return estado; break;
-				case '0': return 0; break;
+				case 'V': return estado; break;
+				
+				case 'Q': return 0; break;
+				
 				default: break;
 			}	
 		}
@@ -438,6 +440,7 @@ int querie_8(Filial filiais[3]) {
 	char produto[10];
 	char fil[10];
 	char promo[10];
+	Boolean existe = false;
 
 	Conj_Filiais normal;
 	Conj_Filiais promocao;	
@@ -447,24 +450,30 @@ int querie_8(Filial filiais[3]) {
 		printf( "_____________________________________________\n" );
 		printf( "   Clientes de um Produto - QUERIE 8\n\n" );
 
+		while (existe == false) {
+			printf(" Insira o codigo do produto >> ");
+			input = scanf("%s",produto);
+			existe = filial_existe_Produto(filiais[0],produto);
+			if(!existe) printf("O Produto não é válido, insira de novo\n\n");
+		}
 		
-		printf("\nIndique o produto >> ");
-		input = scanf("%s",produto);
-		
-		printf("\nIndique a filial >> ");
-		input = scanf("%s",fil);
-		filial = atoi(fil);
-		
+		while(filial < 1 || filial > 3) {
+			printf("\nInsira a filial que pretende >> ");
+			input = scanf("%s",fil);
+			filial = atoi(fil);
+		}
+
 		normal = lista_clientes_de_produto(filiais[filial-1],produto,'N');
 		promocao = lista_clientes_de_produto(filiais[filial-1],produto,'P');
 		
-		printf("Total em modo N: %d\n",filial_getPos(normal));
-		printf("Total em modo P: %d\n\n",filial_getPos(promocao));
+		printf("\n  Total em modo N: %d\n",filial_getPos(normal));
+		printf("  Total em modo P: %d\n\n",filial_getPos(promocao));
 		printf("Indique se pretende ver a lista N ou P >> ");
 		input = scanf("%s",promo);
 
 		if(promo[0] == 'N' || promo[0] == 'n') apresenta_Dados_Filial(normal);
 		if(promo[0] == 'P' || promo[0] == 'p') apresenta_Dados_Filial(promocao);
+		return estado;
 	}
 
 		
@@ -483,30 +492,34 @@ int querie_9(Filial filiais[3]){
 	char cliente[10];
 	char mes[10];
 	char promo[10];
+	Boolean existe = false;
 
 	Conj_Filiais valores = init_Conj_Filiais(100);	
 	HEAP heap = init_HEAP();
 
-
-
 	while(estado) {
 		system("clear");
-		printf( "_____________________________________________\n" );
-		printf( "   Produtos de um cliente num mês - QUERIE 9\n\n" );
+		printf( "_____________________________________________\n");
+		printf( "  Produtos de um cliente num mês - QUERIE 9\n\n");
+		
+		while (existe == false) {
+			printf(" Insira o codigo do cliente >> ");
+			input = scanf("%s",cliente);
+			existe = filial_existe_Cliente(filiais[0],cliente);
+			if(!existe) printf("O Cliente não é válido, insira de novo\n\n");
+		}
 
-		
-		printf("\nIndique o cliente >> ");
-		input = scanf("%s",cliente);
-		
-		printf("\nIndique o mês >> ");
-		input = scanf("%s",mes);
-		m = atoi(mes);
-		
+		while(m < 1 || m > 12) {
+		printf("\nInsira o mês >> ");
+			input = scanf("%s",mes);
+			m = atoi(mes);
+		}
+
 		for(i = 0; i < 3; i++) heap = lista_codigos_de_clientes(filiais[i],heap,cliente,m,'Q');
 		valores = convert_Heap_Lista(valores,heap,'Q');
 		apresenta_Dados_Filial(valores);
+		return estado;
 	}
-
 	return estado;
 }
 

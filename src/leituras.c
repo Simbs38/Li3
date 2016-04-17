@@ -172,7 +172,7 @@ static void converte_vendas(Cat_Produtos cat_produtos, Cat_Clientes cat_clientes
    
    Venda venda = initVenda();
    
-   while(fgets(line,MAXBUFFERVENDAS,f_sales) && total < 1) {
+   while(fgets(line,MAXBUFFERVENDAS,f_sales)) {
 
       information = strtok(line,"\n\r");
       information = strtok(information," ");
