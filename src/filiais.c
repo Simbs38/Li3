@@ -75,8 +75,8 @@ Filial cria_Dados_Filial(Filial filial, Cat_Produtos produtos, Cat_Clientes clie
  */
 Filial init_Filial() {
 	Filial f = (Filial) malloc(sizeof(struct filial));
-	f->clientes = init_Catalogo(26);
-	f->produtos = init_Catalogo(26);
+	f->clientes = init_Catalogo();
+	f->produtos = init_Catalogo();
 	return f;
 }
 

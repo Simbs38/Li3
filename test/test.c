@@ -157,7 +157,7 @@ double get_quant(char *information){
     information[j++]=information[i];
   
   information[j]='\0';
-  n=atof(information);
+  n=strtod(information,NULL);
   return n;
 }
 
@@ -241,6 +241,20 @@ Boolean testa_total_faturado(Faturacao faturas,Lista testes){
   return(n==aux->quantidade);
 }
 
+Boolean testa_total_quantidade(Faturacao faturas,Lista testes){
+  Lista aux=testes;
+  for(;aux!=NULL;aux=aux->next)
+    if(aux->tipo==UNIDADES_VENDIDAS) break;
+
+  float n=get_total_quantidades_intervalo(faturas,1,12);
+  
+  printf("Total quantidades:%f\nTotal quantidades esperado:%f\n",aux->quantidade,n);
+  return(n==aux->quantidade);
+}
+
+
+
+
 
 
 int main(){
@@ -270,6 +284,9 @@ int main(){
         querie_1(produtos,clientes,faturacao,filiais,1);
         leitura(produtos,clientes,faturacao,filiais,testes);
         n=testa_total_faturado(faturacao,testes);
+        if(n) printf("##Teste passado!\n");
+        else printf("##Teste falhado!\n");
+        n=testa_total_quantidade(faturacao,testes);
         if(n) printf("##Teste passado!\n");
         else printf("##Teste falhado!\n");
 
