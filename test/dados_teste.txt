@@ -4,13 +4,13 @@ B-Total de Clientes Registados: 16384
 C-Total de codigos de Produtos: 171008
 D-Vendas validas: 891108
 E-Vendas invalidas: 108892
-F-Produtos comprados: 170080
-G-Produtos nunca Comprados : 928
-H-Clientes sem compras : 0
-I-Vendas de Preco Zero: 13
-J-FACTURADO TOTAL: 44765588910.5209
-K-UNIDADES VENDIDAS: 89523041
-L-Total de compradores diferentes: 16384
+F-Clientes diferentes: 16384
+G-Produtos comprados: 170080
+H-Produtos nunca Comprados : 928
+I-Clientes sem compras : 0
+J-Vendas de Preco Zero: 13
+K-FACTURADO TOTAL: 44765588910.5209
+L-UNIDADES VENDIDAS: 89523041
 #Vendas por filiais
 M-Filial 1 : 296.989
 N-Filial 2 : 296.799

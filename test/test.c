@@ -29,6 +29,10 @@
 #define MAXBUFFER 128
 
 
+
+
+
+
 typedef struct lista{
   int tipo;
   double quantidade;
@@ -133,7 +137,6 @@ Boolean testaprodutos(Lista lista,FILE *file){
           if(line != NULL)
             total++;
     }
-
    for(aux=lista;aux!=NULL;aux=aux->next)
     if(aux->tipo==Total_de_Codigos_de_Produtos) break;
 
@@ -173,7 +176,7 @@ Lista insere_lista(Lista lista,char *information){
 }
 
 
-Lista load_testes(FILE *file_dados,char *f_nome){
+Lista load_testes(FILE *file_dados){
     char *information;
     char line[MAXBUFFER];
     Lista lista=NULL; 
@@ -192,30 +195,30 @@ Lista load_testes(FILE *file_dados,char *f_nome){
 
 
 
-int leitura(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Filial filiais[3]){
+int leitura(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Filial filiais[3],Lista testes){
     Boolean n;
-    char f_clientes[50];
-    char f_produtos[50];
-    char f_vendas[50];
-    char f_dados[50];
+    char *f_clientes;
+    char *f_produtos;
+    char *f_vendas;
     FILE *file_clientes = NULL;
     FILE *file_produtos = NULL;
     FILE *file_vendas = NULL;
-    FILE *file_dados =NULL;
+    char line[MAXBUFFER];
+    FILE*file;
+    file=fopen("./test/Ficheiros.txt","r");
 
 
-            strcpy(f_clientes,"./data/Clientes.txt");
-            strcpy(f_produtos,"./data/Produtos.txt");
-            strcpy(f_vendas,"./data/Vendas_1M.txt");
-            strcpy(f_dados,"./test/dados_teste.txt");
+    fgets(line,MAXBUFFER,file);
+      file_clientes=fopen(strtok(line,"\n\r"),"r");     
+    fgets(line,MAXBUFFER,file);
+      file_produtos=fopen(strtok(line,"\n\r"),"r"); 
+    fgets(line,MAXBUFFER,file);
+      file_vendas=fopen(strtok(line,"\n\r"),"r");
+      
+      /*printf("%s\n%s\n%s\n",f_clientes,f_produtos,f_vendas );*/
+            
 
-            file_clientes = fopen(f_clientes,"r");
-            file_produtos = fopen(f_produtos,"r");
-            file_vendas = fopen(f_vendas,"r");
-            file_dados =fopen(f_dados,"r");
-
-    Lista testes=load_testes(file_dados,f_dados);
-
+    
     n=testaclientes(testes,file_clientes);
     if(n) printf("##Teste passado!\n");
     else printf("##Teste falhado!\n");
@@ -227,18 +230,27 @@ int leitura(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Filia
     else printf("##Teste falhado!\n");
     return 1;
 }
+Boolean testa_total_faturado(Faturacao faturas,Lista testes){
+  Lista aux=testes;
+  for(;aux!=NULL;aux=aux->next)
+    if(aux->tipo==FACTURADO_TOTAL) break;
 
-
+  float n=get_total_faturado_intervalo(faturas,1,12);
+  
+  printf("Total faturado:%f\nTotal faturado esperado:%f\n",aux->quantidade,n);
+  return(n==aux->quantidade);
+}
 
 
 
 int main(){
-    int i;
+    int i,n;
     /*numero de testes disponiveis*/
     int testes_dados=18;
     int testes_produtos_nao_comprados=5;
     int testes_clientes=15;
     int testes_faturacao_produtos=102;
+    FILE *file_dados =NULL;
 
         Cat_Clientes clientes = init_cat_clientes();
         Cat_Produtos produtos = init_cat_produtos();
@@ -247,10 +259,21 @@ int main(){
         for(i = 0; i < 3; i++) {
             filiais[i] = init_Filial();
         }
+        file_dados =fopen("./test/dados_teste.txt","r");
 
+        Lista testes=load_testes(file_dados);
+        Lista aux;
+        printf("%s\n",testes );
+        for(aux=testes;aux!=NULL;aux=aux->next){
+          printf(" %d %f\n",aux->tipo,aux->quantidade );
+          }
         querie_1(produtos,clientes,faturacao,filiais,1);
-        leitura(produtos,clientes,faturacao,filiais);
-        
+        leitura(produtos,clientes,faturacao,filiais,testes);
+        n=testa_total_faturado(faturacao,testes);
+        if(n) printf("##Teste passado!\n");
+        else printf("##Teste falhado!\n");
+
+    
 
         remove_Catalogo_Clientes(clientes);
         remove_Catalogo_Produtos(produtos);
