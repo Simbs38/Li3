@@ -1,14 +1,16 @@
+/**
+ * @file clientes.h
+ * @brief Ficheiro que contem a API relativa á implementação dos Clientes.
+ */
+
 #ifndef _clientes_h_
 #define _clientes_h_
 
 #include "catalogo.h"
 #include "global.h"
 
-
 typedef struct catalogo_clientes *Cat_Clientes;
-
 typedef struct cliente *Cliente;
-
 
 
 /**
@@ -16,7 +18,6 @@ typedef struct cliente *Cliente;
  * @return Cat_Clientes Novo catálogo de clientes alocado.
  */
 Cat_Clientes init_cat_clientes();
-
 
 /**
  * Insere no catálogo de clientes um novo cliente.
@@ -26,14 +27,12 @@ Cat_Clientes init_cat_clientes();
  */
 Cat_Clientes insere_Cliente(Cat_Clientes clients, Cliente client);
 
-
 /**
  * Executa um clone de um catálogo de clientes dado.
  * @param clients catálogo de clientes a clonar.
  * @return Cat_Clientes novo, clonado do anterior.
  */
 Cat_Clientes clone_Catalogo_Clientes(Cat_Clientes clients);
-
 
 /**
  * Devolve um Boolean referente a ter encontrado ou não no catálogo de clientes o cliente pretendido.
@@ -43,14 +42,12 @@ Cat_Clientes clone_Catalogo_Clientes(Cat_Clientes clients);
  */
 Boolean existe_Cliente(Cat_Clientes clients, Cliente client);
 
-
 /**
  * Devolve o número de clientes que um catálogo de clientes contem.
  * @param clients Cat_Clientes da qual se pretende o número de elementos.
  * @return Int com numero de elementos.
  */
 int total_Clientes(Cat_Clientes clients);
-
 
 /**
  * Devolve o número de clientes que um catálogo de clientes contem cujo nome começa por uma dada letra.
@@ -60,14 +57,12 @@ int total_Clientes(Cat_Clientes clients);
  */
 int total_Clientes_letra(Cat_Clientes clients, char letra);
 
-
 /**
- * Devolve o catalogo inserido na estrutura do catálogo de clientes.
+ * Devolve um clone do catalogo inserido na estrutura do catálogo de clientes.
  * @param clients Cat_Clientes da qual se pretende o catálogo.
  * @return Catalogo.
  */
-Catalogo get_CatalogoCli(Cat_Clientes clientes);
-
+Catalogo get_Catalogo_Clientes(Cat_Clientes clientes);
 
 /**
  * Função com o objetivo de limpar da memória um catálogo de clientes.
@@ -81,7 +76,6 @@ void remove_Catalogo_Clientes(Cat_Clientes clients);
  */
 Cliente criaCliente();
 
-
 /**
  * Função que altera o nome de um cliente.
  * @param client Cliente a alterar.
@@ -89,14 +83,12 @@ Cliente criaCliente();
  */
 void alteraCliente(Cliente client, char *info);
 
-
 /**
  * Função que devolve o nome de um cliente.
  * @param client Cliente a consultar o nome.
  * @return char* com uma copia do nome do cliente.
  */
 char* getNomeCliente(Cliente client);
-
 
 /**
  * Função com o objetivo de limpar da memória um cliente.

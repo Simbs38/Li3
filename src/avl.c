@@ -1,5 +1,10 @@
 #include "./headers/avl.h"
 
+
+#include <stdlib.h>
+#include <string.h>
+
+
 struct nodeAVL {
     Valor string;
     void *cont;
@@ -15,19 +20,18 @@ struct avl {
 };
 
 
-
 static int height(NODO n);
 static int max(int a, int b);
+static int getBalance(NODO N);
+static Boolean node_lookUp(NODO node, Valor value);
 static NODO newNode(Valor info, void *estrutura);
 static NODO rightRotate(NODO y);
 static NODO leftRotate(NODO x);
-static int getBalance(NODO N);
 static NODO atualiza_avl(NODO node, void* estrutura);
 static NODO node_insert(NODO node, Valor string, Estrutura estrutura);
-static Boolean node_lookUp(NODO node, Valor value);
 static NODO tree_clone(NODO node);
-static void tree_free(NODO node);
 static Estrutura node_getEstrutura(NODO node, Valor value);
+static void tree_free(NODO node);
 
 
 AVL initAVL() {
@@ -69,39 +73,52 @@ Estrutura avl_getEstrutura(AVL node, Valor value) {
 }
 
 
+NODO getNodo(AVL a) {
+    return a->arvore;
+}
+
+
+NODO getNodoEsq(NODO n) {
+    return n->left;
+}
+
+
+NODO getNodoDir(NODO n) {
+    return n->right;
+}
+
+
+char* getString(NODO n) {
+    char* novo;
+    novo = malloc(10);
+    strcpy(novo,n->string);
+    return novo;
+}
+
+
+void* getCont(NODO n) {
+    return n->cont;
+}
+
+
 void avl_free(AVL nodo) {
     tree_free(nodo->arvore);
     free(nodo);
 }
 
 
-/** 
- * Função que devolve a altura de um dado nodo de uma AVL.
- * @param n NODO de onde será devolvida a sua altura.
- * @return int com a altura do nodo.
-*/
 static int height(NODO n) {
     if (n == NULL)
         return 0;
     return n->height;
 }
 
-/** 
- *Função que determina o maximo entre dois valores.
- * @param a int para comparação.
- * @param b int para comparação. 
- * @return int com o maior valor.
-*/
+
 static int max(int a, int b) {
     return (a > b)? a : b;
 }
 
-/** 
- * Função responsável por alocar um novo nodo.
- * @param info char* com o valor a inserir no nodo.
- * @param estrutura void* apontador. 
- * @return node novo NODO criado.
-*/
+
 static NODO newNode(Valor info, void *estrutura) {
     struct nodeAVL* node = (struct nodeAVL*) malloc(sizeof(struct nodeAVL));
     node->string = malloc(10);
@@ -237,25 +254,3 @@ static void tree_free(NODO node) {
     }
 }
 
-NODO getNodo(AVL a) {
-    return a->arvore;
-}
-
-NODO getNodoEsq(NODO n) {
-    return n->left;
-}
-
-NODO getNodoDir(NODO n) {
-    return n->right;
-}
-
-char* getString(NODO n) {
-    char* novo;
-    novo = malloc(10);
-    strcpy(novo,n->string);
-    return novo;
-}
-
-void* getCont(NODO n) {
-    return n->cont;
-}

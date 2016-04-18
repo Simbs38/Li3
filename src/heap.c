@@ -1,5 +1,9 @@
 #include "./headers/heap.h"
 
+#include <stdlib.h>
+#include <string.h>
+
+
 #define PAI(i) (i-1)/2
 #define ESQUERDO(i) 2*i + 1
 #define DIREITO(i) 2*i + 2
@@ -19,6 +23,7 @@
 #define NODO_P(i) heap->produto[i]
 #define NODO_Q(i) heap->quantidade[i]
 #define NODO_C(i) heap->custo[i]
+
 
 static Heap swap(Heap heap,int n1,int n2);
 static Heap bubbleDown(Heap heap,int n, char ordenacao);

@@ -6,14 +6,10 @@
 #ifndef _heap_h_
 #define _heap_h_
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "global.h"
+#include "array_dinamico.h"
 
 typedef struct heap *Heap;
-
-/*quantidade produto custo */
 
 
 /**
@@ -55,5 +51,6 @@ int heap_count(Heap heap);
  * @param Heap a limpar da memória.
  */
 void heap_free(Heap heap);
+
 
 #endif /* _heap_h_ */

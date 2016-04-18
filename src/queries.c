@@ -5,15 +5,7 @@
 #include <string.h>
 
 
-/**
- * Ler os 3 ficheiros (Produtos, Clientes e Vendas), cujos nomes poderão ser introduzidos pelo utilizador ou, opcionalmente, assumidos por omissão  
- * @param Cat_Produtos produtos.
- * @param Cat_Clientes clientes.
- * @param Faturacao faturas.
- * @param Filiais filiais.
- * @param int modo.
-*/
-int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Filial filiais[3], int modo) {
+int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Filial filiais[NR_FILIAIS], int modo) {
 	
 	int input;
 	char f_clientes[50];
@@ -64,12 +56,6 @@ int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Fili
 	return 10;
 }
 
-/**
- * Determina a lista e o total de produtos cujo código se inicia por uma dada letra.
- * @param Cat_Produtos produtos.
- * @return int. 
-*/
-
 
 int querie_2(Cat_Produtos produtos) {
 	
@@ -97,11 +83,7 @@ int querie_2(Cat_Produtos produtos) {
 	return 1;
 }
 
-/**
- * Dado um mês e um código de produto, apresentar o número total de vendas e o total facturado com esse produto em tal mês. 
- * @param Faturacao faturas.
- * @return int.
- */
+
 
 int querie_3(Faturacao faturas) {
 	
@@ -206,11 +188,8 @@ int querie_3(Faturacao faturas) {
 	return estado;
 }
 
-/*
- * Determina a lista ordenada dos códigos dos produtos que ninguém comprou. 
- * @param Faturacao faturas.
- * @return int.
-*/
+
+
 int querie_4(Faturacao faturas) {
 
 	int estado = 1, input, filial = 0;
@@ -282,12 +261,9 @@ int querie_4(Faturacao faturas) {
 	return estado;
 }
 
-/**
- * Dado um código de cliente, criar uma tabela com o numero total de produtos comprados mês a mês 
- * @param Filiais filial
- * @return int
-*/
-int querie_5(Filial filiais[3]) {
+
+
+int querie_5(Filial filiais[NR_FILIAIS]) {
 
 	int estado = 1, input,j,i;
 	int resultado[12][3];
@@ -336,11 +312,8 @@ int querie_5(Filial filiais[3]) {
 	return estado;
 }	
 	
-/**
- * Dado um intervalo fechado de meses, determinar o total de vendas registadas nesse intervalo e o total facturado.
- * @param Faturacao faturas.
- * @return int.
-*/
+
+
 int querie_6(Faturacao faturas) {
 
 
@@ -411,12 +384,9 @@ int querie_6(Faturacao faturas) {
 	return estado;
 }
 
-/**
- * Determinar a lista ordenada de códigos de clientes que realizaram compras em todas as filiais.
- * @param Filiais filial.
- * @return int.
-*/
-int querie_7(Filial filiais[3]){
+
+
+int querie_7(Filial filiais[NR_FILIAIS]){
 	
 	int estado = 1, input;
 	int i;
@@ -438,12 +408,9 @@ int querie_7(Filial filiais[3]){
 	return estado;
 }
 
-/**
- * Dado um código de produto e uma filial, determinar os códigos, distinguindo entre compra N e compra P.
- * @param Filiais filial.
- * @return int.
-*/
-int querie_8(Filial filiais[3]) {
+
+
+int querie_8(Filial filiais[NR_FILIAIS]) {
 
 	int estado = 1, input, filial = 0;
 	char produto[10];
@@ -490,12 +457,8 @@ int querie_8(Filial filiais[3]) {
 }
 
 
-/**
- * Dado  um  código  de  cliente  e  um  mês,  determinar  a  lista  de  códigos  de produtos que mais comprou.
- * @param Filiais filial.
- * @return int.
-*/
-int querie_9(Filial filiais[3]){
+
+int querie_9(Filial filiais[NR_FILIAIS]){
 	int i;
 	int estado = 1, input, m = 0;
 	char cliente[10];
@@ -533,12 +496,9 @@ int querie_9(Filial filiais[3]){
 }
 
 
-/**
- *Cria  uma  lista  dos  N produtos mais  vendidos  em  todo  o  ano filial a filial.
- * @param Filiais filial.
- * @return int.
-*/
-int querie_10(Filial filiais[3]){
+
+int querie_10(Filial filiais[NR_FILIAIS]){
+	
 	int i;
 	int estado = 1, input, nr = 0;
 	char n_produtos[10];
@@ -622,12 +582,8 @@ int querie_10(Filial filiais[3]){
 }
 
 
-/**
- * Dado um código de cliente determinar quais os códigos dos 3 produtos em que tenho gasto mais.
- * @param Filiais filial
- * @return int
-*/
-int querie_11(Filial filiais[3]){
+
+int querie_11(Filial filiais[NR_FILIAIS]){
 	
 	int i;
 	int estado = 1, input;
@@ -658,12 +614,8 @@ int querie_11(Filial filiais[3]){
 }
 
 
-/**
- * Determina o número de clientes registados que não realizaram compras bem como o número de produtos que ninguém comprou.
- * @param Filiais filial
- * @return int
-*/
-int querie_12(Filial filiais[3]){
+
+int querie_12(Filial filiais[NR_FILIAIS]){
 	int estado = 1, input;
 	char opcao[10];
 
@@ -690,12 +642,6 @@ int querie_12(Filial filiais[3]){
 
 
 
-
-/**
- *Determinar a lista ordenada de códigos de clientes que realizaram compras em todas as filiais.
- * @param Filiais filial
- * @return int
-*/
 void apresenta_Lista(Lista list) {
     int i;
     int input;
