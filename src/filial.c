@@ -90,20 +90,13 @@ Filial init_Filial() {
 Filial adiciona_Venda_Filial(Filial f, Venda v) {
 	
 	char* prod = getNomeProduto(getProduto(v));
-	/*printf("produto: |%s|\n",prod);*/
 	char* cli = getNomeCliente(getCliente(v));
-/*	printf("cliente: |%s|\n",cli);*/
 	int quant = getQuantidade(v);
-/*	printf("quantidade: %d\n",quant);*/
 	char promocao = getPromocao(v);
 	int promo = (promocao == 'N') ? NORMAL : PROMOCAO;
-/*	printf("promocao: %d\n",promo);*/
 	int mes = getMes(v) - 1;
-/*	printf("mes: %d\n", mes);*/
 	double price = getPreco(v);
-/*	printf("preco: %f\n",price);*/
 	double faturado = quant * price;
-/*printf("faturado: %f\n\n",faturado);*/ 
 	
 	/* INFO DOS PRODUTOS */
 
