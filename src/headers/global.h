@@ -17,4 +17,4 @@ typedef int Boolean;
 #define MAXBUFFERPRODUTOS 64
 #define MAXBUFFERVENDAS 128
 
-#endif
+#endif /* _global_h_ */

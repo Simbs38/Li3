@@ -1,10 +1,16 @@
-#ifndef _array_dinamico_
-#define _array_dinamico_
+/**
+ * @file array_dinamico.h
+ * @brief Ficheiro que contem a API relativa á implementação de um Array Dinâmico.
+ */
+
+#ifndef _array_dinamico_h_
+#define _array_dinamico_h_
 
 #include "avl.h"
+#include "global.h"
+
 
 typedef struct lista *Lista;
-
 
 /**
  * Inicia um novo array dinâmico.
@@ -13,6 +19,7 @@ typedef struct lista *Lista;
  */
 Lista init_Lista(int capacidade);
 
+
 /**
  * Retorna uma lista resultante da conversão para lista de uma AVL dada.
  * @param list Lista (array dinâmico) onde serão inseridos os valores.
@@ -20,6 +27,7 @@ Lista init_Lista(int capacidade);
  * @return list.
  */
 Lista lista_converte(Lista list, AVL tree);
+
 
 /**
  * Adiciona um char* passado como argumento no array dinâmico.
@@ -31,19 +39,12 @@ Lista lista_insert(Lista conjunto ,char* valor);
 
 
 /**
- * Retorna uma Lista com os nomes dos produtos não comprados em nenhuma filial.
- * @param conjunto Lista (array dinâmico) a inserir valores.
- * @param tree AVL a procurar os valores.
- * @return conjunto array dinâmico após a inserção.
- */
-Lista produtos_nao_comprados_totais(Lista list,AVL tree);
-
-/**
  * Retorna o campo Pos da estrutura Lista.
  * @param list Lista (array dinâmico).
  * @return int tamanho do array dinâmico.
  */
 int lista_getPos(Lista list);
+
 
 /**
  * Retorna o valor do array dinamico dada uma posição.
@@ -52,6 +53,7 @@ int lista_getPos(Lista list);
  * @return char* com o valor.
  */
 char* lista_getNome(Lista list, int pos);
+
 
 /**
  * Retorna um Boolean referente a um elemento se encontrar na lista ou não.
@@ -62,9 +64,30 @@ char* lista_getNome(Lista list, int pos);
 Boolean existe_Lista(Lista list, char* valor);
 
 
+/**
+ * Retorna uma Lista com os nomes dos produtos não comprados em nenhuma filial.
+ * @param conjunto Lista (array dinâmico) a inserir valores.
+ * @param tree AVL a procurar os valores.
+ * @return conjunto array dinâmico após a inserção.
+ */
+Lista produtos_nao_comprados_totais(Lista list,AVL tree);
+
+
+/**
+ * Retorna uma Lista com os clientes que compraram numa filial.
+ * @param list Lista a inserir os clientes.
+ * @param tree AVL de onde são provenientes os dados.
+ * @return Lista com os clientes.
+ */
 Lista clientes_compraram_filial(Lista list,AVL tree);
 
+
+/**
+ * Função responsável por retornar o numero de elementos diferentes entre duas listas.
+ * @param a Lista a comparar.
+ * @param b Lista a comparar com a primeira.
+ * @return int com o valor.
+ */
 int lista_nr_elementos_diferentes(Lista a, Lista b);
 
-
-#endif
+#endif /* _array_dinamico_h_ */

@@ -1,5 +1,8 @@
 #include "./headers/array_dinamico.h"
 
+#include <stdlib.h>
+#include <string.h>
+
 struct lista {
     char** array;
     int pos;
@@ -7,16 +10,10 @@ struct lista {
 };
 
 
-
 static Lista converte_aux(Lista list, NODO tree);
 static Lista produtos_nao_comprados_totais_aux(Lista list, NODO tree);
 static Lista clientes_compraram_filial_aux(Lista list, NODO tree);
 
-
-
-/************************************
-FUNCOES SOBRE O ARRAY DINAMICO
-*************************************/
 
 Lista init_Lista(int size) {
     Lista conjunto = (Lista) malloc(sizeof(struct lista));
@@ -49,6 +46,7 @@ Lista lista_converte(Lista list, AVL tree) {
     return list;
 }
 
+
 static Lista converte_aux(Lista list, NODO tree) {
     if(tree != NULL) {
         list = converte_aux(list,getNodoEsq(tree));
@@ -57,6 +55,7 @@ static Lista converte_aux(Lista list, NODO tree) {
     }
     return list;
 }
+
 
 Lista produtos_nao_comprados_totais(Lista list,AVL tree) {
     list = produtos_nao_comprados_totais_aux(list,getNodo(tree));
@@ -72,15 +71,6 @@ static Lista produtos_nao_comprados_totais_aux(Lista list, NODO tree) {
     return list;
 }
 
-int lista_getPos(Lista list) {
-    return list->pos;
-}
-
-char* lista_getNome(Lista list, int pos) {
-    char* novo = malloc(strlen(list->array[pos])+1);
-    strcpy(novo,list->array[pos]);
-    return novo;
-}
 
 Boolean existe_Lista(Lista list, char* valor) {
     int i;
@@ -90,10 +80,25 @@ Boolean existe_Lista(Lista list, char* valor) {
     return false;
 }
 
+
+int lista_getPos(Lista list) {
+    return list->pos;
+}
+
+
+char* lista_getNome(Lista list, int pos) {
+    char* novo = malloc(strlen(list->array[pos])+1);
+    strcpy(novo,list->array[pos]);
+    return novo;
+}
+
+
+
 Lista clientes_compraram_filial(Lista list,AVL tree) {
     list = clientes_compraram_filial_aux(list,getNodo(tree));
     return list;
 }
+
 
 static Lista clientes_compraram_filial_aux(Lista list, NODO tree) {
     if(tree!=NULL) {
@@ -103,6 +108,7 @@ static Lista clientes_compraram_filial_aux(Lista list, NODO tree) {
     }
     return list;
 }
+
 
 int lista_nr_elementos_diferentes(Lista a, Lista b) {
     int i, resultado = 0;

@@ -6,9 +6,6 @@
 #ifndef _avl_h_
 #define _avl_h_
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "global.h"
 
 
@@ -98,7 +95,6 @@ NODO getNodoDir(NODO n);
  * @return char* com a cópia.
  */
 char* getString(NODO n);
-
 
 /**
  * Função que dado um NODO retorna o seu contéudo.

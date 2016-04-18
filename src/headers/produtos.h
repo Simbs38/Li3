@@ -1,15 +1,19 @@
+/**
+ * @file produtos.h
+ * @brief Ficheiro que contem a API relativa á implementação dos Produtos.
+ */
+
 #ifndef _produtos_h_
 #define _produtos_h_
-
-#include <string.h>
-#include <stdlib.h>
 
 #include "catalogo.h"
 #include "global.h"
 
+
 typedef struct catalogo_produtos *Cat_Produtos;
 typedef struct produto *Produto;
 typedef struct conjunto_produtos *Conj_Produtos;
+
 
 /**
  * Inicializa um catalogo de produtos.
@@ -33,29 +37,29 @@ Cat_Produtos insere_produto(Cat_Produtos products, Produto prod);
 Cat_Produtos clone_Catalogo_Produtos(Cat_Produtos products);
 
 /**
- * Retorna o catalogo de produtos dentro da estrutura.
+ * Retorna um clone do catalogo de produtos dentro da estrutura.
  * @param Cat_Produtos products.
  * @return Catalogo.
  */
-Catalogo get_Catalogo(Cat_Produtos products);
+Catalogo get_Catalogo_Produtos(Cat_Produtos products);
 
 /**
- * Função que verifica se um dado produto existe no catalogo de clientes.
+ * Função que verifica se um dado produto existe no catalogo de produtos.
  * @param Cat_Produtos products.
  * @param Produto product.
- * @return Boolean com valor de verdade.
+ * @return Boolean com valor de verdade para a procura.
  */
 Boolean existe_Produto(Cat_Produtos products, Produto product);
 
 /**
  * Devolve o numero de produtos num catalogo.
  * @param Cat_Produtos products.
- * @return int.
+ * @return int com o valor.
  */
 int total_Produtos(Cat_Produtos products);
 
 /**
- * Devolve o numero de produtos começados com a letra indicada.
+ * Devolve o número de produtos começados pela letra indicada.
  * @param Cat_Produtos products.
  * @param char letra.
  * @return int.
@@ -69,7 +73,7 @@ int total_Produtos_letra(Cat_Produtos products, char letra);
 void remove_Catalogo_Produtos(Cat_Produtos products);
 
 /**
- * Aloca e retorna um produto.
+ * Aloca e retorna um novo Produto.
  * @return Produto.
  */
 Produto criaProduto();
@@ -83,9 +87,9 @@ Produto criaProduto();
 Produto alteraProduto(Produto product, char *info);
 
 /**
- * Devolve o codigo de um produto.
+ * Devolve uma cópia do código de um produto.
  * @param Produto product.
- * @return char *.
+ * @return char* com a cópia do nome.
  */
 char* getNomeProduto(Produto product);
 
@@ -96,7 +100,14 @@ char* getNomeProduto(Produto product);
 void free_produto(Produto product);
 
 /**
- * Converte de um catalogo de produtos para um conjunto de produtos.
+ * Inicializa um conjunto de produtos.
+ * @param int capacidade.
+ * @return Conj_Produtos.
+ */
+Conj_Produtos init_Conjunto(int capacidade);
+
+/**
+ * Converte elementos de um catalogo de produtos para um conjunto de produtos dada uma letra.
  * @param Conj_Produtos conjunto.
  * @param Cat_Produtos products.
  * @param char letra.
@@ -105,17 +116,10 @@ void free_produto(Produto product);
 Conj_Produtos converte_Produtos(Conj_Produtos lista, Cat_Produtos products, char letra);
 
 /**
- * Inicializa um conjunto de produtos.
- * @param int capacidade.
- * @return Conj_Produtos.
- */
-Conj_Produtos init_Conjunto(int capacidade);
-
-/**
  * Prepara os dados para serem apresentados.
  * @param Conj_Produtos conjunto.
  * @return Conj_Produtos.
  */
 void apresenta_Produtos(Conj_Produtos conjunto);
 
-#endif
+#endif /* _produtos_h_ */
