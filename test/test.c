@@ -15,16 +15,17 @@
 #define Total_de_Clientes_Registados 1
 #define Total_de_Codigos_de_Produtos 2
 #define Vendas_validas 3
-#define Total_de_Compradores_Diferentes 4
-#define Produtos_Comprados 5
-#define Produtos_Nunca_Comprados 6
-#define Clientes_Sem_Compras 7
-#define Vendas_de_Preco_Zero 8
-#define FACTURADO_TOTAL 9
-#define UNIDADES_VENDIDAS 10
-#define Filial_1 11
-#define Filial_2 12
-#define Filial_3 13
+#define Vendas_invalidas 4
+#define Total_de_Compradores_Diferentes 5
+#define Produtos_Comprados 6
+#define Produtos_Nunca_Comprados 7
+#define Clientes_Sem_Compras 8
+#define Vendas_de_Preco_Zero 9
+#define FACTURADO_TOTAL 10
+#define UNIDADES_VENDIDAS 11
+#define Filial_1 12
+#define Filial_2 13
+#define Filial_3 14
 #define MAXBUFFER 128
 
 
@@ -40,7 +41,7 @@ Boolean testavendas(Lista lista,FILE *file,Cat_Produtos cat_produtos,Cat_Cliente
   Lista aux;
   int i;
   Boolean verify;
-  int vendas_validas=0;
+  int vendas_validas=0,vendas_invalidas=0;
   char* product;
   double price;
   int ammount; 
@@ -48,13 +49,13 @@ Boolean testavendas(Lista lista,FILE *file,Cat_Produtos cat_produtos,Cat_Cliente
   char* client;
   int month;
   int shop;
-  int qwerty;
+  int teste1,teste2;
   char *information;
    
   Venda venda = initVenda();
   
 
-  while(fgets(line,MAXBUFFERVENDAS,file) && total < 1) {
+  while(fgets(line,MAXBUFFERVENDAS,file)) {
 
       information = strtok(line,"\n\r");
       information = strtok(information," ");
@@ -82,6 +83,7 @@ Boolean testavendas(Lista lista,FILE *file,Cat_Produtos cat_produtos,Cat_Cliente
          total++;
       } else {
          total++;
+         vendas_invalidas++;
       }
 
    }
@@ -92,13 +94,17 @@ Boolean testavendas(Lista lista,FILE *file,Cat_Produtos cat_produtos,Cat_Cliente
 
   for(aux=lista;aux!=NULL;aux=aux->next)
     if(aux->tipo==Linhas_de_Vendas) break;
-    qwerty=aux->quantidade;
+    teste1=aux->quantidade;
   printf("Numero de vendas lidas:%d\nNumero de vendas esperadas:%f\n",total,aux->quantidade );
   for(aux=lista;aux!=NULL;aux=aux->next)
     if(aux->tipo==Vendas_validas) break;
+  teste2=aux->quantidade;
   printf("Numero de vendas validas:%d\nNumero de vendas validas esperados:%f\n",vendas_validas,aux->quantidade );
+  for(aux=lista;aux!=NULL;aux=aux->next)
+    if(aux->tipo==Vendas_invalidas) break;
+  printf("Numero de vendas invalidas:%d\nNumero de vendas invalidas esperados:%f\n",vendas_invalidas,aux->quantidade );
 
-  return (total==qwerty && vendas_validas==aux->quantidade);
+  return (total==teste1 && teste2==vendas_validas && vendas_invalidas==aux->quantidade);
 }
 
 
