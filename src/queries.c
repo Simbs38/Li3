@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 /**
  * Ler os 3 ficheiros (Produtos, Clientes e Vendas), cujos nomes poderão ser introduzidos pelo utilizador ou, opcionalmente, assumidos por omissão  
  * @param Cat_Produtos produtos.
@@ -257,16 +258,33 @@ int querie_4(Faturacao faturas) {
 		else if(opcao[0] == '2') { 
 			
 			Conj_Faturas totais = init_Lista_Faturacao(1000);
+			Conj_Faturas nao_comprados_1 = init_Lista_Faturacao(1000); 
+			Conj_Faturas nao_comprados_2 = init_Lista_Faturacao(1000); 
+			Conj_Faturas nao_comprados_3 = init_Lista_Faturacao(1000); 
+			
 			totais = cria_lista_total(totais,faturas);
 			
+			nao_comprados_1 = faturas_nao_comprado_filial(totais,nao_comprados_1,faturas,1);
+			nao_comprados_2 = faturas_nao_comprado_filial(totais,nao_comprados_2,faturas,2);
+			nao_comprados_3 = faturas_nao_comprado_filial(totais,nao_comprados_3,faturas,3);
+			
+			system("clear");
+			printf("\n_____________________________________________\n" );
+			printf("   Produtos não comprados - QUERIE 4\n\n" );
+			printf("\n Produtos não comprados na Filial 1 -> %d\n",faturacao_getPos(nao_comprados_1));
+			printf("\n Produtos não comprados na Filial 2 -> %d\n",faturacao_getPos(nao_comprados_2));
+			printf("\n Produtos não comprados na Filial 3 -> %d\n",faturacao_getPos(nao_comprados_3));
+
 			while(filial < 1 || filial > 3) {
 				printf("\nInsira a filial que pretende >> ");
 				input = scanf("%s",fil);
 				filial = atoi(fil);
 			}
 
-			nao_comprados = faturas_nao_comprado_filial(totais,nao_comprados,faturas,filial);
-			apresenta_faturas(nao_comprados);
+			if(filial == 1) apresenta_faturas(nao_comprados_1);
+			if(filial == 2) apresenta_faturas(nao_comprados_2);
+			if(filial == 3) apresenta_faturas(nao_comprados_3);
+			
 			return estado;
 		}
 	}
@@ -382,7 +400,7 @@ int querie_6(Faturacao faturas) {
 			printf( "\tVendas\t\tFaturação\n");
 			printf("\t%7d\t%7.2f\n",total_vendas_intervalo,total_faturado_intervalo);
 			printf( "_____________________________________________\n" );
-			printf( "  1 - Voltar\t\t0 - Sair:\n" );
+			printf( "  V - Voltar\t\tQ - Sair:\n" );
 			printf( "_____________________________________________\n" );
 			
 			
@@ -391,8 +409,10 @@ int querie_6(Faturacao faturas) {
 			input = scanf("%s",opcao);
 			
 			switch(opcao[0]) {
-				case '1': return estado; break;
-				case '0': return 0; break;
+				case 'V': return estado; break;
+				
+				case 'Q': return 0; break;
+				
 				default: break;
 			}	
 		}
@@ -438,6 +458,7 @@ int querie_8(Filial filiais[3]) {
 	char produto[10];
 	char fil[10];
 	char promo[10];
+	Boolean existe = false;
 
 	Conj_Filiais normal;
 	Conj_Filiais promocao;	
@@ -447,24 +468,30 @@ int querie_8(Filial filiais[3]) {
 		printf( "_____________________________________________\n" );
 		printf( "   Clientes de um Produto - QUERIE 8\n\n" );
 
+		while (existe == false) {
+			printf(" Insira o codigo do produto >> ");
+			input = scanf("%s",produto);
+			existe = filial_existe_Produto(filiais[0],produto);
+			if(!existe) printf("O Produto não é válido, insira de novo\n\n");
+		}
 		
-		printf("\nIndique o produto >> ");
-		input = scanf("%s",produto);
-		
-		printf("\nIndique a filial >> ");
-		input = scanf("%s",fil);
-		filial = atoi(fil);
-		
+		while(filial < 1 || filial > 3) {
+			printf("\nInsira a filial que pretende >> ");
+			input = scanf("%s",fil);
+			filial = atoi(fil);
+		}
+
 		normal = lista_clientes_de_produto(filiais[filial-1],produto,'N');
 		promocao = lista_clientes_de_produto(filiais[filial-1],produto,'P');
 		
-		printf("Total em modo N: %d\n",filial_getPos(normal));
-		printf("Total em modo P: %d\n\n",filial_getPos(promocao));
+		printf("\n  Total em modo N: %d\n",filial_getPos(normal));
+		printf("  Total em modo P: %d\n\n",filial_getPos(promocao));
 		printf("Indique se pretende ver a lista N ou P >> ");
 		input = scanf("%s",promo);
 
 		if(promo[0] == 'N' || promo[0] == 'n') apresenta_Dados_Filial(normal);
 		if(promo[0] == 'P' || promo[0] == 'p') apresenta_Dados_Filial(promocao);
+		return estado;
 	}
 
 		
@@ -483,30 +510,34 @@ int querie_9(Filial filiais[3]){
 	char cliente[10];
 	char mes[10];
 	char promo[10];
+	Boolean existe = false;
 
 	Conj_Filiais valores = init_Conj_Filiais(100);	
 	HEAP heap = init_HEAP();
 
-
-
 	while(estado) {
 		system("clear");
-		printf( "_____________________________________________\n" );
-		printf( "   Produtos de um cliente num mês - QUERIE 9\n\n" );
+		printf( "_____________________________________________\n");
+		printf( "  Produtos de um cliente num mês - QUERIE 9\n\n");
+		
+		while (existe == false) {
+			printf(" Insira o codigo do cliente >> ");
+			input = scanf("%s",cliente);
+			existe = filial_existe_Cliente(filiais[0],cliente);
+			if(!existe) printf("O Cliente não é válido, insira de novo\n\n");
+		}
 
-		
-		printf("\nIndique o cliente >> ");
-		input = scanf("%s",cliente);
-		
-		printf("\nIndique o mês >> ");
-		input = scanf("%s",mes);
-		m = atoi(mes);
-		
+		while(m < 1 || m > 12) {
+		printf("\nInsira o mês >> ");
+			input = scanf("%s",mes);
+			m = atoi(mes);
+		}
+
 		for(i = 0; i < 3; i++) heap = lista_codigos_de_clientes(filiais[i],heap,cliente,m,'Q');
 		valores = convert_Heap_Lista(valores,heap,'Q');
 		apresenta_Dados_Filial(valores);
+		return estado;
 	}
-
 	return estado;
 }
 
@@ -523,28 +554,28 @@ int querie_10(Filial filiais[3]){
 	
 	Conj_Filiais valores_1 = init_Conj_Filiais(100);
 	HEAP heap_1 = init_HEAP();
+	heap_1 = heap_produtos_mais_vendidos(filiais[0],heap_1);
 	
 	Conj_Filiais valores_2 = init_Conj_Filiais(100);
 	HEAP heap_2 = init_HEAP();
+	heap_2 = heap_produtos_mais_vendidos(filiais[1],heap_2);
 	
 	Conj_Filiais valores_3 = init_Conj_Filiais(100);
 	HEAP heap_3 = init_HEAP();
-	
+	heap_3 = heap_produtos_mais_vendidos(filiais[2],heap_3);
+
 	system("clear");
 	printf( "_____________________________________________\n" );
 	printf( "   N Produtos mais comprados - QUERIE 10\n\n" );
 
+	while(nr < 1 || nr > 171008) {
 	printf("\nIndique o número de produtos mais vendidos que pretende ver >> ");
-	input = scanf("%s",n_produtos);
-	nr = atoi(n_produtos);
-	
-	heap_1 = heap_produtos_mais_vendidos(filiais[0],heap_1);
-	valores_1 = retira_N_Produtos(valores_1,heap_1,nr);
+		input = scanf("%s",n_produtos);
+		nr = atoi(n_produtos);
+	}
 				
-	heap_2 = heap_produtos_mais_vendidos(filiais[1],heap_2);
-	valores_2 = retira_N_Produtos(valores_2,heap_2,nr);
-		
-	heap_3 = heap_produtos_mais_vendidos(filiais[2],heap_3);
+	valores_1 = retira_N_Produtos(valores_1,heap_1,nr);
+	valores_2 = retira_N_Produtos(valores_2,heap_2,nr);	
 	valores_3 = retira_N_Produtos(valores_3,heap_3,nr);
 
 
@@ -608,15 +639,12 @@ int querie_10(Filial filiais[3]){
 int querie_11(Filial filiais[3]){
 	
 	int i;
-	int estado = 1, input, m = 0;
+	int estado = 1, input;
 	char cliente[10];
-	char mes[10];
-	char promo[10];
+	Boolean existe = false;
 
 	Conj_Filiais valores = init_Conj_Filiais(5);	
 	HEAP heap = init_HEAP();
-
-
 
 	while(estado) {
 		system("clear");
@@ -624,8 +652,12 @@ int querie_11(Filial filiais[3]){
 		printf( "   Top 3 de um Cliente - QUERIE 11\n\n" );
 
 		
-		printf("\nIndique o cliente >> ");
-		input = scanf("%s",cliente);
+		while (existe == false) {
+			printf(" Insira o codigo do cliente >> ");
+			input = scanf("%s",cliente);
+			existe = filial_existe_Cliente(filiais[0],cliente);
+			if(!existe) printf("O Cliente não é válido, insira de novo\n\n");
+		}
 		
 		for(i = 0; i < 3; i++) heap = top3_clientes(filiais[i],heap,cliente,'F');
 		valores = lista_top3(valores,heap,'F');
@@ -664,8 +696,6 @@ int querie_12(Filial filiais[3]){
 			}	
 	return estado;
 }
-
-
 
 
 

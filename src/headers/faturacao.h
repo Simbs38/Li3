@@ -47,6 +47,16 @@ Faturacao adiciona_Fatura(Faturacao contas, Venda venda);
  */
 void free_Faturacao(Faturacao faturacao);
 
+/**
+ * Devolve a faturação total de um produto num dado mês e numa dada filial em promoção ou em preço normal.
+ * @param Faturacao fatura.
+ * @param char* produto.
+ * @param int mes.
+ * @param char modo.
+ * @param int filial.
+ * @return double.
+ */
+double get_total_precos_mes_produto_filial(Faturacao fatura, char* produto, int mes, char modo, int filial);
 
 /**
  * Devolve a quantidade total de um produto num dado mês e numa dada filial em promoção ou em preço normal.

@@ -180,8 +180,8 @@ int get_total_quantidades_mes_produto_filial(Faturacao fatura, char* produto, in
 	
 	if(anexo != NULL) {
 	
-		if(modo == 'N') total += anexo->quantidades[mes-1][filial-1][NORMAL];
-		else if(modo == 'P') total += anexo->quantidades[mes-1][filial-1][PROMOCAO];
+		if(modo == 'N') total = anexo->quantidades[mes-1][filial-1][NORMAL];
+		else if(modo == 'P') total = anexo->quantidades[mes-1][filial-1][PROMOCAO];
 	
 	} 
 	return total;
@@ -204,8 +204,8 @@ double get_total_precos_mes_produto_filial(Faturacao fatura, char* produto, int 
 	
 	if(anexo != NULL) {
 
-		if(modo == 'N') total += anexo->precos[mes-1][filial-1][NORMAL];
-		else if(modo == 'P') total += anexo->precos[mes-1][filial-1][PROMOCAO];
+		if(modo == 'N') total = anexo->precos[mes-1][filial-1][NORMAL];
+		else if(modo == 'P') total = anexo->precos[mes-1][filial-1][PROMOCAO];
 	}
 
 	return total;
