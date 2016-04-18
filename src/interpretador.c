@@ -28,11 +28,11 @@ int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatur
 
 	int input = 0;
 	char opcao[20];
-	/*	
+	
 	if(estado == REFAZER_DADOS) {
-		estado = menu_leitura(produtos,clientes,faturas);
+		estado = menu_leitura(produtos,clientes,faturas,filiais);
 	}
-*/
+
 	while(estado) {
 		system("clear");
 		printf( "_____________________________________________\n" );
@@ -55,11 +55,9 @@ int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatur
 			
 			case 'Q': estado = SAIR_PROGRAMA; break;
 			
-			case '1': estado = menu_leitura(produtos,clientes,faturas,filiais); break;
-			/*if(!total_Produtos(produtos)) {
-					  	estado = menu_leitura(produtos,clientes,faturas); break;
-					  }
-					  else {
+			case '1': if(!total_Produtos(produtos)) {
+					  	estado = menu_leitura(produtos,clientes,faturas,filiais); break;
+					  } else {
 					  	printf("Esta acção irá refazer os dados em memória, prima Q para cancelar >> ");
 					  	input = scanf("%s",opcao);
 					  	if(opcao[0] == 'Q') break;
@@ -67,7 +65,7 @@ int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatur
 					  		estado = REFAZER_DADOS;
 					  		return estado;
 					  	}
-					  }*/
+					  }
 			case '2': if(total_Produtos(produtos)) estado = menu_catalogo(produtos);
 					  else  {
 					  	system("clear");

@@ -9,6 +9,7 @@
 #include "global.h"
 #include "avl.h"
 #include "heap.h"
+#include "array_dinamico.h"
 
 typedef struct filial *Filial;
 typedef struct conjunto_filiais *Conj_Filiais;

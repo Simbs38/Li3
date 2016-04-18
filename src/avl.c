@@ -1,9 +1,5 @@
 #include "./headers/avl.h"
 
-/*******
-Estruturas
-*******/
-
 struct nodeAVL {
     Valor string;
     void *cont;
@@ -19,16 +15,6 @@ struct avl {
 };
 
 
-struct lista {
-    char** array;
-    int pos;
-    int capacidade;
-};
-
-
-/************
-FUNCOES OCULTAS AO UTILIZADOR
-************/
 
 static int height(NODO n);
 static int max(int a, int b);
@@ -44,18 +30,12 @@ static void tree_free(NODO node);
 static Estrutura node_getEstrutura(NODO node, Valor value);
 
 
-static Lista converte_aux(Lista list, NODO tree);
-static Lista produtos_nao_comprados_totais_aux(Lista list, NODO tree);
-static Lista clientes_compraram_filial_aux(Lista list, NODO tree);
-
-
 AVL initAVL() {
     AVL tree = malloc(sizeof(struct avl));
     tree->arvore = NULL;
     tree->avl_tamanho = 0;
     return tree;
 }
-
 
 
 AVL avl_insert(AVL tree, Valor key, Estrutura estrutura) {
@@ -65,18 +45,15 @@ AVL avl_insert(AVL tree, Valor key, Estrutura estrutura) {
 }
 
 
-
 Boolean avl_lookUp(AVL tree, Valor value) {
     if(tree==NULL) return false;
     return node_lookUp(tree->arvore,value);
 }
 
 
-
 int avl_count(AVL tree) {
     return tree->avl_tamanho;
 }
-
 
 
 AVL avl_clone(AVL node) {
@@ -85,7 +62,6 @@ AVL avl_clone(AVL node) {
     tree->avl_tamanho = node->avl_tamanho;
     return tree;  
 }
-
 
 
 Estrutura avl_getEstrutura(AVL node, Valor value) {
@@ -120,7 +96,6 @@ static int max(int a, int b) {
     return (a > b)? a : b;
 }
 
-
 /** 
  * Função responsável por alocar um novo nodo.
  * @param info char* com o valor a inserir no nodo.
@@ -129,7 +104,7 @@ static int max(int a, int b) {
 */
 static NODO newNode(Valor info, void *estrutura) {
     struct nodeAVL* node = (struct nodeAVL*) malloc(sizeof(struct nodeAVL));
-    node->string = malloc(32);
+    node->string = malloc(10);
     strcpy(node->string,info);
     node->cont = estrutura;
     node->left   = NULL;
@@ -138,19 +113,14 @@ static NODO newNode(Valor info, void *estrutura) {
     return(node);
 }
 
-
 static NODO rightRotate(NODO y) {
 
     NODO x = y->left;
     NODO T2 = x->right;
     
-    /* Rotações */
-
     x->right = y;
     y->left = T2;
     
-    /* Atualização dos pesos dos nodos */
-
     y->height = max(height(y->left), height(y->right))+1;
     x->height = max(height(x->left), height(x->right))+1;
  
@@ -163,21 +133,14 @@ static NODO leftRotate(NODO x) {
     NODO y = x->right;
     NODO T2 = y->left;
  
-    /* Rotações */
-
     y->left = x;
     x->right = T2;
  
-    /* Atualização dos pesos dos nodos */
-
     x->height = max(height(x->left), height(x->right))+1;
     y->height = max(height(y->left), height(y->right))+1;
  
     return y;
 }
-
-
-/* Retorna o balanceamento da arvore, estando a arvore balanceada para valores retornados entre -1 e 1 */
 
 static int getBalance(NODO N) {
     if (N == NULL)
@@ -185,8 +148,6 @@ static int getBalance(NODO N) {
     return height(N->left) - height(N->right);
 }
  
-/* Função com o objetivo de inserir uma nova informação na arvore */
-
 static NODO node_insert(NODO node, Valor info, Estrutura estrutura) {
     int balance;
     if (node == NULL)
@@ -204,30 +165,24 @@ static NODO node_insert(NODO node, Valor info, Estrutura estrutura) {
     balance = getBalance(node);
  
     /* Left Left Case */
-    if (balance > 1 && strcmp(info,node->left->string) < 0)
-        return rightRotate(node);
+    if (balance > 1 && strcmp(info,node->left->string) < 0) return rightRotate(node);
  
     /* Right Right Case */
-    if (balance < -1 && strcmp(info,node->right->string) > 0)
-        return leftRotate(node);
+    if (balance < -1 && strcmp(info,node->right->string) > 0) return leftRotate(node);
  
     /* Left Right Case */
-    if (balance > 1 && strcmp(info,node->left->string) > 0)
-    {
+    if (balance > 1 && strcmp(info,node->left->string) > 0) {
         node->left =  leftRotate(node->left);
         return rightRotate(node);
     }
      /* Right Left Case */
-    if (balance < -1 && strcmp(info, node->right->string) < 0)
-    {
+    if (balance < -1 && strcmp(info, node->right->string) < 0) {
         node->right = rightRotate(node->right);
         return leftRotate(node);
     }
-    
+
     return node;
 }
-
-/* Função que tem como funcionalidade a procura de um dado elemento na AVL */
 
 static Boolean node_lookUp(NODO node, Valor value) {
     int r;
@@ -239,7 +194,6 @@ static Boolean node_lookUp(NODO node, Valor value) {
         else node_lookUp(node->right,value);
     }
 }
-
 
 static NODO tree_clone(NODO node) {
     
@@ -264,7 +218,6 @@ static NODO atualiza_avl(NODO node, Estrutura estrutura) {
     return node;
 }
 
-
 static Estrutura node_getEstrutura(NODO node, Valor value) {
     int r;
     if(node == NULL) return NULL;
@@ -275,7 +228,6 @@ static Estrutura node_getEstrutura(NODO node, Valor value) {
         else node_getEstrutura(node->right,value);
     }
 }
-
 
 static void tree_free(NODO node) {
     if(node != NULL) {
@@ -298,126 +250,12 @@ NODO getNodoDir(NODO n) {
 }
 
 char* getString(NODO n) {
-    return n->string;
+    char* novo;
+    novo = malloc(10);
+    strcpy(novo,n->string);
+    return novo;
 }
 
 void* getCont(NODO n) {
     return n->cont;
-}
-
-/************************************
-
-FUNCOES SOBRE O ARRAY DINAMICO
-
-
-*************************************/
-
-/**
- * Inicia um novo array dinâmico.
- * @param size inteiro que determina a capacidade inicial do array dinâmico.
- * @return conjunto array dinâmico
- */
-Lista init_Lista(int size) {
-    Lista conjunto = (Lista) malloc(sizeof(struct lista));
-    conjunto->array = (char**) malloc(size *sizeof(char*));
-    conjunto->pos = 0;
-    conjunto->capacidade = size;
-    return conjunto;
-}
-
-
-Lista lista_insert(Lista conjunto ,char* valor) {
-    
-    int posicao = conjunto->pos;
-    
-    if(conjunto->pos == (conjunto->capacidade - 1)) {
-        conjunto->capacidade *= 2;
-        conjunto->array = realloc(conjunto->array,conjunto->capacidade *sizeof(char *));
-    }
-
-
-    conjunto->array[posicao] = malloc(10);
-    strcpy(conjunto->array[posicao],valor);
-    
-    conjunto->pos++;
-
-    return conjunto;
-}
-
-
-Lista lista_converte(Lista list, AVL tree) {
-    list = converte_aux(list,tree->arvore);
-    return list;
-}
-
-static Lista converte_aux(Lista list, NODO tree) {
-    if(tree != NULL) {
-        list = converte_aux(list,tree->left);
-        list = lista_insert(list,tree->string);
-        list = converte_aux(list,tree->right);   
-    }
-    return list;
-}
-
-
-Lista produtos_nao_comprados_totais(Lista list,AVL tree) {
-    list = produtos_nao_comprados_totais_aux(list,tree->arvore);
-    return list;
-}
-
-static Lista produtos_nao_comprados_totais_aux(Lista list, NODO tree) {
-    if(tree!=NULL) {
-        list = produtos_nao_comprados_totais_aux(list,tree->left);
-        if(tree->cont == NULL) list = lista_insert(list,tree->string);
-        list = produtos_nao_comprados_totais_aux(list,tree->right);  
-    }
-    return list;
-}
-
-
-int lista_getPos(Lista list) {
-    return list->pos;
-}
-
-
-char* lista_getNome(Lista list, int pos) {
-    char* novo = malloc(strlen(list->array[pos])+1);
-    strcpy(novo,list->array[pos]);
-    return novo;
-}
-
-
-Boolean existe_Lista(Lista list, char* valor) {
-    int i;
-    for(i = 0; i < list->pos; i++) {
-        if(strcmp(list->array[i],valor) == 0) return true;
-    }
-    return false;
-}
-
-
-
-Lista clientes_compraram_filial(Lista list,AVL tree) {
-    list = clientes_compraram_filial_aux(list,tree->arvore);
-    return list;
-}
-
-static Lista clientes_compraram_filial_aux(Lista list, NODO tree) {
-    if(tree!=NULL) {
-        list = clientes_compraram_filial_aux(list,tree->left);
-        if(tree->cont != NULL) list = lista_insert(list,tree->string);
-        list = clientes_compraram_filial_aux(list,tree->right);  
-    }
-    return list;
-}
-
-int lista_nr_elementos_diferentes(Lista a, Lista b) {
-    int i, resultado = 0;
-    for(i = 0; i < a->pos; i++) {
-        if(existe_Lista(b,a->array[i]) == false) resultado++; 
-    }
-    for(i = 0; i < b->pos; i++) {
-        if(existe_Lista(a,b->array[i]) == false) resultado++; 
-    }
-    return resultado;
 }
