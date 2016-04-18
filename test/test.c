@@ -11,67 +11,214 @@
 #include "./../src/headers/venda.h"
 
 
-int clientes(Cat_Clientes costumers, FILE *f_clients, char* file_name){
-       time_t begin, end;
-   double time_spent;
+#define Linhas_de_Vendas 0
+#define Total_de_Clientes_Registados 1
+#define Total_de_Codigos_de_Produtos 2
+#define Vendas_validas 3
+#define Total_de_Compradores_Diferentes 4
+#define Produtos_Comprados 5
+#define Produtos_Nunca_Comprados 6
+#define Clientes_Sem_Compras 7
+#define Vendas_de_Preco_Zero 8
+#define FACTURADO_TOTAL 9
+#define UNIDADES_VENDIDAS 10
+#define Filial_1 11
+#define Filial_2 12
+#define Filial_3 13
+#define MAXBUFFER 128
 
-   begin = clock();
 
-   char *information;
-   char line[MAXBUFFERCLIENTES];
+typedef struct lista{
+  int tipo;
+  double quantidade;
+  Lista next;
+}*Lista;
+
+Boolean testavendas(Lista lista,FILE *file,Cat_Produtos cat_produtos,Cat_Clientes cat_clientes){
+  int total=0;
+  char line[MAXBUFFER];
+  Lista aux;
+  int i;
+  Boolean verify;
+  int vendas_validas=0;
+  char* product;
+  double price;
+  int ammount; 
+  char type;
+  char* client;
+  int month;
+  int shop;
+  int qwerty;
+  char *information;
    
-   int clientes_validos = 0, total = 0;
+  Venda venda = initVenda();
+  
 
-   Cliente client = criaCliente();
-   while(fgets(line,MAXBUFFERCLIENTES,f_clients)) {
-      
+  while(fgets(line,MAXBUFFERVENDAS,file) && total < 1) {
+
       information = strtok(line,"\n\r");
-      
-      if(information != NULL) {
-         alteraCliente(client,information);   
-         costumers = insere_Cliente(costumers, client);   
-      
-         clientes_validos++;
+      information = strtok(information," ");
+      for(i = 0; information != NULL; i++) {
+         switch(i) {
+            case 0: product = information; break;
+            case 1: price = atof(information); break;
+            case 2: ammount = atoi(information);break; 
+            case 3: type = information[0];break;
+            case 4: client = information;break;
+            case 5: month = atoi(information);break;
+            case 6: shop = atoi(information); /*printf("shop: %d\n",shop);*/ break;
+            default: break;
+         }
+         information = strtok(NULL," ");
       }
 
-      total++;
+      venda = change_sale(venda,product,price,ammount,type,client,month,shop);
+      /* Verifica a existencia do produto e do cliente de uma dada venda */
+      
+      verify = validate_sale(cat_produtos,cat_clientes,venda);
+      /* Caso verifique adiciona á estrutura das vendas a venda validada nessa iteração */
+      if(verify) {
+         vendas_validas++;
+         total++;
+      } else {
+         total++;
+      }
+
    }
-   free_cliente(client);
-   end = clock();
-   time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-   
-   printf(" Nome do Ficheiro: %s\n",file_name);
-   printf(" Número de linhas lidas: %d\n",total);
-   printf(" Número de linhas válidas: %d\n",clientes_validos);
-   printf(" Tempo de Leitura: %f segundos\n",time_spent);
-   putchar('\n');
 
 
-   fclose(f_clients);
-   
-   return costumers;
+
+
+
+  for(aux=lista;aux!=NULL;aux=aux->next)
+    if(aux->tipo==Linhas_de_Vendas) break;
+    qwerty=aux->quantidade;
+  printf("Numero de vendas lidas:%d\nNumero de vendas esperadas:%f\n",total,aux->quantidade );
+  for(aux=lista;aux!=NULL;aux=aux->next)
+    if(aux->tipo==Vendas_validas) break;
+  printf("Numero de vendas validas:%d\nNumero de vendas validas esperados:%f\n",vendas_validas,aux->quantidade );
+
+  return (total==qwerty && vendas_validas==aux->quantidade);
 }
 
 
+Boolean testaclientes(Lista lista,FILE *file){
+  int total=0;
+  char line[MAXBUFFER];
+  Lista aux;
+  while(fgets(line,MAXBUFFER,file)) {
+          if(line != NULL) {
+             total++; 
+          }
+   }
+  for(aux=lista;aux!=NULL;aux=aux->next)
+    if(aux->tipo==Total_de_Clientes_Registados) break;
+
+  printf("Numero de Clientes registados:%d\nNumero de clientes esperados:%f\n",total,aux->quantidade );
+
+  return (total==aux->quantidade);
+}
+
+Boolean testaprodutos(Lista lista,FILE *file){
+  int total=0;
+  char line[MAXBUFFER];
+  Lista aux;
+  while(fgets(line,MAXBUFFER,file)) {
+          if(line != NULL)
+            total++;
+    }
+
+   for(aux=lista;aux!=NULL;aux=aux->next)
+    if(aux->tipo==Total_de_Codigos_de_Produtos) break;
+
+  printf("Numero de Produtos registados:%d\nNumero de Produtos esperados:%f\n",total,aux->quantidade );
+
+  return (total==aux->quantidade);
+}
+
+
+
+
+double get_quant(char *information){
+  int i,j=0;
+  double n;
+  for(i=0;information[i] && information[i]!=':';i++);
+  i++;
+  for(j=0;information[i];i++)
+    information[j++]=information[i];
+  
+  information[j]='\0';
+  n=atof(information);
+  return n;
+}
+
+Lista insere_lista(Lista lista,char *information){
+  Lista new=(Lista) malloc(sizeof(struct lista));
+  Lista aux=lista;
+  new->tipo=information[0]-'A';
+  new->quantidade=get_quant(information);
+  new->next=NULL;
+  
+  if(aux==NULL) return new;
+  for(;aux->next!=NULL;aux=aux->next);
+  aux->next=new;
+
+  return lista;
+}
+
+
+Lista load_testes(FILE *file_dados,char *f_nome){
+    char *information;
+    char line[MAXBUFFER];
+    Lista lista=NULL; 
+      while(fgets(line,MAXBUFFER,file_dados)) {
+        if(line[0]=='#');  
+        else{
+          information = strtok(line,"\n\r");
+          if(information != NULL) {
+             lista=insere_lista(lista,information);
+              
+          }
+        }
+   }
+   return lista;
+}
+
+
+
 int leitura(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Filial filiais[3]){
-    int input;
+    Boolean n;
     char f_clientes[50];
     char f_produtos[50];
     char f_vendas[50];
+    char f_dados[50];
     FILE *file_clientes = NULL;
     FILE *file_produtos = NULL;
     FILE *file_vendas = NULL;
+    FILE *file_dados =NULL;
 
 
             strcpy(f_clientes,"./data/Clientes.txt");
             strcpy(f_produtos,"./data/Produtos.txt");
             strcpy(f_vendas,"./data/Vendas_1M.txt");
-            
+            strcpy(f_dados,"./test/dados_teste.txt");
+
             file_clientes = fopen(f_clientes,"r");
             file_produtos = fopen(f_produtos,"r");
             file_vendas = fopen(f_vendas,"r");
-            
-            leitura_ficheiros(clientes,produtos,faturas,filiais,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
+            file_dados =fopen(f_dados,"r");
+
+    Lista testes=load_testes(file_dados,f_dados);
+
+    n=testaclientes(testes,file_clientes);
+    if(n) printf("##Teste passado!\n");
+    else printf("##Teste falhado!\n");
+    n=testaprodutos(testes,file_produtos);
+    if(n) printf("##Teste passado!\n");
+    else printf("##Teste falhado!\n");
+    n=testavendas(testes,file_vendas,produtos,clientes);
+    if(n) printf("##Teste passado!\n");
+    else printf("##Teste falhado!\n");
     return 1;
 }
 
@@ -94,8 +241,9 @@ int main(){
         for(i = 0; i < 3; i++) {
             filiais[i] = init_Filial();
         }
+
+        querie_1(produtos,clientes,faturacao,filiais,1);
         leitura(produtos,clientes,faturacao,filiais);
-        printf("Produtos\n");
         
 
         remove_Catalogo_Clientes(clientes);

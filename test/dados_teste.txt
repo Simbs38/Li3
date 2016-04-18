@@ -1,18 +1,16 @@
-//Ficheiro de Vendas: Vendas_1M.txt
-**Linhas de Vendas: 1000000
-**Total de Clientes Registados: 16384
-**Total de codigos de Produtos: 171008
-**Vendas validas: 891108
-**Total de compradores diferentes = 16384
-**Produtos comprados = 170080
-**Produtos nunca Comprados : 928
-**Clientes sem compras : 0
-**Vendas de Preco Zero = 13
-**FACTURADO TOTAL = 4.47655889105209E10
-**UNIDADES VENDIDAS = 89523041
-
-//VENDAS POR FILIAL
-
-**Filial 1 = 296.989
-**Filial 2 = 296.799
-**Filial 3 = 297.320 
+#Ficheiro de Vendas: Vendas_1M.txt
+A-Linhas de Vendas: 1000000
+B-Total de Clientes Registados: 16384
+C-Total de codigos de Produtos: 171008
+D-Vendas validas: 891108
+E-Total de compradores diferentes: 16384
+F-Produtos comprados: 170080
+G-Produtos nunca Comprados : 928
+H-Clientes sem compras : 0
+I-Vendas de Preco Zero: 13
+J-FACTURADO TOTAL: 44765588910.5209
+K-UNIDADES VENDIDAS: 89523041
+#Vendas por filiais
+L-Filial 1 : 296.989
+M-Filial 2 : 296.799
+N-Filial 3 : 297.320
