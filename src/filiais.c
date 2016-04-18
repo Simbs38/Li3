@@ -43,9 +43,9 @@ struct heap_filial {
 };
 
 
-Nodo_Clientes init_Nodo_Clientes();
-Lista_Produtos init_Lista_Produtos();
-Nodo_Produtos init_Nodo_Produtos();
+static Nodo_Clientes init_Nodo_Clientes();
+static Lista_Produtos init_Lista_Produtos();
+static Nodo_Produtos init_Nodo_Produtos();
 HEAP converte_Heap_clientes(HEAP h, AVL a, char ordenacao);
 HEAP converte_Heap_clientes_aux(HEAP h, NODO n, char ordenacao);
 Boolean existe_Conj_Filiais(Conj_Filiais c, char* valor);
@@ -181,7 +181,7 @@ Boolean filial_existe_Produto(Filial f,char* produto) {
  * Inicia um Nodo de produtos.
  * @return Nodo_Produtos criado.
  */
-Nodo_Produtos init_Nodo_Produtos() {
+static Nodo_Produtos init_Nodo_Produtos() {
 	
 	Nodo_Produtos produto = (Nodo_Produtos) malloc(sizeof(struct nodo_produtos));
 	
@@ -214,7 +214,7 @@ int nr_clientes_de_um_produto(Filial f, char* produto) {
  * Inicia um Nodo de clientes.
  * @return Nodo_Clientes criado.
  */
-Nodo_Clientes init_Nodo_Clientes() {
+static Nodo_Clientes init_Nodo_Clientes() {
 	int i;
 	Nodo_Clientes cliente = (Nodo_Clientes) malloc(sizeof(struct nodo_clientes));
 	for(i = 0; i < 12; i++) {
@@ -229,7 +229,7 @@ Nodo_Clientes init_Nodo_Clientes() {
  * Inicia uma nova Lista_Produtos.
  * @return Lista_Produtos criada.
  */
-Lista_Produtos init_Lista_Produtos() {
+static Lista_Produtos init_Lista_Produtos() {
 	Lista_Produtos l = (Lista_Produtos) malloc(sizeof(struct lista_produtos));
 	l->quantidade = 0;
 	l->faturacao = 0;

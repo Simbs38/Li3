@@ -1,14 +1,8 @@
 #include "./headers/leituras.h"
 
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
-
-
-#define MAXBUFFERCLIENTES 32
-#define MAXBUFFERPRODUTOS 64
-#define MAXBUFFERVENDAS 128
 
 static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, char* file_name);
 static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char* file_name);

@@ -4,6 +4,7 @@
 #include "avl.h"
 #include "global.h"
 #include "heap.h"
+#include "array_dinamico.h"
 
 typedef struct catalogo *Catalogo;
 typedef struct array_catalogo *Array;
