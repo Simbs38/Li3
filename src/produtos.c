@@ -71,7 +71,7 @@ int total_Produtos_letra(Cat_Produtos products, char letra) {
 
 
 void remove_Catalogo_Produtos(Cat_Produtos products) {
-  remove_Catalogo(products->catalogo);
+  remove_Catalogo(products->catalogo,NULL);
   free(products);
 }
 

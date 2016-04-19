@@ -97,10 +97,11 @@ int querie_11(Filial filiais[]);
 
 /**
  * Determina o número de clientes registados que não realizaram compras bem como o número de produtos que ninguém comprou.
- * @param Filiais filial
- * @return int
+ * @param Filiais filial.
+ * @param Faturacao faturas.
+ * @return int.
 */
-int querie_12(Filial filiais[]);
+int querie_12(Filial filiais[], Faturacao faturas);
 
 /**
  *Determinar a lista ordenada de códigos de clientes que realizaram compras em todas as filiais.

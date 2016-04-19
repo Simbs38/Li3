@@ -15,6 +15,8 @@ typedef struct nodeAVL *NODO;
 typedef void* Estrutura;
 typedef char* Valor;
 
+typedef void(*Funcao)(void*);
+
 
 /**
  * Inicia uma nova AVL.
@@ -65,8 +67,9 @@ int avl_count(AVL tree);
 /**
  * Função com o objetivo de limpar da memória uma dada AVL.
  * @param nodo AVL a limpar da memória.
+ * @param f Funcao que liberta a memória da estrutura associada.
  */
-void avl_free(AVL node);
+void avl_free(AVL node, Funcao f);
 
 /**
  * Devolve a estrutura associada a um nodo de uma AVL passada como argumento.

@@ -14,19 +14,18 @@ struct array_catalogo {
 
 
 Catalogo init_Catalogo() {
-    Catalogo cat = (Catalogo) malloc(sizeof(struct catalogo));
-    int i;
-    for(i = 0; i < NR_LETRAS; i++) {
-        cat->indice[i] = initAVL();
-    }
-    return cat;
+  Catalogo cat = (Catalogo) malloc(sizeof(struct catalogo));
+  int i;
+  for(i = 0; i < NR_LETRAS; i++) {
+      cat->indice[i] = initAVL();
+  }
+  return cat;
 }
 
 
 Boolean existe_Catalogo(Catalogo catalogo, char* key) {
    int index = key[0] - 'A';
    Boolean existe = avl_lookUp(catalogo->indice[index],key);
-
    return existe;
 }
 
@@ -34,7 +33,6 @@ Boolean existe_Catalogo(Catalogo catalogo, char* key) {
 Catalogo insere_Catalogo(Catalogo catalogo, char* key, void* estrutura) {
     int index = key[0] - 'A';
     catalogo->indice[index] = avl_insert(catalogo->indice[index], key, estrutura);
-    
     return catalogo;
 }
 
@@ -94,11 +92,11 @@ AVL catalogo_getAVL(Catalogo catalogo, int index) {
 }
 
 
-void remove_Catalogo(Catalogo catalogo) {
+void remove_Catalogo(Catalogo catalogo, Funcao f) {
   int i;
-  
+
   for(i = 0; i < NR_LETRAS; i++) {
-    avl_free(catalogo->indice[i]);
+    avl_free(catalogo->indice[i],f);
   }
 }
 

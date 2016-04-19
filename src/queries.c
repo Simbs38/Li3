@@ -500,6 +500,8 @@ int querie_9(Filial filiais[NR_FILIAIS]){
 		valores = convert_Heap_Lista(valores,heap,'Q');
 		apresenta_Dados_Filial(valores);
 		free_Conj_Filiais(valores);
+		free_HEAP(heap);
+
 		return estado;
 	}
 	return estado;
@@ -513,15 +515,15 @@ int querie_10(Filial filiais[NR_FILIAIS]){
 	int estado = 1, input, nr = 0;
 	char n_produtos[10];
 	
-	Conj_Filiais valores_1 = init_Conj_Filiais(100);
+	Conj_Filiais valores_1 = init_Conj_Filiais(1000);
 	HEAP heap_1 = init_HEAP();
 	heap_1 = heap_produtos_mais_vendidos(filiais[0],heap_1);
 	
-	Conj_Filiais valores_2 = init_Conj_Filiais(100);
+	Conj_Filiais valores_2 = init_Conj_Filiais(1000);
 	HEAP heap_2 = init_HEAP();
 	heap_2 = heap_produtos_mais_vendidos(filiais[1],heap_2);
 	
-	Conj_Filiais valores_3 = init_Conj_Filiais(100);
+	Conj_Filiais valores_3 = init_Conj_Filiais(1000);
 	HEAP heap_3 = init_HEAP();
 	heap_3 = heap_produtos_mais_vendidos(filiais[2],heap_3);
 
@@ -529,7 +531,7 @@ int querie_10(Filial filiais[NR_FILIAIS]){
 	printf( "_____________________________________________\n" );
 	printf( "   N Produtos mais comprados - QUERIE 10\n\n" );
 
-	while(nr < 1 || nr > 171008) {
+	while(nr < 1 || nr > 140000) {
 	printf("\nIndique o número de produtos mais vendidos que pretende ver >> ");
 		input = scanf("%s",n_produtos);
 		nr = atoi(n_produtos);
@@ -578,6 +580,9 @@ int querie_10(Filial filiais[NR_FILIAIS]){
             case 'V': free_Conj_Filiais(valores_1);
                       free_Conj_Filiais(valores_2);
                       free_Conj_Filiais(valores_3);
+                      free_HEAP(heap_1);
+                      free_HEAP(heap_2);
+                      free_HEAP(heap_3);
             		  return estado; break;
 
             case '1': nr_pagina = 1;
@@ -622,34 +627,53 @@ int querie_11(Filial filiais[NR_FILIAIS]){
 	valores = lista_top3(valores,heap,'F');
 	apresenta_Dados_Filial(valores);
 	free_Conj_Filiais(valores);
+	free_HEAP(heap);
 		
 	return estado;
 }
 
 
 
-int querie_12(Filial filiais[NR_FILIAIS]){
-	int estado = 1, input;
+int querie_12(Filial filiais[NR_FILIAIS], Faturacao faturas){
+ 
+	int estado = 1, input, i, nr_clientes = 0, nr_produtos;
 	char opcao[10];
+	char* client;
+	Conj_Faturas nao_comprados = init_Lista_Faturacao(1000);
+	nao_comprados = faturas_produtos_nao_comprados_totais(nao_comprados,faturas);
+	nr_produtos = faturacao_getPos(nao_comprados);
+	free_Conj_Faturas(nao_comprados);
 
-	system("clear");
-			printf( "_____________________________________________\n" );
-			printf( "\n  \n");
-			printf("Total de clientes sem compras: %d\n",21);
-			printf("Total de produtos não comprados: %d\n",21);
-			printf( "_____________________________________________\n" );
-			printf( "  1 - Voltar\t\t0 - Sair:\n" );
-			printf( "_____________________________________________\n" );
-			
-			
-			printf("Escolha uma opção >> ");
-			input = scanf("%s",opcao);
-			
-			switch(opcao[0]) {
-				case '1': return estado; break;
-				case '0': return 0; break;
-				default: break;
-			}	
+	Conj_Filiais clientes_nao_comprados_total = init_Conj_Filiais(1000);
+	clientes_nao_comprados_total = converte_total_clientes(clientes_nao_comprados_total,filiais[0]);
+
+	for(i = 0; i < filial_getPos(clientes_nao_comprados_total); i++) {
+		client = filial_get_elemento_lista(clientes_nao_comprados_total,i); 
+		if(verifica_cliente_comprado(filiais[0],client) == false && verifica_cliente_comprado(filiais[1],client) == false && verifica_cliente_comprado(filiais[2],client) == false) nr_clientes++;
+	}
+	free_Conj_Filiais(clientes_nao_comprados_total);
+
+		system("clear");
+		printf( "_____________________________________________\n" );
+		printf( "   Elementos não comprados - QUERIE 12\n\n" );
+		printf(" Número de Produtos não comprados: %d\n",nr_produtos);
+		printf(" Número de Clientes que não compraram: %d\n", nr_clientes);
+		printf("_____________________________________________\n" );
+		printf( "  V - Voltar\t\tQ - Sair:\n" );
+		printf( "_____________________________________________\n" );
+
+		printf("\nEscolha uma opção >> ");
+		input = scanf("%s",opcao);
+		
+		switch(opcao[0]) {
+			case 'Q': 
+	  				  return 0; 
+	  				  break;
+
+			case 'V': return estado; break;
+
+			default: break;
+		}	
 	return estado;
 }
 

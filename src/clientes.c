@@ -73,7 +73,7 @@ int total_Clientes_letra(Cat_Clientes clients, char letra) {
 
 
 void remove_Catalogo_Clientes(Cat_Clientes clients) {
-  remove_Catalogo(clients->catalogo);
+  remove_Catalogo(clients->catalogo,NULL);
 }
 
 Catalogo get_Catalogo_Clientes(Cat_Clientes clientes) {

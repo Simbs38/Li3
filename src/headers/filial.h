@@ -88,7 +88,6 @@ int nr_total_unidades_compradas(Filial f, char* cliente, int mes);
  */
 Boolean verifica_cliente_comprado(Filial f, char* c);
 
-
 /**
  * Retorna um Boolean referente à existência de um dado cliente.
  * @param f Filial.
@@ -155,6 +154,14 @@ int filiais_nr_elementos_diferentes(Conj_Filiais a, Conj_Filiais b);
  * @return HEAP criada.
  */
 HEAP init_HEAP();
+
+/**
+ * Remove da memória uma dada HEAP.
+ *@param h HEAP a limpar da memória.
+ */
+void free_HEAP(HEAP h);
+
+int heap_tamanho(HEAP h);
 
 
 /**
@@ -229,5 +236,9 @@ Conj_Filiais lista_clientes_compraram_filial(Conj_Filiais c, Filial f);
  * @return Conj_Filiais com os valores.
  */
 Conj_Filiais lista_clientes_de_produto(Filial f, char* produto, char promo);
+
+
+Conj_Filiais converte_total_clientes(Conj_Filiais c, Filial f);
+
 
 #endif /* _filial_h_ */

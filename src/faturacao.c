@@ -24,12 +24,12 @@ struct conjunto_faturas {
 
 
 static Fatura_Produto init_Fatura_Produto(Fatura_Produto fatura);
+static void free_Fatura_Produto(void* n);
 
 
 Faturacao init_Faturacao() {
 	int i;
 	Faturacao fat = (Faturacao) malloc(sizeof(struct faturacao));
-		fat->faturas = init_Catalogo();
 		for(i = 0; i < 12; i++) {
 			fat->total_faturado[i] = 0;
 			fat->total_vendas[i] = 0;
@@ -45,7 +45,7 @@ Faturacao cria_Dados_Faturacao(Faturacao fat, Cat_Produtos produtos) {
 
 
 void free_Faturacao(Faturacao faturacao) {
-	remove_Catalogo(faturacao->faturas);
+	remove_Catalogo(faturacao->faturas,free_Fatura_Produto);
 	free(faturacao);
 }
 
@@ -62,6 +62,12 @@ static Fatura_Produto init_Fatura_Produto(Fatura_Produto fatura) {
 		}
 	}
 	return fatura;
+}
+
+
+static void free_Fatura_Produto(void* n) {
+	Fatura_Produto fatura = (Fatura_Produto) n;
+	free(fatura);
 }
 
 

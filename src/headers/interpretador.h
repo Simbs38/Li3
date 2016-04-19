@@ -22,6 +22,6 @@
  * @param int estado.
  * @return int.
  */
-int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas,Filial filiais[], int estado);
+int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas, Filial filiais[], int estado);
 
 #endif /* _interpretador_h_ */

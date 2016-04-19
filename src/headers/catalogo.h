@@ -47,8 +47,9 @@ Catalogo atualiza_Catalogo(Catalogo catalogo, char* key, void* estrutura);
 /**
  * Liberta o espaço alocado na memória pelo Catálogo.
  * @param catalogo Catálogo a libertar.
+ * @param f Funcao responsavel por remover a estrutura associada.
  */
-void remove_Catalogo(Catalogo catalogo);
+void remove_Catalogo(Catalogo catalogo, Funcao f);
 
 /**
  * Verifica se um valor existe no Catálogo retornando verdadeiro se existir e false no caso contrário.

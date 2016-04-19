@@ -30,7 +30,7 @@ static NODO atualiza_node(NODO node, char* value, void* estrutura);
 static NODO node_insert(NODO node, Valor string, Estrutura estrutura);
 static NODO tree_clone(NODO node);
 static Estrutura node_getEstrutura(NODO node, Valor value);
-static void tree_free(NODO node);
+static void tree_free(NODO node, Funcao f);
 
 
 AVL initAVL() {
@@ -105,8 +105,8 @@ void* getCont(NODO n) {
 }
 
 
-void avl_free(AVL nodo) {
-    tree_free(nodo->arvore);
+void avl_free(AVL nodo, Funcao f) {
+    tree_free(nodo->arvore,f);
     free(nodo);
 }
 
@@ -262,10 +262,13 @@ static Estrutura node_getEstrutura(NODO node, Valor value) {
     }
 }
 
-static void tree_free(NODO node) {
+static void tree_free(NODO node, Funcao f) {
     if(node != NULL) {
-        tree_free(node->left);
-        tree_free(node->right);
+        tree_free(node->left,f);
+        tree_free(node->right,f);
+        if(node->cont != NULL) {
+            f(node->cont);
+        }
         free(node);
     }
 }

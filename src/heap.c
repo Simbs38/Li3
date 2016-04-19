@@ -190,8 +190,11 @@ int heap_count(Heap heap){
 }
 
 void heap_free(Heap heap){
+    int i;
+    for(i = 0; i < heap->pos; i++) {
+        free(heap->produto[i]);
+    }
     free(heap->quantidade);
     free(heap->custo);
-    free(heap->produto);
     free(heap);
 }
