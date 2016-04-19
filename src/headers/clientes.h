@@ -86,9 +86,10 @@ void alteraCliente(Cliente client, char *info);
 /**
  * Função que devolve o nome de um cliente.
  * @param client Cliente a consultar o nome.
+ * @param novo char* a colocar o nome.
  * @return char* com uma copia do nome do cliente.
  */
-char* getNomeCliente(Cliente client);
+char* getNomeCliente(Cliente client, char* novo);
 
 /**
  * Função com o objetivo de limpar da memória um cliente.

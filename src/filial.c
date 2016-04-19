@@ -76,8 +76,6 @@ Filial cria_Dados_Filial(Filial filial, Cat_Produtos produtos, Cat_Clientes clie
  */
 Filial init_Filial() {
 	Filial f = (Filial) malloc(sizeof(struct filial));
-	f->clientes = init_Catalogo(26);
-	f->produtos = init_Catalogo(26);
 	return f;
 }
 
@@ -89,8 +87,8 @@ Filial init_Filial() {
  */
 Filial adiciona_Venda_Filial(Filial f, Venda v) {
 	
-	char* prod = getNomeProduto(getProduto(v));
-	char* cli = getNomeCliente(getCliente(v));
+	char* prod = getNomeProduto(getProduto(v),prod);
+	char* cli = getNomeCliente(getCliente(v),cli);
 	int quant = getQuantidade(v);
 	char promocao = getPromocao(v);
 	int promo = (promocao == 'N') ? NORMAL : PROMOCAO;
@@ -99,21 +97,26 @@ Filial adiciona_Venda_Filial(Filial f, Venda v) {
 	double faturado = quant * price;
 	
 	/* INFO DOS PRODUTOS */
-
 	
 	Nodo_Produtos nodo_p = getEstrutura_Catalogo(f->produtos,prod);
 	
 	if(!nodo_p) {
 		nodo_p = init_Nodo_Produtos();
-	}
+		nodo_p->quantidade += quant;
+
+		if(promo == NORMAL && (existe_Conj_Filiais(nodo_p->clientes_N,cli) == false)) nodo_p->clientes_N = adiciona_Nome(nodo_p->clientes_N,cli);
+		else if(existe_Conj_Filiais(nodo_p->clientes_P,cli) == false) nodo_p->clientes_P = adiciona_Nome(nodo_p->clientes_P,cli);
+		
+		f->produtos = atualiza_Catalogo(f->produtos,prod,nodo_p);
 	
+	}else {
 	nodo_p->quantidade += quant;
 	
 	if(promo == NORMAL && (existe_Conj_Filiais(nodo_p->clientes_N,cli) == false)) nodo_p->clientes_N = adiciona_Nome(nodo_p->clientes_N,cli);
 	else if(existe_Conj_Filiais(nodo_p->clientes_P,cli) == false) nodo_p->clientes_P = adiciona_Nome(nodo_p->clientes_P,cli);
 	
-	f->produtos = insere_Catalogo(f->produtos,prod,nodo_p);
-	
+	f->produtos = atualiza_Catalogo(f->produtos,prod,nodo_p);
+	}
 	
 	/* INFO DOS CLIENTES */
 
@@ -134,15 +137,21 @@ Filial adiciona_Venda_Filial(Filial f, Venda v) {
 
 	prod_c->faturacao += faturado;
 	prod_c->quantidade += quant;
-	strcpy(prod_c->produto,prod);
+	strncpy(prod_c->produto,prod,7);
 
 	nodo_c->meses_produtos[mes] = avl_insert(nodo_c->meses_produtos[mes],prod,prod_c);
 
-	f->clientes = insere_Catalogo(f->clientes,cli,nodo_c);
+	f->clientes = atualiza_Catalogo(f->clientes,cli,nodo_c);
 
 	return f;
 }
 
+
+void free_Filial(Filial f) {
+	remove_Catalogo(f->clientes);
+	remove_Catalogo(f->produtos);
+	free(f);
+}
 
 Boolean verifica_cliente_comprado(Filial f, char* c) {
 	Nodo_Clientes n = getEstrutura_Catalogo(f->clientes,c);
@@ -223,6 +232,12 @@ Conj_Filiais init_Conj_Filiais(int n) {
 Conj_Filiais adiciona_Nome(Conj_Filiais c, char* nome) {
 	c->lista = adiciona_array(c->lista,nome);
 	return c;
+}
+
+
+void free_Conj_Filiais(Conj_Filiais c) {
+	free_Array(c->lista);
+	free(c);
 }
 
 

@@ -130,6 +130,12 @@ Conj_Faturas faturas_nao_comprado_filial(Conj_Faturas conjunto, Conj_Faturas nao
 Conj_Faturas adiciona_Conjunto(Conj_Faturas conjunto, char* info);
 
 /**
+ * Remove da memória um dado Conj_Faturas.
+ *@param c Conj_Faturas a limpar da memória.
+ */
+void free_Conj_Faturas(Conj_Faturas c);
+
+/**
  * Devolve o Conj_Faturas com os produtos nunca comprados.
  * @param conjuto Conj_Faturas.
  * @param faturacao Faturacao com os dados a consultar.

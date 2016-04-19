@@ -36,6 +36,15 @@ Catalogo insere_Catalogo(Catalogo catalogo, char* key, void* estrutura);
 Catalogo clone_Catalogo(Catalogo catalogo);
 
 /**
+ * Atualiza uma estrutura num Catálogo retornando o catalogo atualizado.
+ * @param Catalogo catálogo.
+ * @param key char* a indicar onde atualizar.
+ * @param estrutura void* estrutura a inserir no nodo.
+ * @return Catalogo atualizado.
+ */
+Catalogo atualiza_Catalogo(Catalogo catalogo, char* key, void* estrutura);
+
+/**
  * Liberta o espaço alocado na memória pelo Catálogo.
  * @param catalogo Catálogo a libertar.
  */
@@ -94,6 +103,13 @@ Array init_Array(int capacidade);
  * @return Array com o elemento adicionado.
  */
 Array adiciona_array(Array lista, char* info);
+
+
+/**
+ * Remove da memória um dado Array.
+ *@param list Lista a limpar da memória.
+ */
+void free_Array(Array lista);
 
 /**
  * Converte os elementos de um Catalogo começados por uma dada letra numa lista.

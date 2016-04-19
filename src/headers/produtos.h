@@ -89,9 +89,10 @@ Produto alteraProduto(Produto product, char *info);
 /**
  * Devolve uma cópia do código de um produto.
  * @param Produto product.
+ * @param novo char* a colocar o código.
  * @return char* com a cópia do nome.
  */
-char* getNomeProduto(Produto product);
+char* getNomeProduto(Produto product, char* novo);
 
 /**
  * Liberta o espaço alocado por um produto.
@@ -114,6 +115,12 @@ Conj_Produtos init_Conjunto(int capacidade);
  * @return Conj_Produtos.
  */
 Conj_Produtos converte_Produtos(Conj_Produtos lista, Cat_Produtos products, char letra);
+
+/**
+ * Remove da memória um dado Conj_Produtos.
+ *@param c Conj_Produtos a limpar da memória.
+ */
+void free_Conj_Produtos(Conj_Produtos c);
 
 /**
  * Prepara os dados para serem apresentados.

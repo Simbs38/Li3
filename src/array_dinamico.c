@@ -80,6 +80,14 @@ Boolean existe_Lista(Lista list, char* valor) {
     return false;
 }
 
+void free_Lista(Lista list) {
+    int i;
+    for(i = 0; i < list->pos; i++) {
+        free(list->array[i]);
+    }
+    free(list);
+}
+
 
 int lista_getPos(Lista list) {
     return list->pos;

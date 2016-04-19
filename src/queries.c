@@ -77,6 +77,7 @@ int querie_2(Cat_Produtos produtos) {
 			char letra = toupper(opcao[0]);
 			lista_produtos = converte_Produtos(lista_produtos,produtos,letra);
 			apresenta_Produtos(lista_produtos);
+			free_Conj_Produtos(lista_produtos);
 			return estado;
 		}
 	}
@@ -223,6 +224,7 @@ int querie_4(Faturacao faturas) {
 		if(opcao[0] == '1') { 
 			nao_comprados = faturas_produtos_nao_comprados_totais(nao_comprados,faturas);
 			apresenta_faturas(nao_comprados);
+			free_Conj_Faturas(nao_comprados);
 			return estado;
 		}		
 		else if(opcao[0] == '2') { 
@@ -255,6 +257,10 @@ int querie_4(Faturacao faturas) {
 			if(filial == 2) apresenta_faturas(nao_comprados_2);
 			if(filial == 3) apresenta_faturas(nao_comprados_3);
 			
+			free_Conj_Faturas(totais);
+			free_Conj_Faturas(nao_comprados_1);
+			free_Conj_Faturas(nao_comprados_2);
+			free_Conj_Faturas(nao_comprados_3);
 			return estado;
 		}
 	}
@@ -404,6 +410,9 @@ int querie_7(Filial filiais[NR_FILIAIS]){
 	}
 	
 	apresenta_Dados_Filial(comprados_total);
+
+	free_Conj_Filiais(comprados_total);
+	free_Conj_Filiais(comprados_1);
 	
 	return estado;
 }
@@ -490,6 +499,7 @@ int querie_9(Filial filiais[NR_FILIAIS]){
 		for(i = 0; i < 3; i++) heap = lista_codigos_de_clientes(filiais[i],heap,cliente,m,'Q');
 		valores = convert_Heap_Lista(valores,heap,'Q');
 		apresenta_Dados_Filial(valores);
+		free_Conj_Filiais(valores);
 		return estado;
 	}
 	return estado;
@@ -565,7 +575,10 @@ int querie_10(Filial filiais[NR_FILIAIS]){
         input = scanf("%s",opcao);
 
         switch(opcao[0]) {
-            case 'V': return estado; break;
+            case 'V': free_Conj_Filiais(valores_1);
+                      free_Conj_Filiais(valores_2);
+                      free_Conj_Filiais(valores_3);
+            		  return estado; break;
 
             case '1': nr_pagina = 1;
 
@@ -593,23 +606,23 @@ int querie_11(Filial filiais[NR_FILIAIS]){
 	Conj_Filiais valores = init_Conj_Filiais(5);	
 	HEAP heap = init_HEAP();
 
-	while(estado) {
-		system("clear");
-		printf( "_____________________________________________\n" );
-		printf( "   Top 3 de um Cliente - QUERIE 11\n\n" );
+	system("clear");
+	printf( "_____________________________________________\n" );
+	printf( "   Top 3 de um Cliente - QUERIE 11\n\n" );
 
 		
-		while (existe == false) {
-			printf(" Insira o codigo do cliente >> ");
-			input = scanf("%s",cliente);
-			existe = filial_existe_Cliente(filiais[0],cliente);
-			if(!existe) printf("O Cliente não é válido, insira de novo\n\n");
-		}
+	while (existe == false) {
+		printf(" Insira o codigo do cliente >> ");
+		input = scanf("%s",cliente);
+		existe = filial_existe_Cliente(filiais[0],cliente);
+		if(!existe) printf("O Cliente não é válido, insira de novo\n\n");
+	}
 		
-		for(i = 0; i < 3; i++) heap = top3_clientes(filiais[i],heap,cliente,'F');
-		valores = lista_top3(valores,heap,'F');
-		apresenta_Dados_Filial(valores);
-	}	
+	for(i = 0; i < 3; i++) heap = top3_clientes(filiais[i],heap,cliente,'F');
+	valores = lista_top3(valores,heap,'F');
+	apresenta_Dados_Filial(valores);
+	free_Conj_Filiais(valores);
+		
 	return estado;
 }
 

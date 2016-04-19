@@ -14,7 +14,6 @@ struct array_catalogo {
 
 
 Catalogo init_Catalogo() {
-
     Catalogo cat = (Catalogo) malloc(sizeof(struct catalogo));
     int i;
     for(i = 0; i < NR_LETRAS; i++) {
@@ -37,6 +36,15 @@ Catalogo insere_Catalogo(Catalogo catalogo, char* key, void* estrutura) {
     catalogo->indice[index] = avl_insert(catalogo->indice[index], key, estrutura);
     
     return catalogo;
+}
+
+
+Catalogo atualiza_Catalogo(Catalogo catalogo, char* key, void* estrutura) {
+  int index = key[0] - 'A';
+    catalogo->indice[index] = atualiza_avl(catalogo->indice[index], key, estrutura);
+    
+    return catalogo;
+
 }
 
 
@@ -70,7 +78,7 @@ Catalogo clone_Catalogo(Catalogo catalogo) {
   for(i = 0; i < NR_LETRAS; i++) {
     novo->indice[i] = avl_clone(catalogo->indice[i]);
   }
-  
+
   return novo;
 }
 
@@ -120,6 +128,10 @@ Array adiciona_array(Array lista,char* info) {
   return lista;
 }
 
+void free_Array(Array lista) {
+  free_Lista(lista->list);
+  free(lista);
+}
 
 Array catalogo_produtos_nao_comprados_totais(Array lista, Catalogo catalogo) {
   int i;

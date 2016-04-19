@@ -18,7 +18,6 @@ struct conjunto_produtos {
 };
 
 
-
 Cat_Produtos init_cat_produtos() {
   Cat_Produtos catalog = (Cat_Produtos) malloc(sizeof(struct catalogo_produtos));
   catalog->catalogo = init_Catalogo();
@@ -32,10 +31,9 @@ Produto criaProduto() {
 }
 
 
-char* getNomeProduto(Produto product) {
-  char* novo;
-  novo = malloc(10);
-  strcpy(novo,product->prod);
+char* getNomeProduto(Produto product, char* novo) {
+  novo = malloc(7*sizeof(char));
+  strncpy(novo,product->prod,7);
   return novo;
 }
 
@@ -91,16 +89,22 @@ Catalogo get_Catalogo_Produtos(Cat_Produtos products) {
 }
 
 
+Conj_Produtos init_Conjunto(int capacidade) {
+  Conj_Produtos conjunto = (Conj_Produtos) malloc(sizeof(struct conjunto_produtos));
+  conjunto->lista = init_Array(capacidade);
+  return conjunto;
+}
+
+
 Conj_Produtos converte_Produtos(Conj_Produtos conjunto, Cat_Produtos products, char letra) {
   conjunto->lista = lista_catalogo_letra(conjunto->lista,products->catalogo,letra);
   return conjunto;
 }
 
 
-Conj_Produtos init_Conjunto(int capacidade) {
-  Conj_Produtos conjunto = (Conj_Produtos) malloc(sizeof(struct conjunto_produtos));
-  conjunto->lista = init_Array(capacidade);
-  return conjunto;
+void free_Conj_Produtos(Conj_Produtos c) {
+  free_Array(c->lista);
+  free(c);
 }
 
 

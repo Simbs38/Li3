@@ -25,10 +25,9 @@ void alteraCliente(Cliente client, char *info) {
 }
 
 
-char* getNomeCliente(Cliente client) {
-  char* novo;
-  novo = malloc(10);
-  strcpy(novo,client->name);
+char* getNomeCliente(Cliente client, char* novo) {
+  novo = malloc(6*sizeof(char));
+  strncpy(novo,client->name,6);
   return novo;
 }
 

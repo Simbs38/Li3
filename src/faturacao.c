@@ -23,7 +23,7 @@ struct conjunto_faturas {
 };
 
 
-static Fatura_Produto init_Fatura_Produto();
+static Fatura_Produto init_Fatura_Produto(Fatura_Produto fatura);
 
 
 Faturacao init_Faturacao() {
@@ -50,9 +50,9 @@ void free_Faturacao(Faturacao faturacao) {
 }
 
 
-static Fatura_Produto init_Fatura_Produto() {
+static Fatura_Produto init_Fatura_Produto(Fatura_Produto fatura) {
 	int i, j, k;
-	Fatura_Produto fatura = (Fatura_Produto) malloc(sizeof(struct fatura_produto));
+	fatura = (Fatura_Produto) malloc(sizeof(struct fatura_produto));
 	for(i = 0; i < 12; i++) {
 		for(j = 0; j < 3; j++) {
 			for(k = 0; k < 2; k++) {
@@ -67,7 +67,7 @@ static Fatura_Produto init_Fatura_Produto() {
 
 Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 	
-	char* prod = getNomeProduto(getProduto(venda));
+	char* prod = getNomeProduto(getProduto(venda),prod);
 	int mes = getMes(venda) - 1;
 	int filial = getFilial(venda) - 1;
 	char promocao = getPromocao(venda);
@@ -75,20 +75,25 @@ Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 	int quantidades = getQuantidade(venda);
 	double price = getPreco(venda);
 	double custo = quantidades * price;
-
+	
 	Fatura_Produto estrutura = getEstrutura_Catalogo(contas->faturas,prod);
 	
 	if(!estrutura) {
-		estrutura = init_Fatura_Produto();
+		estrutura = init_Fatura_Produto(estrutura);
+		contas->total_vendas[mes] += quantidades;
+		contas->total_faturado[mes] += custo;
+		estrutura->quantidades[mes][filial][promo] += quantidades;
+		estrutura->precos[mes][filial][promo] += custo;
+		contas->faturas = atualiza_Catalogo(contas->faturas,prod,estrutura);
+	}else {
+		contas->total_vendas[mes] += quantidades;
+		contas->total_faturado[mes] += custo;
+		estrutura->quantidades[mes][filial][promo] += quantidades;
+		estrutura->precos[mes][filial][promo] += custo;
+		contas->faturas = atualiza_Catalogo(contas->faturas,prod,estrutura);
+	
 	}
-	
-	contas->total_vendas[mes] += quantidades;
-	contas->total_faturado[mes] += custo;
-	estrutura->quantidades[mes][filial][promo] += quantidades;
-	estrutura->precos[mes][filial][promo] += custo;
-	
-	contas->faturas = insere_Catalogo(contas->faturas,prod,estrutura);	
-	
+
 	return contas;
 }
 
@@ -201,6 +206,12 @@ Conj_Faturas faturas_produtos_nao_comprados_totais(Conj_Faturas conjunto, Fatura
 Conj_Faturas adiciona_Conjunto(Conj_Faturas conjunto, char* info) {
 	conjunto->lista = adiciona_array(conjunto->lista,info);
 	return conjunto;
+}
+
+
+void free_Conj_Faturas(Conj_Faturas c) {
+	free_Array(c->lista);
+	free(c);
 }
 
 

@@ -1,12 +1,11 @@
 #include "./headers/avl.h"
 
-
 #include <stdlib.h>
 #include <string.h>
 
 
 struct nodeAVL {
-    Valor string;
+    char string[10];
     void *cont;
     struct nodeAVL *left;
     struct nodeAVL *right;
@@ -24,10 +23,10 @@ static int height(NODO n);
 static int max(int a, int b);
 static int getBalance(NODO N);
 static Boolean node_lookUp(NODO node, Valor value);
-static NODO newNode(Valor info, void *estrutura);
+static NODO newNode(NODO node, Valor info, void *estrutura);
 static NODO rightRotate(NODO y);
 static NODO leftRotate(NODO x);
-static NODO atualiza_avl(NODO node, void* estrutura);
+static NODO atualiza_node(NODO node, char* value, void* estrutura);
 static NODO node_insert(NODO node, Valor string, Estrutura estrutura);
 static NODO tree_clone(NODO node);
 static Estrutura node_getEstrutura(NODO node, Valor value);
@@ -38,6 +37,11 @@ AVL initAVL() {
     AVL tree = malloc(sizeof(struct avl));
     tree->arvore = NULL;
     tree->avl_tamanho = 0;
+    return tree;
+}
+
+AVL atualiza_avl(AVL tree, char* value, Estrutura estrutura) {
+    tree->arvore = atualiza_node(tree->arvore,value,estrutura);
     return tree;
 }
 
@@ -119,16 +123,16 @@ static int max(int a, int b) {
 }
 
 
-static NODO newNode(Valor info, void *estrutura) {
-    struct nodeAVL* node = (struct nodeAVL*) malloc(sizeof(struct nodeAVL));
-    node->string = malloc(10);
+static NODO newNode(NODO node, Valor info, void *estrutura) {
+    node = (NODO) malloc(sizeof(struct nodeAVL));
     strcpy(node->string,info);
     node->cont = estrutura;
     node->left   = NULL;
     node->right  = NULL;
     node->height = 1;  
-    return(node);
+    return node;
 }
+
 
 static NODO rightRotate(NODO y) {
 
@@ -159,22 +163,25 @@ static NODO leftRotate(NODO x) {
     return y;
 }
 
+
 static int getBalance(NODO N) {
     if (N == NULL)
         return 0;
     return height(N->left) - height(N->right);
 }
  
+
 static NODO node_insert(NODO node, Valor info, Estrutura estrutura) {
     int balance;
-    if (node == NULL)
-        return(newNode(info,estrutura));
- 
+
+    if(node != NULL) {
+
     if (strcmp(info,node->string) < 0)
         node->left  = node_insert(node->left, info, estrutura);
     else if(strcmp(info,node->string) > 0)
         node->right = node_insert(node->right, info, estrutura);
-    else node = atualiza_avl(node,estrutura);
+    else node->cont = estrutura;
+    
     /* Atualiza os pesos */
     node->height = max(height(node->left), height(node->right)) + 1;
  
@@ -197,8 +204,10 @@ static NODO node_insert(NODO node, Valor info, Estrutura estrutura) {
         node->right = rightRotate(node->right);
         return leftRotate(node);
     }
-
-    return node;
+    
+    } else node = newNode(node,info,estrutura);
+   
+   return node;
 }
 
 static Boolean node_lookUp(NODO node, Valor value) {
@@ -214,10 +223,9 @@ static Boolean node_lookUp(NODO node, Valor value) {
 
 static NODO tree_clone(NODO node) {
     
-    NODO aux = malloc(sizeof(struct nodeAVL));
-        
+    NODO aux;
     if(node) {
-        aux->string = malloc(10);
+        aux = malloc(sizeof(struct nodeAVL));
         strcpy(aux->string,node->string); 
         aux->height = node->height;
         aux->cont = NULL;
@@ -230,8 +238,16 @@ static NODO tree_clone(NODO node) {
 }
 
 
-static NODO atualiza_avl(NODO node, Estrutura estrutura) {
-    node->cont = estrutura;
+static NODO atualiza_node(NODO node, char* value, Estrutura estrutura) {
+    int r;
+    r = strcmp(value,node->string);
+    if(r == 0) {
+        node->cont = estrutura; 
+        return node;
+    }
+    else if(r < 0) atualiza_node(node->left, value,estrutura);
+    else atualiza_node(node->right,value,estrutura);
+
     return node;
 }
 
@@ -253,4 +269,3 @@ static void tree_free(NODO node) {
         free(node);
     }
 }
-

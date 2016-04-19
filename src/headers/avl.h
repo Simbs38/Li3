@@ -39,6 +39,15 @@ AVL avl_insert(AVL arvore, Valor key, Estrutura estrutura);
 AVL avl_clone(AVL node);
 
 /**
+ * Insere uma nova estrutura na arvore tree tendo como referência de posicionamento um char* value.
+ * @param tree AVL onde insere.
+ * @param value char* a inserir.
+ * @param estrutura Conteúdo/Estrutura a inserir.
+ * @return AVL atualizada.
+ */
+AVL atualiza_avl(AVL tree, char* value, Estrutura estrutura);
+
+/**
  * Devolve um Boolean referente a ter encontrado ou não na AVL o Valor value.
  * @param tree AVL onde é efectuada a procura.
  * @param value valor a procurar na AVL.
