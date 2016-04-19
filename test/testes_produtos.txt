@@ -9,7 +9,7 @@ Numero de Clientes: 3
  
 TOTAL DE VENDAS PRODUTO = 346
 FACTURACAO TOTAL DO PRODUTO = 245035.19999999998
-
+!
 --AF1184
 Numero de Clientes: 9
  
@@ -25,4 +25,16 @@ Numero de Clientes: 9
 
 TOTAL DE VENDAS PRODUTO = 877
 FACTURACAO TOTAL DO PRODUTO = 366350.80999999994
+!
+#Produtos nunca comprados
 
+-- NR1033
+!
+-- RC1152
+!
+-- MZ1864
+!
+-- KB1093
+!
+-- HG1026
+!

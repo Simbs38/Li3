@@ -1,7 +1,7 @@
 #include "./../src/headers/avl.h"
 #include "./../src/headers/catalogo.h"
 #include "./../src/headers/clientes.h"
-#include "./../src/headers/filiais.h"
+#include "./../src/headers/filial.h"
 #include "./../src/headers/global.h"
 #include "./../src/headers/heap.h"
 #include "./../src/headers/interpretador.h"
@@ -9,7 +9,9 @@
 #include "./../src/headers/produtos.h"
 #include "./../src/headers/queries.h"
 #include "./../src/headers/venda.h"
-
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #define Linhas_de_Vendas 0
 #define Total_de_Clientes_Registados 1
@@ -23,14 +25,16 @@
 #define Vendas_de_Preco_Zero 9
 #define FACTURADO_TOTAL 10
 #define UNIDADES_VENDIDAS 11
-#define Filial_1 12
-#define Filial_2 13
-#define Filial_3 14
 #define MAXBUFFER 128
 
 
 
-
+typedef struct lista_produto{
+  char *nome;
+  int quantidade;
+  double faturacao;
+  int mes[12][2];
+}*Lista_Prod;
 
 
 typedef struct lista{
@@ -157,6 +161,7 @@ double get_quant(char *information){
     information[j++]=information[i];
   
   information[j]='\0';
+  information=strtok(information,"\n\r");
   n=strtod(information,NULL);
   return n;
 }
@@ -235,10 +240,10 @@ Boolean testa_total_faturado(Faturacao faturas,Lista testes){
   for(;aux!=NULL;aux=aux->next)
     if(aux->tipo==FACTURADO_TOTAL) break;
 
-  float n=get_total_faturado_intervalo(faturas,1,12);
+  double n=get_total_faturado_intervalo(faturas,1,12);
   
   printf("Total faturado:%f\nTotal faturado esperado:%f\n",aux->quantidade,n);
-  return(n==aux->quantidade);
+  return((n-aux->quantidade)<0.01);
 }
 
 Boolean testa_total_quantidade(Faturacao faturas,Lista testes){
@@ -246,7 +251,7 @@ Boolean testa_total_quantidade(Faturacao faturas,Lista testes){
   for(;aux!=NULL;aux=aux->next)
     if(aux->tipo==UNIDADES_VENDIDAS) break;
 
-  float n=get_total_quantidades_intervalo(faturas,1,12);
+  double n=get_total_quantidades_intervalo(faturas,1,12);
   
   printf("Total quantidades:%f\nTotal quantidades esperado:%f\n",aux->quantidade,n);
   return(n==aux->quantidade);
@@ -289,6 +294,8 @@ int main(){
         n=testa_total_quantidade(faturacao,testes);
         if(n) printf("##Teste passado!\n");
         else printf("##Teste falhado!\n");
+
+        read_produtos()
 
     
 
