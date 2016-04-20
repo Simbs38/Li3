@@ -58,13 +58,7 @@ static void free_Nodo_Produtos(void* n);
 static void free_Nodo_Clientes(void* x);
 static void free_Lista_Produtos(void* n);
 
-/**
- * Adiciona dados a uma filial.
- * @param Filial filial.
- * @param Cat_Produtos produtos.
- * @param Cat_Clientes clientes.
- * @return Filial.
- */
+
 Filial cria_Dados_Filial(Filial filial, Cat_Produtos produtos, Cat_Clientes clientes) {
     filial->produtos = get_Catalogo_Produtos(produtos);
     filial->clientes = get_Catalogo_Clientes(clientes);
@@ -95,21 +89,13 @@ Filial adiciona_Venda_Filial(Filial f, Venda v) {
 	
 	if(!nodo_p) {
 		nodo_p = init_Nodo_Produtos();
-		nodo_p->quantidade += quant;
-
-		if(promo == NORMAL && (existe_Conj_Filiais(nodo_p->clientes_N,cli) == false)) nodo_p->clientes_N = adiciona_Nome(nodo_p->clientes_N,cli);
-		else if(existe_Conj_Filiais(nodo_p->clientes_P,cli) == false) nodo_p->clientes_P = adiciona_Nome(nodo_p->clientes_P,cli);
-		
-		f->produtos = atualiza_Catalogo(f->produtos,prod,nodo_p);
-	
-	}else {
+	}	
 	nodo_p->quantidade += quant;
-	
+
 	if(promo == NORMAL && (existe_Conj_Filiais(nodo_p->clientes_N,cli) == false)) nodo_p->clientes_N = adiciona_Nome(nodo_p->clientes_N,cli);
 	else if(existe_Conj_Filiais(nodo_p->clientes_P,cli) == false) nodo_p->clientes_P = adiciona_Nome(nodo_p->clientes_P,cli);
-	
+		
 	f->produtos = atualiza_Catalogo(f->produtos,prod,nodo_p);
-	}
 	
 	/* INFO DOS CLIENTES */
 

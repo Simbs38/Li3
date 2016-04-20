@@ -241,12 +241,6 @@ Conj_Filiais lista_clientes_compraram_filial(Conj_Filiais c, Filial f);
  */
 Conj_Filiais lista_clientes_de_produto(Filial f, char* produto, char promo);
 
-<<<<<<< HEAD
-
-Conj_Filiais converte_total_clientes(Conj_Filiais c, Filial f);
-
-
-=======
 /**
  * Converte num Conj_Filiais os clientes de uma dada filial.
  * @param c Conj_Filiais onde serão colocados os valores.
@@ -255,5 +249,4 @@ Conj_Filiais converte_total_clientes(Conj_Filiais c, Filial f);
  */
 Conj_Filiais converte_total_clientes(Conj_Filiais c, Filial f);
 
->>>>>>> 3fab85031ce8df4a93f2294fd5d0557240b5c1b3
 #endif /* _filial_h_ */

@@ -86,19 +86,14 @@ Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 	
 	if(!estrutura) {
 		estrutura = init_Fatura_Produto(estrutura);
-		contas->total_vendas[mes] += quantidades;
-		contas->total_faturado[mes] += custo;
-		estrutura->quantidades[mes][filial][promo] += quantidades;
-		estrutura->precos[mes][filial][promo] += custo;
-		contas->faturas = atualiza_Catalogo(contas->faturas,prod,estrutura);
-	}else {
-		contas->total_vendas[mes] += quantidades;
-		contas->total_faturado[mes] += custo;
-		estrutura->quantidades[mes][filial][promo] += quantidades;
-		estrutura->precos[mes][filial][promo] += custo;
-		contas->faturas = atualiza_Catalogo(contas->faturas,prod,estrutura);
-	
 	}
+
+	contas->total_vendas[mes] += quantidades;
+	contas->total_faturado[mes] += custo;
+	estrutura->quantidades[mes][filial][promo] += quantidades;
+	estrutura->precos[mes][filial][promo] += custo;
+	
+	contas->faturas = atualiza_Catalogo(contas->faturas,prod,estrutura);
 
 	return contas;
 }
