@@ -74,8 +74,8 @@ Filial init_Filial() {
 
 Filial adiciona_Venda_Filial(Filial f, Venda v) {
 	
-	char* prod = getNomeProduto(getProduto(v),prod);
-	char* cli = getNomeCliente(getCliente(v),cli);
+	char* prod = getNomeProduto(getProduto(v));
+	char* cli = getNomeCliente(getCliente(v));
 	int quant = getQuantidade(v);
 	char promocao = getPromocao(v);
 	int promo = (promocao == 'N') ? NORMAL : PROMOCAO;
@@ -90,6 +90,7 @@ Filial adiciona_Venda_Filial(Filial f, Venda v) {
 	if(!nodo_p) {
 		nodo_p = init_Nodo_Produtos();
 	}	
+	
 	nodo_p->quantidade += quant;
 
 	if(promo == NORMAL && (existe_Conj_Filiais(nodo_p->clientes_N,cli) == false)) nodo_p->clientes_N = adiciona_Nome(nodo_p->clientes_N,cli);
@@ -97,8 +98,8 @@ Filial adiciona_Venda_Filial(Filial f, Venda v) {
 		
 	f->produtos = atualiza_Catalogo(f->produtos,prod,nodo_p);
 	
-	/* INFO DOS CLIENTES */
 
+	/* INFO DOS CLIENTES */
 	
 	Nodo_Clientes nodo_c = getEstrutura_Catalogo(f->clientes,cli);
 
@@ -112,11 +113,11 @@ Filial adiciona_Venda_Filial(Filial f, Venda v) {
 
 	if(!prod_c) {
 		prod_c = init_Lista_Produtos();
+		strncpy(prod_c->produto,prod,7);
 	}
 
 	prod_c->faturacao += faturado;
 	prod_c->quantidade += quant;
-	strncpy(prod_c->produto,prod,7);
 
 	nodo_c->meses_produtos[mes] = avl_insert(nodo_c->meses_produtos[mes],prod,prod_c);
 
@@ -154,8 +155,8 @@ static Nodo_Produtos init_Nodo_Produtos() {
 	Nodo_Produtos produto = (Nodo_Produtos) malloc(sizeof(struct nodo_produtos));
 	
 	produto->quantidade = 0;
-	produto->clientes_N = init_Conj_Filiais(100);
-	produto->clientes_P = init_Conj_Filiais(100);
+	produto->clientes_N = init_Conj_Filiais(10);
+	produto->clientes_P = init_Conj_Filiais(10);
 
 	return produto;
 }
@@ -216,6 +217,7 @@ static void free_Lista_Produtos(void* n) {
 	Lista_Produtos l = (Lista_Produtos) n;
 	free(l);
 }
+
 
 Conj_Filiais init_Conj_Filiais(int n) {
 	Conj_Filiais c = (Conj_Filiais) malloc(sizeof(struct conjunto_filiais));

@@ -5,7 +5,7 @@
 
 
 struct cliente {
-  char name[6];
+  char *name;
 };
 
 struct catalogo_clientes {
@@ -16,23 +16,31 @@ struct catalogo_clientes {
 
 Cliente criaCliente() {
   Cliente client = (Cliente) malloc(sizeof(struct cliente));
+  client->name = NULL;
   return client;
 }
 
 
-void alteraCliente(Cliente client, char *info) {
-    strcpy(client->name,info);
+Cliente altera_Cliente(Cliente c, char* novo) {
+  if(c->name) {
+    free(c->name);
+  }
+    c->name = malloc((strlen(novo)+1)*sizeof(char));
+    strcpy(c->name,novo);
+    
+  return c;
 }
 
 
-char* getNomeCliente(Cliente client, char* novo) {
-  novo = malloc(6*sizeof(char));
-  strncpy(novo,client->name,6);
+char* getNomeCliente(Cliente client) {
+  char* novo = malloc((strlen(client->name)+1)*sizeof(char) );
+  strcpy(novo,client->name);
   return novo;
 }
 
 
 void free_cliente(Cliente client) {
+  free(client->name);
   free(client);
 }
 

@@ -79,20 +79,18 @@ void remove_Catalogo_Produtos(Cat_Produtos products);
 Produto criaProduto();
 
 /**
- * Altera a informação de um produto.
- * @param Produto product.
- * @param char *info.
- * @return Produto alterado.
+ * Dado um Produto altera o nome do mesmo.
+ * @param p Produto a alterar.
+ * @param novo char* com o novo nome;
  */
-Produto alteraProduto(Produto product, char *info);
+Produto altera_Produto(Produto p, char* nome);
 
 /**
  * Devolve uma cópia do código de um produto.
  * @param Produto product.
- * @param novo char* a colocar o código.
  * @return char* com a cópia do nome.
  */
-char* getNomeProduto(Produto product, char* novo);
+char* getNomeProduto(Produto product);
 
 /**
  * Liberta o espaço alocado por um produto.

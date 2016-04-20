@@ -5,7 +5,7 @@
 
 
 struct produto {
-  char prod[7];
+  char* prod;
 };
 
 
@@ -27,24 +27,30 @@ Cat_Produtos init_cat_produtos() {
 
 Produto criaProduto() {
 	Produto product = (Produto) malloc(sizeof(struct produto));
-	return product;
-}
-
-
-char* getNomeProduto(Produto product, char* novo) {
-  novo = malloc(7*sizeof(char));
-  strncpy(novo,product->prod,7);
-  return novo;
-}
-
-
-Produto alteraProduto(Produto product, char* info) {
-  strncpy(product->prod,info,7);
+  product->prod = NULL;
   return product;
 }
 
 
+Produto altera_Produto(Produto p, char* nome) {
+  if(p->prod) {
+    free(p->prod);
+  }
+    p->prod = malloc((strlen(nome)+1)*sizeof(char));
+    strcpy(p->prod,nome);
+  return p;
+}
+
+
+char* getNomeProduto(Produto product) {
+  char* novo = malloc((strlen(product->prod)+1)*sizeof(char));
+  strcpy(novo,product->prod);
+  return novo;
+}
+
+
 void free_produto(Produto product) {
+  free(product->prod);
   free(product);
 }
 

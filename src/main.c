@@ -25,11 +25,13 @@ int main() {
         }
         
     	estado = menu_principal(produtos,clientes,faturacao,filiais,estado);
-
-    	remove_Catalogo_Clientes(clientes);
-    	remove_Catalogo_Produtos(produtos);
-    	free_Faturacao(faturacao);
-        for(i = 0; i < 3; i++) free_Filial(filiais[i]);
+        
+        if(total_Produtos(produtos)) {
+    	   remove_Catalogo_Clientes(clientes);
+    	   remove_Catalogo_Produtos(produtos);
+    	   free_Faturacao(faturacao);
+            for(i = 0; i < 3; i++) free_Filial(filiais[i]);
+        }
     }
 
     return 0;

@@ -72,24 +72,24 @@ void remove_Catalogo_Clientes(Cat_Clientes clients);
 
 /**
  * Inicia um novo cliente.
+ * @param cliente char* com o nome do cliente.
  * @return Cliente novo cliente criado.
  */
 Cliente criaCliente();
 
 /**
- * Função que altera o nome de um cliente.
- * @param client Cliente a alterar.
- * @param info char* com o novo nome do cliente.
+ * Dado um cliente altera o nome do mesmo.
+ * @param c Cliente a alterar.
+ * @param novo char* com o novo nome;
  */
-void alteraCliente(Cliente client, char *info);
+Cliente altera_Cliente(Cliente c, char* novo);
 
 /**
  * Função que devolve o nome de um cliente.
  * @param client Cliente a consultar o nome.
- * @param novo char* a colocar o nome.
  * @return char* com uma copia do nome do cliente.
  */
-char* getNomeCliente(Cliente client, char* novo);
+char* getNomeCliente(Cliente client);
 
 /**
  * Função com o objetivo de limpar da memória um cliente.

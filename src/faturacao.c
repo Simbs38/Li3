@@ -73,7 +73,7 @@ static void free_Fatura_Produto(void* n) {
 
 Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 	
-	char* prod = getNomeProduto(getProduto(venda),prod);
+	char* prod = getNomeProduto(getProduto(venda));
 	int mes = getMes(venda) - 1;
 	int filial = getFilial(venda) - 1;
 	char promocao = getPromocao(venda);
@@ -88,9 +88,9 @@ Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 		estrutura = init_Fatura_Produto(estrutura);
 	}
 
-	contas->total_vendas[mes] += quantidades;
+	contas->total_vendas[mes] ++;
 	contas->total_faturado[mes] += custo;
-	estrutura->quantidades[mes][filial][promo] += quantidades;
+	estrutura->quantidades[mes][filial][promo] ++;
 	estrutura->precos[mes][filial][promo] += custo;
 	
 	contas->faturas = atualiza_Catalogo(contas->faturas,prod,estrutura);

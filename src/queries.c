@@ -330,16 +330,17 @@ int querie_5(Filial filiais[NR_FILIAIS]) {
 		}
 
 		system("clear");	
-		printf( "\n\tQuantidades do cliente |%s| - Querie 5\n",cliente);
-		printf( "______________________________________________________\n" );
+		printf( "\n    Quantidades do cliente |%s| - Querie 5\n",cliente);
+		printf( "_________________________________________________\n" );
 		printf("\t   Filial 1    Filial 2    Filial 3\n");
 		
 		for(i = 0; i != 12; i++) {
 			printf("Mês %d \t %5d \t    %5d \t %5d\n", i+1, resultado[i][0],resultado[i][1],resultado[i][2]);
 		}
-		printf( "______________________________________________________\n" );
+		printf( "_________________________________________________\n" );
 		printf( "  V - Voltar\t\tQ - Sair:\n" );
 		
+		printf("\nEscolha uma opção >> ");	
 		input = scanf("%s",opcao);
 		switch(opcao[0]) {
 			case 'V': return estado; break;

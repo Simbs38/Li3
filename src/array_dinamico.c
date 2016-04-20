@@ -28,7 +28,7 @@ Lista lista_insert(Lista conjunto ,char* valor) {
     
     int posicao = conjunto->pos;
     
-    if(conjunto->pos == (conjunto->capacidade - 1)) {
+    if(conjunto->pos == (conjunto->capacidade - 2)) {
         conjunto->capacidade *= 2;
         conjunto->array = realloc(conjunto->array,conjunto->capacidade *sizeof(char *));
     }

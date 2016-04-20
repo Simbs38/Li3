@@ -5,11 +5,11 @@
 
 
 struct nodeAVL {
-    char string[10];
+    char* string;
     void *cont;
+    int height;
     struct nodeAVL *left;
     struct nodeAVL *right;
-    int height;
 };
 
 
@@ -94,7 +94,7 @@ NODO getNodoDir(NODO n) {
 
 char* getString(NODO n) {
     char* novo;
-    novo = malloc(10);
+    novo = malloc(10*sizeof(char));
     strcpy(novo,n->string);
     return novo;
 }
@@ -125,11 +125,12 @@ static int max(int a, int b) {
 
 static NODO newNode(NODO node, Valor info, void *estrutura) {
     node = (NODO) malloc(sizeof(struct nodeAVL));
+    node->string = malloc((strlen(info)+1)*sizeof(char));
     strcpy(node->string,info);
     node->cont = estrutura;
+    node->height = 1;  
     node->left   = NULL;
     node->right  = NULL;
-    node->height = 1;  
     return node;
 }
 
@@ -226,6 +227,7 @@ static NODO tree_clone(NODO node) {
     NODO aux;
     if(node) {
         aux = malloc(sizeof(struct nodeAVL));
+        aux->string = malloc((strlen(node->string)+1)*sizeof(char));
         strcpy(aux->string,node->string); 
         aux->height = node->height;
         aux->cont = NULL;
@@ -251,6 +253,7 @@ static NODO atualiza_node(NODO node, char* value, Estrutura estrutura) {
     return node;
 }
 
+
 static Estrutura node_getEstrutura(NODO node, Valor value) {
     int r;
     if(node == NULL) return NULL;
@@ -262,6 +265,7 @@ static Estrutura node_getEstrutura(NODO node, Valor value) {
     }
 }
 
+
 static void tree_free(NODO node, Funcao f) {
     if(node != NULL) {
         tree_free(node->left,f);
@@ -269,6 +273,7 @@ static void tree_free(NODO node, Funcao f) {
         if(node->cont != NULL) {
             f(node->cont);
         }
+        free(node->string);
         free(node);
     }
 }
