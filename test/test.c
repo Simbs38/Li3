@@ -31,9 +31,12 @@
 
 typedef struct lista_produto{
   char *nome;
-  int quantidade;
+  double quantidade;
   double faturacao;
-  int mes[12][2];
+  double clientes;
+  int mesF[12][2];
+  int mesT[12][2];
+  struct lista_produto *next;
 }*Lista_Prod;
 
 
@@ -257,6 +260,113 @@ Boolean testa_total_quantidade(Faturacao faturas,Lista testes){
   return(n==aux->quantidade);
 }
 
+Lista_Prod addnode(char *string){
+  int i,j;
+  Lista_Prod new=(Lista_Prod)malloc (sizeof(struct lista_produto));
+  for(i=0;i!=12;i++){
+    for(j=0;j!=2;j++){
+      new->mesF[i][j]=0;
+      new->mesT[i][j]=0;
+    }
+  }
+  char *nome_prod=malloc(sizeof(char *));
+  printf("%s\n",string );
+  strcpy(new->nome,string);
+  printf("s\n"); 
+  new->quantidade=0;
+  new->faturacao=0;
+  new->clientes=0;
+  new->next=NULL;
+  return new;  
+}
+
+
+Lista_Prod insere_Meses(Lista_Prod lista,char*line){
+  int modo,mes,i,j;
+  double faturado,total;
+  char string_mes[4],string_total[5],*string_faturado;
+  if(line[3]=='N')modo=0;
+  else modo=1;
+  for(i=0;line[i]!=':';i++);
+  for(j=(++i);line[j]!=':';j++){
+    string_mes[j-i]=line[j];
+  }
+  string_mes[j-i+1]='\0';
+
+  mes=atoi(string_mes);
+
+  for(;line[i]!=':';i++);
+  for(j=(++i);line[j]!=':';j++){
+    string_total[j-i]=line[j];
+  }
+  string_total[j-i+1]='\0';
+
+  total=atof(string_total);
+  
+
+  for(j=0;line[i];i++)
+    line[j++]=line[i];
+  
+  line[j]='\0';
+  line=strtok(line,"\n\r");
+  faturado=strtod(line,NULL);
+
+  lista->mesF[mes][modo]=faturado;
+  lista->mesT[mes][modo]=total;
+  lista->clientes++;
+  lista->quantidade+=total;
+  lista->faturacao+=faturado;;
+
+
+  return lista;
+}
+
+Lista_Prod init_testes_produtos(FILE*file){
+  Lista_Prod new=addnode("###");
+  Lista_Prod aux=new;
+  char *information;
+  char line[MAXBUFFER];
+  Lista_Prod lista=NULL; 
+  while(fgets(line,MAXBUFFER,file)) {
+    switch(line[0]){
+      case '#': break;
+      case '-': {
+        if(strcmp(aux->nome,"###")) strcpy(aux->nome,information);
+        else{aux=addnode(information);}
+        break;
+      }
+      case 'M':{
+        information = strtok(line,"\n\r");
+          if(information != NULL) 
+            aux=insere_Meses(aux,information);
+      break;
+      } 
+      case 'F':{
+        information = strtok(line,"\n\r");
+          if(information != NULL) 
+            aux->faturacao=get_quant(information);
+      break;
+      } 
+      case 'T':{
+        information = strtok(line,"\n\r");
+          if(information != NULL) 
+            aux->quantidade=get_quant(information);
+      break;
+      }
+      case 'C':{
+        information = strtok(line,"\n\r");
+          if(information != NULL) 
+            aux->clientes=get_quant(information);
+      break;
+      }
+      default: break;
+    }
+  }
+  return lista;
+}
+
+
+
 
 
 
@@ -270,6 +380,7 @@ int main(){
     int testes_clientes=15;
     int testes_faturacao_produtos=102;
     FILE *file_dados =NULL;
+    FILE *file_teste_produtos=NULL;
 
         Cat_Clientes clientes = init_cat_clientes();
         Cat_Produtos produtos = init_cat_produtos();
@@ -281,6 +392,10 @@ int main(){
         file_dados =fopen("./test/dados_teste.txt","r");
 
         Lista testes=load_testes(file_dados);
+        
+        file_teste_produtos=fopen("./test/testes_produtos.txt","r");
+
+        Lista_Prod testes_produtos=init_testes_produtos(file_teste_produtos);
         Lista aux;
         printf("%s\n",testes );
         for(aux=testes;aux!=NULL;aux=aux->next){
@@ -295,7 +410,7 @@ int main(){
         if(n) printf("##Teste passado!\n");
         else printf("##Teste falhado!\n");
 
-        read_produtos()
+        /*read_produtos();*/
 
     
 

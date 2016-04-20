@@ -1,40 +1,33 @@
 ##FACTURACAO MENSAL DE UM PRODUTO 
 
 --NR1091
-Numero de Clientes: 3
+Clientes: 3
  
- Mes = 6 Vendas P = 176 Facturacao P = 167330.24
- Mes = 7 Vendas N = 58 Facturacao N = 29083.52
- Mes = 11 Vendas N = 112 Facturacao N = 48621.44
+MesP:06:176:167330.24
+MesN:07:580:29083.52
+MesN:11:112:48621.44
  
-TOTAL DE VENDAS PRODUTO = 346
-FACTURACAO TOTAL DO PRODUTO = 245035.19999999998
-!
+TOTAL DE VENDAS PRODUTO : 346
+FACTURACAO TOTAL DO PRODUTO : 245035.19999999998
 --AF1184
-Numero de Clientes: 9
+Clientes: 9
  
- Mes = 5 Vendas N = 162 Facturacao N = 139190.4
- Mes = 5 Vendas P = 52 Facturacao P = 34801.0
- Mes = 6 Vendas N = 124 Facturacao N = 791.12
- Mes = 6 Vendas P = 67 Facturacao P = 60210.89
- Mes = 7 Vendas N = 190 Facturacao N = 27534.8
- Mes = 8 Vendas P = 136 Facturacao P = 54665.2
- Mes = 9 Vendas P = 90 Facturacao P = 42906.6
- Mes = 10 Vendas P = 46 Facturacao P = 2647.2999999999997
- Mes = 12 Vendas P = 10 Facturacao P = 3603.5
+MesN:05:162:139190.4
+MesP:05:052:34801.0
+MesN:06:124:791.12
+MesP:06:067:60210.89
+MesN:07:190:27534.8
+MesP:08:136:54665.2
+MesP:09:090:42906.6
+MesP:10:046:2647.2999999999997
+MesP:12:010:3603.5
 
-TOTAL DE VENDAS PRODUTO = 877
-FACTURACAO TOTAL DO PRODUTO = 366350.80999999994
-!
+TOTAL DE VENDAS PRODUTO : 877
+FACTURACAO TOTAL DO PRODUTO : 366350.80999999994
 #Produtos nunca comprados
 
 -- NR1033
-!
 -- RC1152
-!
 -- MZ1864
-!
 -- KB1093
-!
 -- HG1026
-!
