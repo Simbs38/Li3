@@ -4,25 +4,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-/**
- * Ler os 3 ficheiros (Produtos, Clientes e Vendas), cujos nomes poderão ser introduzidos pelo utilizador ou, opcionalmente, assumidos por omissão  
- * @param Cat_Produtos produtos.
- * @param Cat_Clientes clientes.
- * @param Faturacao faturas.
- * @param Filiais filiais.
- * @param int modo.
-*/
-int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Filial filiais[3], int modo) {
-	/*
-	if(total_Produtos(produtos) && total_Clientes(clientes)) {
-		remove_Catalogo_Produtos(produtos);
-		remove_Catalogo_Clientes(clientes);
-		free_Faturacao(faturas);
-		Cat_Clientes clientes = init_cat_clientes();
-    	Cat_Produtos produtos = init_cat_produtos();
-    	Faturacao faturacao = init_Faturacao();
-	}
-	*/
+
+int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Filial filiais[NR_FILIAIS], int modo) {
+	
 	int input;
 	char f_clientes[50];
 	char f_produtos[50];
@@ -43,8 +27,29 @@ int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Fili
 			
 			leitura_ficheiros(clientes,produtos,faturas,filiais,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
 			
-		}
-		else {
+		} else if(modo == 2) {
+
+			strcpy(f_clientes,"./data/Clientes.txt");
+            strcpy(f_produtos,"./data/Produtos.txt");
+            strcpy(f_vendas,"./data/Vendas_3M.txt");
+            
+            file_clientes = fopen(f_clientes,"r");
+            file_produtos = fopen(f_produtos,"r");
+            file_vendas = fopen(f_vendas,"r");
+			
+			leitura_ficheiros(clientes,produtos,faturas,filiais,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
+		} else if(modo == 3) {
+
+			strcpy(f_clientes,"./data/Clientes.txt");
+            strcpy(f_produtos,"./data/Produtos.txt");
+            strcpy(f_vendas,"./data/Vendas_5M.txt");
+            
+            file_clientes = fopen(f_clientes,"r");
+            file_produtos = fopen(f_produtos,"r");
+            file_vendas = fopen(f_vendas,"r");
+			
+			leitura_ficheiros(clientes,produtos,faturas,filiais,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
+		} else {
 			system("clear");
 			printf("_____________________________________________\n");
 			printf("\n\t   Leitura de Ficheiros\n");
@@ -72,12 +77,6 @@ int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Fili
 	return 10;
 }
 
-/**
- * Determina a lista e o total de produtos cujo código se inicia por uma dada letra.
- * @param Cat_Produtos produtos.
- * @return int. 
-*/
-
 
 int querie_2(Cat_Produtos produtos) {
 	
@@ -99,17 +98,14 @@ int querie_2(Cat_Produtos produtos) {
 			char letra = toupper(opcao[0]);
 			lista_produtos = converte_Produtos(lista_produtos,produtos,letra);
 			apresenta_Produtos(lista_produtos);
+			free_Conj_Produtos(lista_produtos);
 			return estado;
 		}
 	}
 	return 1;
 }
 
-/**
- * Dado um mês e um código de produto, apresentar o número total de vendas e o total facturado com esse produto em tal mês. 
- * @param Faturacao faturas.
- * @return int.
- */
+
 
 int querie_3(Faturacao faturas) {
 	
@@ -214,11 +210,8 @@ int querie_3(Faturacao faturas) {
 	return estado;
 }
 
-/*
- * Determina a lista ordenada dos códigos dos produtos que ninguém comprou. 
- * @param Faturacao faturas.
- * @return int.
-*/
+
+
 int querie_4(Faturacao faturas) {
 
 	int estado = 1, input, filial = 0;
@@ -251,34 +244,66 @@ int querie_4(Faturacao faturas) {
 
 		if(opcao[0] == '1') { 
 			nao_comprados = faturas_produtos_nao_comprados_totais(nao_comprados,faturas);
+			if(faturacao_getPos(nao_comprados) == 0) { 
+				printf("\n Todos os produtos foram comprados em todas as filiais!\n");
+				printf("\nEscolha uma opção >> ");
+				input = scanf("%s",opcao);
+		
+				switch(opcao[0]) {
+					case 'Q': return 0; break;
+
+					case 'V': return estado; break;
+
+					default: break;
+				}
+			}
 			apresenta_faturas(nao_comprados);
+			free_Conj_Faturas(nao_comprados);
 			return estado;
 		}		
 		else if(opcao[0] == '2') { 
 			
 			Conj_Faturas totais = init_Lista_Faturacao(1000);
+			Conj_Faturas nao_comprados_1 = init_Lista_Faturacao(1000); 
+			Conj_Faturas nao_comprados_2 = init_Lista_Faturacao(1000); 
+			Conj_Faturas nao_comprados_3 = init_Lista_Faturacao(1000); 
+			
 			totais = cria_lista_total(totais,faturas);
 			
+			nao_comprados_1 = faturas_nao_comprado_filial(totais,nao_comprados_1,faturas,1);
+			nao_comprados_2 = faturas_nao_comprado_filial(totais,nao_comprados_2,faturas,2);
+			nao_comprados_3 = faturas_nao_comprado_filial(totais,nao_comprados_3,faturas,3);
+			
+			system("clear");
+			printf("\n_____________________________________________\n" );
+			printf("   Produtos não comprados - QUERIE 4\n\n" );
+			printf("\n Produtos não comprados na Filial 1 -> %d\n",faturacao_getPos(nao_comprados_1));
+			printf("\n Produtos não comprados na Filial 2 -> %d\n",faturacao_getPos(nao_comprados_2));
+			printf("\n Produtos não comprados na Filial 3 -> %d\n",faturacao_getPos(nao_comprados_3));
+
 			while(filial < 1 || filial > 3) {
 				printf("\nInsira a filial que pretende >> ");
 				input = scanf("%s",fil);
 				filial = atoi(fil);
 			}
 
-			nao_comprados = faturas_nao_comprado_filial(totais,nao_comprados,faturas,filial);
-			apresenta_faturas(nao_comprados);
+			if(filial == 1) apresenta_faturas(nao_comprados_1);
+			if(filial == 2) apresenta_faturas(nao_comprados_2);
+			if(filial == 3) apresenta_faturas(nao_comprados_3);
+			
+			free_Conj_Faturas(totais);
+			free_Conj_Faturas(nao_comprados_1);
+			free_Conj_Faturas(nao_comprados_2);
+			free_Conj_Faturas(nao_comprados_3);
 			return estado;
 		}
 	}
 	return estado;
 }
 
-/**
- * Dado um código de cliente, criar uma tabela com o numero total de produtos comprados mês a mês 
- * @param Filiais filial
- * @return int
-*/
-int querie_5(Filial filiais[3]) {
+
+
+int querie_5(Filial filiais[NR_FILIAIS]) {
 
 	int estado = 1, input,j,i;
 	int resultado[12][3];
@@ -327,11 +352,8 @@ int querie_5(Filial filiais[3]) {
 	return estado;
 }	
 	
-/**
- * Dado um intervalo fechado de meses, determinar o total de vendas registadas nesse intervalo e o total facturado.
- * @param Faturacao faturas.
- * @return int.
-*/
+
+
 int querie_6(Faturacao faturas) {
 
 
@@ -402,12 +424,9 @@ int querie_6(Faturacao faturas) {
 	return estado;
 }
 
-/**
- * Determinar a lista ordenada de códigos de clientes que realizaram compras em todas as filiais.
- * @param Filiais filial.
- * @return int.
-*/
-int querie_7(Filial filiais[3]){
+
+
+int querie_7(Filial filiais[NR_FILIAIS]){
 	
 	int estado = 1, input;
 	int i;
@@ -425,16 +444,16 @@ int querie_7(Filial filiais[3]){
 	}
 	
 	apresenta_Dados_Filial(comprados_total);
+
+	free_Conj_Filiais(comprados_total);
+	free_Conj_Filiais(comprados_1);
 	
 	return estado;
 }
 
-/**
- * Dado um código de produto e uma filial, determinar os códigos, distinguindo entre compra N e compra P.
- * @param Filiais filial.
- * @return int.
-*/
-int querie_8(Filial filiais[3]) {
+
+
+int querie_8(Filial filiais[NR_FILIAIS]) {
 
 	int estado = 1, input, filial = 0;
 	char produto[10];
@@ -481,12 +500,8 @@ int querie_8(Filial filiais[3]) {
 }
 
 
-/**
- * Dado  um  código  de  cliente  e  um  mês,  determinar  a  lista  de  códigos  de produtos que mais comprou.
- * @param Filiais filial.
- * @return int.
-*/
-int querie_9(Filial filiais[3]){
+
+int querie_9(Filial filiais[NR_FILIAIS]){
 	int i;
 	int estado = 1, input, m = 0;
 	char cliente[10];
@@ -518,31 +533,31 @@ int querie_9(Filial filiais[3]){
 		for(i = 0; i < 3; i++) heap = lista_codigos_de_clientes(filiais[i],heap,cliente,m,'Q');
 		valores = convert_Heap_Lista(valores,heap,'Q');
 		apresenta_Dados_Filial(valores);
+		free_Conj_Filiais(valores);
+		free_HEAP(heap);
+
 		return estado;
 	}
 	return estado;
 }
 
 
-/**
- *Cria  uma  lista  dos  N produtos mais  vendidos  em  todo  o  ano filial a filial.
- * @param Filiais filial.
- * @return int.
-*/
-int querie_10(Filial filiais[3]){
+
+int querie_10(Filial filiais[NR_FILIAIS]){
+	
 	int i;
 	int estado = 1, input, nr = 0;
 	char n_produtos[10];
 	
-	Conj_Filiais valores_1 = init_Conj_Filiais(100);
+	Conj_Filiais valores_1 = init_Conj_Filiais(1000);
 	HEAP heap_1 = init_HEAP();
 	heap_1 = heap_produtos_mais_vendidos(filiais[0],heap_1);
 	
-	Conj_Filiais valores_2 = init_Conj_Filiais(100);
+	Conj_Filiais valores_2 = init_Conj_Filiais(1000);
 	HEAP heap_2 = init_HEAP();
 	heap_2 = heap_produtos_mais_vendidos(filiais[1],heap_2);
 	
-	Conj_Filiais valores_3 = init_Conj_Filiais(100);
+	Conj_Filiais valores_3 = init_Conj_Filiais(1000);
 	HEAP heap_3 = init_HEAP();
 	heap_3 = heap_produtos_mais_vendidos(filiais[2],heap_3);
 
@@ -550,7 +565,7 @@ int querie_10(Filial filiais[3]){
 	printf( "_____________________________________________\n" );
 	printf( "   N Produtos mais comprados - QUERIE 10\n\n" );
 
-	while(nr < 1 || nr > 171008) {
+	while(nr < 1 || nr > 140000) {
 	printf("\nIndique o número de produtos mais vendidos que pretende ver >> ");
 		input = scanf("%s",n_produtos);
 		nr = atoi(n_produtos);
@@ -582,11 +597,11 @@ int querie_10(Filial filiais[3]){
         printf(" Querie 10: %d produtos mais vendidos\n\n",nr_de_elementos);
         printf(" --- Página número |%d| de |%d| ---\n", nr_pagina,total_paginas);
         
-        printf("\n\tFilial 1\t\tFilial 2\t   Filial 3\n");
-        printf("   Produto   C    Q\tProduto   C    Q\tProduto   C    Q\n");
+        printf("\n\tFilial 1\t\tFilial 2\t\tFilial 3\n");
+        printf("#\tProduto\tC\tQ\tProduto\tC\tQ\tProduto\tC\tQ\n");
 
         for(i = (nr_pagina-1) * elementos_pagina; i < (nr_pagina * elementos_pagina) && i < nr_de_elementos; i++) {
-            printf("%d  %s   %d    %d\t%s   %d    %d\t%s   %d    %d\n",i+1,filial_get_elemento_lista(valores_1,i),nr_clientes_de_um_produto(filiais[0],filial_get_elemento_lista(valores_1,i)),getQuantidadeProduto(filiais[0],filial_get_elemento_lista(valores_1,i)),filial_get_elemento_lista(valores_2,i),nr_clientes_de_um_produto(filiais[1],filial_get_elemento_lista(valores_2,i)),getQuantidadeProduto(filiais[1],filial_get_elemento_lista(valores_2,i)),filial_get_elemento_lista(valores_3,i),nr_clientes_de_um_produto(filiais[2],filial_get_elemento_lista(valores_3,i)),getQuantidadeProduto(filiais[2],filial_get_elemento_lista(valores_3,i)));
+            printf("%d\t%s\t%d\t%d\t%s\t%d\t%d\t%s\t%d\t%d\n",i+1,filial_get_elemento_lista(valores_1,i),nr_clientes_de_um_produto(filiais[0],filial_get_elemento_lista(valores_1,i)),getQuantidadeProduto(filiais[0],filial_get_elemento_lista(valores_1,i)),filial_get_elemento_lista(valores_2,i),nr_clientes_de_um_produto(filiais[1],filial_get_elemento_lista(valores_2,i)),getQuantidadeProduto(filiais[1],filial_get_elemento_lista(valores_2,i)),filial_get_elemento_lista(valores_3,i),nr_clientes_de_um_produto(filiais[2],filial_get_elemento_lista(valores_3,i)),getQuantidadeProduto(filiais[2],filial_get_elemento_lista(valores_3,i)));
         }
 
         putchar('\n');
@@ -596,7 +611,13 @@ int querie_10(Filial filiais[3]){
         input = scanf("%s",opcao);
 
         switch(opcao[0]) {
-            case 'V': return estado; break;
+            case 'V': free_Conj_Filiais(valores_1);
+                      free_Conj_Filiais(valores_2);
+                      free_Conj_Filiais(valores_3);
+                      free_HEAP(heap_1);
+                      free_HEAP(heap_2);
+                      free_HEAP(heap_3);
+            		  return estado; break;
 
             case '1': nr_pagina = 1;
 
@@ -613,12 +634,8 @@ int querie_10(Filial filiais[3]){
 }
 
 
-/**
- * Dado um código de cliente determinar quais os códigos dos 3 produtos em que tenho gasto mais.
- * @param Filiais filial
- * @return int
-*/
-int querie_11(Filial filiais[3]){
+
+int querie_11(Filial filiais[NR_FILIAIS]){
 	
 	int i;
 	int estado = 1, input;
@@ -628,65 +645,74 @@ int querie_11(Filial filiais[3]){
 	Conj_Filiais valores = init_Conj_Filiais(5);	
 	HEAP heap = init_HEAP();
 
-	while(estado) {
+	system("clear");
+	printf( "_____________________________________________\n" );
+	printf( "   Top 3 de um Cliente - QUERIE 11\n\n" );
+
+		
+	while (existe == false) {
+		printf(" Insira o codigo do cliente >> ");
+		input = scanf("%s",cliente);
+		existe = filial_existe_Cliente(filiais[0],cliente);
+		if(!existe) printf("O Cliente não é válido, insira de novo\n\n");
+	}
+		
+	for(i = 0; i < 3; i++) heap = top3_clientes(filiais[i],heap,cliente,'F');
+	valores = lista_top3(valores,heap,'F');
+	apresenta_Dados_Filial(valores);
+	free_Conj_Filiais(valores);
+	free_HEAP(heap);
+		
+	return estado;
+}
+
+
+
+int querie_12(Filial filiais[NR_FILIAIS], Faturacao faturas){
+ 
+	int estado = 1, input, i, nr_clientes = 0, nr_produtos;
+	char opcao[10];
+	char* client;
+	Conj_Faturas nao_comprados = init_Lista_Faturacao(1000);
+	nao_comprados = faturas_produtos_nao_comprados_totais(nao_comprados,faturas);
+	nr_produtos = faturacao_getPos(nao_comprados);
+	free_Conj_Faturas(nao_comprados);
+
+	Conj_Filiais clientes_nao_comprados_total = init_Conj_Filiais(1000);
+	clientes_nao_comprados_total = converte_total_clientes(clientes_nao_comprados_total,filiais[0]);
+
+	for(i = 0; i < filial_getPos(clientes_nao_comprados_total); i++) {
+		client = filial_get_elemento_lista(clientes_nao_comprados_total,i); 
+		if(verifica_cliente_comprado(filiais[0],client) == false && verifica_cliente_comprado(filiais[1],client) == false && verifica_cliente_comprado(filiais[2],client) == false) nr_clientes++;
+	}
+	free_Conj_Filiais(clientes_nao_comprados_total);
+
 		system("clear");
 		printf( "_____________________________________________\n" );
-		printf( "   Top 3 de um Cliente - QUERIE 11\n\n" );
+		printf( "   Elementos não comprados - QUERIE 12\n\n" );
+		printf(" Número de Produtos não comprados: %d\n",nr_produtos);
+		printf(" Número de Clientes que não compraram: %d\n", nr_clientes);
+		printf("_____________________________________________\n" );
+		printf( "  V - Voltar\t\tQ - Sair:\n" );
+		printf( "_____________________________________________\n" );
 
+		printf("\nEscolha uma opção >> ");
+		input = scanf("%s",opcao);
 		
-		while (existe == false) {
-			printf(" Insira o codigo do cliente >> ");
-			input = scanf("%s",cliente);
-			existe = filial_existe_Cliente(filiais[0],cliente);
-			if(!existe) printf("O Cliente não é válido, insira de novo\n\n");
-		}
-		
-		for(i = 0; i < 3; i++) heap = top3_clientes(filiais[i],heap,cliente,'F');
-		valores = lista_top3(valores,heap,'F');
-		apresenta_Dados_Filial(valores);
-	}	
-	return estado;
-}
+		switch(opcao[0]) {
+			case 'Q': 
+	  				  return 0; 
+	  				  break;
 
+			case 'V': return estado; break;
 
-/**
- * Determina o número de clientes registados que não realizaram compras bem como o número de produtos que ninguém comprou.
- * @param Filiais filial
- * @return int
-*/
-int querie_12(Filial filiais[3]){
-	int estado = 1, input;
-	char opcao[10];
-
-	system("clear");
-			printf( "_____________________________________________\n" );
-			printf( "\n  \n");
-			printf("Total de clientes sem compras: %d\n",21);
-			printf("Total de produtos não comprados: %d\n",21);
-			printf( "_____________________________________________\n" );
-			printf( "  1 - Voltar\t\t0 - Sair:\n" );
-			printf( "_____________________________________________\n" );
-			
-			
-			printf("Escolha uma opção >> ");
-			input = scanf("%s",opcao);
-			
-			switch(opcao[0]) {
-				case '1': return estado; break;
-				case '0': return 0; break;
-				default: break;
-			}	
+			default: break;
+		}	
 	return estado;
 }
 
 
 
-
-/**
- *Determinar a lista ordenada de códigos de clientes que realizaram compras em todas as filiais.
- * @param Filiais filial
- * @return int
-*/
 void apresenta_Lista(Lista list) {
     int i;
     int input;

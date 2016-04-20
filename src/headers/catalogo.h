@@ -1,120 +1,140 @@
+/**
+ * @file catalogo.h
+ * @brief Ficheiro que contem a API relativa á implementação de um Catálogo.
+ */
+
 #ifndef _catalogo_h_
 #define _catalogo_h_
 
-#include "avl.h"
 #include "global.h"
-#include "heap.h"
+#include "avl.h"
+#include "array_dinamico.h"
 
 typedef struct catalogo *Catalogo;
 typedef struct array_catalogo *Array;
-typedef struct heap_catalogo *HEAP_CAT;
 
 /**
- * Inicializa um Catalogo returnando o mesmo.
+ * Inicializa uma estrutura Catálogo.
  * @return Catalogo inicializado.
  */
 Catalogo init_Catalogo();
 
 /**
- * Insere uma estrutura num nodo do Catalogo returnando o catalogo.
- * @param Catalogo catalogo.
- * @param key char* a procurar.
- * @param  void* estrutura estrutura a inserir no nodo.
- * @param ind index, indice onde procurar no catalogo.
- * @return Boolean com valor verdadeiro ou falso.
+ * Insere uma estrutura num Catálogo retornando o catalogo com a inserção.
+ * @param Catalogo catálogo.
+ * @param key char* a inserir.
+ * @param estrutura void* estrutura a inserir no nodo.
+ * @return Catalogo com valor inserido.
  */
 Catalogo insere_Catalogo(Catalogo catalogo, char* key, void* estrutura);
 
 /**
- * Cria um clone do catalogo dado, devolvendo uma copia deste.
- * @param Catalogo catalogo.
- * @return Catalogo catalogo.
+ * Cria um clone do Catálogo dado, devolvendo uma copia deste.
+ * @param catalogo a clonar.
+ * @return Catalogo novo, clone do dado como argumento.
  */
 Catalogo clone_Catalogo(Catalogo catalogo);
 
 /**
- * Liberta o espaço alocado na memoria para o catalogo.
- * @param Catalogo catalogo.
+ * Atualiza uma estrutura num Catálogo retornando o catalogo atualizado.
+ * @param Catalogo catálogo.
+ * @param key char* a indicar onde atualizar.
+ * @param estrutura void* estrutura a inserir no nodo.
+ * @return Catalogo atualizado.
  */
-void remove_Catalogo(Catalogo catalogo);
+Catalogo atualiza_Catalogo(Catalogo catalogo, char* key, void* estrutura);
 
 /**
- * Verifica um valor existe no Catalogo returnando verdadeiro se existir e false caso contrario.
- * @param Catalogo catalogo.
+ * Liberta o espaço alocado na memória pelo Catálogo.
+ * @param catalogo Catálogo a libertar.
+ * @param f Funcao responsavel por remover a estrutura associada.
+ */
+void remove_Catalogo(Catalogo catalogo, Funcao f);
+
+/**
+ * Verifica se um valor existe no Catálogo retornando verdadeiro se existir e false no caso contrário.
+ * @param catalogo Catalogo onde procurar.
  * @param key char* a procurar.
- * @param ind index, indice onde procurar no catalogo.
- * @return Boolean com valor verdadeiro ou falso.
+ * @return Boolean com valor verdadeiro ou falso referente à procura.
  */
 Boolean existe_Catalogo(Catalogo catalogo, char* key);
 
 /**
- * Devolve o numero de nodos do catalogo.
+ * Devolve o número de elementos do catálogo dado.
  * @param Catalogo catalogo.
- * @return int.
+ * @return int com o número de elementos.
  */
 int total_elems_Catalogo(Catalogo catalogo);
 
 /**
- * Devolve o numero de nodos do catalogo começados pela letra dada.
+ * Devolve o número de elementos do catalogo começados pela letra dada.
+ * @param catalogo Catalogo.
  * @param char letra.
- * @param Catalogo catalogo.
- * @return int.
+ * @return int com o número de elementos da dada letra.
  */
 int total_elems_letra(Catalogo catalogo, char letra);
 
 /**
- * Devolve o numero de nodos do catalogo.
- * @param Catalogo catalogo.
- * @return int.
+ * Devolve a estrutura associada a um elemento dada a sua key.
+ * @param catalogo Catalogo a procurar.
+ * @return void* com apontador para estrutura.
  */
 void* getEstrutura_Catalogo(Catalogo catalogo, char* key);
 
 /**
- * Devolve uma AVL do catalogo.
- * @param Catalogo catalogo.
+ * Devolve uma AVL do catálogo.
+ * @param catalogo Catalogo.
  * @param int index da AVL.
  * @return AVL pedida.
  */
 AVL catalogo_getAVL(Catalogo catalogo, int index);
 
-
 /**
  * Inicializa um array com a capacidade indicada.
- * @param int capacidade.
- * @return Array.
+ * @param int capacidade pretendida para o Array.
+ * @return Array criado.
  */
 Array init_Array(int capacidade);
 
-/**
- * Converte uma parte de um catalogo para uma lista
- * @param Array lista que irá receber os dados.
- * @param Catalogo catalogo.
- * @param char letra, letra que indicara ao catalogo que elementos iram ser convertidos para a lista.
- * @return Array.
- */
-Array lista_catalogo_letra(Array lista,Catalogo catalogo, char letra);
 
 /**
  * Adiciona um elemento a uma Lista.
  * @param Array lista que irá receber os dados.
- * @param char *info palavra adicionada a Lista.
- * @return Array.
+ * @param info char* com string a adicionar na Lista.
+ * @return Array com o elemento adicionado.
  */
 Array adiciona_array(Array lista, char* info);
 
+
 /**
- * Retorna um array com todos os produtos não comprados.
- * @param Array lista onde serão alocados os dados.
- * @param Catalogo catalogo de onde se iram buscar os dados.
- * @return Array.
+ * Remove da memória um dado Array.
+ *@param list Lista a limpar da memória.
+ */
+void free_Array(Array lista);
+
+/**
+ * Converte os elementos de um Catalogo começados por uma dada letra numa lista.
+ * @param Array lista que irá receber os dados.
+ * @param Catalogo catalogo onde estão os dados.
+ * @param char letra, letra que indicará ao catalogo que elementos irão ser convertidos para a lista.
+ * @return Array com os elementos.
+ */
+Array lista_catalogo_letra(Array lista,Catalogo catalogo, char letra);
+
+
+/**
+ * Retorna um Array com os produtos não comprados nas 3 filiais.
+ * @param lista Array onde serão colocados os dados.
+ * @param catalogo Catalogo de onde provêm os dados.
+ * @return Array com os dados pretendidos.
  */
 Array catalogo_produtos_nao_comprados_totais(Array lista, Catalogo catalogo);
 
 /**
- * Converte catalogo para lista??????????????????????????????????????????????????????????????????????????????????????????
- * @param Array lista.
- * @param Catalogo catalogo.
- * @return Array.
+ * Converte catalogo para lista todos os elementos de um catálogo.
+ * @param lista Array onde serão colocados os dados.
+ * @param catalogo Catalogo a converter.
+ * @return Array com os elementos.
  */
 Array catalogo_lista_total(Array lista,Catalogo catalogo);
 
@@ -125,27 +145,42 @@ Array catalogo_lista_total(Array lista,Catalogo catalogo);
 void apresenta_Array(Array lista);
 
 /**
- * Devolve um elemento de uma lista na posição indicada
- * @param Array lista.
- * @param int pos, posição indicada pelo utilizador.
- * @return char *.
+ * Devolve um elemento de uma lista dada uma posição.
+ * @param lista Array onde se encontram os elementos.
+ * @param pos int com posição pretendida.
+ * @return char* com o elemento.
  */
 char* catalogo_getElemento(Array lista, int pos);
 
 /**
  * Devolve o numero de posições atuais na alocadas na lista
  * @param Array lista.
- * @return int.
+ * @return int com o tamanho de um Array.
  */
 int catalogo_getPos(Array lista);
 
-
+/**
+ * Retorna um Boolean referente a um elemento se encontrar no Array ou não.
+ * @param lista Array.
+ * @param valor char* a verificar a existência.
+ * @return Boolean com o resultado.
+ */
 Boolean existe_Array(Array lista, char* valor);
 
-
+/**
+ * Converte em lista os elementos.
+ * @param lista Array onde serão colocados os dados.
+ * @param catalogo Catalogo a converter.
+ * @return Array com os elementos.
+ */
 Array catalogo_clientes_compraram_filial(Array lista, Catalogo catalogo);
 
+/**
+ * Função responsável por retornar o número de elementos diferentes entre dois Arrays.
+ * @param a Array a comparar.
+ * @param b Array a comparar com o primeiro.
+ * @return int com o valor.
+ */
 int catalogo_nr_elementos_diferentes(Array a, Array b);
 
-
-#endif
+#endif /* _catalogo_h_ */

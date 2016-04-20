@@ -1,18 +1,14 @@
 #include "./headers/leituras.h"
 
-#include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
-
-#define MAXBUFFERCLIENTES 32
-#define MAXBUFFERPRODUTOS 64
-#define MAXBUFFERVENDAS 128
 
 static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, char* file_name);
 static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char* file_name);
 static void converte_vendas(Cat_Produtos products, Cat_Clientes costumers, Faturacao faturas, Filial filiais[], FILE *fp,char* file_name);
+
 
 /**
  * Recebe as estruturas inicializadas e os ficheiros ja abertos e copia a informação dos ficheiros para as estruturas.
@@ -33,7 +29,6 @@ void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao 
    char continua[10];
    time_t begin, end;
    double time_spent;
-
 
    begin = clock();
 
@@ -56,7 +51,6 @@ void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao 
 }
 
 
-/* Coloca o ficheiro dos clientes em memória num array de AVL's */
 
 static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, char* file_name) {
    
@@ -101,8 +95,6 @@ static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, c
 }
 
 
-
-/* Coloca o ficheiro dos produtos em memória num array de AVL's */
 
 static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char* file_name) {
 
@@ -218,4 +210,3 @@ static void converte_vendas(Cat_Produtos cat_produtos, Cat_Clientes cat_clientes
 
    fclose(f_sales);   
 }
-

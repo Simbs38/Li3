@@ -6,14 +6,10 @@
 #ifndef _heap_h_
 #define _heap_h_
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "global.h"
+#include "array_dinamico.h"
 
 typedef struct heap *Heap;
-
-/*quantidade produto custo */
 
 
 /**
@@ -33,7 +29,6 @@ Heap initHeap();
  * @return Heap com o novo membro adicionado.
  */
 Heap heap_push(Heap heap,char *produto,int quantidade, float custo, int modo, char ordenacao);
-
 
 /**
  * Devolve o produto com maior quantidade.

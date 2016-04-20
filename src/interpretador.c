@@ -7,13 +7,11 @@
 static int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas,Filial filiais[]);
 static int menu_catalogo(Cat_Produtos produtos);
 static int menu_faturacao(Faturacao faturas);
-static int menu_filiais(Filial filiais[]);
-
+static int menu_filiais(Filial filiais[], Faturacao faturas);
 
 #define MENU_PRINCIPAL 1
 #define SAIR_PROGRAMA 0
 #define REFAZER_DADOS 2
-
 
 /**
  * Função encarregue de imprimir o menu de interação principal com o utilizador e executar a sua primeira opção.
@@ -28,11 +26,11 @@ int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatur
 
 	int input = 0;
 	char opcao[20];
-	/*	
+	
 	if(estado == REFAZER_DADOS) {
-		estado = menu_leitura(produtos,clientes,faturas);
+		estado = menu_leitura(produtos,clientes,faturas,filiais);
 	}
-*/
+
 	while(estado) {
 		system("clear");
 		printf( "_____________________________________________\n" );
@@ -55,41 +53,39 @@ int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatur
 			
 			case 'Q': estado = SAIR_PROGRAMA; break;
 			
-			case '1': estado = menu_leitura(produtos,clientes,faturas,filiais); break;
-			/*if(!total_Produtos(produtos)) {
-					  	estado = menu_leitura(produtos,clientes,faturas); break;
-					  }
-					  else {
-					  	printf("Esta acção irá refazer os dados em memória, prima Q para cancelar >> ");
+			case '1': if(!total_Produtos(produtos)) {
+					  	estado = menu_leitura(produtos,clientes,faturas,filiais); break;
+					  } else {
+					  	printf(" Esta acção irá refazer os dados em memória, prima Q para cancelar >> ");
 					  	input = scanf("%s",opcao);
 					  	if(opcao[0] == 'Q') break;
 					  	else {
 					  		estado = REFAZER_DADOS;
 					  		return estado;
 					  	}
-					  }*/
+					  }
 			case '2': if(total_Produtos(produtos)) estado = menu_catalogo(produtos);
 					  else  {
 					  	system("clear");
-					  	printf("\nAinda não foram lidos nenhuns dados!\n");
-					  	printf("\nPrima qualquer tecla para voltar ao menu >> ");
+					  	printf("\n Ainda não foram lidos nenhuns dados!\n");
+					  	printf("\n Prima qualquer tecla para voltar ao menu >> ");
 						input = scanf("%s",opcao);			  	
 					  }
 					  break;
 			case '3': if(total_Produtos(produtos)) estado = menu_faturacao(faturas);
 					  else {
 					  	system("clear");
-					  	printf("\nAinda não foram lidos nenhuns dados!\n");
-					  	printf("\nPrima qualquer tecla para voltar ao menu >> ");
+					  	printf("\n Ainda não foram lidos nenhuns dados!\n");
+					  	printf("\n Prima qualquer tecla para voltar ao menu >> ");
 					  	input = scanf("%s",opcao);
 					  }
 					  break;
 					  
-			case '4': if(total_Produtos(produtos)) estado = menu_filiais(filiais);
+			case '4': if(total_Produtos(produtos)) estado = menu_filiais(filiais,faturas);
 					  else {
 					  	system("clear");
-					  	printf("\nAinda não foram lidos nenhuns dados!\n");
-					  	printf("\nPrima qualquer tecla para voltar ao menu >> ");
+					  	printf("\n Ainda não foram lidos nenhuns dados!\n");
+					  	printf("\n Prima qualquer tecla para voltar ao menu >> ");
 					  	input = scanf("%s",opcao);
 					  }
 					  break;
@@ -100,14 +96,6 @@ int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatur
 	return estado;
 }
 
-/**
- * Função encarregue de imprimir o menu leitura de ficheiros.
- * @param Cat_Protudos produtos.
- * @param Cat_Clientes clientes.
- * @param Faturacao faturas.
- * @param Filiais filiais.
- * @return int.
- */
 
 static int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas,Filial filiais[3]) {
 
@@ -121,8 +109,10 @@ static int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao f
 		printf("\n\t\tMENU LEITURA\n\n");
 		printf("---------------------------------------------\n");
 		printf(" Escolha uma das seguintes opções:\n\n");
-		printf("  1. Carregar ficheiros pré-definidos\n\n");
-		printf("  2. Introduzir ficheiros\n\n");
+		printf("  1. Carregar ficheiros para 1M\n\n");
+		printf("  2. Carregar ficheiros para 3M\n\n");
+		printf("  3. Carregar ficheiros para 5M\n\n");
+		printf("  4. Introduzir ficheiros\n\n");
 		printf("---------------------------------------------\n");
 		printf("  V - Voltar\t\t\tQ - Sair\n" );
 		printf("_____________________________________________\n");
@@ -141,6 +131,12 @@ static int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao f
 			case '2': estado = querie_1(produtos,clientes,faturas,filiais,2);
 					  return estado;
 					  break;
+			case '3': estado = querie_1(produtos,clientes,faturas,filiais,3);
+					  return estado;
+					  break;
+			case '4': estado = querie_1(produtos,clientes,faturas,filiais,4);
+					  return estado;
+					  break;
 
 			case 'V': return MENU_PRINCIPAL; break;
 
@@ -151,11 +147,8 @@ static int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao f
 	return estado;
 }
 
-/**
- * Função encarregue de imprimir o menu do catalogo de produtos.
- * @param Cat_Protudos produtos.
- * @return int.
- */
+
+
 static int menu_catalogo(Cat_Produtos produtos) {
 
 	int estado = 1, input = 0;
@@ -195,11 +188,6 @@ static int menu_catalogo(Cat_Produtos produtos) {
 }
 
 
-/**
- * Função encarregue de imprimir o menu de faturação.
- * @param Faturacao faturas.
- * @return int.
- */
 
 static int menu_faturacao(Faturacao faturas) {
 
@@ -246,12 +234,9 @@ static int menu_faturacao(Faturacao faturas) {
 	return estado;
 }
 
-/**
- * Função encarregue de imprimir o menu das filiais.
- * @param Filiais filiais.
- * @return int.
- */
-static int menu_filiais(Filial filiais[3]) {
+
+
+static int menu_filiais(Filial filiais[3], Faturacao faturas) {
 
 	int estado = 1, input = 0;
 	char opcao[20];
@@ -304,7 +289,7 @@ static int menu_filiais(Filial filiais[3]) {
 			          return estado;
 			          break;
 		
-			case '7': estado = querie_12(filiais);
+			case '7': estado = querie_12(filiais,faturas);
 			          return estado;
 			          break;
 		

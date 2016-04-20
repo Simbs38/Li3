@@ -1,23 +1,29 @@
+/**
+ * @file queries.h
+ * @brief Ficheiro que contem a API relativa á implementação das Queries.
+ */
+
 #ifndef _queries_h_
 #define _queries_h_
 
+#include "global.h"
 #include "avl.h"
+#include "heap.h"
 #include "produtos.h"
 #include "clientes.h"
 #include "faturacao.h"
-#include "filiais.h"
-#include "global.h"
-#include "heap.h"
+#include "filial.h"
+#include "array_dinamico.h"
 
 /**
- * Ler os 3 ficheiros (Produtos, Clientes e Vendas), cujos nomes poderão ser introduzidos pelo utilizador ou, opcionalmente, assumidos por omissão  
+ * Ler os 3 ficheiros (Produtos, Clientes e Vendas), cujos nomes poderão ser introduzidos pelo utilizador ou, opcionalmente, assumidos por omissão. 
  * @param Cat_Produtos produtos.
  * @param Cat_Clientes clientes.
  * @param Faturacao faturas.
  * @param Filiais filiais.
  * @param int modo.
 */
-int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas,Filial filiais[], int modo);
+int querie_1(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao faturas, Filial filiais[], int modo);
 
 /**
  * Determina a lista e o total de produtos cujo código se inicia por uma dada letra.
@@ -69,14 +75,14 @@ int querie_7(Filial filiais[]);
 int querie_8(Filial filiais[]);
 
 /**
- * Dado  um  código  de  cliente  e  um  mês,  determinar  a  lista  de  códigos  de produtos que mais comprou.
+ * Dado um código de cliente e um mês, determinar a lista de códigos de produtos que mais comprou.
  * @param Filiais filial.
  * @return int.
 */
 int querie_9(Filial filiais[]);
 
 /**
- *Cria  uma  lista  dos  N produtos mais  vendidos  em  todo  o  ano.
+ *Cria uma lista dos N produtos mais vendidos em todo o ano.
  * @param Filiais filial.
  * @return int.
 */
@@ -91,10 +97,11 @@ int querie_11(Filial filiais[]);
 
 /**
  * Determina o número de clientes registados que não realizaram compras bem como o número de produtos que ninguém comprou.
- * @param Filiais filial
- * @return int
+ * @param Filiais filial.
+ * @param Faturacao faturas.
+ * @return int.
 */
-int querie_12(Filial filiais[]);
+int querie_12(Filial filiais[], Faturacao faturas);
 
 /**
  *Determinar a lista ordenada de códigos de clientes que realizaram compras em todas as filiais.
@@ -103,4 +110,4 @@ int querie_12(Filial filiais[]);
 */
 void apresenta_Lista(Lista list);
 
-#endif
+#endif /* _queries_h_ */

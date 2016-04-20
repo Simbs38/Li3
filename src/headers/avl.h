@@ -6,19 +6,16 @@
 #ifndef _avl_h_
 #define _avl_h_
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "global.h"
 
 
 typedef struct avl* AVL;
 typedef struct nodeAVL *NODO;
 
-typedef struct lista *Lista;
-
 typedef void* Estrutura;
 typedef char* Valor;
+
+typedef void(*Funcao)(void*);
 
 
 /**
@@ -44,6 +41,15 @@ AVL avl_insert(AVL arvore, Valor key, Estrutura estrutura);
 AVL avl_clone(AVL node);
 
 /**
+ * Insere uma nova estrutura na arvore tree tendo como referência de posicionamento um char* value.
+ * @param tree AVL onde insere.
+ * @param value char* a inserir.
+ * @param estrutura Conteúdo/Estrutura a inserir.
+ * @return AVL atualizada.
+ */
+AVL atualiza_avl(AVL tree, Valor value, Estrutura estrutura);
+
+/**
  * Devolve um Boolean referente a ter encontrado ou não na AVL o Valor value.
  * @param tree AVL onde é efectuada a procura.
  * @param value valor a procurar na AVL.
@@ -61,8 +67,9 @@ int avl_count(AVL tree);
 /**
  * Função com o objetivo de limpar da memória uma dada AVL.
  * @param nodo AVL a limpar da memória.
+ * @param f Funcao que liberta a memória da estrutura associada.
  */
-void avl_free(AVL node);
+void avl_free(AVL node, Funcao f);
 
 /**
  * Devolve a estrutura associada a um nodo de uma AVL passada como argumento.
@@ -72,78 +79,39 @@ void avl_free(AVL node);
  */
 Estrutura avl_getEstrutura(AVL node, Valor value);
 
-
-
+/**
+ * Função que dada uma AVL retorna o nodo da sua raiz.
+ * @param a AVL de onde se pretende o nodo.
+ * @return NODO.
+ */
 NODO getNodo(AVL a);
 
+/**
+ * Função que dado um NODO retorna o nodo á sua esquerda.
+ * @param n NODO.
+ * @return NODO à esquerda.
+ */
 NODO getNodoEsq(NODO n);
 
+/**
+ * Função que dado um NODO retorna o nodo á sua direita.
+ * @param n NODO.
+ * @return NODO à direita.
+ */
 NODO getNodoDir(NODO n);
 
+/**
+ * Função que dado um NODO retorna uma copia da sua string.
+ * @param n NODO.
+ * @return char* com a cópia.
+ */
 char* getString(NODO n);
 
+/**
+ * Função que dado um NODO retorna o seu contéudo.
+ * @param n NODO.
+ * @return void*.
+ */
 void* getCont(NODO n);
-
-
-/**
- * Inicia um novo array dinâmico.
- * @param size inteiro que determina a capacidade inicial do array dinâmico.
- * @return conjunto array dinâmico
- */
-Lista init_Lista(int capacidade);
-
-
-/**
- * Retorna uma lista resultante da conversão para lista de uma AVL dada.
- * @param list Lista (array dinâmico) onde serão inseridos os valores.
- * @param tree AVL de onde provêm os valores a colocar na Lista.
- * @return list.
- */
-Lista lista_converte(Lista list, AVL tree);
-
-/**
- * Adiciona um char* passado como argumento no array dinâmico.
- * @param conjunto Lista (array dinâmico) onde será inserido o valor pretendido.
- * @param valor char* a colocar na Lista.
- * @return conjunto array dinâmico após a inserção.
- */
-Lista lista_insert(Lista conjunto ,char* valor);
-
-
-/**
- * Retorna uma Lista com os nomes dos produtos não comprados em nenhuma filial.
- * @param conjunto Lista (array dinâmico) a inserir valores.
- * @param tree AVL a procurar os valores.
- * @return conjunto array dinâmico após a inserção.
- */
-Lista produtos_nao_comprados_totais(Lista list,AVL tree);
-
-/**
- * Retorna o campo Pos da estrutura Lista.
- * @param list Lista (array dinâmico).
- * @return int tamanho do array dinâmico.
- */
-int lista_getPos(Lista list);
-
-/**
- * Retorna o valor do array dinamico dada uma posição.
- * @param list Lista (array dinâmico).
- * @param pos posição de onde se pretende retirar o valor.
- * @return char* com o valor.
- */
-char* lista_getNome(Lista list, int pos);
-
-/**
- * Retorna um Boolean referente a um elemento se encontrar na lista ou não.
- * @param list Lista (array dinâmico).
- * @param valor char* a verificar a existência.
- * @return Boolean.
- */
-Boolean existe_Lista(Lista list, char* valor);
-
-
-Lista clientes_compraram_filial(Lista list,AVL tree);
-
-int lista_nr_elementos_diferentes(Lista a, Lista b);
 
 #endif /* _avl_h_ */
