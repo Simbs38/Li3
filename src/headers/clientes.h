@@ -97,5 +97,4 @@ char* getNomeCliente(Cliente client, char* novo);
  */
 void free_cliente(Cliente client);
 
-
 #endif /* _clientes_h_ */

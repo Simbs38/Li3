@@ -27,8 +27,29 @@ int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Fili
 			
 			leitura_ficheiros(clientes,produtos,faturas,filiais,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
 			
-		}
-		else {
+		} else if(modo == 2) {
+
+			strcpy(f_clientes,"./data/Clientes.txt");
+            strcpy(f_produtos,"./data/Produtos.txt");
+            strcpy(f_vendas,"./data/Vendas_3M.txt");
+            
+            file_clientes = fopen(f_clientes,"r");
+            file_produtos = fopen(f_produtos,"r");
+            file_vendas = fopen(f_vendas,"r");
+			
+			leitura_ficheiros(clientes,produtos,faturas,filiais,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
+		} else if(modo == 3) {
+
+			strcpy(f_clientes,"./data/Clientes.txt");
+            strcpy(f_produtos,"./data/Produtos.txt");
+            strcpy(f_vendas,"./data/Vendas_5M.txt");
+            
+            file_clientes = fopen(f_clientes,"r");
+            file_produtos = fopen(f_produtos,"r");
+            file_vendas = fopen(f_vendas,"r");
+			
+			leitura_ficheiros(clientes,produtos,faturas,filiais,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
+		} else {
 			system("clear");
 			printf("_____________________________________________\n");
 			printf("\n\t   Leitura de Ficheiros\n");
@@ -223,6 +244,19 @@ int querie_4(Faturacao faturas) {
 
 		if(opcao[0] == '1') { 
 			nao_comprados = faturas_produtos_nao_comprados_totais(nao_comprados,faturas);
+			if(faturacao_getPos(nao_comprados) == 0) { 
+				printf("\n Todos os produtos foram comprados em todas as filiais!\n");
+				printf("\nEscolha uma opção >> ");
+				input = scanf("%s",opcao);
+		
+				switch(opcao[0]) {
+					case 'Q': return 0; break;
+
+					case 'V': return estado; break;
+
+					default: break;
+				}
+			}
 			apresenta_faturas(nao_comprados);
 			free_Conj_Faturas(nao_comprados);
 			return estado;
@@ -563,11 +597,11 @@ int querie_10(Filial filiais[NR_FILIAIS]){
         printf(" Querie 10: %d produtos mais vendidos\n\n",nr_de_elementos);
         printf(" --- Página número |%d| de |%d| ---\n", nr_pagina,total_paginas);
         
-        printf("\n\tFilial 1\t\tFilial 2\t   Filial 3\n");
-        printf("   Produto   C    Q\tProduto   C    Q\tProduto   C    Q\n");
+        printf("\n\tFilial 1\t\tFilial 2\t\tFilial 3\n");
+        printf("#\tProduto\tC\tQ\tProduto\tC\tQ\tProduto\tC\tQ\n");
 
         for(i = (nr_pagina-1) * elementos_pagina; i < (nr_pagina * elementos_pagina) && i < nr_de_elementos; i++) {
-            printf("%d  %s   %d    %d\t%s   %d    %d\t%s   %d    %d\n",i+1,filial_get_elemento_lista(valores_1,i),nr_clientes_de_um_produto(filiais[0],filial_get_elemento_lista(valores_1,i)),getQuantidadeProduto(filiais[0],filial_get_elemento_lista(valores_1,i)),filial_get_elemento_lista(valores_2,i),nr_clientes_de_um_produto(filiais[1],filial_get_elemento_lista(valores_2,i)),getQuantidadeProduto(filiais[1],filial_get_elemento_lista(valores_2,i)),filial_get_elemento_lista(valores_3,i),nr_clientes_de_um_produto(filiais[2],filial_get_elemento_lista(valores_3,i)),getQuantidadeProduto(filiais[2],filial_get_elemento_lista(valores_3,i)));
+            printf("%d\t%s\t%d\t%d\t%s\t%d\t%d\t%s\t%d\t%d\n",i+1,filial_get_elemento_lista(valores_1,i),nr_clientes_de_um_produto(filiais[0],filial_get_elemento_lista(valores_1,i)),getQuantidadeProduto(filiais[0],filial_get_elemento_lista(valores_1,i)),filial_get_elemento_lista(valores_2,i),nr_clientes_de_um_produto(filiais[1],filial_get_elemento_lista(valores_2,i)),getQuantidadeProduto(filiais[1],filial_get_elemento_lista(valores_2,i)),filial_get_elemento_lista(valores_3,i),nr_clientes_de_um_produto(filiais[2],filial_get_elemento_lista(valores_3,i)),getQuantidadeProduto(filiais[2],filial_get_elemento_lista(valores_3,i)));
         }
 
         putchar('\n');

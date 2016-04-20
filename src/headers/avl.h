@@ -47,7 +47,7 @@ AVL avl_clone(AVL node);
  * @param estrutura Conteúdo/Estrutura a inserir.
  * @return AVL atualizada.
  */
-AVL atualiza_avl(AVL tree, char* value, Estrutura estrutura);
+AVL atualiza_avl(AVL tree, Valor value, Estrutura estrutura);
 
 /**
  * Devolve um Boolean referente a ter encontrado ou não na AVL o Valor value.
@@ -78,7 +78,6 @@ void avl_free(AVL node, Funcao f);
  * @return void* com apontador para a estrutura ou NULL caso a mesma nao se encontre lá.
  */
 Estrutura avl_getEstrutura(AVL node, Valor value);
-
 
 /**
  * Função que dada uma AVL retorna o nodo da sua raiz.
@@ -114,6 +113,5 @@ char* getString(NODO n);
  * @return void*.
  */
 void* getCont(NODO n);
-
 
 #endif /* _avl_h_ */

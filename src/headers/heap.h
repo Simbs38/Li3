@@ -30,7 +30,6 @@ Heap initHeap();
  */
 Heap heap_push(Heap heap,char *produto,int quantidade, float custo, int modo, char ordenacao);
 
-
 /**
  * Devolve o produto com maior quantidade.
  * @param heap Heap com todos os produtos.

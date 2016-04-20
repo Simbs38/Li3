@@ -161,8 +161,12 @@ HEAP init_HEAP();
  */
 void free_HEAP(HEAP h);
 
+/**
+ * Retorna o tamanho de uma dada HEAP.
+ * @param h HEAP.
+ * @return int com o tamanho da HEAP.
+ */
 int heap_tamanho(HEAP h);
-
 
 /**
  * Converte uma dada AVL com os produtos de um cliente num dado mês em HEAP para ordenação dos valores.
@@ -237,8 +241,19 @@ Conj_Filiais lista_clientes_compraram_filial(Conj_Filiais c, Filial f);
  */
 Conj_Filiais lista_clientes_de_produto(Filial f, char* produto, char promo);
 
+<<<<<<< HEAD
 
 Conj_Filiais converte_total_clientes(Conj_Filiais c, Filial f);
 
 
+=======
+/**
+ * Converte num Conj_Filiais os clientes de uma dada filial.
+ * @param c Conj_Filiais onde serão colocados os valores.
+ * @param f Filial onde se encontram os dados.
+ * @return HEAP após a inserção dos dados.
+ */
+Conj_Filiais converte_total_clientes(Conj_Filiais c, Filial f);
+
+>>>>>>> 3fab85031ce8df4a93f2294fd5d0557240b5c1b3
 #endif /* _filial_h_ */
