@@ -115,10 +115,10 @@ Conj_Produtos converte_Produtos(Conj_Produtos lista, Cat_Produtos products, char
 void free_Conj_Produtos(Conj_Produtos c);
 
 /**
- * Prepara os dados para serem apresentados.
+ * Retornar a lista com os produtos inseridos num Conj_Produtos.
  * @param Conj_Produtos conjunto.
- * @return Conj_Produtos.
+ * @return Array.
  */
-void apresenta_Produtos(Conj_Produtos conjunto);
+Lista get_Lista_Produtos(Conj_Produtos conjunto);
 
 #endif /* _produtos_h_ */

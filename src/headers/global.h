@@ -17,4 +17,6 @@ typedef int Boolean;
 #define MAXBUFFERPRODUTOS 64
 #define MAXBUFFERVENDAS 128
 
+#define TAMANHO_PAGINA 20
+
 #endif /* _global_h_ */

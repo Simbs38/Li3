@@ -14,9 +14,10 @@ struct lista {
 struct pagina {
     Lista array_dinamico;
     int nr_pagina;
-    int nr_de_paginas;
+    int total_paginas;
     int tamanho_pagina;
     int nr_elementos;
+    int total_elementos;
 };
 
 static Lista converte_aux(Lista list, NODO tree);
@@ -42,7 +43,7 @@ Lista lista_insert(Lista conjunto ,char* valor) {
         conjunto->array = realloc(conjunto->array,conjunto->capacidade *sizeof(char *));
     }
 
-    conjunto->array[posicao] = malloc(10);
+    conjunto->array[posicao] = malloc((strlen(valor)+1)*sizeof(char));
     strcpy(conjunto->array[posicao],valor); 
     conjunto->pos++;
 
@@ -142,14 +143,16 @@ int lista_nr_elementos_diferentes(Lista a, Lista b) {
 
 
 
-Pagina init_Pagina(Lista l, int capacidade) {
-    int last_pagina = l->pos % capacidade;
+Pagina init_Pagina(int capacidade) {
+    
     Pagina nova = (Pagina) malloc(sizeof(struct pagina));
-    nova->array_dinamico = init_Lista(capacidade);
+    nova->array_dinamico = NULL;
     nova->nr_pagina = 0;
-    nova->nr_de_paginas = (last_pagina == 0) ? (l->pos / capacidade) : ((l->pos / capacidade) + 1);
+    nova->total_paginas = 0;
     nova->tamanho_pagina = capacidade;
-    nova->nr_elementos = l->pos;
+    nova->nr_elementos = 0;
+    nova->total_elementos = 0;
+    
     return nova;
 }
 
@@ -159,14 +162,47 @@ void free_Pagina(Pagina p) {
     free(p);
 }
 
-/*
+
+int getNrPagina(Pagina p) {
+    return p->nr_pagina;
+}
+
+
+int getNrElementosPag(Pagina p) {
+    return p->nr_elementos;
+}
+
+
+int getNrElementosTotal(Pagina p) {
+    return p->total_elementos;
+}
+
+
+int getNrPaginaTotal(Pagina p) {
+    return p->total_paginas;
+}
+
+
+char* getStringPagina(Pagina p, int posicao) {
+    return lista_getNome(p->array_dinamico,posicao);
+}
+
+
 Pagina getPagina(Pagina p, Lista l, int pagina) {
+
+    int i;
+    int last_pagina = l->pos % p->tamanho_pagina;
+    p->total_elementos = l->pos;
+    p->total_paginas = (last_pagina == 0) ? (l->pos / p->tamanho_pagina) : ((l->pos / p->tamanho_pagina) + 1);
+    p->array_dinamico = init_Lista(p->tamanho_pagina);
     p->nr_pagina = pagina;
-    
-    for(i = (pagina-1) * p->tamanho_pagina; i < (pagina * p->tamanho_pagina) && i < p->nr_elementos; i++) {
-        printf("\t%d\t%s\n",i+1,lista_getNome(list,i));
+
+    for(i = (pagina-1) * p->tamanho_pagina; i < (pagina * p->tamanho_pagina) && (i < p->total_elementos); i++) {
+        lista_insert(p->array_dinamico,l->array[i]);
     }
-    
+
+    p->nr_elementos = p->array_dinamico->pos;
+
     return p;
 }
-*/
+

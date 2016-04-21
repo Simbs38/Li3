@@ -258,6 +258,6 @@ int faturacao_getPos(Conj_Faturas conjunto) {
 }
 
 
-void apresenta_faturas(Conj_Faturas conjunto) {
-	apresenta_Array(conjunto->lista);
+Lista apresenta_faturas(Conj_Faturas conjunto) {
+	return get_Lista_Array(conjunto->lista);
 }

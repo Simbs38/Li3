@@ -22,7 +22,7 @@ typedef struct nodo_clientes {
 typedef struct lista_produtos {
 	int quantidade;
 	double faturacao;
-	char produto[7];
+	char* produto;
 } *Lista_Produtos;
 
 
@@ -115,7 +115,8 @@ Filial adiciona_Venda_Filial(Filial f, Venda v) {
 
 	if(!prod_c) {
 		prod_c = init_Lista_Produtos();
-		strncpy(prod_c->produto,prod,7);
+		prod_c->produto = malloc((strlen(prod)+1)*sizeof(char));
+		strcpy(prod_c->produto,prod);
 	}
 
 	prod_c->faturacao += faturado;
@@ -246,8 +247,8 @@ void free_Conj_Filiais(Conj_Filiais c) {
 }
 
 
-void apresenta_Dados_Filial(Conj_Filiais c) {
-	apresenta_Array(c->lista);
+Lista get_Lista_Filial(Conj_Filiais c) {
+	return get_Lista_Array(c->lista);
 }
 
 
