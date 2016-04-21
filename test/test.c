@@ -260,6 +260,13 @@ Boolean testa_total_quantidade(Faturacao faturas,Lista testes){
   return(n==aux->quantidade);
 }
 
+
+Lista_Prod alloca_nome(Lista_Prod lista,char * string){
+  lista->nome=string;
+  return lista;
+}
+
+
 Lista_Prod addnode(char *string){
   int i,j;
   Lista_Prod new=(Lista_Prod)malloc (sizeof(struct lista_produto));
@@ -270,9 +277,8 @@ Lista_Prod addnode(char *string){
     }
   }
   char *nome_prod=malloc(sizeof(char *));
-  printf("%s\n",string );
-  strcpy(new->nome,string);
-  printf("s\n"); 
+  if(string[1]=='#')new->nome=NULL; 
+  else new=alloca_nome(new,string);
   new->quantidade=0;
   new->faturacao=0;
   new->clientes=0;
@@ -331,8 +337,8 @@ Lista_Prod init_testes_produtos(FILE*file){
     switch(line[0]){
       case '#': break;
       case '-': {
-        if(strcmp(aux->nome,"###")) strcpy(aux->nome,information);
-        else{aux=addnode(information);}
+        if(aux->nome==NULL){aux=alloca_nome(aux,information);}
+        else aux->next=addnode(information);
         break;
       }
       case 'M':{
@@ -374,11 +380,6 @@ Lista_Prod init_testes_produtos(FILE*file){
 
 int main(){
     int i,n;
-    /*numero de testes disponiveis*/
-    int testes_dados=18;
-    int testes_produtos_nao_comprados=5;
-    int testes_clientes=15;
-    int testes_faturacao_produtos=102;
     FILE *file_dados =NULL;
     FILE *file_teste_produtos=NULL;
 
@@ -396,11 +397,11 @@ int main(){
         file_teste_produtos=fopen("./test/testes_produtos.txt","r");
 
         Lista_Prod testes_produtos=init_testes_produtos(file_teste_produtos);
-        Lista aux;
-        printf("%s\n",testes );
-        for(aux=testes;aux!=NULL;aux=aux->next){
-          printf(" %d %f\n",aux->tipo,aux->quantidade );
-          }
+        Lista_Prod aux;
+        for(aux=testes_produtos;aux!=NULL;aux=aux->next){
+          printf("%s\n",aux->nome );
+        }
+
         querie_1(produtos,clientes,faturacao,filiais,1);
         leitura(produtos,clientes,faturacao,filiais,testes);
         n=testa_total_faturado(faturacao,testes);
