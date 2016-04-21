@@ -31,9 +31,10 @@ Catalogo insere_Catalogo(Catalogo catalogo, char* key, void* estrutura);
 /**
  * Cria um clone do Catálogo dado, devolvendo uma copia deste.
  * @param catalogo a clonar.
+ * @param catalogo que conterá o clone.
  * @return Catalogo novo, clone do dado como argumento.
  */
-Catalogo clone_Catalogo(Catalogo catalogo);
+Catalogo clone_Catalogo(Catalogo catalogo, Catalogo novo);
 
 /**
  * Atualiza uma estrutura num Catálogo retornando o catalogo atualizado.

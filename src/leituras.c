@@ -192,6 +192,7 @@ static void converte_vendas(Cat_Produtos cat_produtos, Cat_Clientes cat_clientes
       }
    }
    
+   free_Venda(venda);
    end = clock();
    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 

@@ -39,7 +39,7 @@ Faturacao init_Faturacao() {
 
 
 Faturacao cria_Dados_Faturacao(Faturacao fat, Cat_Produtos produtos) {
-		fat->faturas = get_Catalogo_Produtos(produtos);
+		fat->faturas = get_Catalogo_Produtos(produtos,fat->faturas);
 	return fat;
 }
 
@@ -73,7 +73,8 @@ static void free_Fatura_Produto(void* n) {
 
 Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 	
-	char* prod = getNomeProduto(getProduto(venda));
+	char* prod = malloc(8*sizeof(char));
+	prod = getNomeProduto(getProduto(venda),prod);
 	int mes = getMes(venda) - 1;
 	int filial = getFilial(venda) - 1;
 	char promocao = getPromocao(venda);
@@ -94,6 +95,8 @@ Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 	estrutura->precos[mes][filial][promo] += custo;
 	
 	contas->faturas = atualiza_Catalogo(contas->faturas,prod,estrutura);
+	
+	free(prod);
 
 	return contas;
 }

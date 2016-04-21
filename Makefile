@@ -33,7 +33,7 @@ run:
 	./gereVendas
 
 clean:
-	-@rm -f gereVendas *.o
+	-@rm gereVendas
 	-@rm -rf obj
 
 cleanAll: clean

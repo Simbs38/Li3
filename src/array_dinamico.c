@@ -85,6 +85,7 @@ void free_Lista(Lista list) {
     for(i = 0; i < list->pos; i++) {
         free(list->array[i]);
     }
+    free(list->array);
     free(list);
 }
 

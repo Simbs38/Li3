@@ -28,7 +28,7 @@ static NODO rightRotate(NODO y);
 static NODO leftRotate(NODO x);
 static NODO atualiza_node(NODO node, char* value, void* estrutura);
 static NODO node_insert(NODO node, Valor string, Estrutura estrutura);
-static NODO tree_clone(NODO node);
+static NODO tree_clone(NODO node, NODO novo);
 static Estrutura node_getEstrutura(NODO node, Valor value);
 static void tree_free(NODO node, Funcao f);
 
@@ -64,11 +64,11 @@ int avl_count(AVL tree) {
 }
 
 
-AVL avl_clone(AVL node) {
-    AVL tree = malloc(sizeof(struct avl));
-    tree->arvore = tree_clone(node->arvore);
-    tree->avl_tamanho = node->avl_tamanho;
-    return tree;  
+AVL avl_clone(AVL node, AVL novo) {
+    novo = (AVL) malloc(sizeof(struct avl));
+    novo->arvore = tree_clone(node->arvore,novo->arvore);
+    novo->avl_tamanho = node->avl_tamanho;
+    return novo;  
 }
 
 
@@ -222,21 +222,20 @@ static Boolean node_lookUp(NODO node, Valor value) {
     }
 }
 
-static NODO tree_clone(NODO node) {
+static NODO tree_clone(NODO node, NODO novo) {
     
-    NODO aux;
     if(node) {
-        aux = malloc(sizeof(struct nodeAVL));
-        aux->string = malloc((strlen(node->string)+1)*sizeof(char));
-        strcpy(aux->string,node->string); 
-        aux->height = node->height;
-        aux->cont = NULL;
-        aux->left = tree_clone(node->left);
-        aux->right = tree_clone(node->right);
+        novo = malloc(sizeof(struct nodeAVL));
+        novo->string = malloc((strlen(node->string)+1)*sizeof(char));
+        strcpy(novo->string,node->string); 
+        novo->height = node->height;
+        novo->cont = NULL;
+        novo->left = tree_clone(node->left,novo->left);
+        novo->right = tree_clone(node->right,novo->right);
     }
-    else aux = NULL;
+    else novo = NULL;
 
-    return aux;
+    return novo;
 }
 
 

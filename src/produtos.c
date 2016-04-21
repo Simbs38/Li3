@@ -42,8 +42,7 @@ Produto altera_Produto(Produto p, char* nome) {
 }
 
 
-char* getNomeProduto(Produto product) {
-  char* novo = malloc((strlen(product->prod)+1)*sizeof(char));
+char* getNomeProduto(Produto product, char* novo) {
   strcpy(novo,product->prod);
   return novo;
 }
@@ -82,16 +81,9 @@ void remove_Catalogo_Produtos(Cat_Produtos products) {
 }
 
 
-Cat_Produtos clone_Catalogo_Produtos(Cat_Produtos products) {
-  Cat_Produtos novo = init_cat_produtos();
-  novo->catalogo = clone_Catalogo(products->catalogo);
-  return novo;
-}
-
-
-Catalogo get_Catalogo_Produtos(Cat_Produtos products) {
-  Catalogo novo = clone_Catalogo(products->catalogo);
-  return novo;
+Catalogo get_Catalogo_Produtos(Cat_Produtos products, Catalogo catalogo) {
+  catalogo = clone_Catalogo(products->catalogo,catalogo);
+  return catalogo;
 }
 
 

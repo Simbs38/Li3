@@ -69,14 +69,12 @@ int total_elems_letra(Catalogo catalogo, char letra) {
 }
 
 
-Catalogo clone_Catalogo(Catalogo catalogo) {
-  int i;
-  Catalogo novo = init_Catalogo();
-
+Catalogo clone_Catalogo(Catalogo catalogo, Catalogo novo) {
+  int i;  
+  novo = (Catalogo) malloc(sizeof(struct catalogo));
   for(i = 0; i < NR_LETRAS; i++) {
-    novo->indice[i] = avl_clone(catalogo->indice[i]);
+    novo->indice[i] = avl_clone(catalogo->indice[i],novo->indice[i]);
   }
-
   return novo;
 }
 

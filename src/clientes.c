@@ -32,8 +32,7 @@ Cliente altera_Cliente(Cliente c, char* novo) {
 }
 
 
-char* getNomeCliente(Cliente client) {
-  char* novo = malloc((strlen(client->name)+1)*sizeof(char) );
+char* getNomeCliente(Cliente client, char* novo) {
   strcpy(novo,client->name);
   return novo;
 }
@@ -63,13 +62,6 @@ Cat_Clientes insere_Cliente(Cat_Clientes clients, Cliente client) {
 }
 
 
-Cat_Clientes clone_Catalogo_Clientes(Cat_Clientes clients) {
-  Cat_Clientes novo;
-  novo->catalogo = clone_Catalogo(clients->catalogo);
-  return novo;
-}
-
-
 int total_Clientes(Cat_Clientes clients) {
   return total_elems_Catalogo(clients->catalogo);
 }
@@ -84,7 +76,7 @@ void remove_Catalogo_Clientes(Cat_Clientes clients) {
   remove_Catalogo(clients->catalogo,NULL);
 }
 
-Catalogo get_Catalogo_Clientes(Cat_Clientes clientes) {
-  Catalogo novo = clone_Catalogo(clientes->catalogo);
+Catalogo get_Catalogo_Clientes(Cat_Clientes clientes, Catalogo novo) {
+  novo = clone_Catalogo(clientes->catalogo, novo);
   return novo;
 }

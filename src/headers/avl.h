@@ -36,9 +36,10 @@ AVL avl_insert(AVL arvore, Valor key, Estrutura estrutura);
 /**
  * Executa um clone de uma dada AVL.
  * @param node AVL a clonar.
+ * @param novo AVL onde colocar o clone.
  * @return AVL nova, clonada da anterior.
  */
-AVL avl_clone(AVL node);
+AVL avl_clone(AVL node, AVL novo);
 
 /**
  * Insere uma nova estrutura na arvore tree tendo como referência de posicionamento um char* value.

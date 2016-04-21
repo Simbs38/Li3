@@ -60,8 +60,8 @@ static void free_Lista_Produtos(void* n);
 
 
 Filial cria_Dados_Filial(Filial filial, Cat_Produtos produtos, Cat_Clientes clientes) {
-    filial->produtos = get_Catalogo_Produtos(produtos);
-    filial->clientes = get_Catalogo_Clientes(clientes);
+    filial->produtos = get_Catalogo_Produtos(produtos, filial->produtos);
+    filial->clientes = get_Catalogo_Clientes(clientes, filial->clientes);
     return filial;
 }
 
@@ -74,8 +74,10 @@ Filial init_Filial() {
 
 Filial adiciona_Venda_Filial(Filial f, Venda v) {
 	
-	char* prod = getNomeProduto(getProduto(v));
-	char* cli = getNomeCliente(getCliente(v));
+	char* prod = malloc(8*sizeof(char));
+	prod = getNomeProduto(getProduto(v),prod);
+	char* cli = malloc(7*sizeof(char));
+	cli = getNomeCliente(getCliente(v),cli);
 	int quant = getQuantidade(v);
 	char promocao = getPromocao(v);
 	int promo = (promocao == 'N') ? NORMAL : PROMOCAO;
@@ -122,6 +124,9 @@ Filial adiciona_Venda_Filial(Filial f, Venda v) {
 	nodo_c->meses_produtos[mes] = avl_insert(nodo_c->meses_produtos[mes],prod,prod_c);
 
 	f->clientes = atualiza_Catalogo(f->clientes,cli,nodo_c);
+
+	free(prod);
+	free(cli);
 
 	return f;
 }

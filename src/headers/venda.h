@@ -20,6 +20,12 @@ typedef struct venda *Venda;
 Venda initVenda();
 
 /**
+ * Remove da memória uma dada estrutura Venda.
+ * @param v Venda a limpar.
+ */
+void free_Venda(Venda v);
+
+/**
  * Atualiza uma estrutura venda.
  * @param char* product.
  * @param double price.
