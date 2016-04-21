@@ -3,12 +3,21 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define ELEMENTOS_PAGINA 20
+
 struct lista {
     char** array;
     int pos;
     int capacidade;
 };
 
+struct pagina {
+    Lista array_dinamico;
+    int nr_pagina;
+    int nr_de_paginas;
+    int tamanho_pagina;
+    int nr_elementos;
+};
 
 static Lista converte_aux(Lista list, NODO tree);
 static Lista produtos_nao_comprados_totais_aux(Lista list, NODO tree);
@@ -42,7 +51,8 @@ Lista lista_insert(Lista conjunto ,char* valor) {
 
 
 Lista lista_converte(Lista list, AVL tree) {
-    list = converte_aux(list,getNodo(tree));
+    NODO n = getNodo(tree);
+    list = converte_aux(list,n);
     return list;
 }
 
@@ -104,7 +114,8 @@ char* lista_getNome(Lista list, int pos) {
 
 
 Lista clientes_compraram_filial(Lista list,AVL tree) {
-    list = clientes_compraram_filial_aux(list,getNodo(tree));
+    NODO x = getNodo(tree);
+    list = clientes_compraram_filial_aux(list,x);
     return list;
 }
 
@@ -121,11 +132,41 @@ static Lista clientes_compraram_filial_aux(Lista list, NODO tree) {
 
 int lista_nr_elementos_diferentes(Lista a, Lista b) {
     int i, resultado = 0;
-    for(i = 0; i < a->pos; i++) {
-        if(existe_Lista(b,a->array[i]) == false) resultado++; 
-    }
     for(i = 0; i < b->pos; i++) {
         if(existe_Lista(a,b->array[i]) == false) resultado++; 
     }
+    resultado += a->pos;
+    
     return resultado;
 }
+
+
+
+Pagina init_Pagina(Lista l, int capacidade) {
+    int last_pagina = l->pos % capacidade;
+    Pagina nova = (Pagina) malloc(sizeof(struct pagina));
+    nova->array_dinamico = init_Lista(capacidade);
+    nova->nr_pagina = 0;
+    nova->nr_de_paginas = (last_pagina == 0) ? (l->pos / capacidade) : ((l->pos / capacidade) + 1);
+    nova->tamanho_pagina = capacidade;
+    nova->nr_elementos = l->pos;
+    return nova;
+}
+
+
+void free_Pagina(Pagina p) {
+    free_Lista(p->array_dinamico);
+    free(p);
+}
+
+/*
+Pagina getPagina(Pagina p, Lista l, int pagina) {
+    p->nr_pagina = pagina;
+    
+    for(i = (pagina-1) * p->tamanho_pagina; i < (pagina * p->tamanho_pagina) && i < p->nr_elementos; i++) {
+        printf("\t%d\t%s\n",i+1,lista_getNome(list,i));
+    }
+    
+    return p;
+}
+*/

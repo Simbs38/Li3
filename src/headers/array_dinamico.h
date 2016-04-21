@@ -11,6 +11,7 @@
 
 
 typedef struct lista *Lista;
+typedef struct pagina *Pagina;
 
 /**
  * Inicia um novo array dinâmico.

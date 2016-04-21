@@ -532,8 +532,10 @@ int querie_9(Filial filiais[NR_FILIAIS]){
 		}
 
 		for(i = 0; i < 3; i++) heap = lista_codigos_de_clientes(filiais[i],heap,cliente,m,'Q');
+		
 		valores = convert_Heap_Lista(valores,heap,'Q');
 		apresenta_Dados_Filial(valores);
+		
 		free_Conj_Filiais(valores);
 		free_HEAP(heap);
 
@@ -566,7 +568,7 @@ int querie_10(Filial filiais[NR_FILIAIS]){
 	printf( "_____________________________________________\n" );
 	printf( "   N Produtos mais comprados - QUERIE 10\n\n" );
 
-	while(nr < 1 || nr > 140000) {
+	while(nr < 1 || nr > 171008) {
 	printf("\nIndique o número de produtos mais vendidos que pretende ver >> ");
 		input = scanf("%s",n_produtos);
 		nr = atoi(n_produtos);
@@ -728,7 +730,7 @@ void apresenta_Lista(Lista list) {
     
     int last_pagina = nr_de_elementos % elementos_pagina;
     
-    int total_paginas = (last_pagina == 0) ? (nr_de_elementos / elementos_pagina) : ((nr_de_elementos / elementos_pagina) + 1); 
+    int total_paginas = (last_pagina == 0) ? (nr_de_elementos / elementos_pagina) : ((nr_de_elementos / elementos_pagina) + 1);
 
     int nr_pagina = 1;
 

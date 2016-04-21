@@ -177,15 +177,18 @@ static void free_Nodo_Produtos(void* n) {
 
 int getQuantidadeProduto(Filial f, char* produto) {
 	Nodo_Produtos nodo_p = getEstrutura_Catalogo(f->produtos,produto);
-	return nodo_p->quantidade;
+	if(nodo_p != NULL) return nodo_p->quantidade;
+	return 0;
 }
 
 
 int nr_clientes_de_um_produto(Filial f, char* produto) {
-	int nr_produtos;
+	int nr_clientes = 0;
 	Nodo_Produtos nodo_p = getEstrutura_Catalogo(f->produtos,produto);
-	nr_produtos = filiais_nr_elementos_diferentes(nodo_p->clientes_N,nodo_p->clientes_P);
-	return nr_produtos;
+	if(nodo_p != NULL) {
+		nr_clientes = filiais_nr_elementos_diferentes(nodo_p->clientes_N,nodo_p->clientes_P);
+	}
+	return nr_clientes;
 }
 
 
