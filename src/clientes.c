@@ -5,7 +5,7 @@
 
 
 struct cliente {
-  char name[6];
+  char *name;
 };
 
 struct catalogo_clientes {
@@ -16,24 +16,30 @@ struct catalogo_clientes {
 
 Cliente criaCliente() {
   Cliente client = (Cliente) malloc(sizeof(struct cliente));
+  client->name = NULL;
   return client;
 }
 
 
-void alteraCliente(Cliente client, char *info) {
-    strcpy(client->name,info);
+Cliente altera_Cliente(Cliente c, char* novo) {
+  if(c->name) {
+    free(c->name);
+  }
+    c->name = malloc((strlen(novo)+1)*sizeof(char));
+    strcpy(c->name,novo);
+    
+  return c;
 }
 
 
-char* getNomeCliente(Cliente client) {
-  char* novo;
-  novo = malloc(10);
+char* getNomeCliente(Cliente client, char* novo) {
   strcpy(novo,client->name);
   return novo;
 }
 
 
 void free_cliente(Cliente client) {
+  free(client->name);
   free(client);
 }
 
@@ -56,13 +62,6 @@ Cat_Clientes insere_Cliente(Cat_Clientes clients, Cliente client) {
 }
 
 
-Cat_Clientes clone_Catalogo_Clientes(Cat_Clientes clients) {
-  Cat_Clientes novo;
-  novo->catalogo = clone_Catalogo(clients->catalogo);
-  return novo;
-}
-
-
 int total_Clientes(Cat_Clientes clients) {
   return total_elems_Catalogo(clients->catalogo);
 }
@@ -74,10 +73,10 @@ int total_Clientes_letra(Cat_Clientes clients, char letra) {
 
 
 void remove_Catalogo_Clientes(Cat_Clientes clients) {
-  remove_Catalogo(clients->catalogo);
+  remove_Catalogo(clients->catalogo,NULL);
 }
 
-Catalogo get_Catalogo_Clientes(Cat_Clientes clientes) {
-  Catalogo novo = clone_Catalogo(clientes->catalogo);
+Catalogo get_Catalogo_Clientes(Cat_Clientes clientes, Catalogo novo) {
+  novo = clone_Catalogo(clientes->catalogo, novo);
   return novo;
 }

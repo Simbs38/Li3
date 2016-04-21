@@ -7,7 +7,7 @@
 static int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao faturas,Filial filiais[]);
 static int menu_catalogo(Cat_Produtos produtos);
 static int menu_faturacao(Faturacao faturas);
-static int menu_filiais(Filial filiais[]);
+static int menu_filiais(Filial filiais[], Faturacao faturas);
 
 #define MENU_PRINCIPAL 1
 #define SAIR_PROGRAMA 0
@@ -81,7 +81,7 @@ int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatur
 					  }
 					  break;
 					  
-			case '4': if(total_Produtos(produtos)) estado = menu_filiais(filiais);
+			case '4': if(total_Produtos(produtos)) estado = menu_filiais(filiais,faturas);
 					  else {
 					  	system("clear");
 					  	printf("\n Ainda não foram lidos nenhuns dados!\n");
@@ -109,8 +109,10 @@ static int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao f
 		printf("\n\t\tMENU LEITURA\n\n");
 		printf("---------------------------------------------\n");
 		printf(" Escolha uma das seguintes opções:\n\n");
-		printf("  1. Carregar ficheiros pré-definidos\n\n");
-		printf("  2. Introduzir ficheiros\n\n");
+		printf("  1. Carregar ficheiros para 1M\n\n");
+		printf("  2. Carregar ficheiros para 3M\n\n");
+		printf("  3. Carregar ficheiros para 5M\n\n");
+		printf("  4. Introduzir ficheiros\n\n");
 		printf("---------------------------------------------\n");
 		printf("  V - Voltar\t\t\tQ - Sair\n" );
 		printf("_____________________________________________\n");
@@ -127,6 +129,12 @@ static int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao f
 					  return estado;
 					  break;
 			case '2': estado = querie_1(produtos,clientes,faturas,filiais,2);
+					  return estado;
+					  break;
+			case '3': estado = querie_1(produtos,clientes,faturas,filiais,3);
+					  return estado;
+					  break;
+			case '4': estado = querie_1(produtos,clientes,faturas,filiais,4);
 					  return estado;
 					  break;
 
@@ -228,7 +236,7 @@ static int menu_faturacao(Faturacao faturas) {
 
 
 
-static int menu_filiais(Filial filiais[3]) {
+static int menu_filiais(Filial filiais[3], Faturacao faturas) {
 
 	int estado = 1, input = 0;
 	char opcao[20];
@@ -281,7 +289,7 @@ static int menu_filiais(Filial filiais[3]) {
 			          return estado;
 			          break;
 		
-			case '7': estado = querie_12(filiais);
+			case '7': estado = querie_12(filiais,faturas);
 			          return estado;
 			          break;
 		

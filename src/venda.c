@@ -19,14 +19,20 @@ Venda initVenda() {
     sale->cliente = criaCliente();
     return sale;
 }
+
+void free_Venda(Venda v) {
+    free_produto(v->produto);
+    free_cliente(v->cliente);
+    free(v);
+}
  
 
-Venda change_sale(Venda sale, char* product, double price, int quantity, char promotion, char* client, int month, int shop) {    
-    sale->produto = alteraProduto(sale->produto,product);
+Venda change_sale(Venda sale, char* product, double price, int quantity, char promotion, char* client, int month, int shop) {
+    sale->produto = altera_Produto(sale->produto,product);
     sale->preco = price;
     sale->quantidade = quantity;
     sale->promocao = promotion;
-    alteraCliente(sale->cliente,client);
+    sale->cliente = altera_Cliente(sale->cliente,client);
     sale->mes = month;
     sale->filial = shop;
     return sale;

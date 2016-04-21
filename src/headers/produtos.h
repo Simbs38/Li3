@@ -30,18 +30,11 @@ Cat_Produtos init_cat_produtos();
 Cat_Produtos insere_produto(Cat_Produtos products, Produto prod);
 
 /**
- * Cria um clone de um catalogo de produtos, retornando o endereço do novo catalogo.
- * @param Cat_Produtos products.
- * @return Cat_Produtos.
- */
-Cat_Produtos clone_Catalogo_Produtos(Cat_Produtos products);
-
-/**
  * Retorna um clone do catalogo de produtos dentro da estrutura.
  * @param Cat_Produtos products.
  * @return Catalogo.
  */
-Catalogo get_Catalogo_Produtos(Cat_Produtos products);
+Catalogo get_Catalogo_Produtos(Cat_Produtos products, Catalogo catalogo);
 
 /**
  * Função que verifica se um dado produto existe no catalogo de produtos.
@@ -79,19 +72,19 @@ void remove_Catalogo_Produtos(Cat_Produtos products);
 Produto criaProduto();
 
 /**
- * Altera a informação de um produto.
- * @param Produto product.
- * @param char *info.
- * @return Produto alterado.
+ * Dado um Produto altera o nome do mesmo.
+ * @param p Produto a alterar.
+ * @param novo char* com o novo nome;
  */
-Produto alteraProduto(Produto product, char *info);
+Produto altera_Produto(Produto p, char* nome);
 
 /**
  * Devolve uma cópia do código de um produto.
  * @param Produto product.
+ * @param novo char* onde colocar a copia do nome do produto.
  * @return char* com a cópia do nome.
  */
-char* getNomeProduto(Produto product);
+char* getNomeProduto(Produto product, char* novo);
 
 /**
  * Liberta o espaço alocado por um produto.
@@ -114,6 +107,12 @@ Conj_Produtos init_Conjunto(int capacidade);
  * @return Conj_Produtos.
  */
 Conj_Produtos converte_Produtos(Conj_Produtos lista, Cat_Produtos products, char letra);
+
+/**
+ * Remove da memória um dado Conj_Produtos.
+ *@param c Conj_Produtos a limpar da memória.
+ */
+void free_Conj_Produtos(Conj_Produtos c);
 
 /**
  * Prepara os dados para serem apresentados.

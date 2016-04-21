@@ -15,6 +15,8 @@ typedef struct nodeAVL *NODO;
 typedef void* Estrutura;
 typedef char* Valor;
 
+typedef void(*Funcao)(void*);
+
 
 /**
  * Inicia uma nova AVL.
@@ -34,9 +36,19 @@ AVL avl_insert(AVL arvore, Valor key, Estrutura estrutura);
 /**
  * Executa um clone de uma dada AVL.
  * @param node AVL a clonar.
+ * @param novo AVL onde colocar o clone.
  * @return AVL nova, clonada da anterior.
  */
-AVL avl_clone(AVL node);
+AVL avl_clone(AVL node, AVL novo);
+
+/**
+ * Insere uma nova estrutura na arvore tree tendo como referência de posicionamento um char* value.
+ * @param tree AVL onde insere.
+ * @param value char* a inserir.
+ * @param estrutura Conteúdo/Estrutura a inserir.
+ * @return AVL atualizada.
+ */
+AVL atualiza_avl(AVL tree, Valor value, Estrutura estrutura);
 
 /**
  * Devolve um Boolean referente a ter encontrado ou não na AVL o Valor value.
@@ -56,8 +68,9 @@ int avl_count(AVL tree);
 /**
  * Função com o objetivo de limpar da memória uma dada AVL.
  * @param nodo AVL a limpar da memória.
+ * @param f Funcao que liberta a memória da estrutura associada.
  */
-void avl_free(AVL node);
+void avl_free(AVL node, Funcao f);
 
 /**
  * Devolve a estrutura associada a um nodo de uma AVL passada como argumento.
@@ -66,7 +79,6 @@ void avl_free(AVL node);
  * @return void* com apontador para a estrutura ou NULL caso a mesma nao se encontre lá.
  */
 Estrutura avl_getEstrutura(AVL node, Valor value);
-
 
 /**
  * Função que dada uma AVL retorna o nodo da sua raiz.
@@ -102,6 +114,5 @@ char* getString(NODO n);
  * @return void*.
  */
 void* getCont(NODO n);
-
 
 #endif /* _avl_h_ */

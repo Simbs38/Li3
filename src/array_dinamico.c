@@ -28,7 +28,7 @@ Lista lista_insert(Lista conjunto ,char* valor) {
     
     int posicao = conjunto->pos;
     
-    if(conjunto->pos == (conjunto->capacidade - 1)) {
+    if(conjunto->pos == (conjunto->capacidade - 2)) {
         conjunto->capacidade *= 2;
         conjunto->array = realloc(conjunto->array,conjunto->capacidade *sizeof(char *));
     }
@@ -78,6 +78,15 @@ Boolean existe_Lista(Lista list, char* valor) {
         if(strcmp(list->array[i],valor) == 0) return true;
     }
     return false;
+}
+
+void free_Lista(Lista list) {
+    int i;
+    for(i = 0; i < list->pos; i++) {
+        free(list->array[i]);
+    }
+    free(list->array);
+    free(list);
 }
 
 

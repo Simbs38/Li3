@@ -14,20 +14,18 @@ struct array_catalogo {
 
 
 Catalogo init_Catalogo() {
-
-    Catalogo cat = (Catalogo) malloc(sizeof(struct catalogo));
-    int i;
-    for(i = 0; i < NR_LETRAS; i++) {
-        cat->indice[i] = initAVL();
-    }
-    return cat;
+  Catalogo cat = (Catalogo) malloc(sizeof(struct catalogo));
+  int i;
+  for(i = 0; i < NR_LETRAS; i++) {
+      cat->indice[i] = initAVL();
+  }
+  return cat;
 }
 
 
 Boolean existe_Catalogo(Catalogo catalogo, char* key) {
    int index = key[0] - 'A';
    Boolean existe = avl_lookUp(catalogo->indice[index],key);
-
    return existe;
 }
 
@@ -35,8 +33,16 @@ Boolean existe_Catalogo(Catalogo catalogo, char* key) {
 Catalogo insere_Catalogo(Catalogo catalogo, char* key, void* estrutura) {
     int index = key[0] - 'A';
     catalogo->indice[index] = avl_insert(catalogo->indice[index], key, estrutura);
+    return catalogo;
+}
+
+
+Catalogo atualiza_Catalogo(Catalogo catalogo, char* key, void* estrutura) {
+  int index = key[0] - 'A';
+    catalogo->indice[index] = atualiza_avl(catalogo->indice[index], key, estrutura);
     
     return catalogo;
+
 }
 
 
@@ -63,14 +69,12 @@ int total_elems_letra(Catalogo catalogo, char letra) {
 }
 
 
-Catalogo clone_Catalogo(Catalogo catalogo) {
-  int i;
-  Catalogo novo = init_Catalogo();
-
+Catalogo clone_Catalogo(Catalogo catalogo, Catalogo novo) {
+  int i;  
+  novo = (Catalogo) malloc(sizeof(struct catalogo));
   for(i = 0; i < NR_LETRAS; i++) {
-    novo->indice[i] = avl_clone(catalogo->indice[i]);
+    novo->indice[i] = avl_clone(catalogo->indice[i],novo->indice[i]);
   }
-  
   return novo;
 }
 
@@ -86,11 +90,11 @@ AVL catalogo_getAVL(Catalogo catalogo, int index) {
 }
 
 
-void remove_Catalogo(Catalogo catalogo) {
+void remove_Catalogo(Catalogo catalogo, Funcao f) {
   int i;
-  
+
   for(i = 0; i < NR_LETRAS; i++) {
-    avl_free(catalogo->indice[i]);
+    avl_free(catalogo->indice[i],f);
   }
 }
 
@@ -120,6 +124,10 @@ Array adiciona_array(Array lista,char* info) {
   return lista;
 }
 
+void free_Array(Array lista) {
+  free_Lista(lista->list);
+  free(lista);
+}
 
 Array catalogo_produtos_nao_comprados_totais(Array lista, Catalogo catalogo) {
   int i;

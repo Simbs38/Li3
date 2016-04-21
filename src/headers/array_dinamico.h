@@ -19,7 +19,6 @@ typedef struct lista *Lista;
  */
 Lista init_Lista(int capacidade);
 
-
 /**
  * Retorna uma lista resultante da conversão para lista de uma AVL dada.
  * @param list Lista (array dinâmico) onde serão inseridos os valores.
@@ -27,7 +26,6 @@ Lista init_Lista(int capacidade);
  * @return list.
  */
 Lista lista_converte(Lista list, AVL tree);
-
 
 /**
  * Adiciona um char* passado como argumento no array dinâmico.
@@ -37,14 +35,12 @@ Lista lista_converte(Lista list, AVL tree);
  */
 Lista lista_insert(Lista conjunto ,char* valor);
 
-
 /**
  * Retorna o campo Pos da estrutura Lista.
  * @param list Lista (array dinâmico).
  * @return int tamanho do array dinâmico.
  */
 int lista_getPos(Lista list);
-
 
 /**
  * Retorna o valor do array dinamico dada uma posição.
@@ -54,7 +50,6 @@ int lista_getPos(Lista list);
  */
 char* lista_getNome(Lista list, int pos);
 
-
 /**
  * Retorna um Boolean referente a um elemento se encontrar na lista ou não.
  * @param list Lista (array dinâmico).
@@ -63,6 +58,11 @@ char* lista_getNome(Lista list, int pos);
  */
 Boolean existe_Lista(Lista list, char* valor);
 
+/**
+ * Remove da memória uma dada Lista.
+ *@param list Lista a limpar da memória.
+ */
+void free_Lista(Lista list);
 
 /**
  * Retorna uma Lista com os nomes dos produtos não comprados em nenhuma filial.
@@ -72,7 +72,6 @@ Boolean existe_Lista(Lista list, char* valor);
  */
 Lista produtos_nao_comprados_totais(Lista list,AVL tree);
 
-
 /**
  * Retorna uma Lista com os clientes que compraram numa filial.
  * @param list Lista a inserir os clientes.
@@ -80,7 +79,6 @@ Lista produtos_nao_comprados_totais(Lista list,AVL tree);
  * @return Lista com os clientes.
  */
 Lista clientes_compraram_filial(Lista list,AVL tree);
-
 
 /**
  * Função responsável por retornar o numero de elementos diferentes entre duas listas.

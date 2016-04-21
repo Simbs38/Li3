@@ -44,6 +44,11 @@ Filial init_Filial();
  */
 Filial adiciona_Venda_Filial(Filial f, Venda v);
 
+/**
+ * Remove da memória uma dada Filial.
+ *@param f Filial a limpar da memória.
+ */
+void free_Filial(Filial f);
 
 /**
  * Inicia um conjunto de filiais.
@@ -61,6 +66,12 @@ Conj_Filiais init_Conj_Filiais(int n);
 Conj_Filiais adiciona_Nome(Conj_Filiais c, char* nome);
 
 /**
+ * Remove da memória um dado Conj_Filiais.
+ *@param c Conj_Filiais a limpar da memória.
+ */
+void free_Conj_Filiais(Conj_Filiais c);
+
+/**
  * Retorna o numero de unidades compradas dado um cliente e um mês.
  * @param Filial f.
  * @param char* cliente.
@@ -76,7 +87,6 @@ int nr_total_unidades_compradas(Filial f, char* cliente, int mes);
  * @return Boolean.
  */
 Boolean verifica_cliente_comprado(Filial f, char* c);
-
 
 /**
  * Retorna um Boolean referente à existência de um dado cliente.
@@ -145,6 +155,18 @@ int filiais_nr_elementos_diferentes(Conj_Filiais a, Conj_Filiais b);
  */
 HEAP init_HEAP();
 
+/**
+ * Remove da memória uma dada HEAP.
+ *@param h HEAP a limpar da memória.
+ */
+void free_HEAP(HEAP h);
+
+/**
+ * Retorna o tamanho de uma dada HEAP.
+ * @param h HEAP.
+ * @return int com o tamanho da HEAP.
+ */
+int heap_tamanho(HEAP h);
 
 /**
  * Converte uma dada AVL com os produtos de um cliente num dado mês em HEAP para ordenação dos valores.
@@ -218,5 +240,13 @@ Conj_Filiais lista_clientes_compraram_filial(Conj_Filiais c, Filial f);
  * @return Conj_Filiais com os valores.
  */
 Conj_Filiais lista_clientes_de_produto(Filial f, char* produto, char promo);
+
+/**
+ * Converte num Conj_Filiais os clientes de uma dada filial.
+ * @param c Conj_Filiais onde serão colocados os valores.
+ * @param f Filial onde se encontram os dados.
+ * @return HEAP após a inserção dos dados.
+ */
+Conj_Filiais converte_total_clientes(Conj_Filiais c, Filial f);
 
 #endif /* _filial_h_ */

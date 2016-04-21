@@ -5,7 +5,7 @@
 
 
 struct produto {
-  char prod[7];
+  char* prod;
 };
 
 
@@ -18,7 +18,6 @@ struct conjunto_produtos {
 };
 
 
-
 Cat_Produtos init_cat_produtos() {
   Cat_Produtos catalog = (Cat_Produtos) malloc(sizeof(struct catalogo_produtos));
   catalog->catalogo = init_Catalogo();
@@ -28,25 +27,29 @@ Cat_Produtos init_cat_produtos() {
 
 Produto criaProduto() {
 	Produto product = (Produto) malloc(sizeof(struct produto));
-	return product;
+  product->prod = NULL;
+  return product;
 }
 
 
-char* getNomeProduto(Produto product) {
-  char* novo;
-  novo = malloc(10);
+Produto altera_Produto(Produto p, char* nome) {
+  if(p->prod) {
+    free(p->prod);
+  }
+    p->prod = malloc((strlen(nome)+1)*sizeof(char));
+    strcpy(p->prod,nome);
+  return p;
+}
+
+
+char* getNomeProduto(Produto product, char* novo) {
   strcpy(novo,product->prod);
   return novo;
 }
 
 
-Produto alteraProduto(Produto product, char* info) {
-  strncpy(product->prod,info,7);
-  return product;
-}
-
-
 void free_produto(Produto product) {
+  free(product->prod);
   free(product);
 }
 
@@ -73,21 +76,21 @@ int total_Produtos_letra(Cat_Produtos products, char letra) {
 
 
 void remove_Catalogo_Produtos(Cat_Produtos products) {
-  remove_Catalogo(products->catalogo);
+  remove_Catalogo(products->catalogo,NULL);
   free(products);
 }
 
 
-Cat_Produtos clone_Catalogo_Produtos(Cat_Produtos products) {
-  Cat_Produtos novo = init_cat_produtos();
-  novo->catalogo = clone_Catalogo(products->catalogo);
-  return novo;
+Catalogo get_Catalogo_Produtos(Cat_Produtos products, Catalogo catalogo) {
+  catalogo = clone_Catalogo(products->catalogo,catalogo);
+  return catalogo;
 }
 
 
-Catalogo get_Catalogo_Produtos(Cat_Produtos products) {
-  Catalogo novo = clone_Catalogo(products->catalogo);
-  return novo;
+Conj_Produtos init_Conjunto(int capacidade) {
+  Conj_Produtos conjunto = (Conj_Produtos) malloc(sizeof(struct conjunto_produtos));
+  conjunto->lista = init_Array(capacidade);
+  return conjunto;
 }
 
 
@@ -97,10 +100,9 @@ Conj_Produtos converte_Produtos(Conj_Produtos conjunto, Cat_Produtos products, c
 }
 
 
-Conj_Produtos init_Conjunto(int capacidade) {
-  Conj_Produtos conjunto = (Conj_Produtos) malloc(sizeof(struct conjunto_produtos));
-  conjunto->lista = init_Array(capacidade);
-  return conjunto;
+void free_Conj_Produtos(Conj_Produtos c) {
+  free_Array(c->lista);
+  free(c);
 }
 
 

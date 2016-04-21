@@ -63,16 +63,15 @@ static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, c
    char line[MAXBUFFERCLIENTES];
    
    int clientes_validos = 0, total = 0;
-
    Cliente client = criaCliente();
+
    while(fgets(line,MAXBUFFERCLIENTES,f_clients)) {
       
       information = strtok(line,"\n\r");
       
       if(information != NULL) {
-         alteraCliente(client,information);   
+         client = altera_Cliente(client,information);
          costumers = insere_Cliente(costumers, client);   
-      
          clientes_validos++;
       }
 
@@ -87,7 +86,6 @@ static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, c
    printf(" Número de linhas válidas: %d\n",clientes_validos);
    printf(" Tempo de Leitura: %f segundos\n",time_spent);
    putchar('\n');
-
 
    fclose(f_clients);
    
@@ -107,7 +105,6 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
    char line[MAXBUFFERPRODUTOS];
    int produtos_validos = 0, total = 0;
 
-
    Produto prod = criaProduto();
    
    while(fgets(line,MAXBUFFERPRODUTOS,f_prods)) {
@@ -115,10 +112,8 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
       information = strtok(line,"\n\r");
       
       if(information != NULL) {
-         
-         prod = alteraProduto(prod,information);
+         prod = altera_Produto(prod,information);
          products = insere_produto(products, prod);
-         
          produtos_validos++;
       }
       total++;
@@ -163,7 +158,7 @@ static void converte_vendas(Cat_Produtos cat_produtos, Cat_Clientes cat_clientes
    int shop;
    
    Venda venda = initVenda();
-   
+      
    while(fgets(line,MAXBUFFERVENDAS,f_sales)) {
 
       information = strtok(line,"\n\r");
@@ -181,7 +176,7 @@ static void converte_vendas(Cat_Produtos cat_produtos, Cat_Clientes cat_clientes
          }
          information = strtok(NULL," ");
       }
-
+      
       venda = change_sale(venda,product,price,ammount,type,client,month,shop);
       /* Verifica a existencia do produto e do cliente de uma dada venda */
       
@@ -195,8 +190,9 @@ static void converte_vendas(Cat_Produtos cat_produtos, Cat_Clientes cat_clientes
       } else {
          total++;
       }
-
    }
+   
+   free_Venda(venda);
    end = clock();
    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 

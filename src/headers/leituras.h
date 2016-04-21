@@ -31,4 +31,4 @@
  */
 void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao contas, Filial filiais[], FILE *f_clients, FILE *f_prods, FILE* f_sales, char* f_cname, char* f_pname, char* f_vname);
 
-#endif
+#endif /* _leituras_h_ */
