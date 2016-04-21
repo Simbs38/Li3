@@ -12,6 +12,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define Linhas_de_Vendas 0
 #define Total_de_Clientes_Registados 1
@@ -376,8 +377,329 @@ Boolean testa_info_produtos(Lista_Prod lista,Faturacao faturacao){
 
 }
 
+void testa_querie_2(Cat_Produtos produtos){
+  int i;
+  Conj_Produtos lista_produtos = init_Conjunto(1000);
+  char letra;
+  time_t begin, end;
+  double time_spent=0;
 
 
+    for(i=0;i!=10;i++){
+      begin = clock();      
+      letra = 'A'+i;
+      lista_produtos = converte_Produtos(lista_produtos,produtos,letra);
+      end = clock();
+      time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+   
+      }
+      printf("QUERIE 2 TOTAL:%f MEDIA:%f\n",time_spent,time_spent/10);
+}
+
+void testa_querie_3(Faturacao faturas){
+  int i;
+  double time_spent=0;
+  time_t begin, end;
+  char *produto="NR1091";
+  int mes;
+
+  /*get produto aleatorio!!!!*/
+
+    for(i=0;i!=5;i++){
+      begin = clock();      
+      mes=i;
+      int total_quant_mes_normal = get_total_quantidades_mes_produto(faturas,produto,mes,'N');
+      int total_quant_mes_promo = get_total_quantidades_mes_produto(faturas,produto,mes,'P');
+      double total_preco_mes_normal = get_total_precos_mes_produto(faturas,produto,mes,'N');
+      double total_preco_mes_promo = get_total_precos_mes_produto(faturas,produto,mes,'P');
+
+
+
+      end = clock();
+      time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+   
+      }
+
+
+
+    for(i=0;i!=5;i++){
+      begin = clock();      
+      mes=i;
+      int total_quant_mes_normal_1 = get_total_quantidades_mes_produto_filial(faturas,produto,mes,'N',1);
+      int total_quant_mes_normal_2 = get_total_quantidades_mes_produto_filial(faturas,produto,mes,'N',2);
+      int total_quant_mes_normal_3 = get_total_quantidades_mes_produto_filial(faturas,produto,mes,'N',3);
+
+      int total_quant_mes_promo_1 = get_total_quantidades_mes_produto_filial(faturas,produto,mes,'P',1);
+      int total_quant_mes_promo_2 = get_total_quantidades_mes_produto_filial(faturas,produto,mes,'P',2);
+      int total_quant_mes_promo_3 = get_total_quantidades_mes_produto_filial(faturas,produto,mes,'P',3);
+      
+      double total_preco_mes_normal_1 = get_total_precos_mes_produto_filial(faturas,produto,mes,'N',1);
+      double total_preco_mes_normal_2 = get_total_precos_mes_produto_filial(faturas,produto,mes,'N',2);
+      double total_preco_mes_normal_3 = get_total_precos_mes_produto_filial(faturas,produto,mes,'N',3);
+      
+      double total_preco_mes_promo_1 = get_total_precos_mes_produto_filial(faturas,produto,mes,'P',1);
+      double total_preco_mes_promo_2 = get_total_precos_mes_produto_filial(faturas,produto,mes,'P',2);
+      double total_preco_mes_promo_3 = get_total_precos_mes_produto_filial(faturas,produto,mes,'P',3);
+
+      
+      
+      end = clock();
+      time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+   
+      }  
+      printf("QUERIE 3 TOTAL:%f MEDIA:%f\n",time_spent,time_spent/10);
+}
+
+
+void testa_querie_4(Faturacao faturas){
+  int i, input, filial = 0;
+  char letra;
+  double time_spent=0;
+  time_t begin, end;
+  char opcao[10];
+  char fil[10];
+
+   
+    for(i=0;i!=5;i++){
+      begin = clock();      
+
+ 
+      Conj_Faturas totais = init_Lista_Faturacao(1000);
+      Conj_Faturas nao_comprados_1 = init_Lista_Faturacao(1000); 
+      Conj_Faturas nao_comprados_2 = init_Lista_Faturacao(1000); 
+      Conj_Faturas nao_comprados_3 = init_Lista_Faturacao(1000); 
+      
+      totais = cria_lista_total(totais,faturas);
+      
+      nao_comprados_1 = faturas_nao_comprado_filial(totais,nao_comprados_1,faturas,1);
+      nao_comprados_2 = faturas_nao_comprado_filial(totais,nao_comprados_2,faturas,2);
+      nao_comprados_3 = faturas_nao_comprado_filial(totais,nao_comprados_3,faturas,3);
+      
+      faturacao_getPos(nao_comprados_1);
+      faturacao_getPos(nao_comprados_2);
+      faturacao_getPos(nao_comprados_3);
+
+      end = clock();
+      time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+   
+      }
+      printf("QUERIE 4 TOTAL:%f MEDIA:%f\n",time_spent,time_spent/10);
+}
+
+
+void testa_querie_5(Filial filiais[3]){
+  int i;
+  Conj_Produtos lista_produtos = init_Conjunto(1000);
+  char letra;
+  double time_spent=0;
+  time_t begin,end;
+
+
+  int estado = 1, input,j;
+  int resultado[12][3];
+  char cliente[10];
+  char opcao[10];
+  Boolean existe = false;
+  strcpy(cliente,"Z5000");
+  int n;
+    for(n=0;n!=10;n++){
+      begin = clock();      
+      
+     existe = filial_existe_Cliente(filiais[0],cliente);
+
+    for(i = 0; i < 12; i++) {
+      for(j = 0; j < 3; j++) {
+        resultado[i][j] = nr_total_unidades_compradas(filiais[j],cliente,i+1);
+      }
+    }
+
+
+      end = clock();
+      time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+   
+      }
+      printf("QUERIE 5 TOTAL:%f MEDIA:%f\n",time_spent,time_spent/10);
+}
+
+
+void testa_querie_6(Faturacao faturas){
+  int i;
+  Conj_Produtos lista_produtos = init_Conjunto(1000);
+  char letra;
+  double time_spent=0;
+  time_t begin, end;
+  int  mes1 = 0, mes2 = 12;
+  double total_faturado_intervalo;
+  int total_vendas_intervalo;
+
+
+    for(i=0;i!=10;i++){
+      begin = clock();      
+        mes1++;
+        mes2--;
+  
+    total_faturado_intervalo = get_total_faturado_intervalo(faturas,mes1,mes2);
+    total_vendas_intervalo = get_total_quantidades_intervalo(faturas,mes1,mes2);
+
+
+      end = clock();
+      time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+   
+      }
+      printf("QUERIE 6 TOTAL:%f MEDIA:%f\n",time_spent,time_spent/10);
+}
+
+
+void testa_querie_7(Filial filiais[3]){
+  int i,n;
+  Conj_Produtos lista_produtos = init_Conjunto(1000);
+  char letra;
+  double time_spent=0;
+  time_t begin, end;
+  char *elem;
+  Conj_Filiais comprados_1;
+  Conj_Filiais comprados_total;  
+  int tamanho;
+
+    for(n=0;n!=10;n++){
+      begin = clock();      
+      
+
+  comprados_1 = init_Conj_Filiais(3000);
+  comprados_total = init_Conj_Filiais(3000);
+
+  comprados_1 = lista_clientes_compraram_filial(comprados_1,filiais[0]);
+  tamanho = filial_getPos(comprados_1);
+  
+  for(i = 0; i < tamanho; i++) {
+    elem = filial_get_elemento_lista(comprados_1,i);
+    if(verifica_cliente_comprado(filiais[1],elem) && verifica_cliente_comprado(filiais[2], elem)) adiciona_Nome(comprados_total,elem); 
+    }
+
+      end = clock();
+      time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+   
+      }
+      printf("QUERIE 7 TOTAL:%f MEDIA:%f\n",time_spent,time_spent/10);
+}
+
+
+void testa_querie_8(Filial filiais[3]){
+  int i;
+  Conj_Produtos lista_produtos = init_Conjunto(1000);
+  char letra;
+  double time_spent=0;
+  time_t begin,end;
+  Conj_Filiais normal;
+  Conj_Filiais promocao;  
+  int estado = 1, input, filial = 0;
+  Boolean existe;
+  int index;
+ 
+    for(i=0;i!=10;i++){
+      begin = clock();      
+      index= i % 3;
+      existe = filial_existe_Produto(filiais[0],"NR1091");
+    
+
+      normal = lista_clientes_de_produto(filiais[filial-1],"NR1091",'N');
+      promocao = lista_clientes_de_produto(filiais[filial-1],"NR1091",'P');
+
+
+
+      end = clock();
+      time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+   
+      }
+      printf("QUERIE 8 TOTAL:%f MEDIA:%f\n",time_spent,time_spent/10);
+}
+
+/*
+void testa_querie_2(Cat_Produtos produtos){
+  int i;
+  Conj_Produtos lista_produtos = init_Conjunto(1000);
+  char letra;
+  double time_spent=0;
+
+
+    for(i=0;i!=10;i++){
+      begin = clock();      
+      letra = 'A'+i;
+      lista_produtos = converte_Produtos(lista_produtos,produtos,letra);
+      apresenta_Produtos(lista_produtos);
+      free_Conj_Produtos(lista_produtos);
+      end = clock();
+      time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+   
+      }
+      printf("QUERIE 2 MEDIA:%f",time_spent);
+}
+
+
+void testa_querie_2(Cat_Produtos produtos){
+  int i;
+  Conj_Produtos lista_produtos = init_Conjunto(1000);
+  char letra;
+  double time_spent=0;
+
+
+    for(i=0;i!=10;i++){
+      begin = clock();      
+      letra = 'A'+i;
+      lista_produtos = converte_Produtos(lista_produtos,produtos,letra);
+      apresenta_Produtos(lista_produtos);
+      free_Conj_Produtos(lista_produtos);
+      end = clock();
+      time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+   
+      }
+      printf("QUERIE 2 MEDIA:%f",time_spent);
+}
+
+
+void testa_querie_2(Cat_Produtos produtos){
+  int i;
+  Conj_Produtos lista_produtos = init_Conjunto(1000);
+  char letra;
+  double time_spent=0;
+
+
+    for(i=0;i!=10;i++){
+      begin = clock();      
+      letra = 'A'+i;
+      lista_produtos = converte_Produtos(lista_produtos,produtos,letra);
+      apresenta_Produtos(lista_produtos);
+      free_Conj_Produtos(lista_produtos);
+      end = clock();
+      time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+   
+      }
+      printf("QUERIE 2 MEDIA:%f",time_spent);
+}
+
+
+void testa_querie_2(Cat_Produtos produtos){
+  int i;
+  Conj_Produtos lista_produtos = init_Conjunto(1000);
+  char letra;
+  double time_spent=0;
+
+
+    for(i=0;i!=10;i++){
+      begin = clock();      
+      letra = 'A'+i;
+      lista_produtos = converte_Produtos(lista_produtos,produtos,letra);
+      apresenta_Produtos(lista_produtos);
+      free_Conj_Produtos(lista_produtos);
+      end = clock();
+      time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+   
+      }
+      printf("QUERIE 2 MEDIA:%f",time_spent);
+}
+
+
+*/
 
 
 int main(){
@@ -416,11 +738,19 @@ int main(){
             
             }
           }
-        }*/
+        }*//*
         n=testa_info_produtos(testes_produtos,faturacao);
         if(n) printf("##Teste passado!\n");
         else printf("##Teste falhado!\n");
-        
+        */
+
+        testa_querie_2(produtos);
+        testa_querie_3(faturacao);
+        testa_querie_4(faturacao);
+        testa_querie_5(filiais);
+        testa_querie_6(faturacao);
+        testa_querie_7(filiais);
+        /*testa_querie_8(filiais);*/
         
 
     
