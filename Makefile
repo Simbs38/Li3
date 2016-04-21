@@ -37,6 +37,7 @@ run:
 clean:
 	-@rm gereVendas
 	-@rm -rf obj
+	-@rm testaVendas
 
 cleanAll: clean
 	-@rm -rf doc

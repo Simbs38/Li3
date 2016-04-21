@@ -27,6 +27,16 @@
 #define UNIDADES_VENDIDAS 11
 #define MAXBUFFER 128
 
+typedef struct lista_clientes{
+  char *nome;
+  int registos;
+  int produtos;
+  double faturado;
+  int mes[12];
+  struct lista_clientes *next;
+}*Lista_clientes;
+
+
 
 
 typedef struct lista_produto{
@@ -34,7 +44,7 @@ typedef struct lista_produto{
   double quantidade;
   double faturacao;
   double clientes;
-  int mesF[12][2];
+  double mesF[12][2];
   int mesT[12][2];
   struct lista_produto *next;
 }*Lista_Prod;
@@ -249,20 +259,11 @@ Boolean testa_total_faturado(Faturacao faturas,Lista testes){
   return((n-aux->quantidade)<0.01);
 }
 
-Boolean testa_total_quantidade(Faturacao faturas,Lista testes){
-  Lista aux=testes;
-  for(;aux!=NULL;aux=aux->next)
-    if(aux->tipo==UNIDADES_VENDIDAS) break;
-
-  double n=get_total_quantidades_intervalo(faturas,1,12);
-  
-  printf("Total quantidades:%f\nTotal quantidades esperado:%f\n",aux->quantidade,n);
-  return(n==aux->quantidade);
-}
-
 
 Lista_Prod alloca_nome(Lista_Prod lista,char * string){
-  lista->nome=string;
+  printf("%s\n",string );
+  lista->nome = malloc((strlen(string)+1)*sizeof(char));
+  strcpy(lista->nome,string);
   return lista;
 }
 
@@ -286,65 +287,38 @@ Lista_Prod addnode(char *string){
   return new;  
 }
 
-
-Lista_Prod insere_Meses(Lista_Prod lista,char*line){
-  int modo,mes,i,j;
-  double faturado,total;
-  char string_mes[4],string_total[5],*string_faturado;
-  if(line[3]=='N')modo=0;
-  else modo=1;
-  for(i=0;line[i]!=':';i++);
-  for(j=(++i);line[j]!=':';j++){
-    string_mes[j-i]=line[j];
-  }
-  string_mes[j-i+1]='\0';
-
-  mes=atoi(string_mes);
-
-  for(;line[i]!=':';i++);
-  for(j=(++i);line[j]!=':';j++){
-    string_total[j-i]=line[j];
-  }
-  string_total[j-i+1]='\0';
-
-  total=atof(string_total);
-  
-
-  for(j=0;line[i];i++)
-    line[j++]=line[i];
-  
-  line[j]='\0';
-  line=strtok(line,"\n\r");
-  faturado=strtod(line,NULL);
-
-  lista->mesF[mes][modo]=faturado;
-  lista->mesT[mes][modo]=total;
-  lista->clientes++;
-  lista->quantidade+=total;
-  lista->faturacao+=faturado;;
-
-
-  return lista;
-}
-
 Lista_Prod init_testes_produtos(FILE*file){
   Lista_Prod new=addnode("###");
   Lista_Prod aux=new;
   char *information;
-  char line[MAXBUFFER];
-  Lista_Prod lista=NULL; 
+  char line[MAXBUFFER],tmp[3];
+  int i,mes;
   while(fgets(line,MAXBUFFER,file)) {
     switch(line[0]){
       case '#': break;
       case '-': {
+        information=strtok(line,"\n\r");
+        for(i=0;line[i];i++) information[i]=information[i+2]; 
         if(aux->nome==NULL){aux=alloca_nome(aux,information);}
-        else aux->next=addnode(information);
+        else {aux->next=addnode(information);aux=aux->next;}
         break;
       }
       case 'M':{
         information = strtok(line,"\n\r");
-          if(information != NULL) 
-            aux=insere_Meses(aux,information);
+          tmp[0]=information[8];
+          tmp[1]=information[9];
+          tmp[2]='\0';
+          mes=atoi(tmp);
+          if(information != NULL){
+            if(information[4]=='Q'){
+              if(information[6]=='N')aux->mesT[mes-1][0]=get_quant(information);
+              if(information[6]=='P')aux->mesT[mes-1][1]=get_quant(information);
+            }
+            if(information[4]=='P'){
+              if(information[6]=='N')aux->mesF[mes-1][0]=get_quant(information);
+              if(information[6]=='P')aux->mesF[mes-1][1]=get_quant(information);
+            }
+          }
       break;
       } 
       case 'F':{
@@ -368,18 +342,46 @@ Lista_Prod init_testes_produtos(FILE*file){
       default: break;
     }
   }
-  return lista;
+  return new;
+}
+
+
+Boolean testa_info_produtos(Lista_Prod lista,Faturacao faturacao){
+  int i,j,n=1;
+  double x;
+  int y;
+  Lista_Prod aux;
+  char a;
+  for(aux=lista;aux!=NULL;aux=aux->next){
+    for(i=0;i!=12;i++){
+      for(j=0;j!=2;j++){
+        if(j==0) a='N';
+        else a='P';
+        x=get_total_precos_mes_produto(faturacao,aux->nome,i+1,a);
+        if(x!=lista->mesF[i][j]){n=0;
+        printf("Faturado pelo cliente  %s no mes %d em modo %c :%f ==%f\n",aux->nome,i+1,a,lista->mesF[i][j],x);
+        }
+        aux->faturacao-=x;
+        y=get_total_quantidades_mes_produto(faturacao,aux->nome,i+1,a);
+        if(y!=lista->mesT[i][j]){n=0;
+        printf("Quantidade comprada pelo cliente %s no mes %d em modo %c :%d ==%d\n",aux->nome,i+1,a,lista->mesT[i][j],y);
+        }
+        aux->quantidade-=y;
+        if(x!=0)aux->clientes--;
+      }
+    }
+  if(aux->quantidade!=0 || aux->clientes!=0 || aux->faturacao!=0) n=0;
+  }
+  return n;
+
 }
 
 
 
 
 
-
-
-
 int main(){
-    int i,n;
+    int i,n,j;
     FILE *file_dados =NULL;
     FILE *file_teste_produtos=NULL;
 
@@ -398,20 +400,28 @@ int main(){
 
         Lista_Prod testes_produtos=init_testes_produtos(file_teste_produtos);
         Lista_Prod aux;
-        for(aux=testes_produtos;aux!=NULL;aux=aux->next){
-          printf("%s\n",aux->nome );
-        }
-
+        
         querie_1(produtos,clientes,faturacao,filiais,1);
         leitura(produtos,clientes,faturacao,filiais,testes);
         n=testa_total_faturado(faturacao,testes);
         if(n) printf("##Teste passado!\n");
         else printf("##Teste falhado!\n");
-        n=testa_total_quantidade(faturacao,testes);
+
+        /*for(aux=testes_produtos;aux!=NULL;aux=aux->next){
+          printf("%s\n",aux->nome );
+          for(i=0;i!=12;i++){
+            for(j=0;j!=2;j++){
+            printf("Mes %d quantidade:%d modo:%d\n",i+1,aux->mesT[i][j],j );
+            printf("Mes %d preco:%f modo:%d\n",i+1,aux->mesF[i][j],j );
+            
+            }
+          }
+        }*/
+        n=testa_info_produtos(testes_produtos,faturacao);
         if(n) printf("##Teste passado!\n");
         else printf("##Teste falhado!\n");
-
-        /*read_produtos();*/
+        
+        
 
     
 
