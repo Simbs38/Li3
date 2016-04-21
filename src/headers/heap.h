@@ -7,7 +7,6 @@
 #define _heap_h_
 
 #include "global.h"
-#include "array_dinamico.h"
 
 typedef struct heap *Heap;
 
