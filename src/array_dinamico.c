@@ -60,9 +60,12 @@ Lista lista_converte(Lista list, AVL tree) {
 
 static Lista converte_aux(Lista list, NODO tree) {
     if(tree != NULL) {
+        char* nome = getString(tree);
         list = converte_aux(list,getNodoEsq(tree));
-        list = lista_insert(list,getString(tree));
+        list = lista_insert(list,nome);
         list = converte_aux(list,getNodoDir(tree));   
+        free_Nodo(tree);
+        free(nome);
     }
     return list;
 }
@@ -107,7 +110,7 @@ int lista_getPos(Lista list) {
 
 
 char* lista_getNome(Lista list, int pos) {
-    char* novo = malloc(strlen(list->array[pos])+1);
+    char* novo = malloc((strlen(list->array[pos])+1)*sizeof(char));
     strcpy(novo,list->array[pos]);
     return novo;
 }
@@ -140,7 +143,6 @@ int lista_nr_elementos_diferentes(Lista a, Lista b) {
     
     return resultado;
 }
-
 
 
 Pagina init_Pagina(int capacidade) {

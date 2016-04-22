@@ -1,4 +1,4 @@
-/**
+/** 
  * @file avl.h
  * @brief Ficheiro que contem a API relativa á implementação de AVL's.
  */
@@ -114,5 +114,7 @@ char* getString(NODO n);
  * @return void*.
  */
 void* getCont(NODO n);
+
+void free_Nodo(NODO node);
 
 #endif /* _avl_h_ */
