@@ -115,6 +115,10 @@ char* getString(NODO n);
  */
 void* getCont(NODO n);
 
+/**
+ * Limpa da memória um dado NODO.
+ * @param node NODO a remover.
+ */
 void free_Nodo(NODO node);
 
 #endif /* _avl_h_ */

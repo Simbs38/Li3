@@ -183,11 +183,15 @@ int get_total_vendas_intervalo(Faturacao fatura, int mes1, int mes2) {
 double get_total_faturado_intervalo(Faturacao fatura, int mes1, int mes2) {
 	int i; 
 	double total = 0;
-
-	for(i = mes1-1; i <= mes2-1; i++){
-		total += fatura->total_faturado[i];
+	if(mes1 <= mes2) {
+		for(i = mes1-1; i <= mes2-1; i++){
+			total += fatura->total_faturado[i];
+		}
+	} else {
+		for(i = mes2-1; i <= mes1-1; i++){
+			total += fatura->total_faturado[i];
+		}
 	}
-
 	return total;
 }
 

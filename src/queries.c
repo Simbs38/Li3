@@ -119,7 +119,8 @@ int querie_3(Faturacao faturas) {
 	int estado = 1, input, voltar = 1;
 	char produto[20];
 	char opcao[10];
-	char mese[10];
+	char opcao2[10];
+	char meses[10];
 	int mes = 0;
 	char letra;
 	
@@ -130,18 +131,18 @@ int querie_3(Faturacao faturas) {
 		printf( "   Vendas e Faturacao dado mês - QUERIE 3\n\n" );
 		
 		printf("Diga o mês a procurar >> ");
-		input = scanf("%s",mese);
-		mes = atoi(mese);
+		input = scanf("%s",meses);
+		mes = atoi(meses);
 		
 		printf("\nDiga o produto a procurar >> ");
 		input = scanf("%s",produto);
-
-		printf("\nPretende valor T (Total) ou F (Filiais) >> ");
-		input = scanf("%s",opcao);
 		
 		while(voltar) {
+
+			printf("\nPretende valor T (Total) ou F (Filiais) >> ");
+			input = scanf("%s",opcao2);
 			
-			if(opcao[0] == 'T') {
+			if(opcao2[0] == 'T') {
 				int total_quant_mes_normal = get_total_vendas_mes_produto(faturas,produto,mes,'N');
 				int total_quant_mes_promo = get_total_vendas_mes_produto(faturas,produto,mes,'P');
 				double total_preco_mes_normal = get_total_precos_mes_produto(faturas,produto,mes,'N');
@@ -153,7 +154,7 @@ int querie_3(Faturacao faturas) {
 				printf( "     Vendas\t\t   Faturação\n");
 				printf( "_____________________________________________\n" );
 				printf(" Normal\tPromoção\tNormal\tPromoção\n");
-				printf(" %5d\t%5d\t\t%7.2f\t%7.2f\n",total_quant_mes_normal,total_quant_mes_promo,total_preco_mes_normal,total_preco_mes_promo);
+				printf(" %5d\t%5d\t\t%6.2f\t%6.2f\n",total_quant_mes_normal,total_quant_mes_promo,total_preco_mes_normal,total_preco_mes_promo);
 				printf( "_____________________________________________\n" );
 				printf( "  V - Voltar\t\tQ - Sair:\n" );
 				printf("\nEscolha uma opção >> ");
@@ -170,7 +171,7 @@ int querie_3(Faturacao faturas) {
 
 			}
 
-			if(opcao[0] == 'F') {
+			if(opcao2[0] == 'F') {
 				int total_quant_mes_normal_1 = get_total_vendas_mes_produto_filial(faturas,produto,mes,'N',1);
 				int total_quant_mes_normal_2 = get_total_vendas_mes_produto_filial(faturas,produto,mes,'N',2);
 				int total_quant_mes_normal_3 = get_total_vendas_mes_produto_filial(faturas,produto,mes,'N',3);
@@ -226,7 +227,6 @@ int querie_4(Faturacao faturas) {
 	char fil[10];
 	
 	while(estado) {
-	Conj_Faturas nao_comprados = init_Lista_Faturacao(1000); 
 		system("clear");
 		printf( "_____________________________________________\n" );
 		printf( "   Produtos não comprados - QUERIE 4\n\n" );
@@ -250,6 +250,7 @@ int querie_4(Faturacao faturas) {
 		}
 
 		if(opcao[0] == '1') { 
+			Conj_Faturas nao_comprados = init_Lista_Faturacao(1000);
 			nao_comprados = faturas_produtos_nao_comprados_totais(nao_comprados,faturas);
 			if(faturacao_getPos(nao_comprados) == 0) { 
 				printf("\n Todos os produtos foram comprados em todas as filiais!\n");
@@ -341,7 +342,7 @@ int querie_4(Faturacao faturas) {
 
 int querie_5(Filial filiais[NR_FILIAIS]) {
 
-	int estado = 1, input,j,i;
+	int estado = 1, input, j, i;
 	int resultado[12][3];
 	char cliente[10];
 	char opcao[10];
@@ -502,6 +503,7 @@ int querie_8(Filial filiais[NR_FILIAIS]) {
 	char fil[10];
 	char promo[10];
 	Boolean existe = false;
+	int total_N = 0, total_P = 0;
 
 	Conj_Filiais normal;
 	Conj_Filiais promocao;	
@@ -527,30 +529,36 @@ int querie_8(Filial filiais[NR_FILIAIS]) {
 		normal = lista_clientes_de_produto(filiais[filial-1],produto,'N');
 		promocao = lista_clientes_de_produto(filiais[filial-1],produto,'P');
 		
-		printf("\n  Total em modo N: %d\n",filial_getPos(normal));
-		printf("  Total em modo P: %d\n\n",filial_getPos(promocao));
-		printf("Indique se pretende ver a lista N ou P >> ");
+		if(normal != NULL) total_N = filial_getPos(normal);
+		if(promocao != NULL) total_P = filial_getPos(promocao);
+
+		printf("\n  Total em modo N: %d\n",total_N);
+		printf("  Total em modo P: %d\n\n",total_P);
+		printf(" Indique a opção:\n\n"); 
+		printf("  Lista de Clientes em modo Normal -> Prima N\n"); 
+		printf("  Lista de Clientes em Promoção -> Prima P\n");
+		printf("  Voltar -> Prima qualquer outra tecla\n");
+		printf("\n  Opção >> ");
 		input = scanf("%s",promo);
 
-		if(promo[0] == 'N' || promo[0] == 'n' && filial_getPos(normal) != 0) {
+		if((promo[0] == 'N' || promo[0] == 'n') && total_N != 0) {
 			while(pagina) {
 				Pagina p = init_Pagina(TAMANHO_PAGINA);
 				p = getPagina(p,get_Lista_Filial(normal),pagina);
 				pagina = apresentaPagina(p);
 				free_Pagina(p);
 			}
-		}
-		if(promo[0] == 'P' || promo[0] == 'p' && filial_getPos(promocao) != 0) { 
+			return estado;
+		}else if((promo[0] == 'P' || promo[0] == 'p') && total_P != 0) { 
 			while(pagina) {
 				Pagina p = init_Pagina(TAMANHO_PAGINA);
 				p = getPagina(p,get_Lista_Filial(promocao),pagina);
 				pagina = apresentaPagina(p);
 				free_Pagina(p);
 			}
-		}
-		return estado;
+			return estado;
+		}else return estado;
 	}	
-	return estado;
 }
 
 
@@ -588,12 +596,14 @@ int querie_9(Filial filiais[NR_FILIAIS]){
 		for(i = 0; i < 3; i++) heap = lista_codigos_de_clientes(filiais[i],heap,cliente,m,'Q');
 		
 		valores = convert_Heap_Lista(valores,heap,'Q');
+		
 		while(pagina) {
 			Pagina p = init_Pagina(TAMANHO_PAGINA);
 			p = getPagina(p,get_Lista_Filial(valores),pagina);
 			pagina = apresentaPagina(p);
 			free_Pagina(p);
 		}
+		
 		free_Conj_Filiais(valores);
 		free_HEAP(heap);
 
@@ -604,9 +614,9 @@ int querie_9(Filial filiais[NR_FILIAIS]){
 
 
 
-int querie_10(Filial filiais[NR_FILIAIS]){
+int querie_10(Filial filiais[NR_FILIAIS]) {
 	
-	int i;
+	int i, pagina = 1, j;
 	int estado = 1, input, nr = 0;
 	char n_produtos[10];
 	
@@ -638,67 +648,31 @@ int querie_10(Filial filiais[NR_FILIAIS]){
 	valores_3 = retira_N_Produtos(valores_3,heap_3,nr);
 
 
-    char opcao[10];
-    int nr_de_elementos = filial_getPos(valores_1);
-
-    if(nr_de_elementos == 0) estado = 0;
-    
-    int elementos_pagina = 20;
-    
-    
-    int last_pagina = nr_de_elementos % elementos_pagina;
-    
-    int total_paginas = (last_pagina == 0) ? (nr_de_elementos / elementos_pagina) : ((nr_de_elementos / elementos_pagina) + 1); 
-
-    int nr_pagina = 1;
-
-    while(estado) {
-
-        system("clear");
-        printf("\n");
-        printf(" Querie 10: %d produtos mais vendidos\n\n",nr_de_elementos);
-        printf(" --- Página número |%d| de |%d| ---\n", nr_pagina,total_paginas);
-
-        printf("\n\tFilial 1\t\tFilial 2\t\tFilial 3\n");
-        printf("#\tProduto\tC\tQ\tProduto\tC\tQ\tProduto\tC\tQ\n");
-
-        for(i = (nr_pagina-1) * elementos_pagina; i < (nr_pagina * elementos_pagina) && i < nr_de_elementos; i++) {
-            printf("%d\t%s\t%d\t%d\t%s\t%d\t%d\t%s\t%d\t%d\n",i+1,filial_get_elemento_lista(valores_1,i),
+	Lista total = init_Lista(100);
+	char buffer[128];
+	sprintf(buffer,"\t#\tProduto\tC\tQ\tProduto\tC\tQ\tProduto\tC\tQ");
+	total = lista_insere_cabecalho(total,buffer);
+	
+	for(i = 0; i < nr; i++) {
+			sprintf(buffer,"%s\t%d\t%d\t%s\t%d\t%d\t%s\t%d\t%d",filial_get_elemento_lista(valores_1,i),
             	nr_clientes_de_um_produto(filiais[0],filial_get_elemento_lista(valores_1,i)),
             	getQuantidadeProduto(filiais[0],filial_get_elemento_lista(valores_1,i)),
             	filial_get_elemento_lista(valores_2,i),nr_clientes_de_um_produto(filiais[1],
-            		filial_get_elemento_lista(valores_2,i)),getQuantidadeProduto(filiais[1],
-            		filial_get_elemento_lista(valores_2,i)),filial_get_elemento_lista(valores_3,i),
-            		nr_clientes_de_um_produto(filiais[2],filial_get_elemento_lista(valores_3,i)),
-            		getQuantidadeProduto(filiais[2],filial_get_elemento_lista(valores_3,i)));
-        }
+            	filial_get_elemento_lista(valores_2,i)),getQuantidadeProduto(filiais[1],
+            	filial_get_elemento_lista(valores_2,i)),filial_get_elemento_lista(valores_3,i),
+            	nr_clientes_de_um_produto(filiais[2],filial_get_elemento_lista(valores_3,i)),
+            	getQuantidadeProduto(filiais[2],filial_get_elemento_lista(valores_3,i)));
+		total = lista_insert(total,buffer);
+	}
 
-        putchar('\n');
-        printf(" 1 - [<<]  2 - [<]  3 - [>]  4 - [>>]   V - Voltar\n");
-        putchar('\n');
-        printf("Opcao numero > ");
-        input = scanf("%s",opcao);
+	while(pagina) {
+		Pagina p = init_Pagina(TAMANHO_PAGINA);
+		p = getPagina(p,total,pagina);
+		pagina = apresentaPagina(p);
+		free_Pagina(p);
+	}
+		
 
-        switch(opcao[0]) {
-            case 'V': free_Conj_Filiais(valores_1);
-                      free_Conj_Filiais(valores_2);
-                      free_Conj_Filiais(valores_3);
-                      free_HEAP(heap_1);
-                      free_HEAP(heap_2);
-                      free_HEAP(heap_3);
-            		  return estado; break;
-
-            case '1': nr_pagina = 1;
-
-            case '2': if(nr_pagina > 1) nr_pagina --;
-                   break;
-            case '3': if(nr_pagina < total_paginas) nr_pagina++;
-                   break;
-            case '4': nr_pagina = total_paginas;
-
-            default: break;
-        }
-    }
     return estado;
 }
 
@@ -729,7 +703,6 @@ int querie_11(Filial filiais[NR_FILIAIS]){
 		
 	for(i = 0; i < 3; i++) heap = top3_clientes(filiais[i],heap,cliente,'F');
 	valores = lista_top3(valores,heap,'F');
-	
 
 	while(pagina) {
 		Pagina p = init_Pagina(TAMANHO_PAGINA);
@@ -801,8 +774,12 @@ int apresentaPagina(Pagina p) {
     printf("Número total de elementos: %d\n\n",getNrElementosTotal(p));
     printf(" --- Página número |%d| de |%d| ---\n", getNrPagina(p),getNrPaginaTotal(p));
     
+    if(getCabecalho(p)) {
+    	printf("%s\n",getCabecalho(p));
+    }
+
     for(i = 0; i < getNrElementosPag(p); i++) {
-        printf("\t%d\t%s\n",i+1,getStringPagina(p,i));
+        printf("\t%d\t%s\n",(getNrPagina(p)-1)*20+(i+1),getStringPagina(p,i));
     }
     
     putchar('\n');
@@ -811,17 +788,17 @@ int apresentaPagina(Pagina p) {
         printf("Opcao numero > ");
         input = scanf("%s",opcao);
 
-        switch(opcao[0]) {
-            case 'V': return 0; break;
+    switch(opcao[0]) {
+        case 'V': return 0; break;
 
-            case '1': return 1;
+        case '1': return 1;
 
-            case '2': if(getNrPagina(p) > 1) return getNrPagina(p)-1; break;
+        case '2': if(getNrPagina(p) > 1) return getNrPagina(p)-1; break;
 
-            case '3': if(getNrPagina(p) < getNrPaginaTotal(p)) return getNrPagina(p)+1; break;
+        case '3': if(getNrPagina(p) < getNrPaginaTotal(p)) return getNrPagina(p)+1; break;
 
-            case '4': return getNrPaginaTotal(p); break;
+        case '4': return getNrPaginaTotal(p); break;
 
-            default: break;
-        }
+        default: break;
+    }
 }

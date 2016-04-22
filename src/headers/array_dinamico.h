@@ -146,4 +146,19 @@ int getNrElementosPag(Pagina p);
  */
 int getNrPagina(Pagina p);
 
+/**
+ * Insere um cabeçalho numa Lista.
+ * @param l Lista.
+ * @param titulo char* com o cabeçalho a colocar.
+ * @return Lista com o cabeçalho inserido.
+ */
+Lista lista_insere_cabecalho(Lista l, char* titulo);
+
+/**
+ * Retorna o cabeçalho de uma página.
+ * @param p Pagina.
+ * @return char* com o cabeçalho.
+ */
+char* getCabecalho(Pagina p);
+
 #endif /* _array_dinamico_h_ */

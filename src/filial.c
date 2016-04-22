@@ -331,9 +331,9 @@ HEAP top3_clientes(Filial f, HEAP h, char* cliente, char ordenacao) {
 
 
 Conj_Filiais lista_top3(Conj_Filiais c, HEAP h, char ordenacao) {
-	int i = 0;
+	int i = 0, j = 0;
 	char* prod;
-	while(i < 3) {
+	while(i < 3 && j < heap_count(h->heap)) {
 		prod = heap_pop(h->heap,ordenacao);
 		c = adiciona_Nome(c,prod);
 		i++;

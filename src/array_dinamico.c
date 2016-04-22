@@ -4,12 +4,14 @@
 #include <string.h>
 
 struct lista {
+    char* cabecalho;
     char** array;
     int pos;
     int capacidade;
 };
 
 struct pagina {
+    char* cabecalho;
     Lista array_dinamico;
     int nr_pagina;
     int total_paginas;
@@ -25,6 +27,7 @@ static Lista clientes_compraram_filial_aux(Lista list, NODO tree);
 
 Lista init_Lista(int size) {
     Lista conjunto = (Lista) malloc(sizeof(struct lista));
+    conjunto->cabecalho = NULL;
     conjunto->array = (char**) malloc(size *sizeof(char*));
     conjunto->pos = 0;
     conjunto->capacidade = size;
@@ -54,6 +57,7 @@ Lista lista_converte(Lista list, AVL tree) {
     list = converte_aux(list,n);
     return list;
 }
+
 
 
 static Lista converte_aux(Lista list, NODO tree) {
@@ -146,6 +150,7 @@ int lista_nr_elementos_diferentes(Lista a, Lista b) {
 Pagina init_Pagina(int capacidade) {
     
     Pagina nova = (Pagina) malloc(sizeof(struct pagina));
+    nova->cabecalho = NULL;
     nova->array_dinamico = NULL;
     nova->nr_pagina = 0;
     nova->total_paginas = 0;
@@ -188,8 +193,24 @@ char* getStringPagina(Pagina p, int posicao) {
 }
 
 
-Pagina getPagina(Pagina p, Lista l, int pagina) {
+Lista lista_insere_cabecalho(Lista l, char* titulo) {
+    if(l->cabecalho) free(l->cabecalho);
+    l->cabecalho = malloc((strlen(titulo)+1)*sizeof(char));
+    strcpy(l->cabecalho,titulo);
+    return l;
+}
 
+
+char* getCabecalho(Pagina p) {
+    return p->cabecalho;
+}
+
+
+Pagina getPagina(Pagina p, Lista l, int pagina) {
+    if(l->cabecalho) {
+        p->cabecalho = malloc((strlen(l->cabecalho)+1)*sizeof(char));
+        strcpy(p->cabecalho,l->cabecalho);
+    }
     int i;
     int last_pagina = l->pos % p->tamanho_pagina;
     p->total_elementos = l->pos;
