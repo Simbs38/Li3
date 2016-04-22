@@ -24,10 +24,10 @@
 #define Produtos_Comprados 6
 #define Produtos_Nunca_Comprados 7
 #define Clientes_Sem_Compras 8
-#define Vendas_de_Preco_Zero 9
 #define FACTURADO_TOTAL 10
-#define UNIDADES_VENDIDAS 11
 #define MAXBUFFER 128
+
+
 
 typedef struct lista_clientes{
   char *nome;
@@ -145,6 +145,7 @@ Boolean testaclientes(Lista lista,FILE *file){
    }
   for(aux=lista;aux!=NULL;aux=aux->next)
     if(aux->tipo==Total_de_Clientes_Registados) break;
+
   printf("Numero de  |                |               |\nClientes   |      %7d   |  %10f |  %s\nRegistados |                |               |\n",total,aux->quantidade,(total==aux->quantidade ? "SIM" : "NÂO"));
   printf("-----------------------------------------------------\n");
   return (total==aux->quantidade);
@@ -230,20 +231,14 @@ int leitura(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Filia
     FILE*file;
     file=fopen("./test/Ficheiros.txt","r");
 
-
     fgets(line,MAXBUFFER,file);
       file_clientes=fopen(strtok(line,"\n\r"),"r");     
     fgets(line,MAXBUFFER,file);
       file_produtos=fopen(strtok(line,"\n\r"),"r"); 
     fgets(line,MAXBUFFER,file);
       file_vendas=fopen(strtok(line,"\n\r"),"r");
-      
-      /*printf("%s\n%s\n%s\n",f_clientes,f_produtos,f_vendas );*/
-            
-
     
     n=testaclientes(testes,file_clientes);
-
     n=testaprodutos(testes,file_produtos);
     n=testavendas(testes,file_vendas,produtos,clientes);
     return 1;
@@ -254,7 +249,7 @@ Boolean testa_total_faturado(Faturacao faturas,Lista testes){
     if(aux->tipo==FACTURADO_TOTAL) break;
 
   double n=get_total_faturado_intervalo(faturas,1,12);
-  printf("Total      |                |               |\nFaturado   | %11.2f | %11.2f|  %s\n           |                |               |\n",n,aux->quantidade,((n-aux->quantidade<0.01) ? "SIM" : "NÂO"));
+  printf("Total      |                |               |\nFaturado   | %11.2f |%11.2f |  %s\n           |                |               |\n",n,aux->quantidade,((n-aux->quantidade<0.01) ? "SIM" : "NÂO"));
   printf("-----------------------------------------------------\n");
   return((n-aux->quantidade)<0.01);
 }
@@ -374,6 +369,121 @@ Boolean testa_info_produtos(Lista_Prod lista,Faturacao faturacao){
   return n;
 
 }
+Boolean testa__clientes_diferentes(Filial filiais[3],Lista testes){
+  Boolean n=false;
+  Lista aux;
+
+  for(aux=testes;aux!=NULL;aux=aux->next)
+    if(aux->tipo==Total_de_Compradores_Diferentes) break;
+
+
+
+
+
+  return n;  
+}
+
+Boolean testa_produtos_nunca_comprados(Faturacao faturas,Lista testes){
+  Lista aux;
+  Conj_Faturas nao_comprados= init_Lista_Faturacao(1000);
+  int nr_produtos;
+
+  for(aux=testes;aux!=NULL;aux=aux->next)
+    if(aux->tipo==Produtos_Nunca_Comprados) break;
+
+  nao_comprados = faturas_produtos_nao_comprados_totais(nao_comprados,faturas);
+  nr_produtos = faturacao_getPos(nao_comprados);
+  printf("Produtos   |                |               |\nNunca      |      %7d   |    %10f |  %s\nComprados  |                |               |\n",nr_produtos,aux->quantidade,(nr_produtos==aux->quantidade ? "SIM" : "NÂO"));
+  printf("-----------------------------------------------------\n");
+  
+  return (nr_produtos==aux->quantidade);  
+}
+
+Boolean testa_produtos_comprados(Faturacao faturas,Lista testes){
+  Boolean n=false;
+  Lista aux;
+  Conj_Faturas nao_comprados= init_Lista_Faturacao(1000);
+  int nr_produtos;
+  double total;
+
+
+  for(aux=testes;aux!=NULL;aux=aux->next)
+    if(aux->tipo==Total_de_Codigos_de_Produtos) break;
+  total=aux->quantidade;
+
+
+  for(aux=testes;aux!=NULL;aux=aux->next)
+    if(aux->tipo==Produtos_Comprados) break;
+
+
+  nao_comprados = faturas_produtos_nao_comprados_totais(nao_comprados,faturas);
+  nr_produtos = faturacao_getPos(nao_comprados);
+  total=total-nr_produtos;
+  printf("Produtos   |                |               |\nComprados  | %11.2f    |   %11.2f |  %s\n           |                |               |\n",total,aux->quantidade,(total==aux->quantidade) ? "SIM" : "NÂO");
+  printf("-----------------------------------------------------\n");
+  return n;  
+}
+
+
+
+
+
+Boolean testa_clientes_sem_compras(Filial filiais[3],Lista testes){
+  Conj_Filiais clientes_nao_comprados_total = init_Conj_Filiais(1000);
+  clientes_nao_comprados_total = converte_total_clientes(clientes_nao_comprados_total,filiais[0]);
+  Lista aux;
+  char *client;
+  int nr_clientes=0;
+  int i;
+
+  for(i = 0; i < filial_getPos(clientes_nao_comprados_total); i++) {
+    client = filial_get_elemento_lista(clientes_nao_comprados_total,i); 
+    if(verifica_cliente_comprado(filiais[0],client) == false && verifica_cliente_comprado(filiais[1],client) == false && verifica_cliente_comprado(filiais[2],client) == false) nr_clientes++;
+  }
+
+
+  for(aux=testes;aux!=NULL;aux=aux->next)
+    if(aux->tipo==Clientes_Sem_Compras) break;
+
+  printf("Clientes   |                |               |\nSem        |      %7d   |    %10f |  %s\nCompras    |                |               |\n",nr_clientes,aux->quantidade,(nr_clientes==aux->quantidade ? "SIM" : "NÂO"));
+  printf("-----------------------------------------------------\n");
+  
+  return (nr_clientes==aux->quantidade);  
+
+}
+
+Boolean testa_clientes_diferentes(Filial filiais[3],Lista testes){
+
+
+  Conj_Filiais clientes_nao_comprados_total = init_Conj_Filiais(1000);
+  clientes_nao_comprados_total = converte_total_clientes(clientes_nao_comprados_total,filiais[0]);
+  Lista aux;
+  char *client;
+  int nr_clientes=0;
+  int i;
+  double total;
+
+  for(i = 0; i < filial_getPos(clientes_nao_comprados_total); i++) {
+    client = filial_get_elemento_lista(clientes_nao_comprados_total,i); 
+    if(verifica_cliente_comprado(filiais[0],client) == false && verifica_cliente_comprado(filiais[1],client) == false && verifica_cliente_comprado(filiais[2],client) == false) nr_clientes++;
+  }
+
+  for(aux=testes;aux!=NULL;aux=aux->next)
+    if(aux->tipo==Total_de_Clientes_Registados) break;
+  total=aux->quantidade;
+
+
+  for(aux=testes;aux!=NULL;aux=aux->next)
+    if(aux->tipo==Total_de_Compradores_Diferentes) break;
+
+  total=total-nr_clientes;
+  printf("Clientes   |                |               |\nque fizeram| %11.2f    |   %11.2f |  %s\nCompras    |                |               |\n",total,aux->quantidade,(total==aux->quantidade) ? "SIM" : "NÂO");
+  printf("-----------------------------------------------------\n");
+  return (total==aux->quantidade);  
+}
+
+
+
 void testadados(Cat_Produtos produtos,Cat_Clientes clientes, Faturacao faturacao,Filial filiais[3],Lista testes){
       char s[10];
       system("clear");
@@ -383,6 +493,10 @@ void testadados(Cat_Produtos produtos,Cat_Clientes clientes, Faturacao faturacao
       printf("-----------------------------------------------------\n");
       leitura(produtos,clientes,faturacao,filiais,testes);
       testa_total_faturado(faturacao,testes);
+      testa_clientes_diferentes(filiais,testes);
+      testa_produtos_comprados(faturacao,testes);
+      testa_produtos_nunca_comprados(faturacao,testes);
+      testa_clientes_sem_compras(filiais,testes);
       printf("Carregue numa tecla para continuar --> ");
       scanf("%s",s);
 

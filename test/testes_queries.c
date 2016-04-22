@@ -33,14 +33,11 @@ void testa_querie_2(Cat_Produtos produtos){
       printf("    2     |  %f   |  %f\n",time_spent,time_spent/10);
 }
 
-void testa_querie_3(Faturacao faturas){
+void testa_querie_3(Faturacao faturas,char *produto){
   int i;
   double time_spent=0;
   time_t begin, end;
-  char *produto="NR1091";
   int mes;
-
-  /*get produto aleatorio!!!!*/
 
     for(i=0;i!=5;i++){
       begin = clock();      
@@ -125,7 +122,7 @@ void testa_querie_4(Faturacao faturas){
 }
 
 
-void testa_querie_5(Filial filiais[3]){
+void testa_querie_5(Filial filiais[3],char *cliente){
   int i;
   Conj_Produtos lista_produtos = init_Conjunto(1000);
   char letra;
@@ -135,10 +132,8 @@ void testa_querie_5(Filial filiais[3]){
 
   int estado = 1, input,j;
   int resultado[12][3];
-  char cliente[10];
   char opcao[10];
   Boolean existe = false;
-  strcpy(cliente,"Z5000");
   int n;
     for(n=0;n!=10;n++){
       begin = clock();      
@@ -225,7 +220,7 @@ void testa_querie_7(Filial filiais[3]){
 }
 
 
-void testa_querie_8(Filial filiais[3]){
+void testa_querie_8(Filial filiais[3],char *produto){
   int i;
   Conj_Produtos lista_produtos = init_Conjunto(1000);
   char letra;
@@ -240,11 +235,11 @@ void testa_querie_8(Filial filiais[3]){
     for(i=0;i!=10;i++){
       begin = clock();      
       index= i % 3;
-      existe = filial_existe_Produto(filiais[index],"NR1091");
+      existe = filial_existe_Produto(filiais[index],produto);
     
 
-      normal = lista_clientes_de_produto(filiais[index],"NR1091",'N');
-      promocao = lista_clientes_de_produto(filiais[index],"NR1091",'P');
+      normal = lista_clientes_de_produto(filiais[index],produto,'N');
+      promocao = lista_clientes_de_produto(filiais[index],produto,'P');
 
 
 
@@ -257,7 +252,7 @@ void testa_querie_8(Filial filiais[3]){
 }
 
 
-void testa_querie_9(Filial filiais[3]){
+void testa_querie_9(Filial filiais[3],char *cliente){
   int i,n,index;
   double time_spent=0;
   time_t begin,end;
@@ -265,7 +260,6 @@ void testa_querie_9(Filial filiais[3]){
   HEAP heap;
   Boolean existe;
 
-  /*GERAR CLIENTE ALEATORIO*/
  
     for(n=0;n!=10;n++){
       begin = clock();      
@@ -273,10 +267,10 @@ void testa_querie_9(Filial filiais[3]){
       heap=init_HEAP();
       valores = init_Conj_Filiais(100);
 
-      existe = filial_existe_Cliente(filiais[index],"Z5000");
+      existe = filial_existe_Cliente(filiais[index],cliente);
 
       for(i = 0; i < 3; i++) 
-      heap = lista_codigos_de_clientes(filiais[i],heap,"Z5000",n+1,'Q');
+      heap = lista_codigos_de_clientes(filiais[i],heap,cliente,n+1,'Q');
       valores = convert_Heap_Lista(valores,heap,'Q');
 
 
@@ -367,15 +361,13 @@ void testa_querie_10(Filial filiais[3]){
 
 
 
-void testa_querie_11(Filial filiais[3]){
+void testa_querie_11(Filial filiais[3],char *cliente){
   int i,n,index;
   double time_spent=0;
   time_t begin,end;
   Conj_Filiais valores;  
   HEAP heap;
   Boolean existe = false;
-  /*GERAR CLIENTE ALEATORIO*/
-
   
     for(n=0;n!=10;n++){
       begin = clock();      
@@ -384,8 +376,8 @@ void testa_querie_11(Filial filiais[3]){
       heap = init_HEAP();
 
 
-        existe = filial_existe_Cliente(filiais[0],"Z5000");    
-        for(i = 0; i < 3; i++)heap = top3_clientes(filiais[i],heap,"Z5000",'F');
+        existe = filial_existe_Cliente(filiais[0],cliente);    
+        for(i = 0; i < 3; i++)heap = top3_clientes(filiais[i],heap,cliente,'F');
         valores = lista_top3(valores,heap,'F');
       
   
@@ -437,6 +429,28 @@ void testa_querie_12(Filial filiais[3],Faturacao faturas){
 
 
 void testaqueries(Cat_Produtos produtos,Faturacao faturacao,Filial filiais[3]){
+  int input;
+  char cliente[10];
+  char produto[10];
+  Boolean existe = false;
+
+    while (existe == false) {
+      printf(" Insira o codigo do cliente >> ");
+      input=scanf("%s",cliente);
+      existe = filial_existe_Cliente(filiais[0],cliente);
+      if(!existe) printf("O Cliente não é válido, insira de novo\n\n");
+    }
+    existe=false;
+    while (existe == false) {
+      printf(" Insira o codigo do produto >> ");
+      input = scanf("%s",produto);
+      existe = filial_existe_Produto(filiais[0],produto);
+      if(!existe) printf("O Produto não é válido, insira de novo\n\n");
+    }
+
+      
+
+
       system("clear");
       printf("---------------------------------------------------------\n");
       printf("| Para uma noção mais real do tempo de execução de cada | \n");
@@ -447,23 +461,23 @@ void testaqueries(Cat_Produtos produtos,Faturacao faturacao,Filial filiais[3]){
       printf("------------------------------------\n");
       testa_querie_2(produtos);
       printf("------------------------------------\n");
-      testa_querie_3(faturacao);
+      testa_querie_3(faturacao,produto);
       printf("------------------------------------\n");
       testa_querie_4(faturacao);
       printf("------------------------------------\n");
-      testa_querie_5(filiais);
+      testa_querie_5(filiais,cliente);
       printf("------------------------------------\n");
       testa_querie_6(faturacao);
       printf("------------------------------------\n");
       testa_querie_7(filiais);
       printf("------------------------------------\n");
-      testa_querie_8(filiais);
+      testa_querie_8(filiais,produto);
       printf("------------------------------------\n");
-      testa_querie_9(filiais);
+      testa_querie_9(filiais,cliente);
       printf("------------------------------------\n");
       testa_querie_10(filiais);
       printf("------------------------------------\n");
-      testa_querie_11(filiais);
+      testa_querie_11(filiais,cliente);
       printf("------------------------------------\n");
       testa_querie_12(filiais,faturacao);
       printf("------------------------------------\n");

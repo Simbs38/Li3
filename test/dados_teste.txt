@@ -8,5 +8,4 @@ F-Clientes diferentes: 16384
 G-Produtos comprados: 170080
 H-Produtos nunca Comprados : 928
 I-Clientes sem compras : 0
-J-Vendas de Preco Zero: 13
 K-FACTURADO TOTAL: 44765588910.52
