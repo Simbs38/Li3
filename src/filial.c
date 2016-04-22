@@ -22,7 +22,7 @@ typedef struct nodo_clientes {
 typedef struct lista_produtos {
 	int quantidade;
 	double faturacao;
-	char produto[7];
+	char* produto;
 } *Lista_Produtos;
 
 
@@ -115,7 +115,8 @@ Filial adiciona_Venda_Filial(Filial f, Venda v) {
 
 	if(!prod_c) {
 		prod_c = init_Lista_Produtos();
-		strncpy(prod_c->produto,prod,7);
+		prod_c->produto = malloc((strlen(prod)+1)*sizeof(char));
+		strcpy(prod_c->produto,prod);
 	}
 
 	prod_c->faturacao += faturado;
@@ -177,15 +178,18 @@ static void free_Nodo_Produtos(void* n) {
 
 int getQuantidadeProduto(Filial f, char* produto) {
 	Nodo_Produtos nodo_p = getEstrutura_Catalogo(f->produtos,produto);
-	return nodo_p->quantidade;
+	if(nodo_p != NULL) return nodo_p->quantidade;
+	return 0;
 }
 
 
 int nr_clientes_de_um_produto(Filial f, char* produto) {
-	int nr_produtos;
+	int nr_clientes = 0;
 	Nodo_Produtos nodo_p = getEstrutura_Catalogo(f->produtos,produto);
-	nr_produtos = filiais_nr_elementos_diferentes(nodo_p->clientes_N,nodo_p->clientes_P);
-	return nr_produtos;
+	if(nodo_p != NULL) {
+		nr_clientes = filiais_nr_elementos_diferentes(nodo_p->clientes_N,nodo_p->clientes_P);
+	}
+	return nr_clientes;
 }
 
 
@@ -243,8 +247,8 @@ void free_Conj_Filiais(Conj_Filiais c) {
 }
 
 
-void apresenta_Dados_Filial(Conj_Filiais c) {
-	apresenta_Array(c->lista);
+Lista get_Lista_Filial(Conj_Filiais c) {
+	return get_Lista_Array(c->lista);
 }
 
 

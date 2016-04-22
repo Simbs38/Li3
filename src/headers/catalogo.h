@@ -140,10 +140,11 @@ Array catalogo_produtos_nao_comprados_totais(Array lista, Catalogo catalogo);
 Array catalogo_lista_total(Array lista,Catalogo catalogo);
 
 /**
- * Função responsavel de apresentar um Array.
- * @param Array lista de onde serão acedidos os dados.
+ * Função responsavel por retornar a Lista inserida num Array.
+ * @param Array lista de onde está inserida a lista.
+ * @return Lista.
  */
-void apresenta_Array(Array lista);
+Lista get_Lista_Array(Array lista);
 
 /**
  * Devolve um elemento de uma lista dada uma posição.

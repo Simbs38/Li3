@@ -106,6 +106,6 @@ void free_Conj_Produtos(Conj_Produtos c) {
 }
 
 
-void apresenta_Produtos(Conj_Produtos conjunto) {
-  apresenta_Array(conjunto->lista);
+Lista get_Lista_Produtos(Conj_Produtos conjunto) {
+  return get_Lista_Array(conjunto->lista);
 }

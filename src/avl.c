@@ -78,17 +78,51 @@ Estrutura avl_getEstrutura(AVL node, Valor value) {
 
 
 NODO getNodo(AVL a) {
-    return a->arvore;
+    NODO novo;
+    if(a->arvore) {
+        novo = (NODO) malloc(sizeof(struct nodeAVL));
+        novo->string = malloc((strlen(a->arvore->string)+1)*sizeof(char));
+        strcpy(novo->string,a->arvore->string);
+        novo->cont = a->arvore->cont;
+        novo->left = a->arvore->left;
+        novo->right = a->arvore->right;
+    }else {
+        novo = NULL;
+    }
+
+    return novo;
 }
 
 
 NODO getNodoEsq(NODO n) {
-    return n->left;
+    NODO novo;
+    if(n->left) {
+        novo = (NODO) malloc(sizeof(struct nodeAVL));
+        novo->string = malloc((strlen(n->left->string)+1)*sizeof(char));
+        strcpy(novo->string,n->left->string);
+        novo->cont = n->left->cont;
+        novo->left = n->left->left;
+        novo->right = n->left->right;
+    }else {
+        novo = NULL;
+    }
+    return novo;
 }
 
 
 NODO getNodoDir(NODO n) {
-    return n->right;
+    NODO novo;
+    if(n->right) {
+        novo = (NODO) malloc(sizeof(struct nodeAVL));
+        novo->string = malloc((strlen(n->right->string)+1)*sizeof(char));
+        strcpy(novo->string,n->right->string);
+        novo->cont = n->right->cont;
+        novo->left = n->right->left;
+        novo->right = n->right->right;
+    }else {
+        novo = NULL;
+    }
+    return novo; 
 }
 
 

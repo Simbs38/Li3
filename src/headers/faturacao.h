@@ -144,10 +144,11 @@ void free_Conj_Faturas(Conj_Faturas c);
 Conj_Faturas faturas_produtos_nao_comprados_totais(Conj_Faturas conjunto, Faturacao faturacao);
 
 /**
- * Prepara o conjunto de faturas para ser apresentado.
+ * Devolve a lista referente a um Conk_Faturas.
  * @param conjuto Conj_Faturas.
+ * @return Lista.
  */
-void apresenta_faturas(Conj_Faturas conjunto);
+Lista apresenta_faturas(Conj_Faturas conjunto);
 
 /**
  * Cria uma lista com todos os produtos da estrutura.

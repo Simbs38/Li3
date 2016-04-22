@@ -140,8 +140,8 @@ Array catalogo_produtos_nao_comprados_totais(Array lista, Catalogo catalogo) {
 }
 
 
-void apresenta_Array(Array lista) {
-  apresenta_Lista(lista->list);
+Lista get_Lista_Array(Array lista) {
+  return lista->list;
 }
 
 

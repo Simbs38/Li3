@@ -11,6 +11,7 @@
 
 
 typedef struct lista *Lista;
+typedef struct pagina *Pagina;
 
 /**
  * Inicia um novo array dinâmico.
@@ -87,5 +88,15 @@ Lista clientes_compraram_filial(Lista list,AVL tree);
  * @return int com o valor.
  */
 int lista_nr_elementos_diferentes(Lista a, Lista b);
+
+
+Pagina init_Pagina(int capacidade);
+Pagina getPagina(Pagina p, Lista l, int pagina);
+void free_Pagina(Pagina p);
+char* getStringPagina(Pagina p, int posicao);
+int getNrPaginaTotal(Pagina p);
+int getNrElementosTotal(Pagina p);
+int getNrElementosPag(Pagina p);
+int getNrPagina(Pagina p);
 
 #endif /* _array_dinamico_h_ */

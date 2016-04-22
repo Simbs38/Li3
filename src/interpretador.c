@@ -250,10 +250,10 @@ static int menu_filiais(Filial filiais[3], Faturacao faturas) {
 		printf(" Escolha uma das seguintes opções:\n\n");
 		printf("  1. Lista de produtos comprados mês a mês\n");
 		printf("  2. Lista de Clientes em todas as filiais\n");
-		printf("  3. Compradores de um produto por filial\n");
-		printf("  4. Produtos mais comprados por Cliente\n");
-		printf("  5. Lista dos N produtos mais vendidos\n");
-		printf("  6. 3 Produtos mais custosos de um cliente\n");
+		printf("  3. Compradores de um Produto por filial\n");
+		printf("  4. Produtos mais comprados de um Cliente\n");
+		printf("  5. Lista dos N Produtos mais vendidos\n");
+		printf("  6. Top 3 Produtos mais caros de um Cliente\n");
 		printf("  7. Clientes/Produtos sem registos de compra\n\n");
 		printf("---------------------------------------------\n");
 		printf("  V - Voltar\t\t\tQ - Sair\n");

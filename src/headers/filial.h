@@ -121,10 +121,11 @@ int getQuantidadeProduto(Filial f, char* produto);
 int nr_clientes_de_um_produto(Filial f, char* produto);
 
 /**
- * Função responsavel por apresentar um Conj_Filiais.
+ * Devolve a lista de um Conj_Filiais.
  * @param c Conj_Filiais a apresentar.
+ * @return Lista-
  */
-void apresenta_Dados_Filial(Conj_Filiais c);
+Lista get_Lista_Filial(Conj_Filiais c);
 
 /**
  * Retorna o tamanho de um Conj_Filiais.

@@ -104,10 +104,10 @@ int querie_11(Filial filiais[]);
 int querie_12(Filial filiais[], Faturacao faturas);
 
 /**
- *Determinar a lista ordenada de códigos de clientes que realizaram compras em todas as filiais.
- * @param Filiais filial
- * @return int
+ * Apresentação de uma página.
+ * @param p Pagina a apresentar
+ * @return int com a proxima acção.
 */
-void apresenta_Lista(Lista list);
+void apresenta_Pagina(Pagina p);
 
 #endif /* _queries_h_ */
