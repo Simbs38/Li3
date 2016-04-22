@@ -663,7 +663,14 @@ int querie_10(Filial filiais[NR_FILIAIS]){
         printf("#\tProduto\tC\tQ\tProduto\tC\tQ\tProduto\tC\tQ\n");
 
         for(i = (nr_pagina-1) * elementos_pagina; i < (nr_pagina * elementos_pagina) && i < nr_de_elementos; i++) {
-            printf("%d\t%s\t%d\t%d\t%s\t%d\t%d\t%s\t%d\t%d\n",i+1,filial_get_elemento_lista(valores_1,i),nr_clientes_de_um_produto(filiais[0],filial_get_elemento_lista(valores_1,i)),getQuantidadeProduto(filiais[0],filial_get_elemento_lista(valores_1,i)),filial_get_elemento_lista(valores_2,i),nr_clientes_de_um_produto(filiais[1],filial_get_elemento_lista(valores_2,i)),getQuantidadeProduto(filiais[1],filial_get_elemento_lista(valores_2,i)),filial_get_elemento_lista(valores_3,i),nr_clientes_de_um_produto(filiais[2],filial_get_elemento_lista(valores_3,i)),getQuantidadeProduto(filiais[2],filial_get_elemento_lista(valores_3,i)));
+            printf("%d\t%s\t%d\t%d\t%s\t%d\t%d\t%s\t%d\t%d\n",i+1,filial_get_elemento_lista(valores_1,i),
+            	nr_clientes_de_um_produto(filiais[0],filial_get_elemento_lista(valores_1,i)),
+            	getQuantidadeProduto(filiais[0],filial_get_elemento_lista(valores_1,i)),
+            	filial_get_elemento_lista(valores_2,i),nr_clientes_de_um_produto(filiais[1],
+            		filial_get_elemento_lista(valores_2,i)),getQuantidadeProduto(filiais[1],
+            		filial_get_elemento_lista(valores_2,i)),filial_get_elemento_lista(valores_3,i),
+            		nr_clientes_de_um_produto(filiais[2],filial_get_elemento_lista(valores_3,i)),
+            		getQuantidadeProduto(filiais[2],filial_get_elemento_lista(valores_3,i)));
         }
 
         putchar('\n');

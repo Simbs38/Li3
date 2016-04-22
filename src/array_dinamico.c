@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ELEMENTOS_PAGINA 20
-
 struct lista {
     char** array;
     int pos;
