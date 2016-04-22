@@ -106,7 +106,7 @@ Pagina getPagina(Pagina p, Lista l, int pagina);
 
 /**
  * Remove da memória uma dada Pagina.
- *@param p Pagina a limpar da memória.
+ * @param p Pagina a limpar da memória.
  */
 void free_Pagina(Pagina p);
 

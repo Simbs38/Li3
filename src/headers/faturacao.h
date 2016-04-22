@@ -131,7 +131,7 @@ Conj_Faturas adiciona_Conjunto(Conj_Faturas conjunto, char* info);
 
 /**
  * Remove da memória um dado Conj_Faturas.
- *@param c Conj_Faturas a limpar da memória.
+ * @param c Conj_Faturas a limpar da memória.
  */
 void free_Conj_Faturas(Conj_Faturas c);
 

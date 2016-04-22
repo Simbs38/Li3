@@ -46,7 +46,7 @@ Filial adiciona_Venda_Filial(Filial f, Venda v);
 
 /**
  * Remove da memória uma dada Filial.
- *@param f Filial a limpar da memória.
+ * @param f Filial a limpar da memória.
  */
 void free_Filial(Filial f);
 
@@ -67,7 +67,7 @@ Conj_Filiais adiciona_Nome(Conj_Filiais c, char* nome);
 
 /**
  * Remove da memória um dado Conj_Filiais.
- *@param c Conj_Filiais a limpar da memória.
+ * @param c Conj_Filiais a limpar da memória.
  */
 void free_Conj_Filiais(Conj_Filiais c);
 
@@ -158,7 +158,7 @@ HEAP init_HEAP();
 
 /**
  * Remove da memória uma dada HEAP.
- *@param h HEAP a limpar da memória.
+ * @param h HEAP a limpar da memória.
  */
 void free_HEAP(HEAP h);
 

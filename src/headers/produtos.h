@@ -110,7 +110,7 @@ Conj_Produtos converte_Produtos(Conj_Produtos lista, Cat_Produtos products, char
 
 /**
  * Remove da memória um dado Conj_Produtos.
- *@param c Conj_Produtos a limpar da memória.
+ * @param c Conj_Produtos a limpar da memória.
  */
 void free_Conj_Produtos(Conj_Produtos c);
 
