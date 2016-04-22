@@ -142,8 +142,8 @@ int querie_3(Faturacao faturas) {
 		while(voltar) {
 			
 			if(opcao[0] == 'T') {
-				int total_quant_mes_normal = get_total_quantidades_mes_produto(faturas,produto,mes,'N');
-				int total_quant_mes_promo = get_total_quantidades_mes_produto(faturas,produto,mes,'P');
+				int total_quant_mes_normal = get_total_vendas_mes_produto(faturas,produto,mes,'N');
+				int total_quant_mes_promo = get_total_vendas_mes_produto(faturas,produto,mes,'P');
 				double total_preco_mes_normal = get_total_precos_mes_produto(faturas,produto,mes,'N');
 				double total_preco_mes_promo = get_total_precos_mes_produto(faturas,produto,mes,'P');
 				
@@ -171,13 +171,13 @@ int querie_3(Faturacao faturas) {
 			}
 
 			if(opcao[0] == 'F') {
-				int total_quant_mes_normal_1 = get_total_quantidades_mes_produto_filial(faturas,produto,mes,'N',1);
-				int total_quant_mes_normal_2 = get_total_quantidades_mes_produto_filial(faturas,produto,mes,'N',2);
-				int total_quant_mes_normal_3 = get_total_quantidades_mes_produto_filial(faturas,produto,mes,'N',3);
+				int total_quant_mes_normal_1 = get_total_vendas_mes_produto_filial(faturas,produto,mes,'N',1);
+				int total_quant_mes_normal_2 = get_total_vendas_mes_produto_filial(faturas,produto,mes,'N',2);
+				int total_quant_mes_normal_3 = get_total_vendas_mes_produto_filial(faturas,produto,mes,'N',3);
 
-				int total_quant_mes_promo_1 = get_total_quantidades_mes_produto_filial(faturas,produto,mes,'P',1);
-				int total_quant_mes_promo_2 = get_total_quantidades_mes_produto_filial(faturas,produto,mes,'P',2);
-				int total_quant_mes_promo_3 = get_total_quantidades_mes_produto_filial(faturas,produto,mes,'P',3);
+				int total_quant_mes_promo_1 = get_total_vendas_mes_produto_filial(faturas,produto,mes,'P',1);
+				int total_quant_mes_promo_2 = get_total_vendas_mes_produto_filial(faturas,produto,mes,'P',2);
+				int total_quant_mes_promo_3 = get_total_vendas_mes_produto_filial(faturas,produto,mes,'P',3);
 				
 				double total_preco_mes_normal_1 = get_total_precos_mes_produto_filial(faturas,produto,mes,'N',1);
 				double total_preco_mes_normal_2 = get_total_precos_mes_produto_filial(faturas,produto,mes,'N',2);
@@ -431,7 +431,7 @@ int querie_6(Faturacao faturas) {
 		}
 
 		total_faturado_intervalo = get_total_faturado_intervalo(faturas,mes1,mes2);
-		total_vendas_intervalo = get_total_quantidades_intervalo(faturas,mes1,mes2);
+		total_vendas_intervalo = get_total_vendas_intervalo(faturas,mes1,mes2);
 
 		while(voltar) {
 			system("clear");

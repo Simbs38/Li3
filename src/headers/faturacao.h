@@ -56,7 +56,7 @@ void free_Faturacao(Faturacao faturacao);
 double get_total_precos_mes_produto_filial(Faturacao fatura, char* produto, int mes, char modo, int filial);
 
 /**
- * Devolve a quantidade total de um produto num dado mês e numa dada filial em promoção ou em preço normal.
+ * Devolve o numero de vendas total de um produto num dado mês e numa dada filial em promoção ou em preço normal.
  * @param Faturacao fatura onde estão alocados os dados.
  * @param char* produto pretendido.
  * @param int mes pretendido.
@@ -64,7 +64,7 @@ double get_total_precos_mes_produto_filial(Faturacao fatura, char* produto, int 
  * @param int filial pretendida.
  * @return int com o valor.
  */
-int get_total_quantidades_mes_produto_filial(Faturacao fatura, char* produto, int mes, char modo, int filial);
+int get_total_vendas_mes_produto_filial(Faturacao fatura, char* produto, int mes, char modo, int filial);
 
 /**
  * Devolve o total faturado com um produto num dado mês em promoção ou em preço normal.
@@ -77,14 +77,14 @@ int get_total_quantidades_mes_produto_filial(Faturacao fatura, char* produto, in
 double get_total_precos_mes_produto(Faturacao fatura, char* produto, int mes, char modo);
 
 /**
- * Devolve a quantidade total de um produto num dado mês em promoção ou em preço normal.
+ * Devolve o total de vendas de um produto num dado mês em promoção ou em preço normal.
  * @param Faturacao fatura onde se encontram os dados alocados.
  * @param char* produto pretendido.
  * @param int mes pretendido.
  * @param char modo, se Normal ou em Promoção.
  * @return int com o valor.
  */
-int get_total_quantidades_mes_produto(Faturacao fatura, char* produto, int mes, char modo);
+int get_total_vendas_mes_produto(Faturacao fatura, char* produto, int mes, char modo);
 
 /**
  * Devolve o total faturado num intervalo de meses.
@@ -96,13 +96,13 @@ int get_total_quantidades_mes_produto(Faturacao fatura, char* produto, int mes, 
 double get_total_faturado_intervalo(Faturacao fatura, int mes1, int mes2);
 
 /**
- * Devolve a quantidade total de produtos vendidos num intervalo de meses.
+ * Devolve o total de vendas de produtos num intervalo de meses.
  * @param Faturacao fatura onde estão alocados os dados.
  * @param int mes1, referente ao mês inicial.
  * @param int mes2, referente ao mês final.
  * @return int com o valor.
  */
-int get_total_quantidades_intervalo(Faturacao fatura, int mes1, int mes2);
+int get_total_vendas_intervalo(Faturacao fatura, int mes1, int mes2);
 
 /**
  * Inicializa um Conj_Faturas.

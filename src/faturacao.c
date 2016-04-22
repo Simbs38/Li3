@@ -3,8 +3,6 @@
 #include <stdlib.h>
 
 
-/* Estrutura associada a cada produto */
-
 typedef struct fatura_produto {
 	int quantidades[12][3][2];
 	double precos[12][3][2];
@@ -102,7 +100,7 @@ Faturacao adiciona_Fatura(Faturacao contas, Venda venda) {
 }
 
 
-int get_total_quantidades_mes_produto(Faturacao fatura, char* produto, int mes, char modo) {
+int get_total_vendas_mes_produto(Faturacao fatura, char* produto, int mes, char modo) {
 	
 	int i, total = 0;
 	
@@ -138,7 +136,7 @@ double get_total_precos_mes_produto(Faturacao fatura, char* produto, int mes, ch
 }
 
 
-int get_total_quantidades_mes_produto_filial(Faturacao fatura, char* produto, int mes, char modo, int filial) {
+int get_total_vendas_mes_produto_filial(Faturacao fatura, char* produto, int mes, char modo, int filial) {
 
 	int total = 0;
 	
@@ -170,7 +168,7 @@ double get_total_precos_mes_produto_filial(Faturacao fatura, char* produto, int 
 }
 
 
-int get_total_quantidades_intervalo(Faturacao fatura, int mes1, int mes2) {
+int get_total_vendas_intervalo(Faturacao fatura, int mes1, int mes2) {
 
 	int i, total = 0;
 

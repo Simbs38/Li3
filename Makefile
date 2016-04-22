@@ -7,8 +7,8 @@ CFLAGS= -Wno-unused-result -O2 -ansi
 compile:$(OBJS)
 		$(CC) $(CFLAGS) -o gereVendas $(OBJS) 
 
-debug:$(OBJS)
-		$(CC) $(CFLAGS) -g -o gereVendas $(OBJS) 
+debug: CFLAGS := -g
+debug: compile
 
 obj/%.o: src/%.c
 	@mkdir -p obj

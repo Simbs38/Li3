@@ -224,6 +224,7 @@ static Lista_Produtos init_Lista_Produtos() {
 
 static void free_Lista_Produtos(void* n) {
 	Lista_Produtos l = (Lista_Produtos) n;
+	free(l->produto);
 	free(l);
 }
 

@@ -68,7 +68,7 @@ AVL avl_clone(AVL node, AVL novo) {
     novo = (AVL) malloc(sizeof(struct avl));
     novo->arvore = tree_clone(node->arvore,novo->arvore);
     novo->avl_tamanho = node->avl_tamanho;
-    return novo;  
+    return novo;
 }
 
 
