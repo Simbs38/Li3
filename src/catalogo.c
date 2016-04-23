@@ -25,8 +25,11 @@ Catalogo init_Catalogo() {
 
 Boolean existe_Catalogo(Catalogo catalogo, char* key) {
    int index = key[0] - 'A';
-   Boolean existe = avl_lookUp(catalogo->indice[index],key);
-   return existe;
+  if(index >= 0 && index < 26) {
+    Boolean existe = avl_lookUp(catalogo->indice[index],key);
+    return existe;
+  }
+  else return false;
 }
 
 

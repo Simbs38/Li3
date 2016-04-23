@@ -171,11 +171,15 @@ double get_total_precos_mes_produto_filial(Faturacao fatura, char* produto, int 
 int get_total_vendas_intervalo(Faturacao fatura, int mes1, int mes2) {
 
 	int i, total = 0;
-
-	for(i = mes1-1; i <= mes2-1; i++){
-		total += fatura->total_vendas[i];
+	if(mes1<=mes2) {
+		for(i = mes1-1; i <= mes2-1; i++){
+			total += fatura->total_vendas[i];
+		}
+	} else {
+		for(i = mes2-1; i <= mes1-1; i++){
+			total += fatura->total_vendas[i];
+		}
 	}
-
 	return total;
 }
 
