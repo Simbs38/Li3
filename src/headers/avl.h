@@ -1,4 +1,4 @@
-/**
+/** 
  * @file avl.h
  * @brief Ficheiro que contem a API relativa á implementação de AVL's.
  */
@@ -114,5 +114,11 @@ char* getString(NODO n);
  * @return void*.
  */
 void* getCont(NODO n);
+
+/**
+ * Limpa da memória um dado NODO.
+ * @param node NODO a remover.
+ */
+void free_Nodo(NODO node);
 
 #endif /* _avl_h_ */

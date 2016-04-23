@@ -68,7 +68,7 @@ AVL avl_clone(AVL node, AVL novo) {
     novo = (AVL) malloc(sizeof(struct avl));
     novo->arvore = tree_clone(node->arvore,novo->arvore);
     novo->avl_tamanho = node->avl_tamanho;
-    return novo;  
+    return novo;
 }
 
 
@@ -128,7 +128,7 @@ NODO getNodoDir(NODO n) {
 
 char* getString(NODO n) {
     char* novo;
-    novo = malloc(10*sizeof(char));
+    novo = malloc((strlen(n->string)+1)*sizeof(char));
     strcpy(novo,n->string);
     return novo;
 }
@@ -306,6 +306,13 @@ static void tree_free(NODO node, Funcao f) {
         if(node->cont != NULL) {
             f(node->cont);
         }
+        free(node->string);
+        free(node);
+    }
+}
+
+void free_Nodo(NODO node) {
+    if(node != NULL) {
         free(node->string);
         free(node);
     }

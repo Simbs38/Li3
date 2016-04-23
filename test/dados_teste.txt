@@ -8,4 +8,4 @@ F-Clientes diferentes: 16384
 G-Produtos comprados: 170080
 H-Produtos nunca Comprados : 928
 I-Clientes sem compras : 0
-K-FACTURADO TOTAL: 44765588910.52
+J-FACTURADO TOTAL: 44765588910.52

@@ -3,15 +3,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ELEMENTOS_PAGINA 20
-
 struct lista {
+    char* cabecalho;
     char** array;
     int pos;
     int capacidade;
 };
 
 struct pagina {
+    char* cabecalho;
     Lista array_dinamico;
     int nr_pagina;
     int total_paginas;
@@ -27,6 +27,7 @@ static Lista clientes_compraram_filial_aux(Lista list, NODO tree);
 
 Lista init_Lista(int size) {
     Lista conjunto = (Lista) malloc(sizeof(struct lista));
+    conjunto->cabecalho = NULL;
     conjunto->array = (char**) malloc(size *sizeof(char*));
     conjunto->pos = 0;
     conjunto->capacidade = size;
@@ -58,11 +59,15 @@ Lista lista_converte(Lista list, AVL tree) {
 }
 
 
+
 static Lista converte_aux(Lista list, NODO tree) {
     if(tree != NULL) {
+        char* nome = getString(tree);
         list = converte_aux(list,getNodoEsq(tree));
-        list = lista_insert(list,getString(tree));
+        list = lista_insert(list,nome);
         list = converte_aux(list,getNodoDir(tree));   
+        free_Nodo(tree);
+        free(nome);
     }
     return list;
 }
@@ -107,7 +112,7 @@ int lista_getPos(Lista list) {
 
 
 char* lista_getNome(Lista list, int pos) {
-    char* novo = malloc(strlen(list->array[pos])+1);
+    char* novo = malloc((strlen(list->array[pos])+1)*sizeof(char));
     strcpy(novo,list->array[pos]);
     return novo;
 }
@@ -142,10 +147,10 @@ int lista_nr_elementos_diferentes(Lista a, Lista b) {
 }
 
 
-
 Pagina init_Pagina(int capacidade) {
     
     Pagina nova = (Pagina) malloc(sizeof(struct pagina));
+    nova->cabecalho = NULL;
     nova->array_dinamico = NULL;
     nova->nr_pagina = 0;
     nova->total_paginas = 0;
@@ -188,8 +193,24 @@ char* getStringPagina(Pagina p, int posicao) {
 }
 
 
-Pagina getPagina(Pagina p, Lista l, int pagina) {
+Lista lista_insere_cabecalho(Lista l, char* titulo) {
+    if(l->cabecalho) free(l->cabecalho);
+    l->cabecalho = malloc((strlen(titulo)+1)*sizeof(char));
+    strcpy(l->cabecalho,titulo);
+    return l;
+}
 
+
+char* getCabecalho(Pagina p) {
+    return p->cabecalho;
+}
+
+
+Pagina getPagina(Pagina p, Lista l, int pagina) {
+    if(l->cabecalho) {
+        p->cabecalho = malloc((strlen(l->cabecalho)+1)*sizeof(char));
+        strcpy(p->cabecalho,l->cabecalho);
+    }
     int i;
     int last_pagina = l->pos % p->tamanho_pagina;
     p->total_elementos = l->pos;
@@ -205,4 +226,3 @@ Pagina getPagina(Pagina p, Lista l, int pagina) {
 
     return p;
 }
-

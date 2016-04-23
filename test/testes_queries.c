@@ -1,20 +1,28 @@
 #include "./../src/headers/avl.h"
 #include "./../src/headers/catalogo.h"
 #include "./../src/headers/clientes.h"
-#include "./../src/headers/filial.h"
 #include "./../src/headers/global.h"
-#include "./../src/headers/heap.h"
-#include "./../src/headers/interpretador.h"
-#include "./../src/headers/leituras.h"
-#include "./../src/headers/produtos.h"
 #include "./../src/headers/queries.h"
-#include "./../src/headers/venda.h"
-#include <string.h>
+#include "./../src/headers/faturacao.h"
+#include "./../src/headers/filial.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-void testa_querie_2(Cat_Produtos produtos){
+static void testa_querie_2(Cat_Produtos produtos);
+static void testa_querie_3(Faturacao faturas,char *produto);
+static void testa_querie_4(Faturacao faturas);
+static void testa_querie_5(Filial filiais[3],char *cliente);
+static void testa_querie_6(Faturacao faturas);
+static void testa_querie_7(Filial filiais[3]);
+static void testa_querie_8(Filial filiais[3],char *produto);
+static void testa_querie_9(Filial filiais[3],char *cliente);
+static void testa_querie_10(Filial filiais[3]);
+static void testa_querie_11(Filial filiais[3],char *cliente);
+static void testa_querie_12(Filial filiais[3],Faturacao faturas);
+
+
+static void testa_querie_2(Cat_Produtos produtos){
   int i;
   Conj_Produtos lista_produtos = init_Conjunto(1000);
   char letra;
@@ -33,7 +41,7 @@ void testa_querie_2(Cat_Produtos produtos){
       printf("    2     |  %f   |  %f\n",time_spent,time_spent/10);
 }
 
-void testa_querie_3(Faturacao faturas,char *produto){
+static void testa_querie_3(Faturacao faturas,char *produto){
   int i;
   double time_spent=0;
   time_t begin, end;
@@ -42,8 +50,8 @@ void testa_querie_3(Faturacao faturas,char *produto){
     for(i=0;i!=5;i++){
       begin = clock();      
       mes=i;
-      int total_quant_mes_normal = get_total_quantidades_mes_produto(faturas,produto,mes,'N');
-      int total_quant_mes_promo = get_total_quantidades_mes_produto(faturas,produto,mes,'P');
+      int total_quant_mes_normal = get_total_vendas_mes_produto(faturas,produto,mes,'N');
+      int total_quant_mes_promo = get_total_vendas_mes_produto(faturas,produto,mes,'P');
       double total_preco_mes_normal = get_total_precos_mes_produto(faturas,produto,mes,'N');
       double total_preco_mes_promo = get_total_precos_mes_produto(faturas,produto,mes,'P');
 
@@ -59,13 +67,13 @@ void testa_querie_3(Faturacao faturas,char *produto){
     for(i=0;i!=5;i++){
       begin = clock();      
       mes=i;
-      int total_quant_mes_normal_1 = get_total_quantidades_mes_produto_filial(faturas,produto,mes,'N',1);
-      int total_quant_mes_normal_2 = get_total_quantidades_mes_produto_filial(faturas,produto,mes,'N',2);
-      int total_quant_mes_normal_3 = get_total_quantidades_mes_produto_filial(faturas,produto,mes,'N',3);
+      int total_quant_mes_normal_1 = get_total_vendas_mes_produto_filial(faturas,produto,mes,'N',1);
+      int total_quant_mes_normal_2 = get_total_vendas_mes_produto_filial(faturas,produto,mes,'N',2);
+      int total_quant_mes_normal_3 = get_total_vendas_mes_produto_filial(faturas,produto,mes,'N',3);
 
-      int total_quant_mes_promo_1 = get_total_quantidades_mes_produto_filial(faturas,produto,mes,'P',1);
-      int total_quant_mes_promo_2 = get_total_quantidades_mes_produto_filial(faturas,produto,mes,'P',2);
-      int total_quant_mes_promo_3 = get_total_quantidades_mes_produto_filial(faturas,produto,mes,'P',3);
+      int total_quant_mes_promo_1 = get_total_vendas_mes_produto_filial(faturas,produto,mes,'P',1);
+      int total_quant_mes_promo_2 = get_total_vendas_mes_produto_filial(faturas,produto,mes,'P',2);
+      int total_quant_mes_promo_3 = get_total_vendas_mes_produto_filial(faturas,produto,mes,'P',3);
       
       double total_preco_mes_normal_1 = get_total_precos_mes_produto_filial(faturas,produto,mes,'N',1);
       double total_preco_mes_normal_2 = get_total_precos_mes_produto_filial(faturas,produto,mes,'N',2);
@@ -74,8 +82,6 @@ void testa_querie_3(Faturacao faturas,char *produto){
       double total_preco_mes_promo_1 = get_total_precos_mes_produto_filial(faturas,produto,mes,'P',1);
       double total_preco_mes_promo_2 = get_total_precos_mes_produto_filial(faturas,produto,mes,'P',2);
       double total_preco_mes_promo_3 = get_total_precos_mes_produto_filial(faturas,produto,mes,'P',3);
-
-      
       
       end = clock();
       time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
@@ -86,7 +92,7 @@ void testa_querie_3(Faturacao faturas,char *produto){
 }
 
 
-void testa_querie_4(Faturacao faturas){
+static void testa_querie_4(Faturacao faturas){
   int i, input, filial = 0;
   char letra;
   double time_spent=0;
@@ -122,7 +128,7 @@ void testa_querie_4(Faturacao faturas){
 }
 
 
-void testa_querie_5(Filial filiais[3],char *cliente){
+static void testa_querie_5(Filial filiais[3],char *cliente){
   int i;
   Conj_Produtos lista_produtos = init_Conjunto(1000);
   char letra;
@@ -156,7 +162,7 @@ void testa_querie_5(Filial filiais[3],char *cliente){
 }
 
 
-void testa_querie_6(Faturacao faturas){
+static void testa_querie_6(Faturacao faturas){
   int i;
   Conj_Produtos lista_produtos = init_Conjunto(1000);
   char letra;
@@ -173,7 +179,7 @@ void testa_querie_6(Faturacao faturas){
         mes2--;
   
     total_faturado_intervalo = get_total_faturado_intervalo(faturas,mes1,mes2);
-    total_vendas_intervalo = get_total_quantidades_intervalo(faturas,mes1,mes2);
+    total_vendas_intervalo = get_total_vendas_intervalo(faturas,mes1,mes2);
 
 
       end = clock();
@@ -185,7 +191,7 @@ void testa_querie_6(Faturacao faturas){
 }
 
 
-void testa_querie_7(Filial filiais[3]){
+static void testa_querie_7(Filial filiais[3]){
   int i,n;
   Conj_Produtos lista_produtos = init_Conjunto(1000);
   char letra;
@@ -220,7 +226,7 @@ void testa_querie_7(Filial filiais[3]){
 }
 
 
-void testa_querie_8(Filial filiais[3],char *produto){
+static void testa_querie_8(Filial filiais[3],char *produto){
   int i;
   Conj_Produtos lista_produtos = init_Conjunto(1000);
   char letra;
@@ -252,7 +258,7 @@ void testa_querie_8(Filial filiais[3],char *produto){
 }
 
 
-void testa_querie_9(Filial filiais[3],char *cliente){
+static void testa_querie_9(Filial filiais[3],char *cliente){
   int i,n,index;
   double time_spent=0;
   time_t begin,end;
@@ -282,7 +288,7 @@ void testa_querie_9(Filial filiais[3],char *cliente){
 
 }
 
-void testa_querie_10(Filial filiais[3]){
+static void testa_querie_10(Filial filiais[3]){
   int i,n,index;
   double time_spent=0;
   time_t begin,end;
@@ -361,7 +367,7 @@ void testa_querie_10(Filial filiais[3]){
 
 
 
-void testa_querie_11(Filial filiais[3],char *cliente){
+static void testa_querie_11(Filial filiais[3],char *cliente){
   int i,n,index;
   double time_spent=0;
   time_t begin,end;
@@ -390,7 +396,7 @@ void testa_querie_11(Filial filiais[3],char *cliente){
 }
 
 
-void testa_querie_12(Filial filiais[3],Faturacao faturas){
+static void testa_querie_12(Filial filiais[3],Faturacao faturas){
   int i,n,index;
   double time_spent=0;
   time_t begin,end;
@@ -428,11 +434,12 @@ void testa_querie_12(Filial filiais[3],Faturacao faturas){
 }
 
 
-void testaqueries(Cat_Produtos produtos,Faturacao faturacao,Filial filiais[3]){
+void testaqueries(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturacao,Filial filiais[3]){
   int input;
   char cliente[10];
   char produto[10];
   Boolean existe = false;
+  char *s;
 
     while (existe == false) {
       printf(" Insira o codigo do cliente >> ");
@@ -447,8 +454,6 @@ void testaqueries(Cat_Produtos produtos,Faturacao faturacao,Filial filiais[3]){
       existe = filial_existe_Produto(filiais[0],produto);
       if(!existe) printf("O Produto não é válido, insira de novo\n\n");
     }
-
-      
 
 
       system("clear");

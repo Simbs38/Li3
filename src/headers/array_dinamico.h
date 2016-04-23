@@ -89,14 +89,76 @@ Lista clientes_compraram_filial(Lista list,AVL tree);
  */
 int lista_nr_elementos_diferentes(Lista a, Lista b);
 
-
+/**
+ * Inicia uma nova Pagina com um dado tamanho como parametro.
+ * @param capacidade inteiro que determina o tamanho da página.
+ * @return Pagina criada.
+ */
 Pagina init_Pagina(int capacidade);
+
+/**
+ * Insere dados numa página dada uma lista.
+ * @param p Pagina onde serão inseridos os dados.
+ * @param l Lista de onde serão provenientes os dados.
+ * @param pagina int com a página pretendida.
+ */
 Pagina getPagina(Pagina p, Lista l, int pagina);
+
+/**
+ * Remove da memória uma dada Pagina.
+ * @param p Pagina a limpar da memória.
+ */
 void free_Pagina(Pagina p);
+
+/**
+ * Retorna a string de uma dada posiçao de um Pagina.
+ * @param p Pagina.
+ * @param posicao int com a posição de onde se pretende a string.
+ * @return char* com a string.
+ */
 char* getStringPagina(Pagina p, int posicao);
+
+/**
+ * Retorna o numero total de páginas que uma dada Pagina pode ter.
+ * @param p Pagina.
+ * @return int.
+ */
 int getNrPaginaTotal(Pagina p);
+
+/**
+ * Retorna o numero total de elementos possiveis que uma dada Pagina poderá mostrar.
+ * @param p Pagina.
+ * @return int.
+ */
 int getNrElementosTotal(Pagina p);
+
+/**
+ * Retorna o numero total de elementos que uma dada Pagina tem.
+ * @param p Pagina.
+ * @return int.
+ */
 int getNrElementosPag(Pagina p);
+
+/**
+ * Retorna o numero da página relativa aos dados que a Pagina contém.
+ * @param p Pagina.
+ * @return int.
+ */
 int getNrPagina(Pagina p);
+
+/**
+ * Insere um cabeçalho numa Lista.
+ * @param l Lista.
+ * @param titulo char* com o cabeçalho a colocar.
+ * @return Lista com o cabeçalho inserido.
+ */
+Lista lista_insere_cabecalho(Lista l, char* titulo);
+
+/**
+ * Retorna o cabeçalho de uma página.
+ * @param p Pagina.
+ * @return char* com o cabeçalho.
+ */
+char* getCabecalho(Pagina p);
 
 #endif /* _array_dinamico_h_ */

@@ -1,3 +1,0 @@
-./data/Clientes.txt
-./data/Produtos.txt
-./data/Vendas_1M.txt

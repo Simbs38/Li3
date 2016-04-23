@@ -30,7 +30,7 @@ void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao 
    time_t begin, end;
    double time_spent;
 
-   begin = clock();
+   time(&begin);
 
    system("clear");
    printf("\tLeitura dos ficheiros\n\n");
@@ -41,8 +41,8 @@ void leitura_ficheiros(Cat_Clientes costumers, Cat_Produtos products, Faturacao 
 
    converte_vendas(products,costumers,contas,filiais,f_sales,f_vname);
    
-   end = clock();
-   time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+   time(&end);
+   time_spent = difftime(end, begin);
    
    printf(" Tempo total de leitura: %f segundos\n",time_spent);
    putchar('\n');
@@ -57,11 +57,10 @@ static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, c
    time_t begin, end;
    double time_spent;
 
-   begin = clock();
+   time(&begin);
 
    char *information;
    char line[MAXBUFFERCLIENTES];
-   
    int clientes_validos = 0, total = 0;
    Cliente client = criaCliente();
 
@@ -78,8 +77,9 @@ static Cat_Clientes converte_clientes(Cat_Clientes costumers, FILE *f_clients, c
       total++;
    }
    free_cliente(client);
-   end = clock();
-   time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+   
+   time(&end);
+   time_spent = difftime(end, begin);
    
    printf(" Nome do Ficheiro: %s\n",file_name);
    printf(" Número de linhas lidas: %d\n",total);
@@ -99,7 +99,7 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
    time_t begin, end;
    double time_spent;
 
-   begin = clock();
+   time(&begin);
 
    char *information;
    char line[MAXBUFFERPRODUTOS];
@@ -120,8 +120,8 @@ static Cat_Produtos converte_produtos(Cat_Produtos products, FILE *f_prods, char
    }
 
    free_produto(prod);
-   end = clock();
-   time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+   time(&end);
+   time_spent = difftime(end, begin);
 
    printf(" Nome do Ficheiro: %s\n",file_name);
    printf(" Número de linhas lidas: %d\n",total);
@@ -141,7 +141,7 @@ static void converte_vendas(Cat_Produtos cat_produtos, Cat_Clientes cat_clientes
    time_t begin, end;
    double time_spent;
 
-   begin = clock();
+   time(&begin);
 
    char line[MAXBUFFERVENDAS];
    char* information;
@@ -193,8 +193,8 @@ static void converte_vendas(Cat_Produtos cat_produtos, Cat_Clientes cat_clientes
    }
    
    free_Venda(venda);
-   end = clock();
-   time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+   time(&end);
+   time_spent = difftime(end, begin);
 
    
    printf(" Nome do Ficheiro: %s\n",file_name);

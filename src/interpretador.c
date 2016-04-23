@@ -109,9 +109,9 @@ static int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao f
 		printf("\n\t\tMENU LEITURA\n\n");
 		printf("---------------------------------------------\n");
 		printf(" Escolha uma das seguintes opções:\n\n");
-		printf("  1. Carregar ficheiros para 1M\n\n");
-		printf("  2. Carregar ficheiros para 3M\n\n");
-		printf("  3. Carregar ficheiros para 5M\n\n");
+		printf("  1. Carregar ficheiros para 1M\n");
+		printf("  2. Carregar ficheiros para 3M\n");
+		printf("  3. Carregar ficheiros para 5M\n");
 		printf("  4. Introduzir ficheiros\n\n");
 		printf("---------------------------------------------\n");
 		printf("  V - Voltar\t\t\tQ - Sair\n" );
@@ -249,7 +249,7 @@ static int menu_filiais(Filial filiais[3], Faturacao faturas) {
 		printf("---------------------------------------------\n");
 		printf(" Escolha uma das seguintes opções:\n\n");
 		printf("  1. Lista de produtos comprados mês a mês\n");
-		printf("  2. Lista de Clientes em todas as filiais\n");
+		printf("  2. Lista de compradores em todas as filiais\n");
 		printf("  3. Compradores de um Produto por filial\n");
 		printf("  4. Produtos mais comprados de um Cliente\n");
 		printf("  5. Lista dos N Produtos mais vendidos\n");

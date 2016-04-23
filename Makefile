@@ -9,14 +9,14 @@ CFLAGS= -Wno-unused-result -O2 -ansi
 compile:$(OBJS)
 		$(CC) $(CFLAGS) -o gereVendas $(OBJS) 
 
-debug:$(OBJS)
-		$(CC) $(CFLAGS) -g -o gereVendas $(OBJS) 
+debug: CFLAGS := -g
+debug: compile
 
 obj/%.o: src/%.c
 	@mkdir -p obj
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-obj/main.o: src/headers/global.h src/headers/produtos.h src/headers/clientes.h
+obj/main.o: src/headers/global.h src/headers/produtos.h src/headers/clientes.h src/headers/filial.h src/headers/interpretador.h src/headers/faturacao.h
 obj/avl.o: src/headers/avl.h src/headers/global.h
 obj/leituras.o: src/headers/leituras.h src/headers/clientes.h src/headers/catalogo.h src/headers/produtos.h src/headers/venda.h src/headers/filial.h src/headers/faturacao.h src/headers/global.h
 obj/array_dinamico.o: src/headers/array_dinamico.h src/headers/avl.h src/headers/global.h
@@ -42,6 +42,7 @@ clean:
 
 cleanAll: clean
 	-@rm -rf doc
+	-@rm -rf html
 
 .PHONY: doc
 doc:$(OBJS)
