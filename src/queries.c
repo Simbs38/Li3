@@ -18,9 +18,9 @@ int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Fili
 
 		if(modo == 1) {
 
-			strcpy(f_clientes,"./data/Clientes.txt");
-            strcpy(f_produtos,"./data/Produtos.txt");
-            strcpy(f_vendas,"./data/Vendas_1M.txt");
+			strcpy(f_clientes,"./Clientes.txt");
+            strcpy(f_produtos,"./Produtos.txt");
+            strcpy(f_vendas,"./Vendas_1M.txt");
             
             file_clientes = fopen(f_clientes,"r");
             file_produtos = fopen(f_produtos,"r");
@@ -34,9 +34,9 @@ int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Fili
 			}
 		} else if(modo == 2) {
 
-			strcpy(f_clientes,"./data/Clientes.txt");
-            strcpy(f_produtos,"./data/Produtos.txt");
-            strcpy(f_vendas,"./data/Vendas_3M.txt");
+			strcpy(f_clientes,"./Clientes.txt");
+            strcpy(f_produtos,"./Produtos.txt");
+            strcpy(f_vendas,"./Vendas_3M.txt");
             
             file_clientes = fopen(f_clientes,"r");
             file_produtos = fopen(f_produtos,"r");
@@ -50,9 +50,9 @@ int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Fili
 			}
 		} else if(modo == 3) {
 
-			strcpy(f_clientes,"./data/Clientes.txt");
-            strcpy(f_produtos,"./data/Produtos.txt");
-            strcpy(f_vendas,"./data/Vendas_5M.txt");
+			strcpy(f_clientes,"./Clientes.txt");
+            strcpy(f_produtos,"./Produtos.txt");
+            strcpy(f_vendas,"./Vendas_5M.txt");
             
             file_clientes = fopen(f_clientes,"r");
             file_produtos = fopen(f_produtos,"r");
