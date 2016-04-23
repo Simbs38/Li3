@@ -40,6 +40,7 @@ AVL initAVL() {
     return tree;
 }
 
+
 AVL atualiza_avl(AVL tree, char* value, Estrutura estrutura) {
     tree->arvore = atualiza_node(tree->arvore,value,estrutura);
     return tree;

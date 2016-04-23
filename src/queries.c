@@ -5,9 +5,10 @@
 #include <string.h>
 
 
-int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Filial filiais[NR_FILIAIS], int modo) {
+int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Filial filiais[], int modo) {
 	
 	int input;
+	char opcao[10];
 	char f_clientes[50];
 	char f_produtos[50];
 	char f_vendas[50];
@@ -24,9 +25,13 @@ int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Fili
             file_clientes = fopen(f_clientes,"r");
             file_produtos = fopen(f_produtos,"r");
             file_vendas = fopen(f_vendas,"r");
-			
-			leitura_ficheiros(clientes,produtos,faturas,filiais,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
-			
+			if(file_clientes && file_produtos && file_vendas) {
+				leitura_ficheiros(clientes,produtos,faturas,filiais,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
+			}else {
+				printf("Ficheiros inválidos! Prima qualquer tecla para voltar ao menú >> ");
+				input = scanf("%s",opcao);
+				return 10;
+			}
 		} else if(modo == 2) {
 
 			strcpy(f_clientes,"./data/Clientes.txt");
@@ -36,8 +41,13 @@ int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Fili
             file_clientes = fopen(f_clientes,"r");
             file_produtos = fopen(f_produtos,"r");
             file_vendas = fopen(f_vendas,"r");
-			
-			leitura_ficheiros(clientes,produtos,faturas,filiais,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
+			if(file_clientes && file_produtos && file_vendas) {
+				leitura_ficheiros(clientes,produtos,faturas,filiais,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
+			} else {
+				printf("Ficheiros inválidos! Prima qualquer tecla para voltar ao menú >> ");
+				input = scanf("%s",opcao);
+				return 10;
+			}
 		} else if(modo == 3) {
 
 			strcpy(f_clientes,"./data/Clientes.txt");
@@ -47,8 +57,13 @@ int querie_1(Cat_Produtos produtos,Cat_Clientes clientes,Faturacao faturas, Fili
             file_clientes = fopen(f_clientes,"r");
             file_produtos = fopen(f_produtos,"r");
             file_vendas = fopen(f_vendas,"r");
-			
-			leitura_ficheiros(clientes,produtos,faturas,filiais,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
+			if(file_clientes && file_produtos && file_vendas) {
+				leitura_ficheiros(clientes,produtos,faturas,filiais,file_clientes,file_produtos,file_vendas,f_clientes,f_produtos,f_vendas);
+			} else {
+				printf("Ficheiros inválidos! Prima qualquer tecla para voltar ao menú >> ");
+				input = scanf("%s",opcao);
+				return 10;
+			}
 		} else {
 			system("clear");
 			printf("_____________________________________________\n");
@@ -149,6 +164,8 @@ int querie_3(Faturacao faturas) {
 				double total_preco_mes_promo = get_total_precos_mes_produto(faturas,produto,mes,'P');
 				
 				system("clear");
+				printf( "_____________________________________________\n" );
+				printf( "   Vendas e Faturacao dado mês - QUERIE 3\n" );
 				printf( "    Vendas no mês %d do produto %s\n",mes,produto);
 				printf( "_____________________________________________\n" );
 				printf( "     Vendas\t\t   Faturação\n");
@@ -340,7 +357,7 @@ int querie_4(Faturacao faturas) {
 
 
 
-int querie_5(Filial filiais[NR_FILIAIS]) {
+int querie_5(Filial filiais[]) {
 
 	int estado = 1, input, j, i;
 	int resultado[12][3];
@@ -437,10 +454,11 @@ int querie_6(Faturacao faturas) {
 		while(voltar) {
 			system("clear");
 			printf( "_____________________________________________\n" );
+			printf( " Valores totais num intervalo - QUERIE 6\n" );
 			printf( "\n  Total de vendas entre mês %d e o mês %d\n",mes1,mes2);
 			printf( "_____________________________________________\n" );
 			printf( "\tVendas\t\tFaturação\n");
-			printf("\t%7d\t%7.2f\n",total_vendas_intervalo,total_faturado_intervalo);
+			printf("\t%7d\t%10.2f\n",total_vendas_intervalo,total_faturado_intervalo);
 			printf( "_____________________________________________\n" );
 			printf( "  V - Voltar\t\tQ - Sair:\n" );
 			printf( "_____________________________________________\n" );
@@ -464,7 +482,7 @@ int querie_6(Faturacao faturas) {
 
 
 
-int querie_7(Filial filiais[NR_FILIAIS]){
+int querie_7(Filial filiais[]){
 	
 	int estado = 1, input,i,pagina = 1; 
 	char *elem;
@@ -495,7 +513,7 @@ int querie_7(Filial filiais[NR_FILIAIS]){
 
 
 
-int querie_8(Filial filiais[NR_FILIAIS]) {
+int querie_8(Filial filiais[]) {
 
 	int estado = 1, input, filial = 0, pagina = 1;
 	
@@ -524,6 +542,7 @@ int querie_8(Filial filiais[NR_FILIAIS]) {
 			printf("\nInsira a filial que pretende >> ");
 			input = scanf("%s",fil);
 			filial = atoi(fil);
+			if(filial < 1 || filial > 3) printf("A filial não é válida, insira de novo\n\n");
 		}
 
 		normal = lista_clientes_de_produto(filiais[filial-1],produto,'N');
@@ -563,11 +582,11 @@ int querie_8(Filial filiais[NR_FILIAIS]) {
 
 
 
-int querie_9(Filial filiais[NR_FILIAIS]){
+int querie_9(Filial filiais[]){
 	int i;
 	int estado = 1, input, m = 0, pagina = 1;
 	
-	char cliente[10];
+	char cliente[20];
 	char mes[10];
 	char promo[10];
 	Boolean existe = false;
@@ -591,6 +610,7 @@ int querie_9(Filial filiais[NR_FILIAIS]){
 		printf("\nInsira o mês >> ");
 			input = scanf("%s",mes);
 			m = atoi(mes);
+			if(m < 1 || m > 12) printf("O Mês não é válido, insira de novo\n\n");
 		}
 
 		for(i = 0; i < 3; i++) heap = lista_codigos_de_clientes(filiais[i],heap,cliente,m,'Q');
@@ -614,7 +634,7 @@ int querie_9(Filial filiais[NR_FILIAIS]){
 
 
 
-int querie_10(Filial filiais[NR_FILIAIS]) {
+int querie_10(Filial filiais[]) {
 	
 	int i, pagina = 1, j;
 	int estado = 1, input, nr = 0;
@@ -641,6 +661,7 @@ int querie_10(Filial filiais[NR_FILIAIS]) {
 	printf("\nIndique o número de produtos mais vendidos que pretende ver >> ");
 		input = scanf("%s",n_produtos);
 		nr = atoi(n_produtos);
+		if(nr < 1 || nr > 171008) printf("O valor não é válido, insira de novo\n\n");
 	}
 				
 	valores_1 = retira_N_Produtos(valores_1,heap_1,nr);
@@ -678,7 +699,7 @@ int querie_10(Filial filiais[NR_FILIAIS]) {
 
 
 
-int querie_11(Filial filiais[NR_FILIAIS]){
+int querie_11(Filial filiais[]){
 	
 	int i;
 	int estado = 1, input, pagina = 1;
@@ -720,7 +741,7 @@ int querie_11(Filial filiais[NR_FILIAIS]){
 
 
 
-int querie_12(Filial filiais[NR_FILIAIS], Faturacao faturas){
+int querie_12(Filial filiais[], Faturacao faturas){
  
 	int estado = 1, input, i, nr_clientes = 0, nr_produtos;
 	char opcao[10];
@@ -799,6 +820,6 @@ int apresentaPagina(Pagina p) {
 
         case '4': return getNrPaginaTotal(p); break;
 
-        default: break;
+        default: return getNrPagina(p); break;
     }
 }

@@ -20,9 +20,11 @@ struct pagina {
     int total_elementos;
 };
 
+
 static Lista converte_aux(Lista list, NODO tree);
 static Lista produtos_nao_comprados_totais_aux(Lista list, NODO tree);
 static Lista clientes_compraram_filial_aux(Lista list, NODO tree);
+
 
 
 Lista init_Lista(int size) {
@@ -78,6 +80,7 @@ Lista produtos_nao_comprados_totais(Lista list,AVL tree) {
     return list;
 }
 
+
 static Lista produtos_nao_comprados_totais_aux(Lista list, NODO tree) {
     if(tree!=NULL) {
         list = produtos_nao_comprados_totais_aux(list,getNodoEsq(tree));
@@ -101,6 +104,7 @@ void free_Lista(Lista list) {
     for(i = 0; i < list->pos; i++) {
         free(list->array[i]);
     }
+    if(list->cabecalho) free(list->cabecalho);
     free(list->array);
     free(list);
 }
@@ -164,6 +168,7 @@ Pagina init_Pagina(int capacidade) {
 
 void free_Pagina(Pagina p) {
     free_Lista(p->array_dinamico);
+    if(p->cabecalho) free(p->cabecalho);
     free(p);
 }
 

@@ -33,17 +33,17 @@ int menu_principal(Cat_Produtos produtos, Cat_Clientes clientes, Faturacao fatur
 
 	while(estado) {
 		system("clear");
-		printf( "_____________________________________________\n" );
+		printf( "_______________________________________________\n" );
 		printf( "\n\t\tMENU PRINCIPAL\n\n" );
-		printf( "---------------------------------------------\n" );
+		printf( "-----------------------------------------------\n" );
 		printf(" Escolha uma das seguintes opções:\n\n" );
 		printf("  1. Leitura de Ficheiros\n");
 		printf("  2. Catálogo de Produtos\n");
 		printf("  3. Faturação\n");
 		printf("  4. Filiais\n");
-		printf( "---------------------------------------------\n" );
+		printf( "-----------------------------------------------\n" );
 		printf( "\t\t\t\tQ - Sair\n" );
-		printf( "_____________________________________________\n" );
+		printf( "_______________________________________________\n" );
 		
 		printf("\nEscolha uma opção >> ");
 		
@@ -105,17 +105,17 @@ static int menu_leitura(Cat_Produtos produtos, Cat_Clientes clientes,Faturacao f
 	while(estado) {
 	
 		system("clear");
-		printf("_____________________________________________\n");
+		printf("_______________________________________________\n");
 		printf("\n\t\tMENU LEITURA\n\n");
-		printf("---------------------------------------------\n");
+		printf("-----------------------------------------------\n");
 		printf(" Escolha uma das seguintes opções:\n\n");
 		printf("  1. Carregar ficheiros para 1M\n");
 		printf("  2. Carregar ficheiros para 3M\n");
 		printf("  3. Carregar ficheiros para 5M\n");
 		printf("  4. Introduzir ficheiros\n\n");
-		printf("---------------------------------------------\n");
+		printf("-----------------------------------------------\n");
 		printf("  V - Voltar\t\t\tQ - Sair\n" );
-		printf("_____________________________________________\n");
+		printf("_______________________________________________\n");
 		
 		printf("\nEscolha uma opção >> ");
 		
@@ -157,14 +157,14 @@ static int menu_catalogo(Cat_Produtos produtos) {
 	while(estado) {
 	
 		system("clear");
-		printf("_____________________________________________\n");
+		printf("_______________________________________________\n");
 		printf("\n\t\tMENU CATALOGOS\n\n");
-		printf("---------------------------------------------\n");
+		printf("-----------------------------------------------\n");
 		printf(" Escolha uma das seguintes opções:\n\n");
-		printf("  1. Listagem de Produtos por letra\n\n");
-		printf("---------------------------------------------\n");
+		printf("  1. Listagem de Produtos por letra (2)\n\n");
+		printf("-----------------------------------------------\n");
 		printf("  V - Voltar\t\t\tQ - Sair\n" );
-		printf("_____________________________________________\n");
+		printf("_______________________________________________\n");
 		
 		printf("\nEscolha uma opção >> ");
 		
@@ -197,16 +197,16 @@ static int menu_faturacao(Faturacao faturas) {
 	while(estado) {
 	
 		system("clear");
-		printf("_____________________________________________\n");
+		printf("_______________________________________________\n");
 		printf("\n\t\tMENU FATURACAO\n\n");
-		printf("---------------------------------------------\n");
+		printf("-----------------------------------------------\n");
 		printf(" Escolha uma das seguintes opções:\n\n");
-		printf("  1. Total de vendas/faturação dado um mês\n");
-		printf("  2. Produtos não comprados\n");
-		printf("  3. Vendas/faturação num intervalo de meses\n\n");
-		printf("---------------------------------------------\n");
+		printf("  1. Total de vendas/faturação dado um mês (3)\n");
+		printf("  2. Produtos não comprados (4)\n");
+		printf("  3. Vendas/faturação num intervalo de meses (6)\n\n");
+		printf("-----------------------------------------------\n");
 		printf("  V - Voltar\t\t\tQ - Sair\n");
-		printf("_____________________________________________\n");
+		printf("_______________________________________________\n");
 		
 		printf("\nEscolha uma opção >> ");
 		
@@ -244,20 +244,20 @@ static int menu_filiais(Filial filiais[3], Faturacao faturas) {
 	while(estado) {
 	
 		system("clear");
-		printf("_____________________________________________\n");
+		printf("_______________________________________________\n");
 		printf("\n\t\tMENU FILIAIS\n\n");
-		printf("---------------------------------------------\n");
+		printf("-----------------------------------------------\n");
 		printf(" Escolha uma das seguintes opções:\n\n");
-		printf("  1. Lista de produtos comprados mês a mês\n");
-		printf("  2. Lista de compradores em todas as filiais\n");
-		printf("  3. Compradores de um Produto por filial\n");
-		printf("  4. Produtos mais comprados de um Cliente\n");
-		printf("  5. Lista dos N Produtos mais vendidos\n");
-		printf("  6. Top 3 Produtos mais caros de um Cliente\n");
-		printf("  7. Clientes/Produtos sem registos de compra\n\n");
-		printf("---------------------------------------------\n");
+		printf("  1. Lista de produtos comprados mês a mês (5)\n");
+		printf("  2. Lista de compradores em todas as filiais (7)\n");
+		printf("  3. Compradores de um Produto por filial (8)\n");
+		printf("  4. Produtos mais comprados de um Cliente (9)\n");
+		printf("  5. Lista dos N Produtos mais vendidos (10)\n");
+		printf("  6. Top 3 Produtos mais caros de um Cliente (11)\n");
+		printf("  7. Clientes/Produtos sem registos de compra (12)\n\n");
+		printf("-----------------------------------------------\n");
 		printf("  V - Voltar\t\t\tQ - Sair\n");
-		printf("_____________________________________________\n");
+		printf("_______________________________________________\n");
 		
 		printf("\nEscolha uma opção >> ");
 		
