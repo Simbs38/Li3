@@ -48,5 +48,5 @@ cleanAll: clean
 doc:$(OBJS)
 		doxygen doxygen.conf
 
-test:$(OBJS2)
+testa:$(OBJS2)
 	$(CC) $(CFLAGS) -o testaVendas $(OBJS2)	
