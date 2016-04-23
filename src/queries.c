@@ -166,7 +166,7 @@ int querie_3(Faturacao faturas) {
 				system("clear");
 				printf( "_____________________________________________\n" );
 				printf( "   Vendas e Faturacao dado mês - QUERIE 3\n" );
-				printf( "    Vendas no mês %d do produto %s\n",mes,produto);
+				printf( "    Vendas no mês %d do Produto %s\n",mes,produto);
 				printf( "_____________________________________________\n" );
 				printf( "     Vendas\t\t   Faturação\n");
 				printf( "_____________________________________________\n" );
@@ -431,7 +431,7 @@ int querie_6(Faturacao faturas) {
 		while(mes1 < 1 || mes1 > 12) {
 			input = scanf("%s",m1);
 			mes1 = atoi(m1);
-			if(mes1 < 1 && mes1 > 12) { 
+			if(mes1 < 1 || mes1 > 12) { 
 				printf("\nMês inserido invalido\n");
 				printf("\nInsira o primeiro mês do intervalo >> ");
 			}
@@ -442,7 +442,7 @@ int querie_6(Faturacao faturas) {
 		while(mes2 < 1 || mes2 > 12) {
 			input = scanf("%s",m2);
 			mes2 = atoi(m2);
-			if(mes2 < 1 && mes2 > 12) { 
+			if(mes2 < 1 || mes2 > 12) { 
 				printf("\nMês inserido invalido\n");
 				printf("\nInsira o segundo mês do intervalo >> ");
 			}
@@ -515,7 +515,7 @@ int querie_7(Filial filiais[]){
 
 int querie_8(Filial filiais[]) {
 
-	int estado = 1, input, filial = 0, pagina = 1;
+	int estado = 1, input, filial = 0, pagina = 1, voltar = 1;
 	
 	char produto[10];
 	char fil[10];
@@ -551,33 +551,45 @@ int querie_8(Filial filiais[]) {
 		if(normal != NULL) total_N = filial_getPos(normal);
 		if(promocao != NULL) total_P = filial_getPos(promocao);
 
-		printf("\n  Total em modo N: %d\n",total_N);
-		printf("  Total em modo P: %d\n\n",total_P);
-		printf(" Indique a opção:\n\n"); 
-		printf("  Lista de Clientes em modo Normal -> Prima N\n"); 
-		printf("  Lista de Clientes em Promoção -> Prima P\n");
-		printf("  Voltar -> Prima qualquer outra tecla\n");
-		printf("\n  Opção >> ");
-		input = scanf("%s",promo);
 
-		if((promo[0] == 'N' || promo[0] == 'n') && total_N != 0) {
-			while(pagina) {
-				Pagina p = init_Pagina(TAMANHO_PAGINA);
-				p = getPagina(p,get_Lista_Filial(normal),pagina);
-				pagina = apresentaPagina(p);
-				free_Pagina(p);
-			}
-			return estado;
-		}else if((promo[0] == 'P' || promo[0] == 'p') && total_P != 0) { 
-			while(pagina) {
-				Pagina p = init_Pagina(TAMANHO_PAGINA);
-				p = getPagina(p,get_Lista_Filial(promocao),pagina);
-				pagina = apresentaPagina(p);
-				free_Pagina(p);
-			}
-			return estado;
-		}else return estado;
-	}	
+		while(voltar) {
+			pagina = 1;
+			system("clear");
+			printf( "_____________________________________________\n" );
+			printf( "   Clientes de um Produto - QUERIE 8\n\n");
+			printf("\n  Total em modo N: %d\n",total_N);
+			printf("  Total em modo P: %d\n\n",total_P);
+			printf(" Indique a opção:\n\n"); 
+			printf("  Lista de Clientes em modo Normal -> Prima N\n"); 
+			printf("  Lista de Clientes em Promoção -> Prima P\n");
+			printf("  Voltar -> Prima qualquer outra tecla\n");
+			printf("\n  Opção >> ");
+			input = scanf("%s",promo);
+
+			if((promo[0] == 'N' || promo[0] == 'n') && total_N != 0) {
+			
+				while(pagina) {
+					Pagina p = init_Pagina(TAMANHO_PAGINA);
+					p = getPagina(p,get_Lista_Filial(normal),pagina);
+					pagina = apresentaPagina(p);
+					free_Pagina(p);
+				}
+
+			}else if((promo[0] == 'P' || promo[0] == 'p') && total_P != 0) { 
+			
+				while(pagina) {
+					Pagina p = init_Pagina(TAMANHO_PAGINA);
+					p = getPagina(p,get_Lista_Filial(promocao),pagina);
+					pagina = apresentaPagina(p);
+					free_Pagina(p);
+				}
+
+			}else return estado;
+
+		}
+
+	}
+	return estado;
 }
 
 
@@ -670,8 +682,8 @@ int querie_10(Filial filiais[]) {
 
 
 	Lista total = init_Lista(100);
-	char buffer[128];
-	sprintf(buffer,"\t#\tProduto\tC\tQ\tProduto\tC\tQ\tProduto\tC\tQ");
+	char buffer[256];
+	sprintf(buffer,"\t\tFilial 1\t\tFilial 2\t\tFilial 3\n\t#\tProduto\tC\tQ\tProduto\tC\tQ\tProduto\tC\tQ");
 	total = lista_insere_cabecalho(total,buffer);
 	
 	for(i = 0; i < nr; i++) {

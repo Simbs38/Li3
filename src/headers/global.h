@@ -13,10 +13,6 @@ typedef int Boolean;
 #define NR_MESES 12
 #define NR_FILIAIS 3
 
-#define MAXBUFFERCLIENTES 32
-#define MAXBUFFERPRODUTOS 64
-#define MAXBUFFERVENDAS 128
-
 #define TAMANHO_PAGINA 20
 
 #endif /* _global_h_ */
