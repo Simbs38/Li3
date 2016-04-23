@@ -14,8 +14,8 @@ struct array_catalogo {
 
 
 Catalogo init_Catalogo() {
-  Catalogo cat = (Catalogo) malloc(sizeof(struct catalogo));
   int i;
+  Catalogo cat = malloc(sizeof(struct catalogo));
   for(i = 0; i < NR_LETRAS; i++) {
       cat->indice[i] = initAVL();
   }

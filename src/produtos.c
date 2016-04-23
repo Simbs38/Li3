@@ -13,20 +13,21 @@ struct catalogo_produtos{
   Catalogo catalogo;
 };
 
+
 struct conjunto_produtos {
   Array lista;
 };
 
 
 Cat_Produtos init_cat_produtos() {
-  Cat_Produtos catalog = (Cat_Produtos) malloc(sizeof(struct catalogo_produtos));
+  Cat_Produtos catalog = malloc(sizeof(struct catalogo_produtos));
   catalog->catalogo = init_Catalogo();
   return catalog;
 }
 
 
 Produto criaProduto() {
-	Produto product = (Produto) malloc(sizeof(struct produto));
+	Produto product = malloc(sizeof(struct produto));
   product->prod = NULL;
   return product;
 }

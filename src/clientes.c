@@ -15,7 +15,7 @@ struct catalogo_clientes {
 
 
 Cliente criaCliente() {
-  Cliente client = (Cliente) malloc(sizeof(struct cliente));
+  Cliente client = malloc(sizeof(struct cliente));
   client->name = NULL;
   return client;
 }
